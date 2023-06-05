@@ -94,9 +94,12 @@ local function FindNPCByName(name)
 			return v
 		end
 	end
+	return nil
 end
 
 local sceneModels = {}
+-- parenting doesn't wanna work nicely, so this list just keeps track of what's supposed to move with what
+local sceneRoots = {}
 
 local function GetPlayerOutfits(ply)
 	local outfits = {}
@@ -155,6 +158,10 @@ dialog.RegisterFunc("spawn", function(d, name, mdl)
 	local isdummy = mdl == "dummy"
 	if isdummy then mdl = "models/props_interiors/vendingmachinesoda01a.mdl" end
 
+	if name == "focus" or name == "player" or name == "nil" then
+		ErrorNoHalt("Attempted to use reserved name \"", name, "\" with spawn!")
+		return
+	end
 	sceneModels[name] = ManagedCSEnt(name, mdl)
 	sceneModels[name]:SetNoDraw(isdummy)
 	sceneModels[name].IsDummy = isdummy
@@ -267,6 +274,100 @@ dialog.RegisterFunc("setname", function(d, name, visualname)
 	prop.JazzDialogName = visualname
 end)
 
+--figure out our world position, from our offset to the sceneroot
+
+local function SceneRootToWorld(name, set)
+	local set = set or false
+	local prop = nil
+	if isstring(name) then
+		prop = FindByName(name)
+	elseif IsValid(name) then
+		prop = name
+	end
+	if not IsValid(prop) then return end
+	
+	--our offset from our sceneroot is a vector, rotated by the sceneroot's angle
+	local root = sceneRoots[prop]
+	local rootpos = vector_origin
+	local rootang = angle_zero
+	if IsValid(root) then
+		rootpos = root:GetPos()
+		rootang = root:GetAngles()
+	end
+
+	local pos = Vector(prop.offset) or vector_origin
+	pos:Rotate(rootang)
+	local ang = prop.rot or angle_zero
+
+	local tab = {}
+	tab.pos = Vector(rootpos + pos)
+
+	tab.ang = Angle(rootang + ang)
+
+	--we want to set the prop's position in the world, rather than return the values
+	if set then
+		prop:SetPos(tab.pos)
+		prop:SetAngles(tab.ang)
+		--update children
+		for k, v in pairs(sceneRoots) do
+			if v == prop then
+				SceneRootToWorld(k,true)
+			end
+		end
+		return
+	end
+
+	return tab
+end
+
+--figure out our relation to the scene root, from our world position
+
+local function WorldToSceneRoot(name, set)
+	local set = set or false
+	local prop = nil
+	if isstring(name) then
+		prop = FindByName(name)
+	elseif IsValid(name) then
+		prop = name
+	end
+	if not IsValid(prop) then return end
+
+	--our offset from our sceneroot is a vector, rotated by the sceneroot's angle
+	local root = sceneRoots[prop]
+	local rootpos = vector_origin
+	local rootang = angle_zero
+	if IsValid(root) then
+		rootpos = root:GetPos()
+		rootang = root:GetAngles()
+	end
+
+	local pos = prop:GetPos()
+	local ang = prop:GetAngles()
+
+
+	local tab = {}
+	tab.pos = Vector(pos - rootpos)
+	tab.pos:Rotate(-rootang)
+
+	tab.ang = Angle(rootang - ang)
+
+	--we want to update the prop's offset to the scene root, rather than return the values
+	if set then
+		prop.offset = tab.pos
+		prop.rot = tab.ang
+		--update children
+		for k, v in pairs(sceneRoots) do
+			if v == prop then
+				SceneRootToWorld(k,true)
+			end
+		end
+		return
+	end
+
+	return tab
+end
+
+
 dialog.RegisterFunc("setposang", function(d, name, ...)
 	local prop = FindByName(name)
 	if not IsValid(sceneModels[name]) then return end
@@ -279,11 +380,69 @@ dialog.RegisterFunc("setposang", function(d, name, ...)
 	if posang.ang then
 		prop:SetAngles(posang.ang)
 	end
+	WorldToSceneRoot(name,true)
 end)
 
-dialog.RegisterFunc("setsceneroot", function(d, name, ...)
-	local root = ents.FindByName(name) --let's just pretend that this works clientside for now
-	if not IsValid(root) then return end
+--update this prop's offset to its current scene root
+dialog.RegisterFunc("setoffset", function(d, name, ...)
+	local prop = FindByName(name)
+	if not IsValid(prop) then return end
+
+	prop.endtime = nil
+	local posang = parsePosAng(...)
+	if posang.pos then
+		prop.offset = posang.pos
+	end
+	if posang.ang then
+		prop.rot = posang.ang
+	end
+	SceneRootToWorld(name,true)
+end)
+
+--update this prop's sceneroot, optionally setting a new offset as well
+dialog.RegisterFunc("setroot", function(d, name, rootname, ...)
+	local prop = FindByName(name)
+	local root = FindByName(rootname)
+	if not IsValid(prop) then return end
+	if IsValid(root) then
+		sceneRoots[prop] = root
+		--avoid parenting infinite loop
+		--first, an easy one. Make sure that we're not our own parent or grandparent
+		if sceneRoots[root] == prop then
+			sceneRoots[root] = nil
+		end
+		--keep an eye out for self great (and great great, etc.) grandparenting
+		local grandpacheck = prop
+		local count = table.Count(sceneRoots) + 1 --if we move around more than there's entries in the table, we're in a parental loop
+		if IsValid(grandpacheck) then
+			while count > 0 do
+				local ent = sceneRoots[grandpacheck]
+				if IsValid(ent) then
+					grandpacheck = ent
+					count = count - 1
+				else break end
+			end
+		end
+		if count <= 0 then
+			ErrorNoHalt(name, ": It sounds funny I know, but it really is so, I'm my own Grandpa.\n")
+			--not a whole lot we can do here but make sure we're not the culprit by breaking us out
+			sceneRoots[prop] = nil
+		end
+
+	else
+		sceneRoots[prop] = nil
+	end
+
+	prop.endtime = nil
+	local posang = parsePosAng(...)
+	if posang.pos then
+		prop.offset = posang.pos
+	end
+	if posang.ang then
+		prop.rot = posang.ang
+	end
+	SceneRootToWorld(name,true)
+end)
 	
 end)
 
@@ -452,6 +611,7 @@ function ResetScene()
 	end
 
 	sceneModels = {}
+	sceneRoots = {}
 end
 
 function ResetView(instant)
