@@ -274,6 +274,78 @@ dialog.RegisterFunc("setname", function(d, name, visualname)
 	prop.JazzDialogName = visualname
 end)
 
+local view = {}
+
+--figure out our view's world position, from its offset to its sceneroot
+
+local function SceneRootToWorldCam(set)
+	local set = set or false
+	view = view or {}
+	
+	--our offset from our sceneroot is a vector, rotated by the sceneroot's angle
+	local root = sceneRoots[view]
+	local rootpos = vector_origin
+	local rootang = angle_zero
+	if IsValid(root) then
+		rootpos = root:GetPos()
+		rootang = root:GetAngles()
+	end
+
+	local pos = Vector(view.offset) or vector_origin
+	pos:Rotate(rootang)
+	local ang = view.rot or angle_zero
+
+	local tab = {}
+	tab.pos = Vector(rootpos + pos)
+
+	tab.ang = Angle(rootang + ang)
+
+	--we want to set the prop's position in the world, rather than return the values
+	if set then
+		view.endtime = nil
+		view.curpos = tab.pos
+		view.curang = tab.ang
+		return
+	end
+
+	return tab
+end
+
+--figure out our view's relation to its scene root, from its world position
+
+local function WorldToSceneRootCam(set)
+	local set = set or false
+	view = view or {}
+
+	--our offset from our sceneroot is a vector, rotated by the sceneroot's angle
+	local root = sceneRoots[view]
+	local rootpos = vector_origin
+	local rootang = angle_zero
+	if IsValid(root) then
+		rootpos = root:GetPos()
+		rootang = root:GetAngles()
+	end
+
+	local pos = view.curpos
+	local ang = view.curang
+
+
+	local tab = {}
+	tab.pos = Vector(pos - rootpos)
+	tab.pos:Rotate(-rootang)
+
+	tab.ang = Angle(rootang - ang)
+
+	--we want to update the prop's offset to the scene root, rather than return the values
+	if set then
+		view.offset = tab.pos
+		view.rot = tab.ang
+		return
+	end
+
+	return tab
+end
+
 --figure out our world position, from our offset to the sceneroot
 
 local function SceneRootToWorld(name, set)
@@ -284,6 +356,7 @@ local function SceneRootToWorld(name, set)
 	elseif IsValid(name) then
 		prop = name
 	end
+
 	if not IsValid(prop) then return end
 	
 	--our offset from our sceneroot is a vector, rotated by the sceneroot's angle
@@ -311,7 +384,11 @@ local function SceneRootToWorld(name, set)
 		--update children
 		for k, v in pairs(sceneRoots) do
 			if v == prop then
-				SceneRootToWorld(k,true)
+				if k == view then
+					SceneRootToWorldCam(true)
+				else
+					SceneRootToWorld(k,true)
+				end
 			end
 		end
 		return
@@ -358,7 +435,11 @@ local function WorldToSceneRoot(name, set)
 		--update children
 		for k, v in pairs(sceneRoots) do
 			if v == prop then
-				SceneRootToWorld(k,true)
+				if k == view then
+					SceneRootToWorldCam(true)
+				else
+					SceneRootToWorld(k,true)
+				end
 			end
 		end
 		return
@@ -366,7 +447,6 @@ local function WorldToSceneRoot(name, set)
 
 	return tab
 end
-
 
 dialog.RegisterFunc("setposang", function(d, name, ...)
 	local prop = FindByName(name)
@@ -404,12 +484,17 @@ dialog.RegisterFunc("setroot", function(d, name, rootname, ...)
 	local prop = FindByName(name)
 	local root = FindByName(rootname)
 	if not IsValid(prop) then return end
+
 	if IsValid(root) then
 		sceneRoots[prop] = root
 		--avoid parenting infinite loop
 		--first, an easy one. Make sure that we're not our own parent or grandparent
 		if sceneRoots[root] == prop then
 			sceneRoots[root] = nil
+		end
+		--don't allow parenting to view (too messy to try to do, if you want something to move with the view, use an object that you attach the view to)
+		if sceneRoots[prop] == view then
+			sceneRoots[prop] = nil
 		end
 		--keep an eye out for self great (and great great, etc.) grandparenting
 		local grandpacheck = prop
@@ -494,7 +579,6 @@ function SetSkinFunc(d, name, skinid)
 	end
 end
 
-local view = {}
 dialog.RegisterFunc("setcam", function(d, setpos, px, py, pzsetang, ax, ay, az, fov)
 	local posang = parsePosAng(setpos, px, py, pzsetang, ax, ay, az)
 
@@ -508,6 +592,78 @@ dialog.RegisterFunc("setcam", function(d, setpos, px, py, pzsetang, ax, ay, az, 
 	view.endtime = nil
 	view.curpos = posang.pos
 	view.curang = posang.ang
+
+	WorldToSceneRootCam(true)
+
+	if fov then
+		local fov = tonumber(string.Replace(fov,"fov",""))
+		view.fov = fov
+	end
+
+	-- Only create the player proxy if we modify the camera
+	FindByName("player")
+
+	-- Tell server to load in the specific origin into our PVS
+	net.Start("dialog_requestpvs")
+		net.WriteVector(posang.pos)
+	net.SendToServer()
+
+end)
+
+dialog.RegisterFunc("setcamroot", function(d, rootname, setpos, px, py, pzsetang, ax, ay, az, fov)
+	local root = FindByName(rootname)
+	local posang = parsePosAng(setpos, px, py, pzsetang, ax, ay, az)
+
+	if !posang.pos or !posang.ang then return end
+
+	if IsValid(root) then
+		sceneRoots[view] = root
+	else
+		sceneRoots[view] = nil
+	end
+
+	view = view or {}
+	view.endtime = nil
+	view.offset = posang.pos
+	view.rot = posang.ang
+
+	local tab = SceneRootToWorldCam(false)
+
+	view.curpos = tab.pos
+	view.curang = tab.ang
+
+	if fov then
+		local fov = tonumber(string.Replace(fov,"fov",""))
+		view.fov = fov
+	end
+
+	-- Only create the player proxy if we modify the camera
+	FindByName("player")
+
+	-- Tell server to load in the specific origin into our PVS
+	net.Start("dialog_requestpvs")
+		net.WriteVector(tab.pos)
+	net.SendToServer()
+
+end)
+
+--update the view's offset to its current scene root
+
+dialog.RegisterFunc("setcamoffset", function(d, setpos, px, py, pzsetang, ax, ay, az, fov)
+	local posang = parsePosAng(setpos, px, py, pzsetang, ax, ay, az)
+
+	if !posang.pos or !posang.ang then
+		view = nil
+		sceneModels = {}
+		return
+	end
+
+	view = view or {}
+	view.endtime = nil
+	view.offset = posang.pos
+	view.rot = posang.ang
+
+	SceneRootToWorldCam(true)
 
 	if fov then
 		local fov = tonumber(string.Replace(fov,"fov",""))
