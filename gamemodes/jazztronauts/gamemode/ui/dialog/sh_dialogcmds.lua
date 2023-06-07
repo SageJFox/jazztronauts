@@ -547,6 +547,35 @@ dialog.RegisterFunc("tweenposang", function(d, name, time, ...)
 	prop.tweenlen = time
 end )
 
+dialog.RegisterFunc("tweenoffset", function(d, name, time, ...)
+	local prop = FindByName(name)
+	if not IsValid(sceneModels[name]) then return end
+
+	local posang = parsePosAng(...)
+
+	local rootpos = vector_origin
+	local rootang = angles_zero
+	local root = sceneRoots[prop]
+	if IsValid(root) then
+		rootpos = root:GetPos()
+		rootang = root:GetAngles()
+	end
+
+
+	prop.startpos = prop:GetPos()
+	prop.goaloffset = posang.pos or prop.offset
+	posang.pos:Rotate(rootang)
+	prop.goalpos = rootpos + posang.pos or prop:GetPos()
+
+	prop.startang = prop:GetAngles()
+	prop.goalang = rootang + posang.ang or prop:GetAngles()
+	prop.goalrot = posang.ang or prop.rot
+
+
+	prop.endtime = CurTime() + time
+	prop.tweenlen = time
+end )
+
 dialog.RegisterFunc("setanim", function(d, name, anim, speed, finishIdleAnim)
 	local prop = FindByName(name)
 	if not IsValid(prop) then return end
@@ -704,6 +733,41 @@ dialog.RegisterFunc("tweencam", function(d, time, ...)
 	end
 end)
 
+dialog.RegisterFunc("tweencamoffset", function(d, time, ...)
+	local time = tonumber(time)
+	local posang = parsePosAng(...)
+
+	local rootpos = vector_origin
+	local rootang = angles_zero
+	local root = sceneRoots[view]
+	if IsValid(root) then
+		rootpos = root:GetPos()
+		rootang = root:GetAngles()
+	end
+
+	if !posang.pos or !posang.ang then return end
+
+	if view then
+		view.startpos = view.curpos
+		view.goaloffset = posang.pos
+		posang.pos:Rotate(rootang)
+		view.goalpos = rootpos + posang.pos 
+
+		view.startang = view.curang
+		view.goalang = rootang + posang.ang
+		view.goalrot = posang.ang
+
+		view.endtime = CurTime() + time
+		view.tweenlen = time
+	else
+		view = {}
+		view.curpos = posang.pos
+		view.curang = posang.ang
+		WorldToSceneRootCam(true)
+	end
+end)
+
+
 dialog.RegisterFunc("setfov", function(d, fov)
 	local fov = tonumber(fov)
 
@@ -797,11 +861,32 @@ local function getTweenValues(obj)
 	if obj.endtime then
 		local p = 1 - math.Clamp((obj.endtime - CurTime()) / obj.tweenlen, 0, 1)
 
+		local root = sceneRoots[prop]
+		if IsValid(root) then
+			local rootpos = root:GetPos()
+			local rootang = root:GetAngles()
+			local offset = Vector(obj.goaloffset) or vector_origin
+			offset:Rotate(rootang)
+
+			--update our goals (in case our root moved)
+			if obj.goaloffset then
+				obj.goalpos = rootpos + offset
+				obj.startpos = obj:GetPos()
+			end
+
+			if obj.goalrot then
+				obj.goalang = rootang + obj.goalrot
+				obj.startang = obj:GetAngles()
+			end
+		end
+
 		local pos = LerpVector(p, obj.startpos, obj.goalpos)
 		local ang = LerpAngle(p, obj.startang, obj.goalang)
 
 		if p >= 1 then
 			obj.endtime = nil
+			obj.goaloffset = nil
+			obj.goalrot = nil
 		end
 
 		return pos, ang
@@ -863,6 +948,23 @@ hook.Add("Think", "JazzTickClientsideAnims", function()
 			if newpos and newang then
 				v:SetPos(newpos)
 				v:SetAngles(newang)
+				
+				--update children
+				for key, val in pairs(sceneRoots) do
+					if val == v then
+						if key == view then
+							SceneRootToWorldCam(true)
+						else
+							local tab = SceneRootToWorld(key,false)
+							if not key.goaloffset then
+								key:SetPos(tab.pos)
+							end
+							if not key.goalrot then
+								key:SetAngles(tab.ang)
+							end
+						end
+					end
+				end
 			end
 		end
 	end
