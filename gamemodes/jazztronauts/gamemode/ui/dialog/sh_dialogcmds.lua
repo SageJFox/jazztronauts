@@ -40,6 +40,42 @@ if SERVER then
 		ply.JazzDialogPVS = pos
 	end )
 
+	util.AddNetworkString("dialog_requestlocale")
+	util.AddNetworkString("dialog_returnlocale")
+
+	net.Receive("dialog_requestlocale", function(len, ply)
+
+		if not IsValid(ply) then return end
+
+		local str = net.ReadString()
+		if not str then return end
+
+		local name = net.ReadString()
+		if not name then return end
+
+		local ent = nil
+		local enttab = ents.FindByName(str)
+		if #enttab > 0 then
+			ent = enttab[1]
+		end
+
+		local pos = vector_origin
+		local ang = angle_zero
+
+		if IsValid(ent) then
+			pos = ent:GetPos()
+			ang = ent:GetAngles()
+		end
+
+		net.Start("dialog_returnlocale")
+			net.WriteString(str)
+			net.WriteString(name)
+			--net.WriteEntity(ent)
+			net.WriteVector(pos)
+			net.WriteAngle(ang)
+		net.Send(ply)
+	end )
+
 	hook.Add("JazzDialogFinished", "JazzRemoveDialogPVS", function(ply, script, mark)
 		--delay by a bit so we can transition out
 		timer.Simple(2, function() if IsValid(ply) then ply.JazzDialogPVS = nil end end)
@@ -100,6 +136,8 @@ end
 local sceneModels = {}
 -- parenting doesn't wanna work nicely, so this list just keeps track of what's supposed to move with what
 local sceneRoots = {}
+-- locales are points defined in the hub map. This list keeps track of the ones we're using in the current scene.
+local sceneLocales = {}
 
 local function GetPlayerOutfits(ply)
 	local outfits = {}
@@ -305,6 +343,10 @@ local function SceneRootToWorldCam(set)
 		view.endtime = nil
 		view.curpos = tab.pos
 		view.curang = tab.ang
+		-- Tell server to load in the specific origin into our PVS
+		net.Start("dialog_requestpvs")
+			net.WriteVector(tab.pos)
+		net.SendToServer()
 		return
 	end
 
@@ -340,6 +382,10 @@ local function WorldToSceneRootCam(set)
 	if set then
 		view.offset = tab.pos
 		view.rot = tab.ang
+		-- Tell server to load in the specific origin into our PVS
+		net.Start("dialog_requestpvs")
+			net.WriteVector(pos)
+		net.SendToServer()
 		return
 	end
 
@@ -528,7 +574,46 @@ dialog.RegisterFunc("setroot", function(d, name, rootname, ...)
 	end
 	SceneRootToWorld(name,true)
 end)
+
+net.Receive("dialog_returnlocale", function(len, ply)
+
+	--if not IsValid(ply) then return end
+
+	local locale = net.ReadString()
+	local name = net.ReadString()
+	--local ent = net.ReadEntity()
+	local pos = net.ReadVector()
+	local ang = net.ReadAngle()
+
+	sceneLocales[locale.."pos"] = pos
+	sceneLocales[locale.."ang"] = ang
 	
+	local ent = sceneModels[name]
+
+	if IsValid(ent) then
+		ent:SetPos(sceneLocales[locale.."pos"])
+		ent:SetAngles(sceneLocales[locale.."ang"])
+		WorldToSceneRoot(name,true)
+		PrintTable(sceneLocales)
+	end
+
+end )
+
+dialog.RegisterFunc("setlocale", function(d, name, localename, ...)
+	if not sceneLocales[localename.."pos"] and not sceneLocales[localename.."ang"] then
+		net.Start("dialog_requestlocale")
+			net.WriteString(tostring(localename))
+			net.WriteString(tostring(name))
+		net.SendToServer()
+	else
+		--we've already got this locale, no need to network for it again
+		local ent = sceneModels[name]
+		if IsValid(ent) then
+			ent:SetPos(sceneLocales[localename.."pos"])
+			ent:SetAngles(sceneLocales[localename.."ang"])
+			WorldToSceneRoot(name,true)
+		end
+	end
 end)
 
 dialog.RegisterFunc("tweenposang", function(d, name, time, ...)
@@ -832,6 +917,7 @@ function ResetScene()
 
 	sceneModels = {}
 	sceneRoots = {}
+	sceneLocales = {}
 end
 
 function ResetView(instant)

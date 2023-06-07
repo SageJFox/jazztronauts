@@ -51,8 +51,7 @@ begin:
 	
 	spawnnarrator()
 	spawnbartender()
-	###*setsceneroot scene_bar*
-	*setposang narrator setpos -2864 2952 0;setang 0 0 0*
+	*setlocale narrator scene_bar*
 	*setroot cat_bar narrator setpos -0.620361 92.558594 32.417419;setang -90 90.504135 90.000000*
 	*setroot player narrator setpos 62.731934 4.768555 0;setang 0 112.757095 0.000000*
 	*setcamroot narrator setpos -53.238037 -24.200439 72.834885;setang 3.407556 58.931564 0.000000 fov70*
@@ -77,7 +76,29 @@ begin:
 		&resp2a:
 			SLIDE TO THE RIGHT
 		&resp3a:
-			CRISS-CROSS (Exit)
+			CRISS-CROSS
+		&dining:
+			Let's go to the dining room
+		###&exit1:
+		###	actually exit thanks
+
+exit1:
+	b
+	&exit
+
+dining:
+	*setlocale narrator scene_diningroom*
+	*setspeaker cat_bar*
+	*BAR_HAPPY*
+	Wow this is nice. \:D%%
+	*BAR_NEUTRAL*
+	But what if we go to the sushi bar?
+	&dining2
+
+dining2:
+	*setlocale narrator scene_sushibar*
+	Oh,% right,% we don't have a sushi bar.
+	&exit
 
 ###### Branch 1
 resp1a:
