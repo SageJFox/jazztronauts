@@ -6,6 +6,9 @@ module("dialog", package.seeall)
 -- Use of the map trigger command must be on entity names prefixed with this
 local mapTriggerPrefix = "jazzio_"
 
+-- If we want our various set commands to print scene root conversions to console
+local RUN_CONVERSION = true
+
 if SERVER then
 	util.AddNetworkString( "dialog_requestcommand" )
 
@@ -357,7 +360,7 @@ end
 
 local function WorldToSceneRootCam(set)
 	local set = set or false
-	view = view or {}
+	local view = view or {}
 
 	--our offset from our sceneroot is a vector, rotated by the sceneroot's angle
 	local root = sceneRoots[view]
@@ -376,12 +379,13 @@ local function WorldToSceneRootCam(set)
 	tab.pos = Vector(pos - rootpos)
 	tab.pos:Rotate(-rootang)
 
-	tab.ang = Angle(rootang - ang)
+	tab.ang = Angle(ang - rootang)
 
 	--we want to update the prop's offset to the scene root, rather than return the values
 	if set then
 		view.offset = tab.pos
 		view.rot = tab.ang
+
 		-- Tell server to load in the specific origin into our PVS
 		net.Start("dialog_requestpvs")
 			net.WriteVector(pos)
@@ -472,7 +476,7 @@ local function WorldToSceneRoot(name, set)
 	tab.pos = Vector(pos - rootpos)
 	tab.pos:Rotate(-rootang)
 
-	tab.ang = Angle(rootang - ang)
+	tab.ang = Angle(ang - rootang)
 
 	--we want to update the prop's offset to the scene root, rather than return the values
 	if set then
@@ -507,6 +511,9 @@ dialog.RegisterFunc("setposang", function(d, name, ...)
 		prop:SetAngles(posang.ang)
 	end
 	WorldToSceneRoot(name,true)
+	if sceneRoots[prop] and RUN_CONVERSION then
+		print("*setoffset "..name.." setpos "..tostring(prop.offset)..";setang "..tostring(prop.rot).."*")
+	end
 end)
 
 --update this prop's offset to its current scene root
@@ -594,7 +601,6 @@ net.Receive("dialog_returnlocale", function(len, ply)
 		ent:SetPos(sceneLocales[locale.."pos"])
 		ent:SetAngles(sceneLocales[locale.."ang"])
 		WorldToSceneRoot(name,true)
-		PrintTable(sceneLocales)
 	end
 
 end )
@@ -630,6 +636,24 @@ dialog.RegisterFunc("tweenposang", function(d, name, time, ...)
 
 	prop.endtime = CurTime() + time
 	prop.tweenlen = time
+
+	
+	if sceneRoots[prop] and RUN_CONVERSION then
+		local rootpos = vector_origin
+		local rootang = angles_zero
+		local root = sceneRoots[prop]
+		if IsValid(root) then
+			rootpos = root:GetPos()
+			rootang = root:GetAngles()
+		end
+
+		prop.goaloffset = posang.pos - rootpos
+		prop.goaloffset:Rotate(-rootang)
+		prop.goalrot = posang.ang - rootang
+
+		print("*tweenoffset "..name.." "..tostring(time).." setpos "..tostring(prop.goaloffset)..";setang "..tostring(prop.goalrot).."*")
+	end
+
 end )
 
 dialog.RegisterFunc("tweenoffset", function(d, name, time, ...)
@@ -714,13 +738,19 @@ dialog.RegisterFunc("setcam", function(d, setpos, px, py, pzsetang, ax, ay, az, 
 		view.fov = fov
 	end
 
+	if sceneRoots[view] and RUN_CONVERSION then
+		local str = "*setcamoffset setpos "..tostring(view.offset)..";setang "..tostring(view.rot)
+		if fov then str = str.." "..fov end
+		print(str.."*")
+	end
+
 	-- Only create the player proxy if we modify the camera
 	FindByName("player")
 
 	-- Tell server to load in the specific origin into our PVS
-	net.Start("dialog_requestpvs")
+	--[[net.Start("dialog_requestpvs") --handled in WorldToSceneRootCam function call up above
 		net.WriteVector(posang.pos)
-	net.SendToServer()
+	net.SendToServer()]]
 
 end)
 
@@ -815,6 +845,21 @@ dialog.RegisterFunc("tweencam", function(d, time, ...)
 		view = {}
 		view.curpos = posang.pos
 		view.curang = posang.ang
+	end
+	if sceneRoots[view] and RUN_CONVERSION then
+		local rootpos = vector_origin
+		local rootang = angles_zero
+		local root = sceneRoots[view]
+		if IsValid(root) then
+			rootpos = root:GetPos()
+			rootang = root:GetAngles()
+		end
+
+		view.goaloffset = posang.pos - rootpos
+		view.goaloffset:Rotate(-rootang)
+		view.goalrot = posang.ang - rootang
+
+		print("*tweencamoffset "..tostring(time).." setpos "..tostring(view.goaloffset)..";setang "..tostring(view.goalrot).."*")
 	end
 end)
 
