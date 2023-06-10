@@ -1,4 +1,4 @@
-$ModelName "andy/pianist/cat_pianist.mdl"
+$ModelName "andy/cats/cat_pianist.mdl"
 
 $Body "cat_pianist" "cat_pianist.dmx"
 
@@ -18,11 +18,7 @@ $TextureGroup "skinfamilies"
 	{ "cat_pianist_06" }
 }
 
-$BBox -1.351 -28.936 -13.766 70.293 13.151 14.382
-
-$SectionFrames 30 119
-
-$illumposition 0 -1 0
+//$illumposition 0 -1 0
 
 $Sequence "idle" {
 	"cat_bartender_anims\idle.smd"

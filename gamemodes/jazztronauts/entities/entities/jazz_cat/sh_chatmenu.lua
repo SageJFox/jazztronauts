@@ -32,14 +32,12 @@ function ENT:GetMenuPosAng(ply)
 	ang:RotateAroundAxis(ang:Right(), -90)
 
 
-	local offset = ang:Up() * (chatmenu.flipChat and 65 or 30)
-	local right = ang:Right()
-	offset = offset + ang:Forward() * 0
+	local offset = ang:Right() * (chatmenu.flipChat and 65 or 30)
 	if not chatmenu.flipChat then
 		local fwdAng = (self:GetPos() - ply:EyePos()):Angle()
 		fwdAng.p = 0
 		fwdAng.r = 0
-		offset = offset + fwdAng:Forward() * -10
+		offset = offset + fwdAng:Up() * -5
 	end
 
 	local pos = self:GetPos() + offset

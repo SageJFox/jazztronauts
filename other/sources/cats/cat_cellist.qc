@@ -1,4 +1,4 @@
-$ModelName "andy/cellist/cat_cellist.mdl"
+$ModelName "andy/cats/cat_cellist.mdl"
 
 $Body "cat_cellist" "cat_cellist.dmx"
 
@@ -17,10 +17,6 @@ $TextureGroup "skinfamilies"
 	{ "cat_cellist_05" }
 	{ "cat_cellist_06" }
 }
-
-$BBox -1.451 -26.273 -12.514 63.903 11.956 12.715
-
-$SectionFrames 30 119
 
 $Sequence "idle" {
 	"cat_bartender_anims\idle.smd"

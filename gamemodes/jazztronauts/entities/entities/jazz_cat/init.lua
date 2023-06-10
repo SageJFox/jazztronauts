@@ -93,15 +93,7 @@ end
 function ENT:Use(activator, caller)
 	if !IsValid(caller) || not caller:IsPlayer() then return end
 
-	-- Incredibly TODO until we've got the actual input ui going
-	if self.NPCID == missions.NPC_CAT_BAR then
-		local opt = self:GetSelectedOption(caller, self.ChatChoices)
-		if opt then
-			self.ChatChoices[opt].func(self, caller)
-		end
-	else
-		self:StartChat(caller)
-	end
+	self:StartChat(caller)
 end
 
 net.Receive("JazzRequestChatStart", function(len, ply)

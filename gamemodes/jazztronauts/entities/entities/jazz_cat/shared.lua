@@ -5,7 +5,7 @@ ENT.Base = "base_anim"
 ENT.RenderGroup = RENDERGROUP_OPAQUE
 ENT.AutomaticFrameAdvance = true
 
-ENT.Model = "models/andy/bartender/cat_bartender.mdl"
+ENT.Model = "models/andy/cats/cat_bartender.mdl"
 ENT.IdleAnim = "idle"
 
 local function ClientRun(ply, str) if SERVER then ply:SendLua(str) else RunString(str, "JazzChatMenu") end end
@@ -58,44 +58,47 @@ function ENT:AdjustBounds()
 	--set our default function
 	local default = function(mins, maxs)
 		--removing tail collision
-		mins.y = mins.y * 0.5
+		mins.x = mins.x * 0.5
 		return mins, maxs
 	end
 
 	-- flip our bounds if we're hanging
 	adjustments["pose_hangingout"] = function(mins, maxs)
-		maxs.x = maxs.x * -1
-		mins.y = mins.y * 0.5
+		mins.x = mins.x * 0.5
+		maxs.z = maxs.z * -1
 		return mins, maxs
 	end
 
 	--squish and stretch if we're passed out
 	adjustments["pose_passedout"] = function(mins, maxs)
-		maxs.x = maxs.x * 0.25
-		maxs.y = maxs.y * 4
-		mins.y = mins.y * 0.625
+		mins.x = mins.x * 0.5
+		maxs.x = maxs.x * 3.5
+		mins.y = mins.y * 0.75
+		maxs.y = maxs.y * 1.125
+		maxs.z = maxs.z * 0.175
 		return mins, maxs
 	end
 
 	--squish and stretch if we're relaxed
 	adjustments["pose_relax"] = function(mins, maxs)
-		maxs.x = maxs.x * 0.5
-		maxs.z = maxs.z * 3
-		mins.y = mins.y * 0.625
+		mins.x = mins.x * 0.625
+		maxs.x = maxs.x * 0.625
+		maxs.z = maxs.z * 0.5
+		maxs.y = maxs.y * 2.5
 		return mins, maxs
 	end
 
 	--squish if we're sitting
 	adjustments["pose_sit01"] = function(mins, maxs)
-		maxs.x = maxs.x * 0.75
-		mins.y = mins.y * 0.5
+		mins.x = mins.x * 0.5
+		maxs.z = maxs.z * 0.75
 		return mins, maxs
 	end
 
 	--squish if we're sitting at the bar
 	adjustments["pose_sit02"] = function(mins, maxs)
-		maxs.x = maxs.x * 0.75
-		mins.y = mins.y * 0.25
+		mins.x = mins.x * 0.25
+		maxs.z = maxs.z * 0.75
 		return mins, maxs
 	end
 

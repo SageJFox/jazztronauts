@@ -1,4 +1,4 @@
-$ModelName "andy/bartender/cat_bartender.mdl"
+$ModelName "andy/cats/cat_bartender.mdl"
 
 $Body "cat_bartender" "cat_bartender.dmx"
 
@@ -16,10 +16,6 @@ $TextureGroup "skinfamilies"
 	{ "cat_bartender_04" }
 	{ "cat_bartender_05" }
 }
-
-$BBox -1.228 -26.273 -12.513 63.903 11.956 12.716
-
-$SectionFrames 30 119
 
 $Sequence "idle" {
 	"cat_bartender_anims\idle.smd"

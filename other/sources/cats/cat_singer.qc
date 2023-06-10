@@ -1,4 +1,4 @@
-$ModelName "andy/singer/cat_singer.mdl"
+$ModelName "andy/cats/cat_singer.mdl"
 
 $Body "cat_singer" "cat_singer.dmx"
 
@@ -19,10 +19,6 @@ $TextureGroup "skinfamilies"
 	{ "cat_singer_07" }
 	{ "cat_singer_08" }
 }
-
-$BBox -1.314 -23.646 -11.263 57.513 10.76 11.443
-
-$SectionFrames 30 119
 
 $Sequence "idle" {
 	"cat_singer_anims\idle.smd"
