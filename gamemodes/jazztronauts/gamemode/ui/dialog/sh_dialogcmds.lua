@@ -338,20 +338,79 @@ dialog.RegisterFunc("setname", function(d, name, visualname)
 	prop.JazzDialogName = visualname
 end)
 
---[[local function angle_opposite(ang)
-	if not isangle(ang) then
-		ErrorNoHaltWithStack("angle_opposite: ",ang," is not a valid angle!")
-		return angle_zero
-	end
-	--Yes I am aware that this is gross
-	local rotato = angle_zero
-	rotato.x = ang.z+180
-	rotato.y = -ang.y+180
-	rotato.z = ang.x+180
-	return rotato
-end]]
-
 local view = {}
+
+
+function util.IsInWorld( pos )
+	local tr = { collisiongroup = COLLISION_GROUP_WORLD, output = {} }
+	tr.start = pos
+	tr.endpos = pos
+
+	return not util.TraceLine( tr ).HitWorld
+end
+
+--attempt to prevent the camera clipping into the world
+local function CamBoundsAdjust(tween)
+	--eh, gotta work on this later
+	if true then return end
+	--false on setcamoffset, true on tweencamoffset
+	local tween = tween or false
+	local start = {}
+	
+	if tween then
+		start.pos = view.goaloffset
+		start.ang = view.goalrot
+	else
+		start.pos = view.offset
+		start.ang = view.rot
+	end
+
+	if not (start.pos or start.ang) then return end
+
+	local root = sceneRoots[view]
+	if not IsValid(root) then return end
+	local rootpos = root:GetPos()
+	local rootang = root:GetAngles()
+
+	local tab = {}
+	tab.pos, tab.ang = LocalToWorld(start.pos,start.ang,rootpos,rootang)
+
+	--first, if we're not in the world, don't bother
+	if util.IsInWorld(tab.pos) then return end
+
+	--rather than compare to the root itself, compare to the center of the root's rendering bounds
+	local center, maxs = root:GetRenderBounds()
+	center:Add(maxs)
+	center:Div(2)
+	center, _ = LocalToWorld(center,angle_zero,rootpos,rootang)
+	print(rootpos,center)
+
+	--[[TODO: probably gonna want to do more math than this at some point.
+	Maybe check if moving the camera up some/angling it down a bit will make it move less
+	(i.e. in cases where we're clipping into is displacement ground rather than a wall, etc.)]]
+	
+	local tr = util.TraceLine( {
+		start = tab.pos,
+		endpos = center
+	} )
+
+	--simply move the camera closer to its root, if we're not super close to it.
+	if tr.Hit and tr.Fraction < .75 then
+		tab.pos = tr.HitPos
+	end
+
+	if tween then
+		view.goalpos = tab.pos
+		--view.goalang = tab.ang
+	else
+		view.curpos = tab.pos
+		--view.curang = tab.ang
+	end
+	-- Tell server to load in the specific origin into our PVS
+	net.Start("dialog_requestpvs")
+		net.WriteVector(tab.pos)
+	net.SendToServer()
+end
 
 --figure out our view's world position, from its offset to its sceneroot
 
@@ -369,16 +428,15 @@ local function SceneRootToWorldCam(set)
 	end
 
 	local pos = view.offset or vector_origin
-	--pos:Rotate(rootang)
 	local ang = view.rot or angle_zero
 
-	local tab = {}
-	--tab.pos = Vector(rootpos + pos)
 
-	--tab.ang = Angle(rootang + ang)
+	local tab = {}
 	tab.pos, tab.ang = LocalToWorld(pos,ang,rootpos,rootang)
 
-	--we want to set the prop's position in the world, rather than return the values
+	
+
+	--we want to set the view's position in the world, rather than return the values
 	if set then
 		view.endtime = nil
 		view.curpos = tab.pos
@@ -387,6 +445,7 @@ local function SceneRootToWorldCam(set)
 		net.Start("dialog_requestpvs")
 			net.WriteVector(tab.pos)
 		net.SendToServer()
+		CamBoundsAdjust(false)
 		return
 	end
 
@@ -411,14 +470,8 @@ local function WorldToSceneRootCam(set)
 	local pos = view.curpos
 	local ang = view.curang
 
-
 	local tab = {}
-	--tab.pos = Vector(pos - rootpos)
-	--tab.pos:Rotate(angle_opposite(rootang))
-	--tab.ang = Angle(ang - rootang)
 	tab.pos, tab.ang = WorldToLocal(pos,ang,rootpos,rootang)
-	
-	
 
 	--we want to update the prop's offset to the scene root, rather than return the values
 	if set then
@@ -448,7 +501,6 @@ local function SceneRootToWorld(name, set)
 
 	if not IsValid(prop) then return end
 	
-	--our offset from our sceneroot is a vector, rotated by the sceneroot's angle
 	local root = sceneRoots[prop]
 	local rootpos = vector_origin
 	local rootang = angle_zero
@@ -458,14 +510,9 @@ local function SceneRootToWorld(name, set)
 	end
 
 	local pos = Vector(prop.offset) or vector_origin
-	--pos:Rotate(rootang)
 	local ang = prop.rot or angle_zero
 
-
 	local tab = {}
-	--tab.pos = Vector(rootpos + pos)
-
-	--tab.ang = Angle(rootang + ang)
 	tab.pos,tab.ang = LocalToWorld(pos,ang,rootpos,rootang)
 
 	--ground work
@@ -474,9 +521,9 @@ local function SceneRootToWorld(name, set)
 			start = tab.pos + Vector(0,0,zSnap),
 			endpos = tab.pos - Vector(0,0,zSnap)
 		} )
-		print(tab.pos)
+		
 		if tr.Hit then
-			print(tostring(name).." adjusted by "..tostring(tr.HitPos-tab.pos) .."!")
+			--print(tostring(name).." adjusted by "..tostring(tr.HitPos-tab.pos) .."!")
 			tab.pos = Vector(tr.HitPos)
 		end
 	end
@@ -527,10 +574,6 @@ local function WorldToSceneRoot(name, set)
 
 
 	local tab = {}
-	--tab.pos = Vector(pos - rootpos)
-	--tab.pos:Rotate(angle_opposite(rootang))
-
-	--tab.ang = Angle(ang - rootang)
 	tab.pos, tab.ang = WorldToLocal(pos,ang,rootpos,rootang)
 
 	--we want to update the prop's offset to the scene root, rather than return the values
@@ -700,10 +743,6 @@ dialog.RegisterFunc("tweenposang", function(d, name, time, ...)
 		rootang = root:GetAngles()
 	end
 
-	--prop.goaloffset = posang.pos - rootpos
-
-	--prop.goaloffset:Rotate(angle_opposite(rootang))
-	--prop.goalrot = posang.ang - rootang
 	prop.goaloffset, prop.goalrot = WorldToLocal(posang.pos,posang.ang,rootpos,rootang)
 
 	if sceneRoots[prop] and RUN_CONVERSION then
@@ -726,18 +765,12 @@ dialog.RegisterFunc("tweenoffset", function(d, name, time, ...)
 		rootang = root:GetAngles()
 	end
 
-
 	prop.goalpos, prop.goalang = LocalToWorld(posang.pos,posang.ang,rootpos,rootang)
 	prop.startpos = prop:GetPos()
 	prop.goaloffset = posang.pos or prop.offset
-	--posang.pos:Rotate(rootang)
-	--prop.goalpos = rootpos + posang.pos or prop:GetPos()
 
 	prop.startang = prop:GetAngles()
-	--prop.goalang = rootang + posang.ang or prop:GetAngles()
 	prop.goalrot = posang.ang or prop.rot
-
-
 
 	prop.endtime = CurTime() + time
 	prop.tweenlen = time
@@ -816,17 +849,20 @@ dialog.RegisterFunc("setcamroot", function(d, rootname, setpos, px, py, pzsetang
 	local root = FindByName(rootname)
 	local posang = parsePosAng(setpos, px, py, pzsetang, ax, ay, az)
 
-	if !posang.pos or !posang.ang then return end
+	view = view or {}
+	if posang.pos then
+		view.offset = posang.pos
+	end
+		
+	if posang.ang then
+		view.rot = posang.ang
+	end
 
 	if IsValid(root) then
 		sceneRoots[view] = root
 	else
 		sceneRoots[view] = nil
 	end
-
-	view = view or {}
-	view.offset = posang.pos
-	view.rot = posang.ang
 
 	SceneRootToWorldCam(true)
 
@@ -904,12 +940,8 @@ dialog.RegisterFunc("tweencam", function(d, time, ...)
 		rootang = root:GetAngles()
 	end
 
-	--view.goaloffset = posang.pos - rootpos
-
-	--view.goaloffset:Rotate(angle_opposite(rootang))
-	--view.goalrot = posang.ang - rootang
-
 	view.goaloffset, view.goalrot = WorldToLocal(posang.pos,posang.ang,rootpos,rootang)
+	CamBoundsAdjust(true)
 
 
 	if sceneRoots[view] and RUN_CONVERSION then
@@ -935,11 +967,8 @@ dialog.RegisterFunc("tweencamoffset", function(d, time, ...)
 		view.goalpos,view.goalang = LocalToWorld(posang.pos,posang.ang,rootpos,rootang)
 		view.startpos = view.curpos
 		view.goaloffset = posang.pos
-		--posang.pos:Rotate(rootang)
-		--view.goalpos = rootpos + posang.pos 
 
 		view.startang = view.curang
-		--view.goalang = rootang + posang.ang
 		view.goalrot = posang.ang
 
 		view.endtime = CurTime() + time
@@ -1051,18 +1080,14 @@ local function getTweenValues(obj)
 		if IsValid(root) then
 			local rootpos = root:GetPos()
 			local rootang = root:GetAngles()
-			--local offset = Vector(obj.goaloffset) or vector_origin
-			--offset:Rotate(rootang)
 
 			--update our goals (in case our root moved)
 			if obj.goaloffset then
-				--obj.goalpos = rootpos + offset
 				--obj.startpos = obj:GetPos()
 				obj.goalpos, _ = LocalToWorld(obj.goaloffset, obj.goalrot or obj.goalang, rootpos, rootang)
 			end
 
 			if obj.goalrot then
-				--obj.goalang = rootang + obj.goalrot
 				_, obj.goalang = LocalToWorld(obj.goaloffset or obj.goalpos, obj.goalrot, rootpos, rootang)
 				--obj.startang = obj:GetAngles()
 			end

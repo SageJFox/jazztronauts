@@ -54,7 +54,7 @@ begin:
 	#*setcamoffset* in this situation. To avoid a visual hitch, it should be converted to a *setcamroot* with this initial one going unused
 	#Also note that we're using the player/cats as the camera root, rather than the scene. This is so that adjustments to their height made by our ground checking get
 	#reflected in the camera positioning, too. Especially important for closeups!
-	#*setcamroot cat_bar 0 0 0; 0 0 0*
+	#*setcamroot cat_bar*
 	#*setcam setpos -2478.000977 372.681641 16.944340;setang 7.223375 22.772840 0.000000 fov70*
 	#*tweencam 40 setpos -2690.671875 283.400543 46.178429;setang 7.223375 22.772840 0.000000*
 	*setcamroot cat_bar setpos 80.944344 293.787109 143.954346;setang 22.582 -97.827 -93.022 fov70*
@@ -105,7 +105,7 @@ leave:
 
 ### DINGUS ANSWER
 dingus:
-	#*setcamroot cat_piano 0 0 0; 0 0 0*
+	#*setcamroot cat_piano*
 	#*setcam setpos -2204.526367 467.057617 -27.270088;setang 0.408657 16.597002 0.000000*
 	*setcamroot cat_piano setpos 36.729912 86.136230 20.643372;setang 31.596 -90.480 -90.251*
 	*setspeaker cat_piano*
@@ -115,7 +115,7 @@ dingus:
 	&dingus2
 
 dingus2:
-	#*setcamroot cat_bar 0 0 0; 0 0 0*
+	#*setcamroot cat_bar*
 	#*setcam setpos -2227.285889 381.638916 -31.860832;setang 1.207254 43.802742 0.000000*
 	*setcamroot cat_bar setpos 32.139175 43.072021 134.997101;setang 43.791 -91.673 -91.158*
 	*setspeaker cat_bar*
@@ -165,7 +165,7 @@ a9:
 	&a10
 
 a10:
-	#*setcamroot cat_cello 0 0 0; 0 0 0*
+	#*setcamroot cat_cello*
 	#*setcam setpos -2161.344238 520.817505 -24.739239;setang 0.408679 25.541904 0.000000*
 	*setcamroot cat_cello setpos 39.260761 54.479248 39.597534;setang 10.542 -90.416 -90.076*
 	*setspeaker cat_cello*
@@ -181,7 +181,7 @@ a11:
 	&a12
 
 a12:
-	#*setcamroot cat_bar 0 0 0; 0 0 0*
+	#*setcamroot cat_bar*
 	#*setcam setpos -2318.219482 575.459900 -2.380165;setang 9.299764 -22.959793 0.000000*
 	#*tweencam 30 setpos -2972.309326 853.024719 113.971649;setang 9.299764 -23.013035 0.000000*
 	*setcamroot cat_bar setpos 61.619831 134.005615 -58.823914;setang -22.641 -100.084 -86.084*
@@ -258,7 +258,7 @@ a19:
 	*BAR_NEUTRAL*
 	*setanim cat_bar gesture_anger 1 idle*
 	*setspeaker narrator*
-	#*setcamroot cat_cello 0 0 0; 0 0 0*
+	#*setcamroot cat_cello*
 	#*setcam setpos -2199.189209 570.780457 -10.404617;setang 34.375881 -11.131420 0.000000*
 	*setcamroot cat_cello setpos 53.595379 78.103271 -18.458008;setang -21.316 -127.307 -74.518*
 	> The Bartender nudges the Cellist with her foot.%%% 
@@ -266,7 +266,7 @@ a19:
 	&a20
 
 a20:
-	#*setcamroot cat_bar 0 0 0; 0 0 0*
+	#*setcamroot cat_bar*
 	#*setcam setpos -2107.698486 545.623291 -10.404617;setang 5.573047 -143.060379 0.000000*
 	*setcamroot cat_bar setpos 53.595383 76.515381 28.987305;setang 36.736 -96.960 -94.176*
 	*setspeaker cat_bar*
