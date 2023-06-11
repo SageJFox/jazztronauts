@@ -141,6 +141,19 @@ local sceneModels = {}
 local sceneRoots = {}
 -- locales are points defined in the hub map. This list keeps track of the ones we're using in the current scene.
 local sceneLocales = {}
+-- z snap is how far up or down a character will be adjusted on the Z in order to appear standing on the ground. 0 or less to disable
+local zSnap = 40
+
+dialog.RegisterFunc("zsnap", function(d, amount)
+	zSnap = math.max(0, tonumber(amount))
+end)
+
+dialog.RegisterFunc("setgravity",function(d, name, enabled)
+	local prop = sceneModels[name]
+	if not IsValid(prop) then return end
+	local enabled = tobool(enabled)
+	prop.gravity = enabled
+end)
 
 local function GetPlayerOutfits(ply)
 	local outfits = {}
@@ -206,10 +219,19 @@ dialog.RegisterFunc("spawn", function(d, name, mdl)
 	sceneModels[name] = ManagedCSEnt(name, mdl)
 	sceneModels[name]:SetNoDraw(isdummy)
 	sceneModels[name].IsDummy = isdummy
+	sceneModels[name].gravity = true --gravity is enabled by default, prop will attempt to move to ground by +/-zSnap units
 end)
 
 dialog.RegisterFunc("remove", function(d, name)
+	local prop = sceneModels[name]
 	removeSceneEntity(name)
+	if not IsValid(prop) then return end
+	--update children
+	for k, v in pairs(sceneRoots) do
+		if v == prop then
+			sceneRoots[k] = nil
+		end
+	end
 end)
 
 dialog.RegisterFunc("clear", function(d)
@@ -225,6 +247,7 @@ local function FindByName(name)
 	if name == "player" then
 		local plyobj = CreatePlayerProxy()
 		sceneModels[name] = plyobj
+		plyobj.gravity = true
 		return plyobj
 	end
 
@@ -315,6 +338,19 @@ dialog.RegisterFunc("setname", function(d, name, visualname)
 	prop.JazzDialogName = visualname
 end)
 
+--[[local function angle_opposite(ang)
+	if not isangle(ang) then
+		ErrorNoHaltWithStack("angle_opposite: ",ang," is not a valid angle!")
+		return angle_zero
+	end
+	--Yes I am aware that this is gross
+	local rotato = angle_zero
+	rotato.x = ang.z+180
+	rotato.y = -ang.y+180
+	rotato.z = ang.x+180
+	return rotato
+end]]
+
 local view = {}
 
 --figure out our view's world position, from its offset to its sceneroot
@@ -332,14 +368,15 @@ local function SceneRootToWorldCam(set)
 		rootang = root:GetAngles()
 	end
 
-	local pos = Vector(view.offset) or vector_origin
-	pos:Rotate(rootang)
+	local pos = view.offset or vector_origin
+	--pos:Rotate(rootang)
 	local ang = view.rot or angle_zero
 
 	local tab = {}
-	tab.pos = Vector(rootpos + pos)
+	--tab.pos = Vector(rootpos + pos)
 
-	tab.ang = Angle(rootang + ang)
+	--tab.ang = Angle(rootang + ang)
+	tab.pos, tab.ang = LocalToWorld(pos,ang,rootpos,rootang)
 
 	--we want to set the prop's position in the world, rather than return the values
 	if set then
@@ -376,10 +413,12 @@ local function WorldToSceneRootCam(set)
 
 
 	local tab = {}
-	tab.pos = Vector(pos - rootpos)
-	tab.pos:Rotate(-rootang)
-
-	tab.ang = Angle(ang - rootang)
+	--tab.pos = Vector(pos - rootpos)
+	--tab.pos:Rotate(angle_opposite(rootang))
+	--tab.ang = Angle(ang - rootang)
+	tab.pos, tab.ang = WorldToLocal(pos,ang,rootpos,rootang)
+	
+	
 
 	--we want to update the prop's offset to the scene root, rather than return the values
 	if set then
@@ -419,13 +458,28 @@ local function SceneRootToWorld(name, set)
 	end
 
 	local pos = Vector(prop.offset) or vector_origin
-	pos:Rotate(rootang)
+	--pos:Rotate(rootang)
 	local ang = prop.rot or angle_zero
 
-	local tab = {}
-	tab.pos = Vector(rootpos + pos)
 
-	tab.ang = Angle(rootang + ang)
+	local tab = {}
+	--tab.pos = Vector(rootpos + pos)
+
+	--tab.ang = Angle(rootang + ang)
+	tab.pos,tab.ang = LocalToWorld(pos,ang,rootpos,rootang)
+
+	--ground work
+	if prop.gravity and zSnap > 0 then
+		local tr = util.TraceLine( {
+			start = tab.pos + Vector(0,0,zSnap),
+			endpos = tab.pos - Vector(0,0,zSnap)
+		} )
+		print(tab.pos)
+		if tr.Hit then
+			print(tostring(name).." adjusted by "..tostring(tr.HitPos-tab.pos) .."!")
+			tab.pos = Vector(tr.HitPos)
+		end
+	end
 
 	--we want to set the prop's position in the world, rather than return the values
 	if set then
@@ -473,10 +527,11 @@ local function WorldToSceneRoot(name, set)
 
 
 	local tab = {}
-	tab.pos = Vector(pos - rootpos)
-	tab.pos:Rotate(-rootang)
+	--tab.pos = Vector(pos - rootpos)
+	--tab.pos:Rotate(angle_opposite(rootang))
 
-	tab.ang = Angle(ang - rootang)
+	--tab.ang = Angle(ang - rootang)
+	tab.pos, tab.ang = WorldToLocal(pos,ang,rootpos,rootang)
 
 	--we want to update the prop's offset to the scene root, rather than return the values
 	if set then
@@ -512,7 +567,7 @@ dialog.RegisterFunc("setposang", function(d, name, ...)
 	end
 	WorldToSceneRoot(name,true)
 	if sceneRoots[prop] and RUN_CONVERSION then
-		print("*setoffset "..name.." setpos "..tostring(prop.offset)..";setang "..tostring(prop.rot).."*")
+		print("\t*setoffset "..name.." setpos "..tostring(prop.offset)..";setang "..tostring(prop.rot).."*")
 	end
 end)
 
@@ -637,21 +692,22 @@ dialog.RegisterFunc("tweenposang", function(d, name, time, ...)
 	prop.endtime = CurTime() + time
 	prop.tweenlen = time
 
-	
+	local rootpos = vector_origin
+	local rootang = angle_zero
+	local root = sceneRoots[prop]
+	if IsValid(root) then
+		rootpos = root:GetPos()
+		rootang = root:GetAngles()
+	end
+
+	--prop.goaloffset = posang.pos - rootpos
+
+	--prop.goaloffset:Rotate(angle_opposite(rootang))
+	--prop.goalrot = posang.ang - rootang
+	prop.goaloffset, prop.goalrot = WorldToLocal(posang.pos,posang.ang,rootpos,rootang)
+
 	if sceneRoots[prop] and RUN_CONVERSION then
-		local rootpos = vector_origin
-		local rootang = angles_zero
-		local root = sceneRoots[prop]
-		if IsValid(root) then
-			rootpos = root:GetPos()
-			rootang = root:GetAngles()
-		end
-
-		prop.goaloffset = posang.pos - rootpos
-		prop.goaloffset:Rotate(-rootang)
-		prop.goalrot = posang.ang - rootang
-
-		print("*tweenoffset "..name.." "..tostring(time).." setpos "..tostring(prop.goaloffset)..";setang "..tostring(prop.goalrot).."*")
+		print("\t*tweenoffset "..name.." "..tostring(time).." setpos "..tostring(prop.goaloffset)..";setang "..tostring(prop.goalrot).."*")
 	end
 
 end )
@@ -663,7 +719,7 @@ dialog.RegisterFunc("tweenoffset", function(d, name, time, ...)
 	local posang = parsePosAng(...)
 
 	local rootpos = vector_origin
-	local rootang = angles_zero
+	local rootang = angle_zero
 	local root = sceneRoots[prop]
 	if IsValid(root) then
 		rootpos = root:GetPos()
@@ -671,14 +727,16 @@ dialog.RegisterFunc("tweenoffset", function(d, name, time, ...)
 	end
 
 
+	prop.goalpos, prop.goalang = LocalToWorld(posang.pos,posang.ang,rootpos,rootang)
 	prop.startpos = prop:GetPos()
 	prop.goaloffset = posang.pos or prop.offset
-	posang.pos:Rotate(rootang)
-	prop.goalpos = rootpos + posang.pos or prop:GetPos()
+	--posang.pos:Rotate(rootang)
+	--prop.goalpos = rootpos + posang.pos or prop:GetPos()
 
 	prop.startang = prop:GetAngles()
-	prop.goalang = rootang + posang.ang or prop:GetAngles()
+	--prop.goalang = rootang + posang.ang or prop:GetAngles()
 	prop.goalrot = posang.ang or prop.rot
+
 
 
 	prop.endtime = CurTime() + time
@@ -739,7 +797,7 @@ dialog.RegisterFunc("setcam", function(d, setpos, px, py, pzsetang, ax, ay, az, 
 	end
 
 	if sceneRoots[view] and RUN_CONVERSION then
-		local str = "*setcamoffset setpos "..tostring(view.offset)..";setang "..tostring(view.rot)
+		local str = "\t*setcamoffset setpos "..tostring(view.offset)..";setang "..tostring(view.rot)
 		if fov then str = str.." "..fov end
 		print(str.."*")
 	end
@@ -767,14 +825,10 @@ dialog.RegisterFunc("setcamroot", function(d, rootname, setpos, px, py, pzsetang
 	end
 
 	view = view or {}
-	view.endtime = nil
 	view.offset = posang.pos
 	view.rot = posang.ang
 
-	local tab = SceneRootToWorldCam(false)
-
-	view.curpos = tab.pos
-	view.curang = tab.ang
+	SceneRootToWorldCam(true)
 
 	if fov then
 		local fov = tonumber(string.Replace(fov,"fov",""))
@@ -783,11 +837,6 @@ dialog.RegisterFunc("setcamroot", function(d, rootname, setpos, px, py, pzsetang
 
 	-- Only create the player proxy if we modify the camera
 	FindByName("player")
-
-	-- Tell server to load in the specific origin into our PVS
-	net.Start("dialog_requestpvs")
-		net.WriteVector(tab.pos)
-	net.SendToServer()
 
 end)
 
@@ -846,20 +895,25 @@ dialog.RegisterFunc("tweencam", function(d, time, ...)
 		view.curpos = posang.pos
 		view.curang = posang.ang
 	end
+
+	local rootpos = vector_origin
+	local rootang = angle_zero
+	local root = sceneRoots[view]
+	if IsValid(root) then
+		rootpos = root:GetPos()
+		rootang = root:GetAngles()
+	end
+
+	--view.goaloffset = posang.pos - rootpos
+
+	--view.goaloffset:Rotate(angle_opposite(rootang))
+	--view.goalrot = posang.ang - rootang
+
+	view.goaloffset, view.goalrot = WorldToLocal(posang.pos,posang.ang,rootpos,rootang)
+
+
 	if sceneRoots[view] and RUN_CONVERSION then
-		local rootpos = vector_origin
-		local rootang = angles_zero
-		local root = sceneRoots[view]
-		if IsValid(root) then
-			rootpos = root:GetPos()
-			rootang = root:GetAngles()
-		end
-
-		view.goaloffset = posang.pos - rootpos
-		view.goaloffset:Rotate(-rootang)
-		view.goalrot = posang.ang - rootang
-
-		print("*tweencamoffset "..tostring(time).." setpos "..tostring(view.goaloffset)..";setang "..tostring(view.goalrot).."*")
+		print("\t*tweencamoffset "..tostring(time).." setpos "..tostring(view.goaloffset)..";setang "..tostring(view.goalrot).."*")
 	end
 end)
 
@@ -868,7 +922,7 @@ dialog.RegisterFunc("tweencamoffset", function(d, time, ...)
 	local posang = parsePosAng(...)
 
 	local rootpos = vector_origin
-	local rootang = angles_zero
+	local rootang = angle_zero
 	local root = sceneRoots[view]
 	if IsValid(root) then
 		rootpos = root:GetPos()
@@ -878,13 +932,14 @@ dialog.RegisterFunc("tweencamoffset", function(d, time, ...)
 	if !posang.pos or !posang.ang then return end
 
 	if view then
+		view.goalpos,view.goalang = LocalToWorld(posang.pos,posang.ang,rootpos,rootang)
 		view.startpos = view.curpos
 		view.goaloffset = posang.pos
-		posang.pos:Rotate(rootang)
-		view.goalpos = rootpos + posang.pos 
+		--posang.pos:Rotate(rootang)
+		--view.goalpos = rootpos + posang.pos 
 
 		view.startang = view.curang
-		view.goalang = rootang + posang.ang
+		--view.goalang = rootang + posang.ang
 		view.goalrot = posang.ang
 
 		view.endtime = CurTime() + time
@@ -992,22 +1047,24 @@ local function getTweenValues(obj)
 	if obj.endtime then
 		local p = 1 - math.Clamp((obj.endtime - CurTime()) / obj.tweenlen, 0, 1)
 
-		local root = sceneRoots[prop]
+		local root = sceneRoots[obj]
 		if IsValid(root) then
 			local rootpos = root:GetPos()
 			local rootang = root:GetAngles()
-			local offset = Vector(obj.goaloffset) or vector_origin
-			offset:Rotate(rootang)
+			--local offset = Vector(obj.goaloffset) or vector_origin
+			--offset:Rotate(rootang)
 
 			--update our goals (in case our root moved)
 			if obj.goaloffset then
-				obj.goalpos = rootpos + offset
-				obj.startpos = obj:GetPos()
+				--obj.goalpos = rootpos + offset
+				--obj.startpos = obj:GetPos()
+				obj.goalpos, _ = LocalToWorld(obj.goaloffset, obj.goalrot or obj.goalang, rootpos, rootang)
 			end
 
 			if obj.goalrot then
-				obj.goalang = rootang + obj.goalrot
-				obj.startang = obj:GetAngles()
+				--obj.goalang = rootang + obj.goalrot
+				_, obj.goalang = LocalToWorld(obj.goaloffset or obj.goalpos, obj.goalrot, rootpos, rootang)
+				--obj.startang = obj:GetAngles()
 			end
 		end
 
