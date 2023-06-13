@@ -914,7 +914,7 @@ dialog.RegisterFunc("setcamoffset", function(d, setpos, px, py, pzsetang, ax, ay
 
 	-- Tell server to load in the specific origin into our PVS
 	net.Start("dialog_requestpvs")
-		net.WriteVector(posang.pos)
+		net.WriteVector(view.curpos)
 	net.SendToServer()
 
 end)
