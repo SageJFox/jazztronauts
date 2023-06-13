@@ -6,7 +6,7 @@ begin:
 ###and Cellist, Bartender sat in front of them, closest to player
 
 	*txout*
-	spawngang()
+	spawncats()
 	#Being the first converted script, we'll be leaving lots of notes here.
 	#The narrator is an excellent candidate for being a scene root, since it's already invisible.
 
@@ -34,10 +34,10 @@ begin:
 	#*zsnap 0*
 
 	#Setoffset is our setposang equivalent
-	*setoffset cat_singer setpos 81.618652 7.835144 0.000000;setang -90.000 90.000 0.000*
-	*setoffset cat_cello setpos 57.030029 61.165955 0.000000;setang -90.000 105.000 0.000*
-	*setoffset cat_piano setpos 60.017578 -47.296082 0.000000;setang -90.000 75.000 0.000*
-	*setoffset cat_bar setpos -8.213867 4.635986 0.000000;setang -90.000 90.000 0.000*
+	*setoffset cat_singer setpos 81.618652 7.835144 0.000000;setang 0.000 180.000 0.000*
+	*setoffset cat_cello setpos 57.030029 61.165955 0.000000;setang 0.000 -165.000 0.000*
+	*setoffset cat_piano setpos 60.017578 -47.296082 0.000000;setang 0.000 165.000 0.000*
+	*setoffset cat_bar setpos -8.213867 4.635986 0.000000;setang 0.000 180.000 0.000*
 	*setoffset player setpos 267.528198 -47.615723 0.000000;setang 9.193 172.696 0.000*
 
 	*setanim cat_bar pose_sit01*
@@ -57,8 +57,8 @@ begin:
 	#*setcamroot cat_bar*
 	#*setcam setpos -2478.000977 372.681641 16.944340;setang 7.223375 22.772840 0.000000 fov70*
 	#*tweencam 40 setpos -2690.671875 283.400543 46.178429;setang 7.223375 22.772840 0.000000*
-	*setcamroot cat_bar setpos 80.944344 293.787109 143.954346;setang 22.582 -97.827 -93.022 fov70*
-	*tweencamoffset 40 setpos 110.178436 506.458008 233.235443;setang 22.582 -97.827 -93.022*
+	*setcamroot cat_bar setpos 293.787109 143.954376 80.944336;setang 7.223 -157.227 0.000 fov70*
+	*tweencamoffset 40 setpos 506.458008 233.235504 110.178429;setang 7.223 -157.227 0.000*
 
 
 
@@ -85,7 +85,7 @@ a3:
 
 a4:
 	#*setcam setpos -2261.979492 557.981018 -24.090858;setang -1.614466 -11.992874 0.000000*
-	*setcamoffset setpos 39.909142 77.765625 -41.345032;setang -11.988 -88.350 -90.343*
+	*setcamoffset setpos 77.765625 -41.345032 39.909142;setang -1.614 168.007 0.000*
 	Ah, *player*!%%%% 
 	Care to join us in our meditations?
 	player:
@@ -107,7 +107,7 @@ leave:
 dingus:
 	#*setcamroot cat_piano*
 	#*setcam setpos -2204.526367 467.057617 -27.270088;setang 0.408657 16.597002 0.000000*
-	*setcamroot cat_piano setpos 36.729912 86.136230 20.643372;setang 31.596 -90.480 -90.251*
+	*setcamroot cat_piano setpos 86.136230 20.643372 36.729912;setang 0.409 -148.403 0.000*
 	*setspeaker cat_piano*
 	*PIANO_NEUTRAL*
 	If you start humming I will punch you in the face.%%%%*PIANO_BLINK* 
@@ -117,7 +117,7 @@ dingus:
 dingus2:
 	#*setcamroot cat_bar*
 	#*setcam setpos -2227.285889 381.638916 -31.860832;setang 1.207254 43.802742 0.000000*
-	*setcamroot cat_bar setpos 32.139175 43.072021 134.997101;setang 43.791 -91.673 -91.158*
+	*setcamroot cat_bar setpos 43.072021 134.997070 32.139168;setang 1.207 -136.197 0.000*
 	*setspeaker cat_bar*
 	*BAR_PISSED*
 	%.%.%.%It's not necessary,%% no.%%%*BAR_BLINK* Neither are threats of violence,% Pianist.
@@ -133,7 +133,7 @@ a5:
 	*setanim player sit_zen*
 	*setspeaker narrator*
 	#*setcam setpos -2323.443359 388.313568 16.408169;setang 13.239491 32.089962 0.000000*
-	*setcamoffset setpos 80.408173 139.229492 128.322449;setang 31.140 -105.520 -98.172*
+	*setcamoffset setpos 139.229492 128.322449 80.408173;setang 13.239 -147.910 0.000*
 	*BAR_HAPPY*
 	> The Bartender smiles,%% and you sit down beside her. 
 	&a6
@@ -151,8 +151,9 @@ a7:
 a8:
 	#*setcam setpos -2360.776611 1260.713745 -109.530563;setang -2.093598 -65.551727 0.000000*
 	#*tweencam 30 setpos -2520.542969 1188.078979 -109.530563;setang -2.040358 -65.551727 0.000000*
-	*setcamoffset setpos -45.530594 176.562744 -744.077759;setang -65.468 -84.952 -94.594*
-	*tweencamoffset 30 setpos -45.530594 336.329102 -671.442993;setang -65.472 -85.080 -94.478*
+	*setcamoffset setpos 176.562744 -744.077698 -45.530563;setang -2.094 114.448 0.000*
+	*tweencamoffset 30 setpos 336.329102 -671.442932 -45.530563;setang -2.040 114.448 0.000*
+
 	*BAR_BLINK*
 	Sit up straight,% and put your hands on your knees.%%%% Focus on the 
 	points where your body makes contact with the surface beneath you. 
@@ -167,7 +168,7 @@ a9:
 a10:
 	#*setcamroot cat_cello*
 	#*setcam setpos -2161.344238 520.817505 -24.739239;setang 0.408679 25.541904 0.000000*
-	*setcamroot cat_cello setpos 39.260761 54.479248 39.597534;setang 10.542 -90.416 -90.076*
+	*setcamroot cat_cello setpos 54.479248 39.597534 39.260761;setang 0.409 -169.458 0.000*
 	*setspeaker cat_cello*
 	*CELLO_NEUTRAL*
 	also make sure you keep breathing too or else youll go kinda blue 
@@ -184,8 +185,8 @@ a12:
 	#*setcamroot cat_bar*
 	#*setcam setpos -2318.219482 575.459900 -2.380165;setang 9.299764 -22.959793 0.000000*
 	#*tweencam 30 setpos -2972.309326 853.024719 113.971649;setang 9.299764 -23.013035 0.000000*
-	*setcamroot cat_bar setpos 61.619831 134.005615 -58.823914;setang -22.641 -100.084 -86.084*
-	*tweencamoffset 30 setpos 177.971634 788.095459 -336.388733;setang -22.694 -100.088 -86.073*
+	*setcamroot cat_bar setpos 134.005615 -58.823914 61.619835;setang 9.300 157.040 0.000*
+	*tweencamoffset 30 setpos 788.095459 -336.388672 177.971649;setang 9.300 156.987 0.000*
 	*setspeaker cat_bar*
 	Now just keep up that breathing rhythm.
 	&a13
@@ -216,10 +217,10 @@ a16:
 	#*setposang cat_piano setpos -2115.982422 464.703918 -64;setang -90 75 0.000000*
 	#*setposang cat_bar setpos -2184.213867 516.635986 -64;setang -90 -90 0.000000*
 	#*setposang player setpos -2192.571045 467.875122 -64;setang 12.174686 32.835201 0.000000*
-	*setoffset cat_singer setpos 81.618652 7.835144 0.000000;setang -90.000 90.000 0.000*
-	*setoffset cat_cello setpos 57.030029 61.165955 0.000000;setang -90.000 105.000 0.000*
-	*setoffset cat_piano setpos 60.017578 -47.296082 0.000000;setang -90.000 75.000 0.000*
-	*setoffset cat_bar setpos -8.213867 4.635986 0.000000;setang -90.000 -90.000 0.000*
+	*setoffset cat_singer setpos 81.618652 7.835144 0.000000;setang 0.000 180.000 0.000*
+	*setoffset cat_cello setpos 57.030029 61.165955 0.000000;setang 0.000 -165.000 0.000*
+	*setoffset cat_piano setpos 60.017578 -47.296082 0.000000;setang 0.000 165.000 0.000*
+	*setoffset cat_bar setpos -8.213867 4.635986 0.000000;setang 0.000 0.000 0.000*
 	*setoffset player setpos -16.571045 -44.124878 0.000000;setang 12.175 32.835 0.000*
 	*setanim cat_piano idle*
 	*setanim cat_singer idle*
@@ -230,7 +231,7 @@ a16:
 	*setanim player idle_all_01*
 	*setanim cat_cello pose_passedout*
 	#*setcam setpos -2092.409912 652.855896 43.299713;setang 25.058817 -109.785210 0.000000*
-	*setcamoffset setpos 107.299713 91.803955 136.219971;setang 58.473 -144.097 -139.658*
+	*setcamoffset setpos 91.803955 136.219910 107.299713;setang 25.059 -109.785 0.000*
 	*txin*
 	*show*
 	*BAR_HAPPY*
@@ -240,7 +241,7 @@ a16:
 
 a17:
 	#*setcam setpos -2129.073486 558.672058 -26.355873;setang -4.063434 -110.530540 0.000000*
-	*setcamoffset setpos 37.644127 55.140381 42.036072;setang 69.088 -78.549 -79.285*
+	*setcamoffset setpos 55.140381 42.036072 37.644127;setang -4.063 -110.531 0.000*
 	*setanim cat_bar gesture_agree 1 idle*
 	Pianist,%%*BAR_NEUTRAL* I noticed you broke your record before needing to do some
 	pushups.%%%%*setanim cat_bar gesture_clap 1 idle* Congratulations!% I'm very proud.
@@ -260,7 +261,7 @@ a19:
 	*setspeaker narrator*
 	#*setcamroot cat_cello*
 	#*setcam setpos -2199.189209 570.780457 -10.404617;setang 34.375881 -11.131420 0.000000*
-	*setcamroot cat_cello setpos 53.595379 78.103271 -18.458008;setang -21.316 -127.307 -74.518*
+	*setcamroot cat_cello setpos 78.103271 -18.458130 53.595383;setang 34.376 153.869 0.000*
 	> The Bartender nudges the Cellist with her foot.%%% 
 	He lets out a loud and kinda gross snore.
 	&a20
@@ -268,7 +269,7 @@ a19:
 a20:
 	#*setcamroot cat_bar*
 	#*setcam setpos -2107.698486 545.623291 -10.404617;setang 5.573047 -143.060379 0.000000*
-	*setcamroot cat_bar setpos 53.595383 76.515381 28.987305;setang 36.736 -96.960 -94.176*
+	*setcamroot cat_bar setpos 76.515381 28.987305 53.595383;setang 5.573 -143.060 0.000*
 	*setspeaker cat_bar*
 	*setanim cat_bar gesture_shrug 1 idle*
 	Well,% at least he was able to relax this time.

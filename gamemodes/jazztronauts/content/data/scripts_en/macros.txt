@@ -47,11 +47,19 @@ SINGER_MAD setskin cat_singer 2
 SINGER_MISCHIEF setskin cat_singer 3
 
 
+spawnnarrator() *spawn narrator dummy**setnpcid narrator npc_narrator*
 
+#	Old models, leaving them in for backwards compatibility
 spawnbartender() *spawn cat_bar models/andy/bartender/cat_bartender.mdl**setnpcid cat_bar npc_cat_bar**BAR_NEUTRAL**setanim cat_bar idle*
 spawnpianist() *spawn cat_piano models/andy/pianist/cat_pianist.mdl**setnpcid cat_piano npc_cat_piano**PIANO_NEUTRAL**setanim cat_piano idle*
 spawncellist() *spawn cat_cello models/andy/cellist/cat_cellist.mdl**setnpcid cat_cello npc_cat_cello**CELLO_NEUTRAL**setanim cat_cello idle*
 spawnsinger() *spawn cat_singer models/andy/singer/cat_singer.mdl**setnpcid cat_singer npc_cat_sing**SINGER_NEUTRAL**setanim cat_singer idle*
-spawnnarrator() *spawn narrator dummy**setnpcid narrator npc_narrator*
-
 spawngang() spawncellist()spawnbartender()spawnpianist()spawnsinger()spawnnarrator()
+
+# New models, use these if making new scripts
+spawncatbartender() *spawn cat_bar models/andy/cats/cat_bartender.mdl**setnpcid cat_bar npc_cat_bar**BAR_NEUTRAL**setanim cat_bar idle*
+spawncatpianist() *spawn cat_piano models/andy/cats/cat_pianist.mdl**setnpcid cat_piano npc_cat_piano**PIANO_NEUTRAL**setanim cat_piano idle*
+spawncatcellist() *spawn cat_cello models/andy/cats/cat_cellist.mdl**setnpcid cat_cello npc_cat_cello**CELLO_NEUTRAL**setanim cat_cello idle*
+spawncatsinger() *spawn cat_singer models/andy/cats/cat_singer.mdl**setnpcid cat_singer npc_cat_sing**SINGER_NEUTRAL**setanim cat_singer idle*
+
+spawncats() spawncatcellist()spawncatbartender()spawncatpianist()spawncatsinger()spawnnarrator()

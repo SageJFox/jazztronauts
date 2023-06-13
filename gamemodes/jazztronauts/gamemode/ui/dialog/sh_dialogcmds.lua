@@ -596,6 +596,8 @@ local function WorldToSceneRoot(name, set)
 	return tab
 end
 
+local cat_angle_fix = Angle(90,90,0)
+
 dialog.RegisterFunc("setposang", function(d, name, ...)
 	local prop = FindByName(name)
 	if not IsValid(sceneModels[name]) then return end
@@ -610,7 +612,11 @@ dialog.RegisterFunc("setposang", function(d, name, ...)
 	end
 	WorldToSceneRoot(name,true)
 	if sceneRoots[prop] and RUN_CONVERSION then
-		print("\t*setoffset "..name.." setpos "..tostring(prop.offset)..";setang "..tostring(prop.rot).."*")
+		if string.find(name,"cat_") then
+			print("\t*setoffset "..name.." setpos "..tostring(prop.offset)..";setang "..tostring(prop.rot+cat_angle_fix).."*")
+		else
+			print("\t*setoffset "..name.." setpos "..tostring(prop.offset)..";setang "..tostring(prop.rot).."*")
+		end
 	end
 end)
 
@@ -746,7 +752,11 @@ dialog.RegisterFunc("tweenposang", function(d, name, time, ...)
 	prop.goaloffset, prop.goalrot = WorldToLocal(posang.pos,posang.ang,rootpos,rootang)
 
 	if sceneRoots[prop] and RUN_CONVERSION then
-		print("\t*tweenoffset "..name.." "..tostring(time).." setpos "..tostring(prop.goaloffset)..";setang "..tostring(prop.goalrot).."*")
+		if string.find(name,"cat_") then
+			print("\t*tweenoffset "..name.." "..tostring(time).." setpos "..tostring(prop.goaloffset)..";setang "..tostring(prop.goalrot+cat_angle_fix).."*")
+		else
+			print("\t*tweenoffset "..name.." "..tostring(time).." setpos "..tostring(prop.goaloffset)..";setang "..tostring(prop.goalrot).."*")
+		end
 	end
 
 end )
