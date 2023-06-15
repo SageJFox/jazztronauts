@@ -1,32 +1,61 @@
 CMD_DELAY = 0
 
 begin:
-	spawngang()
-	*setposang cat_bar setpos 5795.780762 141.141571 3584.031250;setang -90 -91.249092 0.000000*
-	*setposang cat_cello setpos setpos 6608.233398 -486.078217 3584.031250;setang -90 163.122925 0.000000*
-	*setposang cat_piano setpos 6518.995117 403.150879 3584.031250;setang -90 -65.329979 0.000000*
-	*setanim cat_piano pose_passedout*
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
-	*setposang cat_singer setpos 5897.477051 291.355804 3584.031250;setang -90 -15.488564 0.000000*
-	*setposang player setpos -7294.063965 -1565.545898 3584;setang 0.612256 90.094734 0.000000*
-	*setcam setpos -7283.202148 -1279.565552 3168.028809;setang 9.796160 -88.578621 0.000000*
+	#*zsnap 0*
+	spawncats()
+	*setgravity cat_bar false*
+	*setgravity cat_cello false*
+	*setgravity cat_piano false*
+	*setgravity cat_singer false*
+	*setgravity player false*
+	*setlocale narrator scene_falling*
+	#*setroot cat_bar narrator*
+	#*setroot cat_cello narrator*
+	#*setroot cat_piano narrator*
+	#*setroot cat_singer narrator*
+	#*setroot player narrator*
+	#*setposang cat_bar setpos -7360 -1618 3320;setang -90 90 0*
+	#*setposang cat_cello setpos -7168 -1618 3344;setang -90 90 0*
+	#*setposang cat_piano setpos -7424 -1618 3344;setang -90 90 0*
+	#*setposang cat_singer setpos -7232 -1618 3320;setang -90 90 0*
+	*BAR_HAPPY*
+	*CELLO_HIGH*
+	*PIANO_SMIRK*
+	*SINGER_HAPPY*
+	*setroot cat_bar narrator setpos -146.000000 77.000000 -8.000000;setang 0.000 0.000 0.000*
+	*setroot cat_cello narrator setpos -146.000000 -115.000000 16.000000;setang 0.000 0.000 0.000*
+	*setroot cat_piano narrator setpos -146.000000 141.000000 16.000000;setang 0.000 0.000 0.000*
+	*setroot cat_singer narrator setpos -146.000000 -51.000000 -8.000000;setang 0.000 0.000 0.000*
+	#*setposang player setpos -7294.063965 -1565.545898 3584;setang 0.612256 90.094734 0.000000*
+	*setroot player narrator setpos -93.545898 11.063965 256.000000;setang 0.612 0.095 0.000*
+	#*setcamroot narrator*
+	#*setcam setpos -7283.202148 -1279.565552 3168.028809;setang 9.796160 -88.578621 0.000000*
+	*setcamroot narrator setpos 192.434448 0.202148 -159.971191;setang 9.796 -178.579 0.000*
 
 	*spawn podge dummy*
 	*setname podge Podge*
+	*setlocale podge scene_podge*
 
 	*spawn rungo dummy*
 	*setname rungo Rungo*
+	*setlocale rungo scene_rungo*
 
 	*spawn georff dummy*
 	*setname georff Georff*
+	*setlocale georff scene_georff*
 
 	*spawn rob dummy*
 	*setname rob Rob*
-	*tweencam 1.5 setpos -7285.830078 -1363.527954 3217.524658;setang -30.879200 -91.719673 0.000000*
+	*setlocale rob scene_rob*
+
+	#*tweencam 1.5 setpos -7285.830078 -1363.527954 3217.524658;setang -30.879200 -91.719673 0.000000*
+	*tweencamoffset 1.5 setpos 108.472046 2.830078 -110.475342;setang -30.879 178.280 0.000*
 	*bgmplay sound/jazztronauts/music/events/bigbang_funk.mp3 .5 30*
 	*setspeaker narrator*
-	> %.%.%.%it's completely black%.%.%.%.%%*tweencam 10 setpos -7292.398438 5197.813965 3329.063965;setang -0.266206 90.840118 0.000000*
+	*spawn nirvana dummy*
+	*setlocale nirvana scene_nirvana*
+	#*setcamroot nirvana*
+	> %.%.%.%it's completely black%.%.%.%.%%*tweencamoffsetroot 10 nirvana setpos 3.601563 -178.186035 1.063965;setang -0.266 90.840 0.000*#*tweencam 10 setpos -7292.398438 5197.813965 3329.063965;setang -0.266206 90.840118 0.000000*
 	%.%.%.%wait,% there's something here.%%%
 	&oops
 	
@@ -34,22 +63,46 @@ oops:
 	*hide*
 	*fadeblind 2*
 	*wait 1*
-	*setcam setpos 2280.806152 2822.042969 4085.338379;setang 2.422391 -31.177280 0.000000*
-	*tweencam 10 setpos 5083.206055 1130.038086 3927.410645;setang 1.570549 -30.911079 0.000000*
+	*setroot cat_bar nil*
+	*setroot cat_cello nil*
+	*setroot cat_piano nil*
+	*setroot cat_singer nil*
+	*setroot player nil*
+	*setlocale narrator scene_band*
+	#*setcam setpos 2280.806152 2822.042969 4085.338379;setang 2.422391 -31.177280 0.000000*
+	#*tweencam 10 setpos 5083.206055 1130.038086 3927.410645;setang 1.570549 -30.911079 0.000000*
+	*setcamroot narrator setpos 4887.193359 -2822.043457 437.338379;setang 2.422 148.823 0.000*
+	*tweencamoffset 10 setpos 2084.793945 -1130.038208 279.410645;setang 1.571 149.089 0.000*
 	*show*
 	> %.%.%.%a platform floats in the void%.%.%.%%% 
 	you can see figures in the center of it.
 	&a1
 
 a1:
-	*setposang player setpos 6315.488281 82.928795 3648.031250;setang -7.986032 -7.538742 0.000000*
-	*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
+	#*setroot player narrator*
+	*setgravity cat_bar true*
+	*setgravity cat_cello true*
+	*setgravity cat_piano true*
+	*setgravity cat_singer true*
+	*setgravity player true*
+	#*setcamroot podge*
+	#*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
+	*setcamroot podge setpos 134.280762 -44.185677 87.278564;setang -9.610 163.144 0.000*
+	#*setposang player setpos 6315.488281 82.928795 3648.031250;setang -7.986032 -7.538742 0.000000*
+	*setroot player narrator setpos 852.511719 -82.928871 -64;setang -7.986 172.461 0.000*
+	*setroot cat_bar narrator setpos 1372.219238 -141.141693 -64;setang 0.000 178.751 0.000*
+	*setroot cat_cello narrator setpos 559.766602 486.078156 -64;setang 0.000 73.123 0.000*
+	*setanim cat_cello pose_passedout*
+	*setroot cat_piano narrator setpos 649.004883 -403.150940 -64;setang 0.000 204.670 0.000*
+	*setroot cat_singer narrator setpos 1270.522949 -291.355927 -64;setang 0.000 254.511 0.000*
 	*setspeaker podge*
-	‘sup.%%% Welcome to the Center of the Universe.
+	'sup.%%% Welcome to the Center of the Universe.
 	&a2
 
 a2:
-	*setcam setpos 7041.580566 -320.709656 3703.062744;setang -6.122615 18.176189 0.000000* ###### GEORFF
+	#*setcamroot georff*
+	#*setcam setpos 7041.580566 -320.709656 3703.062744;setang -6.122615 18.176189 0.000000* ###### GEORFF
+	*setcamroot georff setpos 166.183105 104.756714 55.062744;setang -6.123 -150.324 0.000*
 	*setspeaker georff*
 	Nice to see a new face.
 	&a2b
@@ -60,7 +113,9 @@ a2b:
 	&a3
 	
 a3:
-	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
+	#*setcamroot rungo*
+	#*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
+	*setcamroot rungo setpos 192.454590 -38.301826 53.847168;setang -8.385 168.255 0.000*
 	*setspeaker rungo*
 	cheers,% take a load off yeah?
 	&a4
@@ -71,7 +126,8 @@ a4:
 	&a5
 
 a5:
-	*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
+	#*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
+	*setcamroot podge setpos 134.280762 -44.185677 87.278564;setang -9.610 163.144 0.000*
 	*setspeaker podge*
 	Oh you with the cats?%% Cool.% Cool.%%% Yeah,% they come here once in 
 	 a while with a group of confused lookin' video game blokes like you.%%%% 
@@ -84,14 +140,18 @@ a6:
 	&a7
 
 a7:
-	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
+	#*setcamroot rob*
+	#*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
+	*setcamroot rob setpos 205.420898 10.956299 38.578369;setang -16.957 -176.863 0.000*
 	*setspeaker rob*
 	Hey as long as they're enjoying themselves whatever,% y'know?%%% 
 	It's basically why we're here.
 	&a8
 
 a8:
-	*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
+	#*setcamroot narrator*
+	#*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
+	*setcamroot podge setpos 134.280762 -44.185677 87.278564;setang -9.610 163.144 0.000*
 	*setspeaker podge*
 	You want any existential-like questions answered while we set up?%%%
 	Figure it's the least we can do to give back to the community after
@@ -99,63 +159,77 @@ a8:
 	&a9
 
 a9:
-	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
+	#*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
+	*setcamroot rungo setpos 192.454590 -38.301826 53.847168;setang -8.385 168.255 0.000*
 	*setspeaker rungo*
 	yeah go ahead mate,% s'not a monkeys paw or anythin'.%%%% 
 	anyone can know whatever they want,%% except space cops
 	&a10
 
 a10:
-	*setcam setpos 5898.999023 149.256104 3823.915039;setang 24.996138 -13.980748 0.000000* #### GROUP
+	#*setcamroot narrator*
+	#*setcam setpos 5898.999023 149.256104 3823.915039;setang 24.996138 -13.980748 0.000000* #### GROUP
+	*setcamroot narrator setpos 1269.000977 -149.256210 175.915039;setang 24.996 166.019 0.000*
 	*setspeaker podge*
 	So yeah,% whatcha got on your mind?
 	player:
 		&happiness:
-			*setcam setpos 6633.360352 11.579720 3684.950439;setang 6.681584 179.750626 0.000000*
+			#*setcamroot player*
+			#*setcam setpos 6633.360352 11.579720 3684.950439;setang 6.681584 179.750626 0.000000*
+			*setcamroot player setpos 326.467773 -29.028625 -8.520020;setang -1.241 -172.759 -1.010*
 			What's the key to a happy life?
 		&purpose: 
-			*setcam setpos 6633.360352 11.579720 3684.950439;setang 6.681584 179.750626 0.000000*
+			#*setcam setpos 6633.360352 11.579720 3684.950439;setang 6.681584 179.750626 0.000000*
+			*setcamroot player setpos 326.467773 -29.028625 -8.520020;setang -1.241 -172.759 -1.010*
 			Is there a point to it all?
 		&stickybuns: 
-			*setcam setpos 6633.360352 11.579720 3684.950439;setang 6.681584 179.750626 0.000000*
+			#*setcam setpos 6633.360352 11.579720 3684.950439;setang 6.681584 179.750626 0.000000*
+			*setcamroot player setpos 326.467773 -29.028625 -8.520020;setang -1.241 -172.759 -1.010*
 			Any 'a y'all got a bombass recipe?
 
 #### HOW TO BE HAPPY
 
 happiness:
-	*setcam setpos 5898.999023 149.256104 3823.915039;setang 24.996138 -13.980748 0.000000* #### GROUP
+	#*setcam setpos 5898.999023 149.256104 3823.915039;setang 24.996138 -13.980748 0.000000* #### GROUP
+	*setcamroot narrator setpos 1269.000977 -149.256210 175.915039;setang 24.996 166.019 0.000*
 	*setspeaker podge*
 	Ah yeah we get this one a lot. 
 	&h1
 
 h1:
-	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
+	#*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
+	*setcamroot rungo setpos 192.454590 -38.301826 53.847168;setang -8.385 168.255 0.000*
 	*setspeaker rungo*
 	lesse it was u%h%h%%h%% rob's turn i think.%% you want a beat?
 	&h2
 
 h2:
-	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
+	#*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
+	*setcamroot rob setpos 205.420898 10.956299 38.578369;setang -16.957 -176.863 0.000*
 	*setspeaker rob*
 	Yeah sure.
 	&h3
 
 h3:
-	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
+	#*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
+	*setcamroot rungo setpos 192.454590 -38.301826 53.847168;setang -8.385 168.255 0.000*
 	*setspeaker rungo*
 	cheers
 	&h4
 h4:
-	*setcam setpos 5898.999023 149.256104 3823.915039;setang 24.996138 -13.980748 0.000000* #### GROUP
+	#*setcam setpos 5898.999023 149.256104 3823.915039;setang 24.996138 -13.980748 0.000000* #### GROUP
+	*setcamroot narrator setpos 1269.000977 -149.256210 175.915039;setang 24.996 166.019 0.000*
 	*setspeaker narrator*
 	> Rungo starts a drum solo of some sort.%% It's pretty restrained.
 	&h6
 
 h6:
-	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
+	#*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
+	*setcamroot rob setpos 205.420898 10.956299 38.578369;setang -16.957 -176.863 0.000*
 	*setspeaker rob*
-	Right,% so,%% you can't be happy all the time.%%%% Gotta have the other side
-	of that coin or else it isn't a coin right?%%*setcam setpos 6013.335449 268.352417 3622.178955;setang -8.198992 0.234206 0.000000*%*tweencam 20 setpos 6015.707520 -286.642578 3622.178955;setang -8.198992 0.287446 0.000000* It'd be some sorta 
+	#*setcamroot narrator*
+	Right,% so,%% you can't be happy all the time.%%%% Gotta have the other side #of that coin or else it isn't a coin right?%%*setcam setpos 6013.335449 268.352417 3622.178955;setang -8.198992 0.234206 0.000000*%*tweencam 20 setpos 6015.707520 -286.642578 3622.178955;setang -8.198992 0.287446 0.000000* It'd be some sorta 
+	of that coin or else it isn't a coin right?%%*setcamroot narrator setpos 1154.664551 -268.352539 -25.821045;setang -8.199 -179.766 0.000*%*tweencamoffset 40 setpos 1152.292480 286.642456 -25.821045;setang -8.199 -179.713 0.000* It'd be some sorta 
 	mobius strip upon which any image is indistinguishable from own 
 	reflection,% thus making sadness and happiness identical experiences. 
 	&h7
@@ -170,8 +244,8 @@ h7:
 h8:
 	That don't mean there aren't some general bits that help most people.%%%%
 	You need a spot that you feel safe in,%% you need something to do that 
-	you find meaning in,%% and you need a band,%% people who see your real value.%%% 
-	Last one's the tricky bit.
+	you find meaning in,%% and you need a band,%% people who see your real 
+	value.%%% Last one's the tricky bit.
 	&h9
 
 h9:
@@ -182,12 +256,14 @@ h9:
 	&h10
 
 h10:
-	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
+	#*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
+	*setcamroot rob setpos 205.420898 10.956299 38.578369;setang -16.957 -176.863 0.000*
 	Man this always turns into a lecture don't it? 
 	&h11
 
 h11:
-	*setcam setpos 7041.580566 -320.709656 3703.062744;setang -6.122615 18.176189 0.000000* ###### GEORFF
+	#*setcam setpos 7041.580566 -320.709656 3703.062744;setang -6.122615 18.176189 0.000000* ###### GEORFF
+	*setcamroot georff setpos 166.183105 104.756714 55.062744;setang -6.123 -150.324 0.000*
 	*setspeaker georff*
 	Yeah no worries Rob,%% we'll figure out the perfect spiel for that 
 	question one of these days.
@@ -196,7 +272,8 @@ h11:
 ### HUMANIST EXISTENTIALISM 101
 
 purpose:
-	*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
+	#*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
+	*setcamroot podge setpos 134.280762 -44.185677 87.278564;setang -9.610 163.144 0.000*
 	*setspeaker podge*
 	Ah.%% Yeah,% we get this one every once in a while.%%% I'll give it to 
 	you straight\:%% the only meaning is where you find it.%%% We've all of 
@@ -205,53 +282,61 @@ purpose:
 	&p1
 
 p1:
-	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
+	#*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
+	*setcamroot rungo setpos 192.454590 -38.301826 53.847168;setang -8.385 168.255 0.000*
 	*setspeaker rungo*
 	can take a while.%% be mighty frustratin'.%%% but it's somethin' we 
 	can't tell you.
 	&p2
 
 p2:
-	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
+	#*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
+	*setcamroot rob setpos 205.420898 10.956299 38.578369;setang -16.957 -176.863 0.000*
 	*setspeaker rob*
 	Doesn't have to be something grand or mysterious.% Meanin's 
 	different for everyone.%%% For some folk it's dogs.
 	&p3
 
 p3:
-	*setcam setpos 7041.580566 -320.709656 3703.062744;setang -6.122615 18.176189 0.000000* ###### GEORFF
+	#*setcam setpos 7041.580566 -320.709656 3703.062744;setang -6.122615 18.176189 0.000000* ###### GEORFF
+	*setcamroot georff setpos 166.183105 104.756714 55.062744;setang -6.123 -150.324 0.000*
 	*setspeaker georff*
-	Bless ‘em.%% Cats,% too.%%% Animals are good, man.
+	Bless 'em.%% Cats,% too.%%% Animals are good, man.
 	&p4
 
 p4:
-	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
+	#*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
+	*setcamroot rob setpos 205.420898 10.956299 38.578369;setang -16.957 -176.863 0.000*
 	*setspeaker rob*
 	Now that's a universal truth.
 	&p5
 
 p5:
-	*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
+	#*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
+	*setcamroot podge setpos 134.280762 -44.185677 87.278564;setang -9.610 163.144 0.000*
 	*setspeaker podge*
-	At the end of the day,% you gotta find what brings you joy.%%% It 
-	ain't set in stone either.% Might change from day to day.
+	At the end of the day,% you gotta find what brings you joy.%%% 
+	It ain't set in stone either.% Might change from day to day.
 	&p6
 
 p6:
-	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
+	#*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
+	*setcamroot rungo setpos 192.454590 -38.301826 53.847168;setang -8.385 168.255 0.000*
 	*setspeaker rungo*
 	all I did was play drums for 20 years straight and look at me,%%% 
 	i've ascended as an enlightened being of raw light and warmth
 	&p7
 
 p7:
-	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
+	#*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
+	*setcamroot rob setpos 205.420898 10.956299 38.578369;setang -16.957 -176.863 0.000*
 	*setspeaker rob*
 	It's a good gig.
 	&p8
 
 p8:
-	*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
+	#*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
+	*setcamroot podge setpos 134.280762 -44.185677 87.278564;setang -9.610 163.144 0.000*
 	*setspeaker podge*
 	Yeah,% can't complain.
 	&finale
@@ -279,13 +364,15 @@ p8:
 ### cuisine, like the Bortles say.
 
 stickybuns:
-	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
+	#*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
+	*setcamroot rungo setpos 192.454590 -38.301826 53.847168;setang -8.385 168.255 0.000*
 	*setspeaker rungo*
 	you better believe we do mate
 	&s1
 
 s1:
-	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
+	#*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
+	*setcamroot rob setpos 205.420898 10.956299 38.578369;setang -16.957 -176.863 0.000*
 	*setspeaker rob*
 	Alright,% so,%% this here may not be a recipe you'll see in a 
 	restaurant with Michelin stars,% but that don't matter, cause food 
@@ -293,7 +380,8 @@ s1:
 	&s2
 
 s2:
-	*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
+	#*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
+	*setcamroot podge setpos 134.280762 -44.185677 87.278564;setang -9.610 163.144 0.000*
 	*setspeaker podge*
 	I can't promise you these sticky buns will blow your mind,%% but I 
 	can tell you they mean a whole lot to someone,%%% and they'd like 
@@ -301,7 +389,8 @@ s2:
 	&s3
 
 s3:
-	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
+	#*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
+	*setcamroot rungo setpos 192.454590 -38.301826 53.847168;setang -8.385 168.255 0.000*
 	*setspeaker rungo*
 	alright so first things first you're gonna want to start the evening 
 	before the morning you want these.%% get a 9” by 13” baking pan,% or a 
@@ -310,17 +399,18 @@ s3:
 	&s4
 
 s4:
-	*setcam setpos 7041.580566 -320.709656 3703.062744;setang -6.122615 18.176189 0.000000* ###### GEORFF
+	#*setcam setpos 7041.580566 -320.709656 3703.062744;setang -6.122615 18.176189 0.000000* ###### GEORFF
+	*setcamroot georff setpos 166.183105 104.756714 55.062744;setang -6.123 -150.324 0.000*
 	*setspeaker georff*
 	You'll wanna grease up the inside.%% The classic way's with a pack 
 	of butter, but margarine or cooking spray'll do you fine too.%%%% 
-	Then, take a pack of 18 frozen yeast rolls,% and put ‘em right in,%% 
+	Then, take a pack of 18 frozen yeast rolls,% and put 'em right in,%% 
 	no need to defrost.% 
 	&s4a
 	
 s4a:
-	The original 
-	version used Rhodes brand if you can find 'em,% but pick what you like.
+	The original version used Rhodes brand if you can find 'em,% 
+	but pick what you like.
 	&s4b
 
 s4b:
@@ -336,11 +426,12 @@ s4c:
 	&s5
 
 s5:
-	*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
+	#*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
+	*setcamroot podge setpos 134.280762 -44.185677 87.278564;setang -9.610 163.144 0.000*
 	*setspeaker podge*
 	Next,% take the pudding mix,%% a half cup of chopped pecans,%% 
 	half a cup of brown sugar,%% and half a teaspoon of cinnamon,%% 
-	then mix ‘em all up,% and cover the rolls with the mix.%%% 
+	then mix 'em all up,% and cover the rolls with the mix.%%% 
 	&s5a
 
 s5a:
@@ -350,15 +441,17 @@ s5a:
 	&s6
 
 s6:
-	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
+	#*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
+	*setcamroot rungo setpos 192.454590 -38.301826 53.847168;setang -8.385 168.255 0.000*
 	*setspeaker rungo*
 	you can leave out the pecans if you've got an 
-	allergy or don't like ‘em it's a 
+	allergy or don't like 'em it's a 
 	forgiving recipe really
 	&s7
 
 s7:
-	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
+	#*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
+	*setcamroot rob setpos 205.420898 10.956299 38.578369;setang -16.957 -176.863 0.000*
 	*setspeaker rob*
 	Next thing you do is melt either a half stick or 
 	a full stick of butter,%% or margarine if you prefer,% 
@@ -367,7 +460,8 @@ s7:
 	&s8
 
 s8:
-	*setcam setpos 7041.580566 -320.709656 3703.062744;setang -6.122615 18.176189 0.000000* ###### GEORFF
+	#*setcam setpos 7041.580566 -320.709656 3703.062744;setang -6.122615 18.176189 0.000000* ###### GEORFF
+	*setcamroot georff setpos 166.183105 104.756714 55.062744;setang -6.123 -150.324 0.000*
 	*setspeaker georff*
 	The right answer's the full stick,% by the way.%%% 
 	Not that we'll judge you if you go with half.%% 
@@ -375,7 +469,8 @@ s8:
 	&s9
 
 s9:
-	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
+	#*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
+	*setcamroot rungo setpos 192.454590 -38.301826 53.847168;setang -8.385 168.255 0.000*
 	*setspeaker rungo*
 	so next thing you do is put that pan in a cold oven and 
 	let it sit overnight so the rolls can thaw and deep flavor 
@@ -384,7 +479,8 @@ s9:
 	&s10
 
 s10:
-	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
+	#*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
+	*setcamroot rob setpos 205.420898 10.956299 38.578369;setang -16.957 -176.863 0.000*
 	*setspeaker rob*
 	In the morning,% set the oven to 350 degrees fahrenheit 
 	-% about 176 celsius -%%% and bake the rolls until they're done to 
@@ -398,7 +494,8 @@ s10a:
 	&s11
 
 s11:
-	*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
+	#*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
+	*setcamroot podge setpos 134.280762 -44.185677 87.278564;setang -9.610 163.144 0.000*
 	*setspeaker podge*
 	If you don't know,% try 20 minutes,%% with an extra 
 	five if they don't seem quite done.%%% 
@@ -406,20 +503,23 @@ s11:
 	&s12
 
 s12:
-	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
+	#*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
+	*setcamroot rungo setpos 192.454590 -38.301826 53.847168;setang -8.385 168.255 0.000*
 	*setspeaker rungo*
 	then you just take them out,% pop them on a tray,% 
 	and bob's your uncle
 	&s13
 
 s13:
-	*setcam setpos 7041.580566 -320.709656 3703.062744;setang -6.122615 18.176189 0.000000* ###### GEORFF
+	#*setcam setpos 7041.580566 -320.709656 3703.062744;setang -6.122615 18.176189 0.000000* ###### GEORFF
+	*setcamroot georff setpos 166.183105 104.756714 55.062744;setang -6.123 -150.324 0.000*
 	*setspeaker georff*
 	Bomb-ass sticky buns.
 	&s14
 
 s14:
-	*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
+	#*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
+	*setcamroot podge setpos 134.280762 -44.185677 87.278564;setang -9.610 163.144 0.000*
 	*setspeaker podge*
 	And really,%% is there anything in life better?
 	&finale
@@ -427,26 +527,30 @@ s14:
 <Merge Point>
 
 finale:
-	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
+	#*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
+	*setcamroot rungo setpos 192.454590 -38.301826 53.847168;setang -8.385 168.255 0.000*
 	*setspeaker rungo*
 	so now you got a little more wisdom than you might'a had before,% why 
 	don't you settle down with your mates?
 	&f1
 f1:
-	*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
+	#*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
+	*setcamroot podge setpos 134.280762 -44.185677 87.278564;setang -9.610 163.144 0.000*
 	*setspeaker podge*
 	S'not often we get the chance to perform for a crowd these days.
 	&f2
 
 f2:
-	*setcam setpos 7041.580566 -320.709656 3703.062744;setang -6.122615 18.176189 0.000000* ###### GEORFF
+	#*setcam setpos 7041.580566 -320.709656 3703.062744;setang -6.122615 18.176189 0.000000* ###### GEORFF
+	*setcamroot georff setpos 166.183105 104.756714 55.062744;setang -6.123 -150.324 0.000*
 	*setspeaker georff*
 	Yeah,% kick back and take a load off.%% Time don't pass here the same 
 	as it does outside the Center. 
 	&f3
 
 f3:
-	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
+	#*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
+	*setcamroot rob setpos 205.420898 10.956299 38.578369;setang -16.957 -176.863 0.000*
 	*setspeaker rob*
 	Ay,% Georff. Give us a beat.
 	&f4
@@ -454,29 +558,46 @@ f3:
 f4:
 	*hide*
 	*txout*
-	*setcam setpos 6733.508789 27.589256 3772.041504;setang 2.502278 -1.388836 0.000000*
-	*tweencam 20 setpos 5426.837402 710.684326 3837.783447;setang 3.141158 -21.407070 0.000000*
+	#*setcamroot narrator*
+	#*setcam setpos 6733.508789 27.589256 3772.041504;setang 2.502278 -1.388836 0.000000*
+	#*tweencam 20 setpos 5426.837402 710.684326 3837.783447;setang 3.141158 -21.407070 0.000000*
+	*setcamroot narrator setpos 434.491211 -27.589294 124.041504;setang 2.502 178.611 0.000*
+	*tweencamoffset 20 setpos 1741.162598 -710.684448 189.783447;setang 3.141 158.593 0.000*
 	*bgmplay sound/jazztronauts/music/events/band_outro.mp3 .75 1*
 	*txin*
 	*wait 15*
-	*setcam setpos 6986.885254 277.513092 3696.585938;setang -19.858545 -19.410530 0.000000*
+	#*setcamroot rob*
+	#*setcam setpos 6986.885254 277.513092 3696.585938;setang -19.858545 -19.410530 0.000000*
+	*setcamroot rob setpos 90.060547 -102.240967 48.585938;setang -19.859 130.589 0.000*
 	*wait 4*
-	*setcam setpos 7144.961426 -179.436005 3672.140869;setang -25.235790 -49.278145 0.000000*
+	#*setcamroot georff*
+	#*setcam setpos 7144.961426 -179.436005 3672.140869;setang -25.235790 -49.278145 0.000000*
+	*setcamroot georff setpos 93.042969 -54.291748 24.140869;setang -25.236 142.222 0.000*
 	*wait 4*
-	*setcam setpos 7235.315430 16.865494 3697.975830;setang -17.036835 0.927172 0.000000*
+	#*setcamroot rungo*
+	#*setcam setpos 7235.315430 16.865494 3697.975830;setang -17.036835 0.927172 0.000000*
+	*setcamroot rungo setpos 156.684570 15.134493 49.975830;setang -17.037 -179.073 0.000*
 	*wait 4*
-	*setcam setpos 6944.712402 -385.506989 3728.439209;setang -0.372731 110.308693 0.000000*
+	#*setcamroot narrator*
+	#*setcam setpos 6944.712402 -385.506989 3728.439209;setang -0.372731 110.308693 0.000000*
+	*setcamroot narrator setpos 223.287598 385.506958 80.439209;setang -0.373 -69.691 0.000*
 	*wait 6*
-	*setcam setpos 6065.606934 -19.852177 3753.598877;setang 0.745315 0.581057 0.000000*
-	*tweencam 5 setpos 7153.551758 -972.612427 3753.598877;setang 2.289275 91.142288 0.000000*
+	#*setcam setpos 6065.606934 -19.852177 3753.598877;setang 0.745315 0.581057 0.000000*
+	#*tweencam 5 setpos 7153.551758 -972.612427 3753.598877;setang 2.289275 91.142288 0.000000*
+	*setcamoffset setpos 1102.393066 19.852079 105.598877;setang 0.745 -179.419 0.000*
+	*tweencamoffset 5 setpos 14.448242 972.612427 105.598877;setang 2.289 -88.858 0.000*
 	*wait 4.8*
-	*tweencam 5 setpos 8008.750000 -8.335882 3753.598877;setang 1.330956 179.574219 0.000000*
+	#*tweencam 5 setpos 8008.750000 -8.335882 3753.598877;setang 1.330956 179.574219 0.000000*
+	*tweencamoffset 5 setpos -840.750000 8.335956 105.598877;setang 1.331 -0.426 0.000*
 	*wait 4.8*
-	*tweencam 5 setpos 7188.581543 1199.415405 3775.054443;setang 0.692042 -91.621208 0.000000*
+	#*tweencam 5 setpos 7188.581543 1199.415405 3775.054443;setang 0.692042 -91.621208 0.000000*
+	*tweencamoffset 5 setpos -20.581543 -1199.415405 127.054443;setang 0.692 88.379 0.000*
 	*wait 4.8*
-	*tweencam 5 setpos 5663.127930 403.484772 3778.638916;setang 1.224444 -14.849102 0.000000*
+	#*tweencam 5 setpos 5663.127930 403.484772 3778.638916;setang 1.224444 -14.849102 0.000000*
+	*tweencamoffset 5 setpos 1504.872070 -403.484924 130.638916;setang 1.224 165.151 0.000*
 	*wait 4.8*
-	*setcam setpos 6069.514648 2575.684326 4245.237305;setang 10.434992 -68.541672 0.000000*
+	#*setcam setpos 6069.514648 2575.684326 4245.237305;setang 10.434992 -68.541672 0.000000*
+	*setcamoffset setpos 1098.485352 -2575.684570 597.237305;setang 10.435 111.458 0.000*
 	*wait 3*
 	*setspeaker narrator*
 	*show*
