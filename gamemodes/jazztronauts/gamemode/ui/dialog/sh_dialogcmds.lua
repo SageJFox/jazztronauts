@@ -786,6 +786,33 @@ dialog.RegisterFunc("tweenoffset", function(d, name, time, ...)
 	prop.tweenlen = time
 end )
 
+--same thing, but we want to tween to a new root
+dialog.RegisterFunc("tweenoffsetroot", function(d, name, time, newroot, ...)
+	local prop = FindByName(name)
+	if not IsValid(sceneModels[name]) then return end
+
+	local posang = parsePosAng(...)
+
+	sceneRoots[prop] = FindByName(newroot)
+	local rootpos = vector_origin
+	local rootang = angle_zero
+	local root = sceneRoots[prop]
+	if IsValid(root) then
+		rootpos = root:GetPos()
+		rootang = root:GetAngles()
+	end
+
+	prop.goalpos, prop.goalang = LocalToWorld(posang.pos,posang.ang,rootpos,rootang)
+	prop.startpos = prop:GetPos()
+	prop.goaloffset = posang.pos or prop.offset
+
+	prop.startang = prop:GetAngles()
+	prop.goalrot = posang.ang or prop.rot
+
+	prop.endtime = CurTime() + time
+	prop.tweenlen = time
+end )
+
 dialog.RegisterFunc("setanim", function(d, name, anim, speed, finishIdleAnim)
 	local prop = FindByName(name)
 	if not IsValid(prop) then return end
@@ -962,6 +989,41 @@ end)
 dialog.RegisterFunc("tweencamoffset", function(d, time, ...)
 	local time = tonumber(time)
 	local posang = parsePosAng(...)
+
+	local rootpos = vector_origin
+	local rootang = angle_zero
+	local root = sceneRoots[view]
+	if IsValid(root) then
+		rootpos = root:GetPos()
+		rootang = root:GetAngles()
+	end
+
+	if !posang.pos or !posang.ang then return end
+
+	if view then
+		view.goalpos,view.goalang = LocalToWorld(posang.pos,posang.ang,rootpos,rootang)
+		view.startpos = view.curpos
+		view.goaloffset = posang.pos
+
+		view.startang = view.curang
+		view.goalrot = posang.ang
+
+		view.endtime = CurTime() + time
+		view.tweenlen = time
+	else
+		view = {}
+		view.curpos = posang.pos
+		view.curang = posang.ang
+		WorldToSceneRootCam(true)
+	end
+end)
+
+--same thing, but we want to tween to a new root
+dialog.RegisterFunc("tweencamoffsetroot", function(d, time, newroot, ...)
+	local time = tonumber(time)
+	local posang = parsePosAng(...)
+
+	sceneRoots[view] = FindByName(newroot)
 
 	local rootpos = vector_origin
 	local rootang = angle_zero
