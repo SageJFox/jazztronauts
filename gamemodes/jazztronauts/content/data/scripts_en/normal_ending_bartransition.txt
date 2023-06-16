@@ -5,25 +5,34 @@ PRINT_RATE = 0.7
 AUTO_ADVANCE = 1.5
 
 begin:
-	spawngang()
-	*setposang cat_bar setpos 2.762444 693.325500 32;setang -90 180 0.000000*
-	*setposang cat_piano setpos 48.296669 612.397583 36;setang -90 0 0.000000*
-	*setposang cat_cello setpos 98.372551 608.679138 36;setang -90 0 0.000000*
-	*setposang cat_singer setpos -47.646004 603.924561 36;setang -90 0 0.000000*
+	spawncats()
+	*setlocale narrator scene_bar*
+	#*setroot cat_bar narrator*
+	#*setroot cat_piano narrator*
+	#*setroot cat_cello narrator*
+	#*setroot cat_singer narrator*
+	#*setposang cat_bar setpos 2.762444 693.325500 32;setang -90 180 0.000000*
+	#*setposang cat_piano setpos 48.296669 612.397583 36;setang -90 0 0.000000*
+	#*setposang cat_cello setpos 98.372551 608.679138 36;setang -90 0 0.000000*
+	#*setposang cat_singer setpos -47.646004 603.924561 36;setang -90 0 0.000000*
+	*setroot cat_bar narrator setpos 2.762444 83.325500 0.000000;setang 0.000 -90.000 0.000*
+	*setroot cat_piano narrator setpos 48.296669 2.397583 0.000000;setang 0.000 90.000 0.000*
+	*setroot cat_cello narrator setpos 98.372551 -1.320862 0.000000;setang 0.000 90.000 0.000*
+	*setroot cat_singer narrator cat_singer setpos -47.646004 -6.075439 0.000000;setang 0.000 90.000 0.000*
 	*setspeaker cat_bar*
-	Ah! 100 Shards! Fantastic work, everyone! Now we can begin the 
+	Ah!% 100 Shards!% Fantastic work,% everyone!% Now we can begin the 
 	Festival.
 	&a1
 
 a1:
-	Now, this will require something of a leap of faith. 
+	Now,% this will require something of a leap of faith. 
 	&a2
 ##[Cut to bar surface, glass full of shard goop]
 a2:
-	Drink this. Then we can call the trolley, and proceed to the 
-	Festival. 
+	Drink this.% Then we can call the trolley, and proceed to the 
+	Festival.%%%
 
-	It won't harm you, I assure you. 
+	It won't harm you,% I assure you. 
 	player:
 		&batcountry: 
 			Yo hold up no, I know what that stuff does to the Cellist.
@@ -34,26 +43,26 @@ a2:
 
 batcountry:
 	*setspeaker cat_bar*
-	Oh good heavens, this isn't his! This is specially treated shard
-	goop. It's been processed quite minimally as opposed to the, um,
+	Oh good heavens,% this isn't his!% This is specially treated shard
+	goop.% It's been processed quite minimally as opposed to the,% *slam um,*%
 	decidedly elaborate methods and ingredients he uses to turn it
 	into his drug of choice.
 	&bats2
 
 bats2:	
-	Think of it as more of a potion. This is as close as any of us will
-	ever get to real magic. To reach the Festival, some preparation is 
+	Think of it as more of a potion.% This is as close as any of us will
+	ever get to real magic.% To reach the Festival,% some preparation is 
 	required.
 	player:
 		&slammin: Well, alright then, if you're sure. [Slam that shit]
 
 slammin:
 	*setspeaker cat_bar*
-	Excellent! Bottoms up, everyone. 
+	Excellent!% Bottoms up,% everyone. 
 	&slammin2
 
 slammin2:
-	Ah. Refreshing. 
+	*slam Ah.*%% Refreshing. 
 	&jammin
 
 jammin:
