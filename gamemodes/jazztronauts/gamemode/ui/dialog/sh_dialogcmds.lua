@@ -519,7 +519,8 @@ local function SceneRootToWorld(name, set)
 	if prop.gravity and zSnap > 0 then
 		local tr = util.TraceLine( {
 			start = tab.pos + Vector(0,0,zSnap),
-			endpos = tab.pos - Vector(0,0,zSnap)
+			endpos = tab.pos - Vector(0,0,zSnap),
+			mask = MASK_NPCSOLID_BRUSHONLY
 		} )
 		
 		if tr.Hit then
