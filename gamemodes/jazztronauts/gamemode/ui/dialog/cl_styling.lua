@@ -90,7 +90,11 @@ local CamOffsets = {
 	["models/andy/cats/cat_singer.mdl"] = {pos = Vector(0, 0, 15), offset = Vector(36, 60, 0):GetNormal()* 90},
 	["models/andy/basecat/cat_all.mdl"] = {pos = Vector(0, 15, 0), offset = Vector(-60, 0, -36):GetNormal() * 90},
 	["models/props_c17/oildrum001_explosive.mdl"] = { pos = Vector(0, 0, 40), offset = CatCamOffset },
-	["models/pizza_steve/pizza_steve.mdl"] = { pos = Vector(0, 0, -23), offset = CatCamOffset * 1.1 }
+	["models/pizza_steve/pizza_steve.mdl"] = { pos = Vector(0, 0, -23), offset = CatCamOffset * 1.1 },
+	["models/sunabouzu/band/coolguitar.mdl"] = {pos = Vector(0, 0, 128), offset = Vector(36, 60, 0):GetNormal()* 90},
+	["models/sunabouzu/band/guitar.mdl"] = {pos = Vector(0, 0, 128), offset = Vector(36, 60, 0):GetNormal()* 90},
+	["models/sunabouzu/band/sax.mdl"] = {pos = Vector(-48, 64, 128), offset = Vector(36, 150, 0):GetNormal()* 90},
+	["models/sunabouzu/band/drums.mdl"] = {pos = Vector(-32, 0, 128), offset = Vector(36, 60, 0):GetNormal()* 90}
 }
 
 local DialogFrame

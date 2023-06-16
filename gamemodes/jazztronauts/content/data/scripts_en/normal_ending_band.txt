@@ -32,19 +32,19 @@ begin:
 	#*setcam setpos -7283.202148 -1279.565552 3168.028809;setang 9.796160 -88.578621 0.000000*
 	*setcamroot narrator setpos 192.434448 0.202148 -159.971191;setang 9.796 -178.579 0.000*
 
-	*spawn podge dummy*
+	*spawn podge models/sunabouzu/band/guitar.mdl*
 	*setname podge Podge*
 	*setlocale podge scene_podge*
 
-	*spawn rungo dummy*
+	*spawn rungo models/sunabouzu/band/drums.mdl*
 	*setname rungo Rungo*
 	*setlocale rungo scene_rungo*
 
-	*spawn georff dummy*
+	*spawn georff models/sunabouzu/band/sax.mdl*
 	*setname georff Georff*
 	*setlocale georff scene_georff*
 
-	*spawn rob dummy*
+	*spawn rob models/sunabouzu/band/coolguitar.mdl*
 	*setname rob Rob*
 	*setlocale rob scene_rob*
 
@@ -73,6 +73,7 @@ oops:
 	#*tweencam 10 setpos 5083.206055 1130.038086 3927.410645;setang 1.570549 -30.911079 0.000000*
 	*setcamroot narrator setpos 4887.193359 -2822.043457 437.338379;setang 2.422 148.823 0.000*
 	*tweencamoffset 10 setpos 2084.793945 -1130.038208 279.410645;setang 1.571 149.089 0.000*
+	*remove nirvana*
 	*show*
 	> %.%.%.%a platform floats in the void%.%.%.%%% 
 	you can see figures in the center of it.

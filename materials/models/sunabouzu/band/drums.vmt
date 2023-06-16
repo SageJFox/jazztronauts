@@ -1,6 +1,6 @@
-"LightmappedGeneric"
+"VertexLitGeneric"
 {
-	"$basetexture" "sunabouzu/coolguitar"
+	"$basetexture" "models/sunabouzu/band/drums"
 	"$surfaceprop" "Flesh"
 	"$alphatest" 1
 	"$nocull" 1
