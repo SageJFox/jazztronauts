@@ -44,7 +44,7 @@ a2:
 batcountry:
 	*setspeaker cat_bar*
 	Oh good heavens,% this isn't his!% This is specially treated shard
-	goop.% It's been processed quite minimally as opposed to the,% *slam um,*%
+	goop.% It's been processed quite minimally as opposed to the,%% *slam um,*%
 	decidedly elaborate methods and ingredients he uses to turn it
 	into his drug of choice.
 	&bats2

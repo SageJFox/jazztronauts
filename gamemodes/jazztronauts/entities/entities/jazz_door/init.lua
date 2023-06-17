@@ -6,7 +6,7 @@ AddCSLuaFile("cl_init.lua")
 
 ENT.DoorOpen = Sound("doors/door1_move.wav")
 ENT.DoorClose = Sound("doors/door_wood_close1.wav")
-ENT.DoorLocked = Sound("doors/default_locked.wav")
+ENT.DoorLocked = Sound("krio/door_locked1.wav")
 
 local outputs =
 {

@@ -13,13 +13,6 @@ pride1:
 	*setroot player narrator setpos 0 48 0;setang 0 -90 0.000000*
 	*setspeaker cat_cello*
 
-	#camera shots
-		##Shot 1- bar and player setpos -2917.238037 2928.200439 72.834885;setang 3.407556 58.931564 0.000000
-		##shot 2 - bartender close up setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000
-		##shot3 - bar profile setpos -2672.070801 2965.057861 66.930687;setang 3.939932 176.591919 0.000000
-		##shot4 - bar establish shot setpos -2995.739502 2744.655029 24.768372;setang -8.039047 67.822502 0.000000
-		##shot5 - player shot setpos -2881.998047 3002.636719 71.382820;setang 1.064988 -54.895622 0.000000
-
 	*bgmplay sound/jazztronauts/music/events/bartender_song.mp3 1.0 2.0*
 	*txin*
 	*wait .5*

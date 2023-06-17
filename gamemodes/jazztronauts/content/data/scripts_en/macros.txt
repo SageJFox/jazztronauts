@@ -63,3 +63,9 @@ spawncatcellist() *spawn cat_cello models/andy/cats/cat_cellist.mdl**setnpcid ca
 spawncatsinger() *spawn cat_singer models/andy/cats/cat_singer.mdl**setnpcid cat_singer npc_cat_sing**SINGER_NEUTRAL**setanim cat_singer idle*
 
 spawncats() spawncatcellist()spawncatbartender()spawncatpianist()spawncatsinger()spawnnarrator()
+
+VOIDCAT_VOID setskin cat_void 0
+VOIDCAT_ASH setskin cat_void 1
+
+spawncatvoid() *spawn cat_void models/andy/cats/cat_all.mdl**setnpcid cat_void npc_cat_void**VOIDCAT_VOID**setanim cat_void idle*
+spawncatash() *spawn cat_void models/andy/cats/cat_all.mdl**setnpcid cat_void npc_cat_void**VOIDCAT_ASH**setanim cat_void idle*

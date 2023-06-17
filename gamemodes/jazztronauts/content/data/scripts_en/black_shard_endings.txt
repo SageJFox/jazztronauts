@@ -1,18 +1,6 @@
 begin:
 	*hide*
-	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
-	*setnpcid cat_bar npc_cat_bar*
-
-	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
-	*setnpcid cat_piano npc_cat_piano*
-
-	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
-	*setnpcid cat_cello npc_cat_cello*
-	
-	*spawn cat_singer models/andy/singer/cat_singer.mdl*
-	*setnpcid cat_singer npc_cat_sing*
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*	
+	spawngang()	
 	*spawn cat_void models/andy/basecat/cat_all.mdl*
 	*setnpcid cat_void npc_cat_void*
 	*spawn code_trolley models/matt/jazz_trolley.mdl*
