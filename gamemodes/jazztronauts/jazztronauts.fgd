@@ -148,8 +148,9 @@
 	input MovePlayers(void)  : "Moves players to this entity's origin"
 ]
 
-@SolidClass base(Targetname, Angles) = jazz_trigger_group : "Jazz Group Trigger"
+@SolidClass base(Targetname) = jazz_trigger_group : "Jazz Group Trigger"
 [
+	StartDisabled(boolean) : "Start Disabled" : 0 : "Stay dormant until activated (with the Enable input)."
 	output OnEveryoneInside(void) : "Fires when everybody is within the trigger."
 	output OnEveryoneNotInside(void) : "Fires when no longer everybody is in the trigger"
 
@@ -158,9 +159,13 @@
 
 	output OnPlayerEnter(void) : "Fires when a single player has entered the trigger"
 	output OnPlayerLeave(void) : "Fires when a single player has left the trigger"
+
+	input Enable(void) : "Enable this trigger."
+	input Disable(void) : "Disable this trigger."
+	input Toggle(void) : "Toggles this trigger between enabled and disabled states."
 ]
 
-@SolidClass base(Targetname, Angles) = jazz_trigger_theft : "Jazz Brush Theft Trigger"
+@SolidClass base(Targetname) = jazz_trigger_theft : "Jazz Brush Theft Trigger"
 [
 	output OnInitialBrushStolen(void) : "Fires the first brush within this trigger has been stolen."
 	output OnBrushStolen(void) : "Fires every single time a brush has been stolen."
@@ -170,16 +175,23 @@
 ]
 
 
-@PointClass base(Targetname, Angles) iconsprite("editor/env_shooter.vmt") = jazz_concommand : "Jazz Console Command Executer"
+@PointClass base(Targetname) iconsprite("editor/jazz_concommand.vmt") = jazz_concommand : "Jazz Console Command Executer"
 [
 	Concommand(string)	: "Console Command" : "" : "Command to run on the server."
 	
 	input RunCommand(void)  : "Executes the console command on the server."
 ]
 
-@PointClass base(Targetname, Angles) iconsprite("editor/env_shooter.vmt") = jazz_changelevel : "Jazz Level Changer"
+@PointClass base(Targetname) iconsprite("editor/env_shooter.vmt") = jazz_changelevel : "Jazz Level Changer"
 [
-	level(string)	: "Level Name" : "" : "Which level to change to"
+	level(choices)	: "Switch to" : "" : "Which level to change to (specific name or option)" =
+	[
+		"<hub>" : "Hub map"
+		"<intro>" : "Intro map"
+		"<encounter>" : "Encounter map"
+		"<outro1>" : "Normal Ending map"
+		"<outro2>" : "True Ending map"
+	]
 	
 	input ChangeLevel(void)  : "Changes the current level"
 ]

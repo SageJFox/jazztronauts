@@ -12,7 +12,19 @@ end
 
 
 function ENT:ChangeLevel( activator, caller, data )
-	mapcontrol.Launch(self.Level)
+	if self.Level == "<hub>" then
+		mapcontrol.Launch(mapcontrol.GetHubMap())
+	elseif self.Level == "<encounter>" then
+		mapcontrol.Launch(mapcontrol.GetEncounterMap())
+	elseif self.Level == "<intro>" then
+		mapcontrol.Launch(mapcontrol.GetIntroMap())
+	elseif self.Level == "<outro1>" then
+		mapcontrol.Launch(mapcontrol.GetEndMaps()[1])
+	elseif self.Level == "<outro2>" then
+		mapcontrol.Launch(mapcontrol.GetEndMaps()[2])
+	else
+		mapcontrol.Launch(self.Level)
+	end
 end
 
 function ENT:AcceptInput( name, activator, caller, data )

@@ -1,5 +1,6 @@
 ENT.Type = "brush"
 ENT.Base = "base_brush"
+ENT.Active = true
 
 local outputs =
 {
@@ -27,9 +28,25 @@ function ENT:KeyValue(key, value)
 	if table.HasValue(outputs, key) then
 		self:StoreOutput(key, value)
 	end
+
+	if value == nil then return end
+
+	if key == "StartDisabled" then
+		self.Active = not tobool(value)
+	end
+end
+
+function ENT:AcceptInput( name, activator, caller, data )
+
+	if name == "Disable" then self.Active = false return true end
+	if name == "Enable" then self.Active = true return true end
+	if name == "Toggle" then self.Active = not self.Active return true end
+
+	return false
 end
 
 function ENT:CheckAllIn()
+	if not self.Active then return end
 	local allIn = player.GetCount() == table.Count(self.TouchingEntities)
 
 	-- Filled vs. not quite-filled
@@ -53,6 +70,7 @@ function ENT:CheckAllIn()
 end
 
 function ENT:StartTouch(ent)
+	if not self.Active then return end
 	if not ent:IsPlayer() then return end
 	local idx = ent:EntIndex()
 
@@ -62,6 +80,7 @@ function ENT:StartTouch(ent)
 end
 
 function ENT:EndTouch(ent)
+	if not self.Active then return end
 	if not ent:IsPlayer() then return end
 	local idx = ent:EntIndex()
 
