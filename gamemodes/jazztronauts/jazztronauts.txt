@@ -13,7 +13,7 @@
 		{
 			"name"		"jazz_wait_enable"
 			"text"		"#jazz.gamemode.wait"
-			"help"		"#jazz.gamemode.wait.help"
+			"help"		"Whether or not to enable the 'waiting for players' whiteboard."
 			"type"		"CheckBox"
 			"default"	"1"
 		}
@@ -22,7 +22,7 @@
 		{
 			"name"		"jazz_include_localaddon"
 			"text"		"#jazz.gamemode.localaddons"
-			"help"		"#jazz.gamemode.localaddons.help"
+			"help"		"If enabled, maps from locally installed workshop addons will be included when rolling for a map."
 			"type"		"CheckBox"
 			"default"	"0"
 		}
