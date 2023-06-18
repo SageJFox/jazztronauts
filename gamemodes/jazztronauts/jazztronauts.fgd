@@ -124,7 +124,7 @@
 
 @PointClass base(Targetname, Angles) studioprop("models/props_combine/combine_interface001.mdl") = jazz_bus_selector : "Custom Workshop ID Loader" []
 
-@PointClass base(Targetname, Angles) iconsprite("editor/env_shooter.vmt") = jazz_hub_propleaderboard : "Prop Leaderboard"
+@PointClass base(Targetname, Angles) iconsprite("editor/jazz_hub_propleaderboard.vmt") = jazz_hub_propleaderboard : "Prop Leaderboard"
 [
 	leaderboardid(choices) : "Leaderboard Type" : "1" =
     [
@@ -221,7 +221,7 @@
 	output OnApproached(void) : "Fires when a player enters the activation range, showing our podiums"
 ]
 
-@PointClass base(Targetname) iconsprite("editor/env_shooter.vmt") = jazz_global : "An entity to control a global game state of jazztronauts."
+@PointClass base(Targetname) iconsprite("editor/jazz_global.vmt") = jazz_global : "An entity to control a global game state of jazztronauts."
 [
 	globalstate(choices) : "Global State to Set" : : "The state to set on or off." =
 	[
