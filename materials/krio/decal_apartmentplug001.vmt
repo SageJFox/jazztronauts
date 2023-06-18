@@ -5,7 +5,7 @@
 	// Original shader: DecalBaseTimesLightmapAlphaBlend
 	"$translucent" 1
 	"$basetexture" "krio/decal_apartmentplug001"
-	"$decalsecondpass" "true"
+	"$decalsecondpass" 1
 	"$decal" 1
 	"$decalscale" 0.50
 }
