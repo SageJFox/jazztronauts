@@ -139,10 +139,16 @@ end
 local sceneModels = {}
 -- parenting doesn't wanna work nicely, so this list just keeps track of what's supposed to move with what
 local sceneRoots = {}
+-- rather than have to set the scene root for every model spawned, assume we just wanna use this entity
+local defaultRoot = nil
 -- locales are points defined in the hub map. This list keeps track of the ones we're using in the current scene.
 local sceneLocales = {}
 -- z snap is how far up or down a character will be adjusted on the Z in order to appear standing on the ground. 0 or less to disable
 local zSnap = 40
+
+dialog.RegisterFunc("sceneroot", function(d, name)
+	defaultRoot = sceneModels[name] or nil
+end)
 
 dialog.RegisterFunc("zsnap", function(d, amount)
 	zSnap = math.max(0, tonumber(amount))
@@ -179,6 +185,8 @@ function CreatePlayerProxy()
 		return LocalPlayer():GetName()
 	end
 
+	sceneRoots[ent] = defaultRoot
+
 	print("Creating player proxy")
 	if pac then
 		local actual = ent:Get()
@@ -208,7 +216,7 @@ local function removeSceneEntity(name)
 		sceneModels[name] = nil
 	end
 end
-dialog.RegisterFunc("spawn", function(d, name, mdl)
+dialog.RegisterFunc("spawn", function(d, name, mdl, root)
 	local isdummy = mdl == "dummy"
 	if isdummy then mdl = "models/props_interiors/vendingmachinesoda01a.mdl" end
 
@@ -220,6 +228,7 @@ dialog.RegisterFunc("spawn", function(d, name, mdl)
 	sceneModels[name]:SetNoDraw(isdummy)
 	sceneModels[name].IsDummy = isdummy
 	sceneModels[name].gravity = true --gravity is enabled by default, prop will attempt to move to ground by +/-zSnap units
+	sceneRoots[sceneModels[name]] = sceneModels[root] or defaultRoot
 end)
 
 dialog.RegisterFunc("remove", function(d, name)
@@ -1119,6 +1128,7 @@ function ResetScene()
 
 	sceneModels = {}
 	sceneRoots = {}
+	defaultRoot = nil
 	sceneLocales = {}
 end
 
