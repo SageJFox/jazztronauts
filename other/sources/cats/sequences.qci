@@ -1,0 +1,195 @@
+$Sequence "idle" {
+	"cat_anims\idle.smd"
+	activity "ACT_IDLE" -1
+	fps 24
+	loop
+}
+
+$Sequence "gesture_sweep" {
+	"cat_anims\gesture_sweep.smd"
+	snap
+	fps 24
+}
+
+$Sequence "gesture_dryhands" {
+	"cat_anims\gesture_dryhands.smd"
+	snap
+	fps 24
+}
+
+$Sequence "gesture_washing" {
+	"cat_anims\gesture_washing.smd"
+	fadein 0.1
+	fadeout 0.1
+	fps 24
+	loop
+}
+
+$Sequence "gesture_jab" {
+	"cat_anims\gesture_jab.smd"
+	snap
+	fps 24
+}
+
+$Sequence "gesture_foldarms" {
+	"cat_anims\gesture_foldarms.smd"
+	snap
+	fps 30
+}
+
+$Sequence "pose_elegant" {
+	"cat_anims\pose_elegant.smd"
+	fps 24
+	loop
+}
+
+$Sequence "pose_hangingout" {
+	"cat_anims\pose_hangingout.smd"
+	fps 24
+	loop
+}
+
+$Sequence "pose_leanwallback" {
+	"cat_anims\pose_leanwallback.smd"
+	fps 24
+	loop
+}
+
+$Sequence "pose_passedout" {
+	"cat_anims\pose_passedout.smd"
+	fps 24
+	loop
+}
+
+$Sequence "pose_relax" {
+	"cat_anims\pose_relax.smd"
+	fps 24
+	loop
+}
+
+$Sequence "gesture_agree" {
+	"cat_anims\gesture_agree.smd"
+	fps 24
+}
+
+$Sequence "gesture_disagree" {
+	"cat_anims\gesture_disagree.smd"
+	fps 24
+}
+
+$Sequence "gesture_laugh" {
+	"cat_anims\gesture_laugh.smd"
+	fps 24
+}
+
+$Sequence "gesture_sigh" {
+	"cat_anims\gesture_sigh.smd"
+	fps 24
+}
+
+$Sequence "gesture_anger" {
+	"cat_anims\gesture_anger.smd"
+	fps 24
+}
+
+$Sequence "gesture_clap" {
+	"cat_anims\gesture_clap.smd"
+	fps 24
+}
+
+$Sequence "gesture_confused" {
+	"cat_anims\gesture_confused.smd"
+	fps 24
+}
+
+$Sequence "gesture_embarass" {
+	"cat_anims\gesture_embarass.smd"
+	fps 24
+}
+
+$Sequence "gesture_exchange" {
+	"cat_anims\gesture_exchange.smd"
+	fps 24
+}
+
+$Sequence "gesture_facepalm" {
+	"cat_anims\gesture_facepalm.smd"
+	fps 24
+}
+
+$Sequence "gesture_shock" {
+	"cat_anims\gesture_shock.smd"
+	fps 24
+}
+
+$Sequence "bartender_search" {
+	"cat_anims\bartender_search.smd"
+	fps 24
+}
+
+$Sequence "cellist_bendgesture" {
+	"cat_anims\cellist_bendgesture.smd"
+	fps 24
+}
+
+$Sequence "singer_crawl" {
+	"cat_anims\singer_crawl.smd"
+	fps 24
+}
+
+$Sequence "singer_reveal" {
+	"cat_anims\singer_reveal.smd"
+	fps 24
+}
+
+$Sequence "singer_showshard" {
+	"cat_anims\singer_showshard.smd"
+	fps 24
+}
+
+$Sequence "singer_survey" {
+	"cat_anims\singer_survey.smd"
+	fps 24
+}
+
+$Sequence "singer_whistle" {
+	"cat_anims\singer_whistle.smd"
+	fps 24
+}
+
+$Sequence "gesture_shrug" {
+	"cat_anims\gesture_shrug.smd"
+	fps 24
+}
+
+$Sequence "pose_sit01" {
+	"cat_anims\pose_sit01.smd"
+	fps 24
+	loop
+}
+
+$Sequence "pose_sit02" {
+	"cat_anims\pose_sit02.smd"
+	fps 24
+	loop
+}
+
+$Sequence "pianist_drunk_idle" {
+	"cat_anims\pianist_drunk_idle.smd"
+	fps 24
+}
+
+$Sequence "pianist_drunk_to_player" {
+	"cat_anims\pianist_drunk_to_player.smd"
+	fps 24
+}
+
+$Sequence "pianist_drunk_to_idle" {
+	"cat_anims\pianist_drunk_to_idle.smd"
+	fps 24
+}
+
+$Sequence "pianist_drunk_slam" {
+	"cat_anims\pianist_drunk_slam.smd"
+	fps 24
+}
