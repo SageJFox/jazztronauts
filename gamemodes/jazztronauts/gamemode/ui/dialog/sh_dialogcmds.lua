@@ -143,7 +143,7 @@ local sceneRoots = {}
 local defaultRoot = nil
 -- locales are points defined in the hub map. This list keeps track of the ones we're using in the current scene.
 local sceneLocales = {}
--- z snap is how far up or down a character will be adjusted on the Z in order to appear standing on the ground. 0 or less to disable
+-- z snap is how far up or down a character will be adjusted on the Z axis in order to appear standing on the ground. 0 or less to disable
 local zSnap = 40
 
 dialog.RegisterFunc("sceneroot", function(d, name)
@@ -228,7 +228,11 @@ dialog.RegisterFunc("spawn", function(d, name, mdl, root)
 	sceneModels[name]:SetNoDraw(isdummy)
 	sceneModels[name].IsDummy = isdummy
 	sceneModels[name].gravity = true --gravity is enabled by default, prop will attempt to move to ground by +/-zSnap units
-	sceneRoots[sceneModels[name]] = sceneModels[root] or defaultRoot
+	if not (root == nil) then --funnily enough, this actually lets us set the root as nil (i.e. "nil")
+		sceneRoots[sceneModels[name]] = sceneModels[root]
+	else
+		sceneRoots[sceneModels[name]] = defaultRoot
+	end
 end)
 
 dialog.RegisterFunc("remove", function(d, name)
@@ -529,7 +533,7 @@ local function SceneRootToWorld(name, set)
 		local tr = util.TraceLine( {
 			start = tab.pos + Vector(0,0,zSnap),
 			endpos = tab.pos - Vector(0,0,zSnap),
-			mask = MASK_NPCSOLID_BRUSHONLY
+			mask = MASK_NPCSOLID
 		} )
 		
 		if tr.Hit then

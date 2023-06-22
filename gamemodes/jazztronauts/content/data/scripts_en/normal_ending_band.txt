@@ -2,13 +2,12 @@ CMD_DELAY = 0
 
 begin:
 	#*zsnap 0*
-	spawncats()
+	spawncatsrooted(scene_falling)
 	*setgravity cat_bar false*
 	*setgravity cat_cello false*
 	*setgravity cat_piano false*
 	*setgravity cat_singer false*
 	*setgravity player false*
-	*setlocale narrator scene_falling*
 	#*setroot cat_bar narrator*
 	#*setroot cat_cello narrator*
 	#*setroot cat_piano narrator*
@@ -22,29 +21,29 @@ begin:
 	*CELLO_HIGH*
 	*PIANO_SMIRK*
 	*SINGER_HAPPY*
-	*setroot cat_bar narrator setpos -146.000000 77.000000 -8.000000;setang 0.000 0.000 0.000*
-	*setroot cat_cello narrator setpos -146.000000 -115.000000 16.000000;setang 0.000 0.000 0.000*
-	*setroot cat_piano narrator setpos -146.000000 141.000000 16.000000;setang 0.000 0.000 0.000*
-	*setroot cat_singer narrator setpos -146.000000 -51.000000 -8.000000;setang 0.000 0.000 0.000*
+	*setoffset cat_bar setpos -146.000000 77.000000 -8.000000;setang 0.000 0.000 0.000*
+	*setoffset cat_cello setpos -146.000000 -115.000000 16.000000;setang 0.000 0.000 0.000*
+	*setoffset cat_piano setpos -146.000000 141.000000 16.000000;setang 0.000 0.000 0.000*
+	*setoffset cat_singer setpos -146.000000 -51.000000 -8.000000;setang 0.000 0.000 0.000*
 	#*setposang player setpos -7294.063965 -1565.545898 3584;setang 0.612256 90.094734 0.000000*
-	*setroot player narrator setpos -93.545898 11.063965 256.000000;setang 0.612 0.095 0.000*
+	*setoffset player setpos -93.545898 11.063965 256.000000;setang 0.612 0.095 0.000*
 	#*setcamroot narrator*
 	#*setcam setpos -7283.202148 -1279.565552 3168.028809;setang 9.796160 -88.578621 0.000000*
 	*setcamroot narrator setpos 192.434448 0.202148 -159.971191;setang 9.796 -178.579 0.000*
 
-	*spawn podge models/sunabouzu/band/guitar.mdl*
+	*spawn podge models/sunabouzu/band/guitar.mdl nil*
 	*setname podge Podge*
 	*setlocale podge scene_podge*
 
-	*spawn rungo models/sunabouzu/band/drums.mdl*
+	*spawn rungo models/sunabouzu/band/drums.mdl nil*
 	*setname rungo Rungo*
 	*setlocale rungo scene_rungo*
 
-	*spawn georff models/sunabouzu/band/sax.mdl*
+	*spawn georff models/sunabouzu/band/sax.mdl nil*
 	*setname georff Georff*
 	*setlocale georff scene_georff*
 
-	*spawn rob models/sunabouzu/band/coolguitar.mdl*
+	*spawn rob models/sunabouzu/band/coolguitar.mdl nil*
 	*setname rob Rob*
 	*setlocale rob scene_rob*
 

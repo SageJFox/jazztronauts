@@ -6,19 +6,7 @@ begin:
 ###and Cellist, Bartender sat in front of them, closest to player
 
 	*txout*
-	spawncats()
-	#Being the first converted script, we'll be leaving lots of notes here.
-	#The narrator is an excellent candidate for being a scene root, since it's already invisible.
-
-	#setlocale tells the script what "landmark" entity we want to use as the location for this scene. Multiple can be used, if needed.
-	*setlocale narrator scene_pond*
-
-	#setroot attaches one prop to another. In this case, we're attaching our player and the cats to the narrator, which acts as the root of our scene
-	*setroot cat_bar narrator*
-	*setroot cat_cello narrator*
-	*setroot cat_piano narrator*
-	*setroot cat_singer narrator*
-	*setroot player narrator*
+	spawncatsrooted(scene_pond)
 
 	#We'll be leaving the original values in as comments, so any adjustments that might need to be made in the future can be worked with more easily.
 	#*setposang cat_singer setpos -2094.381348 519.835144 -64;setang -90 90 0.000000*
