@@ -68,7 +68,7 @@ function ENT:SpawnShardCount()
 		table.insert(self.CandleEnts, candle)
 
 		hook.Add("JazzNoDrawInScene",candle,function()
-			if LocalPlayer().InScene and not dialog.GetParam("RENDER_DYNAMICENTS") then
+			if (LocalPlayer().InScene and not (dialog.GetParam("RENDER_DYNAMICENTS") == "true")) or dialog.GetParam("RENDER_DYNAMICENTS") == "false" then
 				candle:SetNoDraw(true)
 			else
 				candle:SetNoDraw(false)
@@ -81,7 +81,7 @@ function ENT:SpawnShardCount()
 			table.insert(self.CandleFX, candlefx)
 
 			hook.Add("JazzNoDrawInScene",candlefx,function()
-				if LocalPlayer().InScene and not dialog.GetParam("RENDER_DYNAMICENTS") then
+				if (LocalPlayer().InScene and not (dialog.GetParam("RENDER_DYNAMICENTS") == "true")) or dialog.GetParam("RENDER_DYNAMICENTS") == "false" then
 					candlefx:SetShouldDraw(false)
 				else
 					candlefx:SetShouldDraw(true)
@@ -117,7 +117,7 @@ end
 
 function ENT:Draw()
 
-	if LocalPlayer().InScene and not dialog.GetParam("RENDER_DYNAMICENTS") then return end
+	if (LocalPlayer().InScene and not (dialog.GetParam("RENDER_DYNAMICENTS") == "true")) or dialog.GetParam("RENDER_DYNAMICENTS") == "false" then return end
 
 	self:DrawModel()
 

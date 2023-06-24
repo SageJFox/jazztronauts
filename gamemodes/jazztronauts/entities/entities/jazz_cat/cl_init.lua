@@ -163,9 +163,7 @@ end
 function ENT:Draw()
 	if not self.GetNPCID then return end
 
-	if LocalPlayer().InScene and not dialog.GetParam("RENDER_REALCATS") then self:DrawShadow(false) return end
-
-	if dialog.GetParam("RENDER_REALCATS") == "false" then self:DrawShadow(false) return end
+	if (LocalPlayer().InScene and not (dialog.GetParam("RENDER_REALCATS") == "true")) or dialog.GetParam("RENDER_REALCATS") == "false" then self:DrawShadow(false) return end
 
 	self:DrawShadow(true)
 

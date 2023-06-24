@@ -67,7 +67,15 @@ function ENT:Initialize()
 		end )
 
 	else
-
+		local prop = self:GetProp()
+		hook.Add("JazzNoDrawInScene",prop,function()
+			
+			if (LocalPlayer().InScene and not (dialog.GetParam("RENDER_DYNAMICENTS") == "true")) or dialog.GetParam("RENDER_DYNAMICENTS") == "false" then
+				prop:SetNoDraw(true)
+			else
+				prop:SetNoDraw(false)
+			end
+		end)
 		self.screen = worldcanvas.New( 400, 300, self:GetPos(), self:GetAngles() )
 
 	end
@@ -168,8 +176,6 @@ if SERVER then return end
 local eclipseMat = Material("sprites/jazzeclipse")
 
 function ENT:Draw()
-	if LocalPlayer().InScene and not dialog.GetParam("RENDER_DYNAMICENTS") then return end
-	self:DrawModel()
 end
 
 function ENT:DrawScreen()
@@ -229,7 +235,7 @@ function ENT:DrawShard()
 end
 
 function ENT:DrawTranslucent()
-	if LocalPlayer().InScene and not dialog.GetParam("RENDER_DYNAMICENTS") then return end
+	if (LocalPlayer().InScene and not (dialog.GetParam("RENDER_DYNAMICENTS") == "true")) or dialog.GetParam("RENDER_DYNAMICENTS") == "false" then return end
 	local prop = self:GetProp()
 	if not IsValid(prop) then return end
 	--self:DrawModel()
