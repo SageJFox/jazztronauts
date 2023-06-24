@@ -430,6 +430,7 @@ end
 local function SceneRootToWorldCam(set)
 	local set = set or false
 	view = view or {}
+	hook.Run("JazzNoDrawInScene")
 	
 	--our offset from our sceneroot is a vector, rotated by the sceneroot's angle
 	local root = sceneRoots[view]
@@ -470,6 +471,7 @@ end
 local function WorldToSceneRootCam(set)
 	local set = set or false
 	local view = view or {}
+	hook.Run("JazzNoDrawInScene")
 
 	--our offset from our sceneroot is a vector, rotated by the sceneroot's angle
 	local root = sceneRoots[view]
@@ -533,6 +535,13 @@ local function SceneRootToWorld(name, set)
 		local tr = util.TraceLine( {
 			start = tab.pos + Vector(0,0,zSnap),
 			endpos = tab.pos - Vector(0,0,zSnap),
+			--using a function here is expensive let's gooo
+			filter = function(ent)
+				if ent:IsPlayer() then return false end
+				if ent:GetClass() == "jazz_cat" then return false end
+				if ent:GetClass() == "jazz_door_eclipse" then return false end
+				if ent:GetClass() == "jazz_shard_podium" then return false end
+			end,
 			mask = MASK_NPCSOLID
 		} )
 		
@@ -1196,6 +1205,9 @@ local function getTweenValues(obj)
 end
 
 hook.Add("CalcView", "JazzDialogView", function(ply, origin, angles, fov, znear, zfar)
+	
+	hook.Run("JazzNoDrawInScene") --big ol' todo: find somewhere else to run this for checking if we're out of a scene
+
 	if not viewOverwritten() then 
 		ply.InScene = false
 		return 

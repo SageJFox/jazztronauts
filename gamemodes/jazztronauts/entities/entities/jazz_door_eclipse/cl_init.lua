@@ -24,6 +24,7 @@ ENT.HumSoundPath = "jazz_blackshard_door"
 ENT.CandleModel = Model("models/sunabouzu/gameplay_candle.mdl")
 ENT.CandleRadiusX = 75
 ENT.CandleRadiusY = 50
+ENT.CandleEnts = {}
 
 function ENT:Initialize()
 	self.MarkerName = "bad_boy" .. tostring(self)
@@ -63,13 +64,21 @@ function ENT:SpawnShardCount()
 		candle:SetPos(self:GetPos() + Vector(math.cos(ang) * self.CandleRadiusX, math.sin(ang) * self.CandleRadiusY, -9))
 
 		table.insert(self.CandleEnts, candle)
+
+		hook.Add("JazzNoDrawInScene",candle,function()
+			if LocalPlayer().InScene and not dialog.GetParam("RENDER_DYNAMICENTS") then
+				candle:SetNoDraw(true)
+			else
+				candle:SetNoDraw(false)
+			end
+		end)
 		
 		if shardcount > 0 then
 			shardcount = shardcount - 1
 			ParticleEffect("jazzCandle", candle:GetPos() + Vector(0, 0, 12), candle:GetAngles(), candle:Get() )
+				end
 		end
 	end
-end
 
 function ENT:UpdateWorldMarker()
 	local dest = self:GetDestination()
@@ -96,5 +105,9 @@ function ENT:RenderCountMarker(scrpos, visible, pos)
 end
 
 function ENT:Draw()
+
+	if LocalPlayer().InScene and not dialog.GetParam("RENDER_DYNAMICENTS") then return end
+
 	self:DrawModel()
+
 end

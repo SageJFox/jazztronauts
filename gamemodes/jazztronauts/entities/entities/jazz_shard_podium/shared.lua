@@ -163,10 +163,13 @@ function ENT:OnRemove()
 
 end
 
+if SERVER then return end
+
 local eclipseMat = Material("sprites/jazzeclipse")
 
 function ENT:Draw()
-
+	if LocalPlayer().InScene and not dialog.GetParam("RENDER_DYNAMICENTS") then return end
+	self:DrawModel()
 end
 
 function ENT:DrawScreen()
@@ -226,7 +229,7 @@ function ENT:DrawShard()
 end
 
 function ENT:DrawTranslucent()
-
+	if LocalPlayer().InScene and not dialog.GetParam("RENDER_DYNAMICENTS") then return end
 	local prop = self:GetProp()
 	if not IsValid(prop) then return end
 	--self:DrawModel()
