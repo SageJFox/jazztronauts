@@ -1196,7 +1196,12 @@ local function getTweenValues(obj)
 end
 
 hook.Add("CalcView", "JazzDialogView", function(ply, origin, angles, fov, znear, zfar)
-	if not viewOverwritten() then return end
+	if not viewOverwritten() then 
+		ply.InScene = false
+		return 
+	end
+
+	ply.InScene = true
 
 	-- I don't feel like re-simulating screen shake/view punch
 	-- So just copy the difference between what would've been the player view and their actual eye pos

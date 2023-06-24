@@ -162,6 +162,9 @@ end
 
 function ENT:Draw()
 	if not self.GetNPCID then return end
+
+	if LocalPlayer().InScene and not dialog.GetParam("RENDER_REALCATS") then return end
+
 	if self.NoFollowPlayer then
 		self:DrawModel()
 	else
