@@ -49,7 +49,7 @@ begin:
 			I'm more interested in that huge machine across from it.%
 			Can you tell me more about it?
 		&resp3a:
-			Fine, thanks. Is it ok if I just unwind and reflect by myself? (Exit)
+			Fine, thanks. Is it ok if I just unwind and reflect by myself? *c 0*(Exit)*c*
 
 ###### Branch 1
 resp1a:

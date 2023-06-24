@@ -81,7 +81,7 @@ a4:
 			Do I have to hum while I breathe because I don't have that 
 			kind of breath control.
 		&a5: Sure.
-		&leave: Uh, I'll...pass. Have fun though. (exit)
+		&leave: Uh, I'll...pass. Have fun though. *c 0*(exit)*c*
 
 ###EARLY EXIT
 
@@ -111,7 +111,7 @@ dingus2:
 	%.%.%.%It's not necessary,%% no.%%%*BAR_BLINK* Neither are threats of violence,% Pianist.
 	player:
 		&a5: Sure.
-		&leave: Uh,% I'll%.%.%.%%pass.%%% Have fun though. (exit)
+		&leave: Uh,% I'll%.%.%.%%pass.%%% Have fun though. *c 0*(exit)*c*
 
 
 ###MAIN THROUGHLINE
