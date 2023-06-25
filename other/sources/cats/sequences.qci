@@ -7,13 +7,13 @@ $Sequence "idle" {
 
 $Sequence "gesture_sweep" {
 	"cat_anims\gesture_sweep.smd"
-	snap
+	//snap
 	fps 24
 }
 
 $Sequence "gesture_dryhands" {
 	"cat_anims\gesture_dryhands.smd"
-	snap
+	//snap
 	fps 24
 }
 
@@ -27,13 +27,13 @@ $Sequence "gesture_washing" {
 
 $Sequence "gesture_jab" {
 	"cat_anims\gesture_jab.smd"
-	snap
+	//snap
 	fps 24
 }
 
 $Sequence "gesture_foldarms" {
 	"cat_anims\gesture_foldarms.smd"
-	snap
+	//snap
 	fps 30
 }
 
