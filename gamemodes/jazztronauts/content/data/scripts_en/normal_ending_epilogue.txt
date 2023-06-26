@@ -12,11 +12,13 @@ begin:
 	#*setposang cat_singer setpos -47.646004 603.924561 36;setang -90 0 0.000000*
 	#*setposang player setpos -95.336090 612.937744 36;setang 8.394650 88.524963 0.000000*
 	#note: Moving cats to floor to let zsnap take care of putting them in their seats
-	*setoffset cat_bar setpos 2.762444 83.325500 0;setang 0.000 -90.000 0.000*
-	*setoffset cat_piano setpos 48.296669 2.397583 0;setang 0.000 90.000 0.000*
-	*setoffset cat_cello setpos 98.372551 -1.320862 0;setang 0.000 90.000 0.000*
-	*setoffset cat_singer setpos -47.646004 -6.075439 0;setang 0.000 90.000 0.000*
-	*setoffset player setpos -95.336090 2.937744 0;setang 8.395 88.525 0.000*
+	*setoffset cat_bar setpos -83.325500 2.762445 0;setang 0.000 0.000 0.000*
+	*setoffset cat_piano setpos -2.397583 48.296669 0;setang 0.000 180.000 0.000*
+	*setoffset cat_cello setpos 1.320862 98.372551 0;setang 0.000 180.000 0.000*
+	*setoffset cat_singer setpos 6.075439 -47.646004 0;setang 0.000 180.000 0.000*
+	*setoffset player setpos -2.937744 -95.336090 0;setang 8.395 178.525 0.000*
+	*setcamroot cat_bar setpos 169.750977 3.319378 35.019852;setang 0.568 179.705 0.000*
+
 	*setanim player sit*
 	*setspeaker cat_bar*
 	*txin*
@@ -67,7 +69,7 @@ a4:
 	*setcamroot cat_bar setpos 269.750977 3.319378 35.019852;setang 0.568 179.705 0.000*
 	*setspeaker cat_bar*
 	*setanim cat_bar gesture_sweep 1 idle*
-	To reach the Center, you must discard all earthly %- or Voidly -%%
+	To reach the Center, you must discard all earthly% – or Voidly – %%
 	attachments.%%%*setanim cat_bar gesture_jab 1 idle* Including your attachments to yourself,%% 
 	which is what the shard juice is for. 
 	&a5

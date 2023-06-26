@@ -7,18 +7,14 @@ RENDER_REALCATS = false
 
 begin:
 	spawncatsrooted(scene_bar)
-	#*setroot cat_bar narrator*
-	#*setroot cat_piano narrator*
-	#*setroot cat_cello narrator*
-	#*setroot cat_singer narrator*
 	#*setposang cat_bar setpos 2.762444 693.325500 32;setang -90 180 0.000000*
 	#*setposang cat_piano setpos 48.296669 612.397583 36;setang -90 0 0.000000*
 	#*setposang cat_cello setpos 98.372551 608.679138 36;setang -90 0 0.000000*
 	#*setposang cat_singer setpos -47.646004 603.924561 36;setang -90 0 0.000000*
-	*setoffset cat_bar setpos 2.762444 83.325500 0.000000;setang 0.000 -90.000 0.000*
-	*setoffset cat_piano setpos 48.296669 2.397583 0.000000;setang 0.000 90.000 0.000*
-	*setoffset cat_cello setpos 98.372551 -1.320862 0.000000;setang 0.000 90.000 0.000*
-	*setoffset cat_singer cat_singer setpos -47.646004 -6.075439 0.000000;setang 0.000 90.000 0.000*
+	*setoffset cat_bar setpos -83.325500 2.762445 32.000000;setang 0.000 0.000 0.000*
+	*setoffset cat_piano setpos -2.397583 48.296669 36.000000;setang 0.000 180.000 0.000*
+	*setoffset cat_cello setpos 1.320862 98.372551 36.000000;setang 0.000 180.000 0.000*
+	*setoffset cat_singer setpos 6.075439 -47.646004 36.000000;setang 0.000 180.000 0.000*
 	*setspeaker cat_bar*
 	Ah!% 100 Shards!% Fantastic work,% everyone!% Now we can begin the 
 	Festival.
