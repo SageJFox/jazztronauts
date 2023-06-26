@@ -133,7 +133,7 @@ begin4:
     condition:
     &itsthattime:
         local d \= date("\*t")
-        return d.hour \=\=4 and d.min \=\= 20
+        return (d.hour \=\= 4 or d.hour \=\= 16) and d.min \=\= 20
     &cello_trueending:
         local s \= state("ending")
         return s \=\="2"
@@ -520,7 +520,7 @@ itsthattime:
     %%%
     woah you're never gonna believe what time it is% man%%%
     oh god%%
-    it's *c 0 155 0*4\:20*c* man%%%
+    it's *c 420COLOR*4\:20*c* man%%%
     ho   ho   ho %% aughhhhh
     &itsthattime2
 itsthattime2:
@@ -528,23 +528,23 @@ itsthattime2:
     *setrate 0.40*
     AUUUUUUUUGGGHHHHGGGGHHHHHHHHHHHHHHHHHHH%%
     YEHHHHHHHHGGGGHHHHHHH%
-    IT'S *c 0 155 0*4\:20*c* MAN %%
+    IT'S *c 420COLOR*4\:20*c* MAN %%
     HO HO %% HOOOOO%
     &itsthattime3
 itsthattime3:
     *setauto 0*
     *setrate 0.40*
     HOOOOOO%%
-    HEY MOM GUESS WHAT IT'S *c 0 155 0*4\:20*c*%
+    HEY MOM GUESS WHAT IT'S *c 420COLOR*4\:20*c*%
     HAHAAH HAA%%
     HA % HAAAAAAA
     &itsthattime4
 
 itsthattime4:
     *setauto 0*
-    *c 0 155 0*%
+    *c 420COLOR*%
     *setrate 0.21*
-    HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA*c*
     *bgmstop*
     &exit
 
