@@ -538,6 +538,7 @@ local function SceneRootToWorld(name, set)
 			--using a function here is expensive let's gooo
 			filter = function(ent)
 				if ent:IsPlayer() then return false end
+				--if ent:GetClass() == "prop_physics_multiplayer" then return true end --test
 				if ent:GetClass() == "jazz_cat" then return false end
 				if ent:GetClass() == "jazz_door_eclipse" then return false end
 				if ent:GetClass() == "jazz_shard_podium" then return false end
@@ -868,6 +869,9 @@ function SetSkinFunc(d, name, skinid)
 	end
 end
 
+--adding functionality to RUN_CONVERSION print to recognize if this is meant to be the first time the camera has been set to this root, and update accordingly
+local camrootcount = 0
+
 dialog.RegisterFunc("setcam", function(d, setpos, px, py, pzsetang, ax, ay, az, fov)
 	local posang = parsePosAng(setpos, px, py, pzsetang, ax, ay, az)
 
@@ -889,9 +893,17 @@ dialog.RegisterFunc("setcam", function(d, setpos, px, py, pzsetang, ax, ay, az, 
 		view.fov = fov
 	end
 
-	if sceneRoots[view] and RUN_CONVERSION then
+	if IsValid(sceneRoots[view]) and RUN_CONVERSION then
 		local str = "\t*setcamoffset setpos "..tostring(view.offset)..";setang "..tostring(view.rot)
+		if camrootcount == 0 then
+			local root = ""
+			for name, v in pairs(sceneModels) do
+				if v == sceneRoots[view] then root = name break end
+			end
+			if not (root == "") then str = string.Replace(str,"setcamoffset","setcamroot "..root) end
+		end
 		if fov then str = str.." "..fov end
+		camrootcount = camrootcount + 1
 		print(str.."*")
 	end
 
@@ -919,9 +931,15 @@ dialog.RegisterFunc("setcamroot", function(d, rootname, setpos, px, py, pzsetang
 	end
 
 	if IsValid(root) then
-		sceneRoots[view] = root
+		if sceneRoots[view] == root then
+			camrootcount = camrootcount + 1
+		else
+			camrootcount = 0
+			sceneRoots[view] = root
+		end
 	else
 		sceneRoots[view] = nil
+		camrootcount = 0
 	end
 
 	SceneRootToWorldCam(true)
@@ -1003,9 +1021,19 @@ dialog.RegisterFunc("tweencam", function(d, time, ...)
 	view.goaloffset, view.goalrot = WorldToLocal(posang.pos,posang.ang,rootpos,rootang)
 	CamBoundsAdjust(true)
 
-
 	if sceneRoots[view] and RUN_CONVERSION then
-		print("\t*tweencamoffset "..tostring(time).." setpos "..tostring(view.goaloffset)..";setang "..tostring(view.goalrot).."*")
+		local str = "\t*tweencamoffset "..tostring(time).." setpos "..tostring(view.goaloffset)..";setang "..tostring(view.goalrot).."*"
+		if camrootcount == 0 then
+			local root = ""
+			for name, v in pairs(sceneModels) do
+				if v == sceneRoots[view] then root = name break end
+			end
+			if not (root == "") then
+				str = string.Replace(str,"tweencamoffset","tweencamoffsetroot")
+				str = string.Replace(str,"setpos",root.." setpos")
+			end
+		end 
+		print(str)
 	end
 end)
 
@@ -1046,7 +1074,15 @@ dialog.RegisterFunc("tweencamoffsetroot", function(d, time, newroot, ...)
 	local time = tonumber(time)
 	local posang = parsePosAng(...)
 
+	local oldroot = sceneRoots[view]
 	sceneRoots[view] = FindByName(newroot)
+
+	if IsValid(oldroot) and sceneRoots[view] == oldroot then
+		camrootcount = camrootcount + 1
+	else
+		camrootcount = 0
+	end
+
 
 	local rootpos = vector_origin
 	local rootang = angle_zero
