@@ -70,7 +70,7 @@ function ENT:Initialize()
 		local prop = self:GetProp()
 		hook.Add("JazzNoDrawInScene",prop,function()
 			
-			if (LocalPlayer().InScene and not (dialog.GetParam("RENDER_DYNAMICENTS") == "true")) or dialog.GetParam("RENDER_DYNAMICENTS") == "false" then
+			if (LocalPlayer().InScene and dialog.GetParam("RENDER_DYNAMICENTS") ~= "true") or dialog.GetParam("RENDER_DYNAMICENTS") == "false" then
 				prop:SetNoDraw(true)
 			else
 				prop:SetNoDraw(false)
@@ -235,7 +235,7 @@ function ENT:DrawShard()
 end
 
 function ENT:DrawTranslucent()
-	if (LocalPlayer().InScene and not (dialog.GetParam("RENDER_DYNAMICENTS") == "true")) or dialog.GetParam("RENDER_DYNAMICENTS") == "false" then return end
+	if (LocalPlayer().InScene and dialog.GetParam("RENDER_DYNAMICENTS") ~= "true") or dialog.GetParam("RENDER_DYNAMICENTS") == "false" then return end
 	local prop = self:GetProp()
 	if not IsValid(prop) then return end
 	--self:DrawModel()

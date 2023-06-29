@@ -228,7 +228,7 @@ dialog.RegisterFunc("spawn", function(d, name, mdl, root)
 	sceneModels[name]:SetNoDraw(isdummy)
 	sceneModels[name].IsDummy = isdummy
 	sceneModels[name].gravity = true --gravity is enabled by default, prop will attempt to move to ground by +/-zSnap units
-	if not (root == nil) then --funnily enough, this actually lets us set the root as nil (i.e. "nil")
+	if root ~= nil then --funnily enough, this actually lets us set the root as nil (i.e. "nil")
 		sceneRoots[sceneModels[name]] = sceneModels[root]
 	else
 		sceneRoots[sceneModels[name]] = defaultRoot
@@ -900,7 +900,7 @@ dialog.RegisterFunc("setcam", function(d, setpos, px, py, pzsetang, ax, ay, az, 
 			for name, v in pairs(sceneModels) do
 				if v == sceneRoots[view] then root = name break end
 			end
-			if not (root == "") then str = string.Replace(str,"setcamoffset","setcamroot "..root) end
+			if root ~= "" then str = string.Replace(str,"setcamoffset","setcamroot "..root) end
 		end
 		if fov then str = str.." "..fov end
 		camrootcount = camrootcount + 1
@@ -1028,7 +1028,7 @@ dialog.RegisterFunc("tweencam", function(d, time, ...)
 			for name, v in pairs(sceneModels) do
 				if v == sceneRoots[view] then root = name break end
 			end
-			if not (root == "") then
+			if root ~= "" then
 				str = string.Replace(str,"tweencamoffset","tweencamoffsetroot")
 				str = string.Replace(str,"setpos",root.." setpos")
 			end
