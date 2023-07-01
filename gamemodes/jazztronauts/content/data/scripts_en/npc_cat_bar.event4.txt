@@ -28,10 +28,10 @@ begin:
 	*setoffset cat_bar setpos -8.213867 4.635986 0.000000;setang 0.000 180.000 0.000*
 	*setoffset player setpos 267.528198 -47.615723 0.000000;setang 9.193 172.696 0.000*
 
-	*setanim cat_bar pose_sit01*
-	*setanim cat_piano pose_sit01*
-	*setanim cat_cello pose_sit01*
-	*setanim cat_singer pose_sit01*
+	*setanim cat_bar pose_sit01_floor*
+	*setanim cat_piano pose_sit01_floor*
+	*setanim cat_cello pose_sit01_floor*
+	*setanim cat_singer pose_sit01_floor*
 	*PIANO_BLINK*
 	*SINGER_BLINK*
 	*BAR_BLINK*

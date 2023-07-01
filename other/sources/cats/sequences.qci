@@ -168,6 +168,12 @@ $Sequence "pose_sit01" {
 	loop
 }
 
+$Sequence "pose_sit01_floor" {
+	"cat_anims\pose_sit01_floor.smd"
+	fps 24
+	loop
+}
+
 $Sequence "pose_sit02" {
 	"cat_anims\pose_sit02.smd"
 	fps 24

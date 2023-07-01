@@ -197,7 +197,7 @@ a16:
 	*show*
 	*setspeaker narrator*
 	*BAR_BLINK*
-	*setanim cat_bar pose_sit01*
+	*setanim cat_bar pose_sit01_floor*
 	> You're unpacking the basket with the Bartender.%%%% She's quietly 
 	flattening a blanket against the sand,% eyes closed in contentment.
 	&a17
@@ -246,7 +246,7 @@ a21:
 	*setspeaker narrator*
 	*setcamoffset setpos -93.956543 -30.651123 22.335510;setang -0.257 -3.313 0* ##### EVANGELION
 	#*setcam setpos -2733.502930 6687.077637 32.335510;setang -0.256775 86.686752 0* ##### EVANGELION
-	*setanim cat_bar pose_sit01*
+	*setanim cat_bar pose_sit01_floor*
 	> The Bartender sits down and stares at the pool.%%%%
 	You take a seat next to her.
 	&a22
