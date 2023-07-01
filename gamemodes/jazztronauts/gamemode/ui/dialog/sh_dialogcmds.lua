@@ -161,6 +161,24 @@ dialog.RegisterFunc("setgravity",function(d, name, enabled)
 	prop.gravity = enabled
 end)
 
+--we want to run a series of commands concurrently. Not for plain text!
+dialog.RegisterFunc("block",function(d, ...)
+	--todo: would be nice if they could be on separate lines
+	--local cmds = string.Replace(table.concat({ ... }," "),"\t","")
+	--cmds = string.Split(cmds,"\n")
+	local cmds = string.Split(table.concat({ ... }," ")," --> ")
+	for _, v in ipairs(cmds) do
+		local str = v
+		--local comment, _, _ = string.find(str,"#")
+		--if comment then str = string.Left(str,comment) end
+		local tab = string.Split(str," ")
+		if next(tab) ~= nil then
+			local name = tab[1]
+			if name ~= "block" and g_funcs[name] then g_funcs[name](unpack(tab)) end
+		end
+	end
+end)
+
 local function GetPlayerOutfits(ply)
 	local outfits = {}
 	local parts = pac.GetLocalParts and pac.GetLocalParts() or pac.UniqueIDParts[ply:UniqueID()]
