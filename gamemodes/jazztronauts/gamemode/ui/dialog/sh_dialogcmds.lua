@@ -213,6 +213,7 @@ end
 local function removeSceneEntity(name)
 	if IsValid(sceneModels[name]) then
 		sceneModels[name]:SetNoDraw(true)
+		sceneModels[name]:DrawShadow(false)
 		sceneModels[name] = nil
 	end
 end

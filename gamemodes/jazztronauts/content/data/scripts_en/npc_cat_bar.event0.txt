@@ -4,10 +4,7 @@ begin:
 	# Scene setup
 	*txout*
 	
-	spawnnarrator()
-	# Set the narrator as our default scene root, any prop spawned after this delaration will automatically root to it
-	*sceneroot narrator*
-	*setlocale narrator scene_bar_solo*
+	spawnnarratorroot(scene_bar_solo)
 	# Spawn the cat we'll be conversing with
 	# Note this sets the cat as the 'proxy', meaning that's the model that'll show up in the bottom left dialog corner
 	spawncatbartender()
