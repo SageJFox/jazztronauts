@@ -38,8 +38,8 @@ begin:
 	*CELLO_BLINK*
 	*setspeaker cat_bar*
 
-	#This initial setcamroot is used to get the data from the setcam/tweencam commands to be transferred properly. Please note, the converter will always print
-	#*setcamoffset* in this situation. To avoid a visual hitch, it should be converted to a *setcamroot* with this initial one going unused
+	#This initial setcamroot is used to get the data from the setcam/tweencam commands to be transferred properly. In later scripts, it'll be "filled in" rather than having
+	#the command commented out and placed a second time after the inital setcam
 	#Also note that we're using the player/cats as the camera root, rather than the scene. This is so that adjustments to their height made by our ground checking get
 	#reflected in the camera positioning, too. Especially important for closeups!
 	#*setcamroot cat_bar*
@@ -47,14 +47,6 @@ begin:
 	#*tweencam 40 setpos -2690.671875 283.400543 46.178429;setang 7.223375 22.772840 0.000000*
 	*setcamroot cat_bar setpos 293.787109 143.954376 80.944336;setang 7.223 -157.227 0.000 fov70*
 	*tweencamoffset 40 setpos 506.458008 233.235504 110.178429;setang 7.223 -157.227 0.000*
-
-
-
-
-
-
-
-
 
 	*bgmplay sound/jazztronauts/music/events/pariah.mp3 .75 2.0*
 	*txin*
