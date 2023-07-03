@@ -888,6 +888,28 @@ function SetSkinFunc(d, name, skinid)
 	end
 end
 
+dialog.RegisterFunc("setbodygroup", function(d, name, bodygroup, val)
+	local name, bodygroup, val = name, bodygroup, tonumber(val)
+	if not val then -- just a bodygroup, so setbodygroup on the current speaker 
+		val = tonumber(bodygroup)
+		bodygroup = name
+		name = "focus"
+	end
+
+	local prop = FindByName(name)
+	if IsValid(prop) and val then
+		--support for both number and name
+		if not tonumber(bodygroup) then
+			if not tostring(bodygroup) then return end
+			bodygroup = prop:FindBodygroupByName(bodygroup)
+		else
+			bodygroup = tonumber(bodygroup)
+		end
+
+		if bodygroup > -1 then prop:SetBodygroup(bodygroup,val) end
+	end
+end)
+
 --adding functionality to RUN_CONVERSION print to recognize if this is meant to be the first time the camera has been set to this root, and update accordingly
 local camrootcount = 0
 
