@@ -3,13 +3,30 @@ SKIP_OPEN = true
 begin:
 	# Scene setup
 	*txout*
-	spawnnarrator()
-	spawncellist()
-	*setposang cat_cello setpos 4.526166 3119.696289 25;setang -90 270 0.000000*
+	*zsnap 40*
+	spawnnarratorroot(scene_booth_solo)
+	spawncatcellist()
+	#*setposang cat_cello setpos 4.526166 3119.696289 25;setang -90 270 0.000000*
+	*setoffset cat_cello setpos -59.473835 -16.303711 0;setang 0.000 0.000 0.000*
 	*CELLO_HIGH*
 	*setanim cat_cello pianist_drunk_idle*
-	*setposang player setpos 182.677567 2925.838623 0;setang 0 133.148224 0.000000*
-	*setcam setpos 245.356094 2850.929688 109.212921;setang 14.996230 126.555443 0.000000 fov70*
+	#*setposang player setpos 182.677567 2925.838623 0;setang 0 133.148224 0.000000*
+	*setoffset player setpos 118.677567 -210.161377 0;setang -0.000 133.148 0.000*
+	*spawn good_shit models/sunabouzu/shot_glass.mdl*
+	*setbodygroup good_shit liquid 2*
+	#*setposang good_shit setpos 51 3125 40;setang 0 -44.234534 0*
+	*setoffset good_shit setpos -13 -11 0;setang 0 44.235 0*
+	*spawn empty1 models/sunabouzu/shot_glass.mdl*
+	*spawn empty2 models/sunabouzu/shot_glass.mdl*
+	*spawn empty3 models/sunabouzu/shot_glass.mdl*
+	#*setposang empty1 setpos 44.436729 3134.218018 40.209957;setang -0.258 -85.282 0.362*
+	#*setposang empty2 setpos 43.073368 3124.415771 41.282566;setang 5.940 26.572 -88.515*
+	#*setposang empty3 setpos 52.676434 3097.194580 40.156952;setang 1.651 -113.267 -1.829*
+	*setoffset empty1 setpos -19.563271 -1.781982 0;setang -0.258 -85.282 0.362*
+	*setoffset empty2 setpos -20.926632 -11.584229 1.282566;setang 5.940 26.572 -88.515*
+	*setoffset empty3 setpos -11.323566 -38.805420 0;setang 1.651 -113.267 -1.829*
+	*setcamroot player setpos -97.517822 5.499512 109.212921;setang 14.996 -6.593 0.000 fov70*
+	#*setcam setpos 245.356094 2850.929688 109.212921;setang 14.996230 126.555443 0.000000 fov70*
 	*bgmplay sound/jazztronauts/music/events/54321.mp3 1.0 2.0*
 	*txin*
 	
@@ -22,7 +39,8 @@ begin:
 	&b1
 	
 b1:
-	*setcam setpos 15.987111 3028.354736 87.972946;setang 25.218304 68.204353 0.000000*
+	*setcamroot good_shit setpos -92.506104 -44.819824 47.972946;setang 25.218 23.969 0.000*
+	#*setcam setpos 15.987111 3028.354736 87.972946;setang 25.218304 68.204353 0.000000*
 	*setspeaker narrator*
 	> The glass looks like somebody distilled both the visuals of,%%
 	and all of the illicit substances at,% a Pink Floyd laser light show.%%%
@@ -30,14 +48,16 @@ b1:
 	&b2
 	
 b2:
-	*setcam setpos 60.254112 3035.056396 72.716209;setang 23.354883 112.872704 0.000000*
+	*setcamroot cat_cello setpos 55.727947 -84.639893 47.716209;setang 23.355 112.873 0.000*
+	#*setcam setpos 60.254112 3035.056396 72.716209;setang 23.354883 112.872704 0.000000*
 	*setspeaker narrator*
 	*setanim cat_cello pianist_drunk_to_player .5*
 	> The Cellist opens his eyes blearily.
 	&b3
 	
 b3:
-	*setposang player setpos 96.120567 3014.245605 0;setang 0 121.674957 0.000000*
+	#*setposang player setpos 96.120567 3014.245605 0;setang 0 121.674957 0.000000*
+	*setoffset player setpos 32.120567 -121.754395 0;setang -0.000 121.675 0.000*
 	*setspeaker cat_cello*
 	alright if you aren't some sort of phantasmal horror waiting to shapeshift
 	into one of my innermost fears to torment me in the liminal 
@@ -47,9 +67,11 @@ b3:
 	
 b4:
 	*hide .1*
-	*setcam setpos 23.154987 3174.408691 79.682510;setang 1.207123 -74.638672 0.000000*
+	*setcamroot player setpos 174.619629 -22.005005 79.682510;setang 1.207 163.686 0.000*
+	#*setcam setpos 23.154987 3174.408691 79.682510;setang 1.207123 -74.638672 0.000000*
 	*wait 2.3*
-	*setcam setpos 60.254112 3035.056396 72.716209;setang 23.354883 112.872704 0.000000*
+	*setcamroot cat_cello setpos 55.727947 -84.639893 47.716209;setang 23.355 112.873 0.000*
+	#*setcam setpos 60.254112 3035.056396 72.716209;setang 23.354883 112.872704 0.000000*
 	*show .1*
 	*setspeaker cat_cello*
 	*setanim cat_cello pianist_drunk_to_idle .5*
@@ -65,53 +87,67 @@ b5:
 	&b6
 	
 b6:
-	*setcam setpos 121.876625 3214.729736 89.114357;setang 10.364336 -114.506401 0.000000*
+	*spawn good_shitendpos dummy*
+	#*setposang good_shitendpos setpos 46.773326 3070.163458 40.000000;setang 0 -44.234534 0*
+	*setoffset good_shitendpos setpos -17.226673 -65.836426 0;setang -0.000 -44.235 0.000*
+	*setcamroot good_shitendpos setpos -47.039551 155.971924 49.114357;setang 10.364 -70.271 0.000*
+	#*setcam setpos 121.876625 3214.729736 89.114357;setang 10.364336 -114.506401 0.000000*
 	*setanim cat_cello pose_sit01*
 	*setspeaker cat_cello*
 	*CELLO_NEUTRAL*
 	i'm not sure what was in that gasoline,%% or that beer for that matter,%%%*CELLO_GRIN*
-	but god damn if this isn't the best batch i've had in a while.%%%*setcam setpos 43.395779 3097.821289 50.800999;setang 17.445244 -84.798508 0.000000*%*CELLO_NEUTRAL* 
+	but god damn if this isn't the best batch i've had in a while.%%%%*CELLO_NEUTRAL* 
 	maybe it was "essence of subcontracted manual labor"
 	&b7
 	
 b7:
-	*setcam setpos 48.072723 3215.368652 95.661316;setang 8.447672 -80.317413 0.000000*
+	*setcamroot player setpos 196.393799 -64.719238 95.661316;setang 8.448 158.008 0.000*
+	#*setcam setpos 48.072723 3215.368652 95.661316;setang 8.447672 -80.317413 0.000000*
 	but i digress.%%%%
 	i've been meaning to give you a reward more substantial than arbitrary
 	anarcho-corporate scrip.%% Namely%.%.%.%
 	&b7b
 	
 b7b:
-	*setcam setpos 41.458935 3104.086914 51.262566;setang 15.848031 -85.694618 0.000000*
+	*setcamroot good_shitendpos setpos -27.472900 20.598389 11.262566;setang 15.848 -41.460 0.000*
+	#*setcam setpos 41.458935 3104.086914 51.262566;setang 15.848031 -85.694618 0.000000*
 	*setanim cat_cello gesture_exchange .9 idle*
 	*setspeaker narrator*
+	#*setposang good_shit setpos 46.773326 3070.163458 40.000000;setang 0 -44.234534 0*
+	*tweenoffset good_shit 1 setpos -17.226673 -65.836426 40.000000;setang -0.000 -44.235 0.000*
 	> The Cellist pushes the glass across the table towards you.
 	&b8
 	
 b8:
-	*setcam setpos -47.072605 2916.066406 41.647606;setang -3.478090 52.090462 0.000000*
+	*setcamoffset setpos 40.259521 -175.875244 1.647606;setang -3.478 96.325 0.000*
+	#*setcam setpos -47.072605 2916.066406 41.647606;setang -3.478090 52.090462 0.000000*
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_clap 1 idle*
 	if you're interested you can take a sip of the fruit of your labor.
 	player:
 		&r1a1:
-			*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
+			*setcamroot player setpos 87.991455 105.850830 118.539520;setang 18.936 -137.785 0.000*
+			#*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
 			What else is in there,%% exactly?
 		&r2a1:
-			*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
+			*setcamroot player setpos 87.991455 105.850830 118.539520;setang 18.936 -137.785 0.000*
+			#*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
 			What does it do?
 		&r3a1:
-			*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
+			*setcamroot player setpos 87.991455 105.850830 118.539520;setang 18.936 -137.785 0.000*
+			#*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
 			(SLAM THAT SHIT)
 		&r4a1:
-			*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
+			*setcamroot player setpos 87.991455 105.850830 118.539520;setang 18.936 -137.785 0.000*
+			#*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
 			I'm going to need to come back considerably 
-			more prepared to handle that stuff. (exit)
+			more prepared to handle that stuff. *c 0*(exit)*c*
 		&r5a1:
-			*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
+			*setcamroot player setpos 87.991455 105.850830 118.539520;setang 18.936 -137.785 0.000*
+			#*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
 			Listen,%% I appreciate the offer,%%%% 
 			but I don't go for that sort of thing. 
-			(exit and complete)
+			*c 0*(exit and complete)*c*
 
 ###### BRANCH 4
 
@@ -124,10 +160,12 @@ r4a1:
 		
 ###### BRANCH 5 EARLY COMPLETION FOR PEOPLE NOT COMFORTABLE WITH THE IDEA OF CASUAL EXTREME TURBO DRUG USE
 r5a1:
-	*setcam setpos -99.968300 2844.288330 188.257843;setang 25.697411 49.481449 0.000000*
+	*setcamroot good_shitendpos setpos 52.433105 -264.203369 148.257843;setang 25.697 93.716 0.000*
+	#*setcam setpos -99.968300 2844.288330 188.257843;setang 25.697411 49.481449 0.000000*
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_agree 1 idle*	
-	s'aright.%% suit yourself.%%%%%*setcam setpos 96.998268 3062.864502 81.823738;setang 13.185996 149.253281 0.000000*
+	#*setcamroot cat_cello*
+	s'aright.%% suit yourself.%%%%%*setcamroot cat_cello setpos 92.472107 -56.831787 56.823738;setang 13.186 149.253 0.000*#*setcam setpos 96.998268 3062.864502 81.823738;setang 13.185996 149.253281 0.000000*
 	
 	%*setanim cat_cello gesture_confused 1 idle*%.%.%.%what?
 	&r5a2
@@ -137,18 +175,18 @@ r5a2:
 	you expected me to make a scene over that?%% naw man,% 
 	this shit ain't D.A.R.E.%%%% unless you're as much of 
 	a trainwreck as me-
-	&hotfix
+	&r5a3
 	
-hotfix:
+r5a3:
 	*setanim cat_cello gesture_laugh 1 idle* 
 	-it's entirely reasonable to look at a glass that looks like 
 	some sort of fourth-dimensional clown tears and go*setanim cat_cello gesture_disagree 1 idle*
 	fuck that shit i'm out.
-	&r5a3
+	&r5a4
 	
-r5a3:
+r5a4:
 	*setanim cat_cello gesture_laugh 1 idle*
-	i mean it leaves more for me too but that's secondary,%% i swear.%%%
+	i mean it leaves more for me too but that's secondary,%%*CELLO_GRIN* i swear.%%%*CELLO_NEUTRAL*
 	
 	y'all have a nice day now.*mark_seen*
 	&exit
@@ -158,27 +196,33 @@ r1a1:
 	*CELLO_MAD*
 	*setanim cat_cello gesture_sigh 1 idle*
 	*setspeaker cat_cello*
-	*setcam setpos 96.703232 3121.722656 70.780922;setang 8.500900 -172.307480 0.000000*
+	*setcamroot cat_cello setpos 92.177063 2.026367 45.780922;setang 8.501 -172.307 0.000*
+	#*setcam setpos 96.703232 3121.722656 70.780922;setang 8.500900 -172.307480 0.000000*
 	okay i'll be real with you.%%% much like sausage,% politics,% and 
 	legacy codebases,%%*CELLO_NEUTRAL* you're gonna be way happier not knowing.
 	player:
-	&r2a1:
-		*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
-		What does it do?
-	&r3a1:
-		*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
-		(SLAM THAT SHIT)
-	&r4a1:
-		*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
-		I'm going to need to come back considerably more prepared to handle that stuff. (exit)
-	&r5a1:
-		*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
-		Listen,%% I appreciate the offer,%%% 
-		but I don't go for that sort of thing. (exit and complete)
+		&r2a1:
+			*setcamroot player setpos 87.991455 105.850830 118.539520;setang 18.936 -137.785 0.000*
+			#*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
+			What does it do?
+		&r3a1:
+			*setcamroot player setpos 87.991455 105.850830 118.539520;setang 18.936 -137.785 0.000*
+			#*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
+			(SLAM THAT SHIT)
+		&r4a1:
+			*setcamroot player setpos 87.991455 105.850830 118.539520;setang 18.936 -137.785 0.000*
+			#*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
+			I'm going to need to come back considerably more prepared to handle that stuff. *c 0*(exit)*c*
+		&r5a1:
+			*setcamroot player setpos 87.991455 105.850830 118.539520;setang 18.936 -137.785 0.000*
+			#*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
+			Listen,%% I appreciate the offer,%%% 
+			but I don't go for that sort of thing. *c 0*(exit and complete)*c*
 		
 ###### BRANCH 2
 r2a1:
-	*setcam setpos 96.703232 3121.722656 70.780922;setang 8.500900 -172.307480 0.000000*
+	*setcamroot cat_cello setpos 92.177063 2.026367 45.780922;setang 8.501 -172.307 0.000*
+	#*setcam setpos 96.703232 3121.722656 70.780922;setang 8.500900 -172.307480 0.000000*
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_confused .65 idle*
 	u%h%h%h%.%% you ever read one of those articles where it's a trip report of some
@@ -195,65 +239,73 @@ r2a2:
 	maybe.
 	player:
 		&r1a1:
-			*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
+			*setcamroot player setpos 87.991455 105.850830 118.539520;setang 18.936 -137.785 0.000*
+			#*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
 			What else is in there, exactly?
 		&r3a1:
-			*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
+			*setcamroot player setpos 87.991455 105.850830 118.539520;setang 18.936 -137.785 0.000*
+			#*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
 			(SLAM THAT SHIT)
 		&r4a1:
-			*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
+			*setcamroot player setpos 87.991455 105.850830 118.539520;setang 18.936 -137.785 0.000*
+			#*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
 			I'm going to need to come back considerably 
-			more prepared to handle that stuff. (exit)
+			more prepared to handle that stuff. *c 0*(exit)*c*
 		&r5a1:
-			*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
+			*setcamroot player setpos 87.991455 105.850830 118.539520;setang 18.936 -137.785 0.000*
+			#*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
 			Listen,% I appreciate the offer,% 
 			but I don't go for that sort of thing. 
-			(exit and complete)
+			*c 0*(exit and complete)*c*
 		
 ###### BRANCH 3
 r3a1:
 	*setspeaker narrator*
-	> The next segment is designed to be visually awful to look at,%% on 
+	(The next segment is designed to be visually awful to look at,%% on 
 	purpose.%%%% If you get motion sickness,%% epilepsy,%% 
 	or any other condition triggered similarly,%%% 
-	you may safely skip it.
+	you may safely skip it.)
 	player:
-		&m5:
-			Yes,% I would like to skip the trippy visuals.
-		&m1:
-			No, I'm here to get FUCKED UP responsibly.
+		&m5_safe: Yes,% I would like to skip the trippy visuals.
+		&m1: No, I'm here to get FUCKED UP responsibly.
 	
 ###### MERGE POINT
 
 m1:
-	*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
+	*setcamroot player setpos 87.991455 105.850830 118.539520;setang 18.936 -137.785 0.000*
+	#*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
+	*setbodygroup good_shit liquid 0*
+	#*setposang good_shit setpos 77 3054 40;setang 0 0 0*
+	*setoffset good_shit setpos 13.000000 -82.000000 0;setang -0.000 0.000 0.000*
 	*setspeaker narrator*
 	> You down the shot of the Good Shit.%%% It tastes like someone fermented 
 	all the different syrups in a soda machine and mixed them into a shot.%%%%%
 	
 	%.%.%.%nothing's happened yet.
 	player:
-		&m2:
-			So how long does this take to do anything?
+		&m2: So how long does this take to do anything?
 		
 m2:
 	*fadeblind 1*
 	*hide*
 	*bgmplay sound/jazztronauts/music/events/pariah.mp3 1.0 2.0*
-	*setcam setpos 1675.229614 -2281.119141 87.158875;setang -0.576421 -89.705780 0.000000 fov140*
-	*tweencam 40 setpos 1676.401123 -8968.332031 94.523621;setang -359 -90.424515 0.000000*
+	#note - this original camera location is in the trolley tunnel. we're just sorta recreating that for this. Though with the new effect seems like it hardly matters?
+	*spawn tunnel models/sunabouzu/bustunnel.mdl*
+	*setlocale tunnel scene_falling*
+	*setcamroot tunnel setpos 0 0 0;setang 0 90 0 fov140*
+	*tweencamoffset 40 setpos 0 2000 0;setang 0 90 0*
+	#*setcam setpos 1675.229614 -2281.119141 87.158875;setang -0.576421 -89.705780 0.000000 fov140*
+	#*tweencam 40 setpos 1676.401123 -8968.332031 94.523621;setang -359 -90.424515 0.000000*
 	*setspeaker cat_cello*
 	*wait 1*
 	*show*
 	*drugson*
+	#note for translators - I thought this part was done with some sort of cipher, but if it is I can't tell what, so assume it's complete gibberish.
 	wbk bmh've fhljy goagfgbys gvdr'f ynpcpkbr  
 	player:
-		&m3:
-			oh god what the fuck
-		&m3:
-			(literally just constant screaming)
-		&m3:
-			LIBERATE TUTEMET EX INFERIS
+		&m3: oh god what the fuck
+		&m3: (literally just constant screaming)
+		&m3: LIBERATE TUTEMET EX INFERIS
 m3:
 	*setspeaker cat_cello*
 	auvk dhgk usuc ji gb klru xhr gfpremvbj quyt hd ecssrr 
@@ -271,9 +323,31 @@ m4:
 m5:
 	*drugsoff*
 	*fadeblind 1*
-	*setposang cat_cello setpos 43.167946 3032.861572 0;setang -90 230 0.000000*
-	*setcam setpos 75.970108 2957.786377 1.469858;setang -27.489294 113.511642 0.000000 fov70*
+	#*setposang cat_cello setpos 43.167946 3032.861572 0;setang -90 230 0.000000*
+	*setoffset cat_cello setpos -20.832054 -103.138428 0;setang 0.000 -40.000 0.000*
+	#adjusted in here some since the original, got the player lying on the floor with the cellist looking over them
+	*setoffset player setpos 32.120567 -121.754395 0;setang -86 31.675 0.000*
+	*setcamroot cat_cello setpos 73.385254 -36.426025 1.469858;setang -27.489 153.512 0.000 fov70*
+	#*setcam setpos 75.970108 2957.786377 1.469858;setang -27.489294 113.511642 0.000000 fov70*
 	*setspeaker cat_cello*
+	*setanim cat_cello gesture_jab 1 idle*
+	holy fuck you came out of that faster than i expected
+	&m6
+
+#Let's maybe not flashbang the people who just said they might be epilectic
+m5_safe:
+	*hide*
+	*txout*
+	*setbodygroup good_shit liquid 0*
+	*setoffset good_shit setpos 13.000000 -82.000000 0;setang -0.000 0.000 0.000*
+	*setoffset cat_cello setpos -20.832054 -103.138428 0;setang 0.000 -40.000 0.000*
+	*setoffset player setpos 32.120567 -121.754395 0;setang -86 31.675 0.000*
+	*setcamroot cat_cello setpos 73.385254 -36.426025 1.469858;setang -27.489 153.512 0.000 fov70*
+	*setspeaker cat_cello*
+	*wait 1*
+	*txin*
+	*show*
+	*setanim cat_cello gesture_jab 1 idle*
 	holy fuck you came out of that faster than i expected
 	&m6
 	
@@ -288,12 +362,9 @@ m7:
 	with relative impunity.%%% sit at my feet,%% and i will show you a world that
 	you should never visit,%%% because i am not an example for anybody.
 	player:
-		&m8:
-			Hrrgblh?
-		&m8:
-			Grblghreb.
-		&m8:
-			hhrrrghhhhh
+		&m8: Hrrgblh?
+		&m8: Grblghreb.
+		&m8: hhrrrghhhhh
 		
 m8:
 	*setspeaker cat_cello*
