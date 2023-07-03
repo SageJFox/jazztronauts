@@ -911,6 +911,28 @@ dialog.RegisterFunc("setbodygroup", function(d, name, bodygroup, val)
 	end
 end)
 
+dialog.RegisterFunc("setscale", function(d, name, val)
+	local name, val = name, tonumber(val)
+	if not val then 
+		if tonumber(name) or not name then -- just a scale (or nothing at all), so setscale on the current speaker
+			val = tonumber(name)
+			name = "focus"
+		end
+	end
+
+	local prop = FindByName(name)
+	if IsValid(prop) then
+		if val then
+			local scale = Vector(val,val,val)
+			local mat = Matrix()
+			mat:Scale(scale)
+			prop:EnableMatrix("RenderMultiply", mat)
+		else --no scale provided, reset instead
+			prop:DisableMatrix("RenderMultiply")
+		end
+	end
+end)
+
 --adding functionality to RUN_CONVERSION print to recognize if this is meant to be the first time the camera has been set to this root, and update accordingly
 local camrootcount = 0
 
