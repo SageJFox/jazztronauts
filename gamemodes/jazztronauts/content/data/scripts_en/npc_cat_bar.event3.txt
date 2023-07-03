@@ -131,6 +131,9 @@ a11:
 	*BAR_NEUTRAL*
 	*setanim cat_bar gesture_exchange 1.4 idle*
 	Your hot water on the rocks,%% sir.
+	*spawn glass models/sunabouzu/shot_glass.mdl*
+	*setoffset glass setpos -38.634216 51.865730 0;setang -0.000 178.619 0.000*
+	*setbodygroup glass liquid 3*
 	&a12
 
 a12:
@@ -141,7 +144,7 @@ a12:
 	*setanim cat_cello pose_sit01*
 	> The Cellist stares at the glass of normal hot water with ice in it,%*setanim cat_cello pose_sit02* 
 	momentarily looking annoyed,%%%*setanim cat_cello pianist_drunk_idle* before*CELLO_GRIN* regaining*setanim cat_cello pose_sit02* his smug expression 
-	and chugging it in one go.
+	and chugging it*setbodygroup glass liquid 0* in one go.
 	&a13
 
 a13:
@@ -149,6 +152,7 @@ a13:
 	*setcamroot player setpos 137.250366 -95.772217 85.015930;setang 21.618 148.085 -7.714* #### GROUP
 	#*setcam setpos -2755.242432 3053.066895 85.446762;setang 9.140029 -147.408585 0.000000* #### GROUP
 	*setanim cat_cello pose_sit01*
+	*setoffset glass setpos -38.634216 51.865730 1.282566;setang 5.940 26.572 -88.515*
 	hm that's funny i remember ordering a hot water on the rocks and 
 	appear to have gotten a*setanim cat_cello pose_sit01* tepid water on the pebbles instead.%%%%*CELLO_MAD* 
 	i ain't leaving til you give me that real shit you got
@@ -226,7 +230,7 @@ c8:
 c9:
 	*CELLO_BLINK*
 	> He manages to gather up the*CELLO_MAD* courage to open his mouth and speak,%%% 
-	but is cut off by*CELLO_NEUTRAL* the Bartender serving a glass in front of him.
+	but is cut off by*CELLO_NEUTRAL**spawn glass2 models/sunabouzu/shot_glass.mdl**setoffset glass2 setpos -45.634216 44.865730 0;setang -0.000 178.619 0.000**setbodygroup glass2 liquid 3* the Bartender serving a glass in front of him.
 	&c10
 
 c10:
@@ -287,7 +291,7 @@ c16:
 	#*setcam setpos -2609.130859 2757.310791 95.365982;setang 3.869236 133.104462 0.000000* ######## ESTABLISHING SHOT
 	*BAR_NEUTRAL*
 	#> The Cellist downs the drink in one gulp,%%%*setposang cat_cello setpos -2815.444336 2903.284912 0;setang -90 45 0.000000*%*setanim cat_cello pose_passedout**ignite cat_cello* immediately falls off the 
-	> The Cellist downs the drink in one gulp,%%%*setoffset cat_cello setpos 48.715088 48.555664 0;setang 0.000 225.000 0.000*%*setanim cat_cello pose_passedout**ignite cat_cello* immediately falls off the 
+	> The Cellist downs the drink in one gulp,*setbodygroup glass2 liquid 0*%%%*setoffset cat_cello setpos 48.715088 48.555664 0;setang 0.000 225.000 0.000*%*setanim cat_cello pose_passedout**ignite cat_cello* immediately falls off the 
 	chair, and bursts into flames.%%%*setanim cat_bar gesture_clap 1 idle* The Bartender is clapping.
 	&c16b
 
