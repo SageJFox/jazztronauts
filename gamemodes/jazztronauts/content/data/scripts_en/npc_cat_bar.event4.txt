@@ -59,7 +59,7 @@ a2:
 	Hold for four.
 	&a3
 
-a3: 
+a3:
 	Slowly release.%%%% One,%% two,%% three,%% four.
 	&a4
 
