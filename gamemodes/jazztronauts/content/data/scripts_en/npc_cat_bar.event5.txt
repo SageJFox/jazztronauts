@@ -123,7 +123,7 @@ a9:
 a10:
 	*block setoffset cat_cello setpos -127.215820 215.445313 0;setang 0 -60 0 --> setcamroot cat_cello setpos 376.690430 122.397827 48.880489;setang 1.500 -166.986 0*
 	##*setposang cat_cello setpos -2471.215820 7207.445313 0;setang -90 210 0*
-	#*setoffset cat_cello setpos -127.215820 215.445313 -18;setang 0 -60 0*
+	#*setoffset cat_cello setpos -127.215820 215.445313 0;setang 0 -60 0*
 	#*setcamroot cat_cello setpos 376.690430 122.397827 48.880489;setang 1.500 -166.986 0*
 	##*setcam setpos -2176.871094 6942.420898 20.880489;setang 1.500134 133.014374 0*
 	*setspeaker narrator*
@@ -166,14 +166,14 @@ a15:
 	*setroot cat_cello nil*
 	*setroot cat_piano nil*
 	*setroot cat_singer nil*
-	*block setlocale narrator scene_beachpicnic --> setroot player narrator setpos 317.940430 41.065430 4;setang 5.280 -174.127 0 --> setcamroot player setpos 37.235107 -127.616699 34.609375;setang -6.961 112.275 -4.945 --> setroot cat_bar narrator setpos -12.154053 -2.965820 4;setang 0 90 0*
+	*block setlocale narrator scene_beachpicnic --> setroot player narrator setpos 317.940430 41.065430 0;setang 5.280 -174.127 0 --> setcamroot player setpos 37.235107 -127.616699 34.609375;setang -6.961 112.275 -4.945 --> setroot cat_bar narrator setpos -12.154053 -2.965820 0;setang 0 90 0*
 		#*setlocale narrator scene_beachpicnic*
 		##*setposang player setpos -2434.059570 6825.065430 10;setang 5.280183 -174.127090 0*
-		#*setroot player narrator setpos 317.940430 41.065430 4;setang 5.280 -174.127 0*
+		#*setroot player narrator setpos 317.940430 41.065430 0;setang 5.280 -174.127 0*
 		##*setcam setpos -2487.168457 6947.892090 41.036049;setang -8.934914 -62.536053 0* #need to reposition the camera since the player rotates here
 		#*setcamroot player setpos 37.235107 -127.616699 34.609375;setang -6.961 112.275 -4.945*
 		##*setposang cat_bar setpos -2764.154053 6781.034180 10;setang -90 0 0*
-		#*setroot cat_bar narrator setpos -12.154053 -2.965820 4;setang 0 90 0*
+		#*setroot cat_bar narrator setpos -12.154053 -2.965820 0;setang 0 90 0*
 	
 	
 	

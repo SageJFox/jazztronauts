@@ -7,14 +7,35 @@ RENDER_REALCATS = false
 
 begin:
 	spawncatsrooted(scene_bar)
+	#*zsnap 0*
 	#*setposang cat_bar setpos 2.762444 693.325500 32;setang -90 180 0.000000*
 	#*setposang cat_piano setpos 48.296669 612.397583 36;setang -90 0 0.000000*
 	#*setposang cat_cello setpos 98.372551 608.679138 36;setang -90 0 0.000000*
 	#*setposang cat_singer setpos -47.646004 603.924561 36;setang -90 0 0.000000*
-	*setoffset cat_bar setpos -83.325500 2.762445 32.000000;setang 0.000 0.000 0.000*
-	*setoffset cat_piano setpos -2.397583 48.296669 36.000000;setang 0.000 180.000 0.000*
-	*setoffset cat_cello setpos 1.320862 98.372551 36.000000;setang 0.000 180.000 0.000*
-	*setoffset cat_singer setpos 6.075439 -47.646004 36.000000;setang 0.000 180.000 0.000*
+	*setoffset cat_bar setpos -83.325500 2.762445 0;setang 0.000 0.000 0.000*
+	*setoffset cat_piano setpos -2.397583 48.296669 0;setang 0.000 180.000 0.000*
+	*setoffset cat_cello setpos 1.320862 98.372551 0;setang 0.000 180.000 0.000*
+	*setoffset cat_singer setpos 6.075439 -47.646004 0;setang 0.000 180.000 0.000*
+	*spawn goop1 models/sunabouzu/shot_glass.mdl*
+	*spawn goop2 models/sunabouzu/shot_glass.mdl*
+	*spawn goop3 models/sunabouzu/shot_glass.mdl*
+	*spawn goop4 models/sunabouzu/shot_glass.mdl*
+	*spawn goop5 models/sunabouzu/shot_glass.mdl*
+	*setbodygroup goop1 liquid 1*
+	*setbodygroup goop2 liquid 1*
+	*setbodygroup goop3 liquid 1*
+	*setbodygroup goop4 liquid 1*
+	*setbodygroup goop5 liquid 1*
+	#*setposang goop1 setpos 3.167294 649.516846 0;setang 0 88.619171 0.000000*
+	#*setposang goop2 setpos -50.070477 643.249023 0;setang 0 -90.988724 0.000000*
+	#*setposang goop3 setpos 51.865732 648.634213 0;setang 0 88.619171 0.000000*
+	#*setposang goop4 setpos 100.643523 648.634213 0;setang 0 37.456433 0.000000*
+	#*setposang goop5 setpos -3.167294 642.643523 0;setang 0 88.619171 0.000000*
+	*setoffset goop1 setpos -39.516846 3.167294 0.000000;setang -0.000 178.619 0.000*
+	*setoffset goop2 setpos -33.249023 -50.070477 0.000000;setang -0.000 -0.989 0.000*
+	*setoffset goop3 setpos -38.634216 51.865730 0.000000;setang -0.000 178.619 0.000*
+	*setoffset goop4 setpos -38.634216 100.643524 0.000000;setang -0.000 127.456 0.000*
+	*setoffset goop5 setpos -32.643494 -3.167294 0.000000;setang -0.000 178.619 0.000*
 	*setspeaker cat_bar*
 	Ah!% 100 Shards!% Fantastic work,% everyone!% Now we can begin the 
 	Festival.
@@ -58,6 +79,7 @@ slammin:
 	&slammin2
 
 slammin2:
+	*block setbodygroup goop1 liquid 0 --> setbodygroup goop2 liquid 0 --> setbodygroup goop3 liquid 0 --> setbodygroup goop4 liquid 0 --> setbodygroup goop5 liquid 0*
 	*slam Ah.*%% Refreshing. 
 	&jammin
 

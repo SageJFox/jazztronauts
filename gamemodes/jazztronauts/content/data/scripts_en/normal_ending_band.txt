@@ -89,12 +89,12 @@ a1:
 	#*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
 	*setcamroot podge setpos 134.280762 -44.185677 87.278564;setang -9.610 163.144 0.000*
 	#*setposang player setpos 6315.488281 82.928795 3648.031250;setang -7.986032 -7.538742 0.000000*
-	*setroot player narrator setpos 852.511719 -82.928871 -64;setang -7.986 172.461 0.000*
-	*setroot cat_bar narrator setpos 1372.219238 -141.141693 -64;setang 0.000 178.751 0.000*
-	*setroot cat_cello narrator setpos 559.766602 486.078156 -64;setang 0.000 73.123 0.000*
+	*setroot player narrator setpos 852.511719 -82.928871 0;setang -7.986 172.461 0.000*
+	*setroot cat_bar narrator setpos 1372.219238 -141.141693 0;setang 0.000 178.751 0.000*
+	*setroot cat_cello narrator setpos 559.766602 486.078156 0;setang 0.000 73.123 0.000*
 	*setanim cat_cello pose_passedout*
-	*setroot cat_piano narrator setpos 649.004883 -403.150940 -64;setang 0.000 204.670 0.000*
-	*setroot cat_singer narrator setpos 1270.522949 -291.355927 -64;setang 0.000 254.511 0.000*
+	*setroot cat_piano narrator setpos 649.004883 -403.150940 0;setang 0.000 204.670 0.000*
+	*setroot cat_singer narrator setpos 1270.522949 -291.355927 0;setang 0.000 254.511 0.000*
 	*setspeaker podge*
 	'sup.%%% Welcome to the Center of the Universe.
 	&a2

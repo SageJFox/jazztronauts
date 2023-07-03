@@ -11,7 +11,7 @@ begin:
 	#*setposang cat_cello setpos 98.372551 608.679138 36;setang -90 0 0.000000*
 	#*setposang cat_singer setpos -47.646004 603.924561 36;setang -90 0 0.000000*
 	#*setposang player setpos -95.336090 612.937744 36;setang 8.394650 88.524963 0.000000*
-	#note: Moving cats to floor to let zsnap take care of putting them in their seats
+	#note - Moving cats to floor to let zsnap take care of putting them in their seats
 	*setoffset cat_bar setpos -83.325500 2.762445 0;setang 0.000 0.000 0.000*
 	*setoffset cat_piano setpos -2.397583 48.296669 0;setang 0.000 180.000 0.000*
 	*setoffset cat_cello setpos 1.320862 98.372551 0;setang 0.000 180.000 0.000*

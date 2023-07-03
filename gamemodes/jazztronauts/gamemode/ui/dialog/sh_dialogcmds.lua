@@ -144,7 +144,7 @@ local defaultRoot = nil
 -- locales are points defined in the hub map. This list keeps track of the ones we're using in the current scene.
 local sceneLocales = {}
 -- z snap is how far up or down a character will be adjusted on the Z axis in order to appear standing on the ground. 0 or less to disable
-local zSnap = 40
+local zSnap = 64
 
 dialog.RegisterFunc("sceneroot", function(d, name)
 	defaultRoot = sceneModels[name] or nil
@@ -568,6 +568,7 @@ local function SceneRootToWorld(name, set)
 		if tr.Hit then
 			--print(tostring(name).." adjusted by "..tostring(tr.HitPos-tab.pos) .."!")
 			tab.pos = Vector(tr.HitPos)
+			tab.pos.z = tab.pos.z + pos.z
 		end
 	end
 
