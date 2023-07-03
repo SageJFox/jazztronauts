@@ -132,6 +132,7 @@ a11:
 	*setanim cat_bar gesture_exchange 1.4 idle*
 	Your hot water on the rocks,%% sir.
 	*spawn glass models/sunabouzu/shot_glass.mdl*
+	*setscale glass 2*
 	*setoffset glass setpos -38.634216 51.865730 0;setang -0.000 178.619 0.000*
 	*setbodygroup glass liquid 3*
 	&a12
@@ -152,7 +153,7 @@ a13:
 	*setcamroot player setpos 137.250366 -95.772217 85.015930;setang 21.618 148.085 -7.714* #### GROUP
 	#*setcam setpos -2755.242432 3053.066895 85.446762;setang 9.140029 -147.408585 0.000000* #### GROUP
 	*setanim cat_cello pose_sit01*
-	*setoffset glass setpos -38.634216 51.865730 1.282566;setang 5.940 26.572 -88.515*
+	*setoffset glass setpos -38.634216 51.865730 2.565132;setang 5.940 26.572 -88.515*
 	hm that's funny i remember ordering a hot water on the rocks and 
 	appear to have gotten a*setanim cat_cello pose_sit01* tepid water on the pebbles instead.%%%%*CELLO_MAD* 
 	i ain't leaving til you give me that real shit you got
@@ -230,7 +231,7 @@ c8:
 c9:
 	*CELLO_BLINK*
 	> He manages to gather up the*CELLO_MAD* courage to open his mouth and speak,%%% 
-	but is cut off by*CELLO_NEUTRAL**spawn glass2 models/sunabouzu/shot_glass.mdl**setoffset glass2 setpos -45.634216 44.865730 0;setang -0.000 178.619 0.000**setbodygroup glass2 liquid 3* the Bartender serving a glass in front of him.
+	but is cut off by*CELLO_NEUTRAL**spawn glass2 models/sunabouzu/shot_glass.mdl**setscale glass2 2**setoffset glass2 setpos -45.634216 44.865730 0;setang -0.000 178.619 0.000**setbodygroup glass2 liquid 3* the Bartender serving a glass in front of him.
 	&c10
 
 c10:
