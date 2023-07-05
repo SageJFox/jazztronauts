@@ -9,6 +9,8 @@ mycoolmacro value
 oncat(name) *setfocus npc_cat_name*
 #   will replace any usage of 'oncat(bobby)' with '*setfocus npc_cat_bobby*'
 #   you can use argument to specify which parts can be modified
+#	MIND YOUR SPACES IN YOUR ARGUMENTS, they're included too!
+#	'oncat( bobby )'' will result in '*setfocus npc_cat_ bobby *', which would error out!
 
 complex_name(v0,v1,v2) first:v0 second:v1 compound(v2): oncat(v2)
 #   macros can have names with underscores in them, and also have multiple arguments
@@ -50,7 +52,7 @@ SINGER_MISCHIEF setskin cat_singer 3
 spawnnarrator() *spawn narrator dummy**setnpcid narrator npc_narrator*
 spawnnarratorroot(scene_locale) spawnnarrator()*sceneroot narrator**setlocale narrator scene_locale*
 
-#	Old models, leaving them in for backwards compatibility
+# Old models, leaving them in for backwards compatibility
 spawnbartender() *spawn cat_bar models/andy/bartender/cat_bartender.mdl**setnpcid cat_bar npc_cat_bar**BAR_NEUTRAL**setanim cat_bar idle*
 spawnpianist() *spawn cat_piano models/andy/pianist/cat_pianist.mdl**setnpcid cat_piano npc_cat_piano**PIANO_NEUTRAL**setanim cat_piano idle*
 spawncellist() *spawn cat_cello models/andy/cellist/cat_cellist.mdl**setnpcid cat_cello npc_cat_cello**CELLO_NEUTRAL**setanim cat_cello idle*
