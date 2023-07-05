@@ -3,8 +3,7 @@ SKIP_OPEN = true
 begin:
 	# Scene setup
 	*txout*
-	
-	spawnnarratorroot(scene_bar_solo)
+	spawnnarratorroot(scene_bar_solo scene_bar)
 	# Spawn the cat we'll be conversing with
 	# Note this sets the cat as the 'proxy', meaning that's the model that'll show up in the bottom left dialog corner
 	spawncatbartender()

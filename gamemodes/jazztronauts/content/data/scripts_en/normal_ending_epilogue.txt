@@ -3,7 +3,7 @@ SKIP_OPEN = true
 begin:
 	*hide*
 	*txout*
-	spawncatsrooted(scene_bar)
+	spawncatsrooted(scene_bar scene_bar_solo)
 	#*zsnap 0*
 	*bgmplay sound/jazztronauts/music/events/warm_song.mp3 .75 3*
 	#*setposang cat_bar setpos 2.762444 693.325500 32;setang -90 180 0.000000*

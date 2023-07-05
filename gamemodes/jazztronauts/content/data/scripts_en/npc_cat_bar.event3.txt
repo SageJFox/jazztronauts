@@ -2,7 +2,7 @@ SKIP_OPEN = true
 
 begin:
 	*txout*
-	spawnnarratorroot(scene_bar_solo)
+	spawnnarratorroot(scene_bar_solo scene_bar)
 	#*zsnap 0*
 	spawncatbartender()
 	spawncatcellist()

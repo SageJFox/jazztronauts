@@ -4,7 +4,7 @@ begin:
 	# Scene setup
 	*txout*
 	*zsnap 40*
-	spawnnarratorroot(scene_booth_solo)
+	spawnnarratorroot(scene_booth_solo scene_booth)
 	spawncatcellist()
 	#*setposang cat_cello setpos 4.526166 3119.696289 25;setang -90 270 0.000000*
 	*setoffset cat_cello setpos -59.473835 -16.303711 0;setang 0.000 0.000 0.000*

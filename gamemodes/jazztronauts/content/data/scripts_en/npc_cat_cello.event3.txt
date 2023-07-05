@@ -3,7 +3,7 @@ SKIP_OPEN = true
 begin:
 	# Scene setup
 	*txout*
-	spawnnarratorroot(scene_diningroom_far)
+	spawnnarratorroot(scene_diningroom_far scene_diningroom)
 	spawncatcellist()
 	#*setposang cat_cello setpos -1591.417236 545.902283 -64;setang -90 216 0.000000*
 	#*setposang player setpos -1543.828735 493.394104 -64;setang 0 148.702667 0.000000*

@@ -9,6 +9,8 @@ local mapTriggerPrefix = "jazzio_"
 -- If we want our various set commands to print scene root conversions to console
 local RUN_CONVERSION = true
 
+local maxLocalesUInt = 3 -- 2^3 = 8 max locales
+
 if SERVER then
 	util.AddNetworkString( "dialog_requestcommand" )
 
@@ -50,16 +52,27 @@ if SERVER then
 
 		if not IsValid(ply) then return end
 
-		local str = net.ReadString()
-		if not str then return end
-
 		local name = net.ReadString()
 		if not name then return end
 
-		local ent = nil
-		local enttab = ents.FindByName(str)
-		if #enttab > 0 then
-			ent = enttab[1]
+		local count = net.ReadUInt(maxLocalesUInt)
+		local tab = {}
+		for i = 0, count do
+			local str = net.ReadString()
+			if not str then return end
+			table.insert(tab,str)
+		end
+		if table.IsEmpty(tab) then return end
+		--PrintTable(tab)
+
+		local ent, locale = nil, nil
+		for _, v in ipairs(tab) do	
+			local enttab = ents.FindByName(v)
+			if next(enttab) ~= nil then
+				ent = enttab[1]
+				locale = v
+				break
+			end
 		end
 
 		local pos = vector_origin
@@ -71,8 +84,8 @@ if SERVER then
 		end
 
 		net.Start("dialog_returnlocale")
-			net.WriteString(str)
 			net.WriteString(name)
+			net.WriteString(tostring(locale))
 			--net.WriteEntity(ent)
 			net.WriteVector(pos)
 			net.WriteAngle(ang)
@@ -734,8 +747,8 @@ net.Receive("dialog_returnlocale", function(len, ply)
 
 	--if not IsValid(ply) then return end
 
-	local locale = net.ReadString()
 	local name = net.ReadString()
+	local locale = net.ReadString()
 	--local ent = net.ReadEntity()
 	local pos = net.ReadVector()
 	local ang = net.ReadAngle()
@@ -753,18 +766,32 @@ net.Receive("dialog_returnlocale", function(len, ply)
 
 end )
 
-dialog.RegisterFunc("setlocale", function(d, name, localename, ...)
-	if not sceneLocales[localename.."pos"] and not sceneLocales[localename.."ang"] then
+dialog.RegisterFunc("setlocale", function(d, name, ...)
+	local gotone = nil 
+	local localetest = {...}
+	for k, v in ipairs(localetest) do
+		if sceneLocales[v.."pos"] and sceneLocales[v.."ang"] then
+			gotone = k
+			break
+		end
+	end
+	if not gotone then
 		net.Start("dialog_requestlocale")
-			net.WriteString(tostring(localename))
 			net.WriteString(tostring(name))
+			local max = math.pow(2,maxLocalesUInt)
+			net.WriteUInt(math.min(#localetest-1,max-1),maxLocalesUInt)
+			for _, v in ipairs(localetest) do
+				net.WriteString(tostring(v))
+				max = max - 1
+				if max <= 0 then break end
+			end
 		net.SendToServer()
 	else
 		--we've already got this locale, no need to network for it again
 		local ent = sceneModels[name]
 		if IsValid(ent) then
-			ent:SetPos(sceneLocales[localename.."pos"])
-			ent:SetAngles(sceneLocales[localename.."ang"])
+			ent:SetPos(sceneLocales[localetest[gotone].."pos"])
+			ent:SetAngles(sceneLocales[localetest[gotone].."ang"])
 			WorldToSceneRoot(name,true)
 		end
 	end

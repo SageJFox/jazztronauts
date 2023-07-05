@@ -3,7 +3,7 @@ SKIP_OPEN = true
 begin:
 	*txout*
 	#*zsnap 0*
-	spawnnarratorroot(scene_bar_solo)
+	spawnnarratorroot(scene_bar_solo scene_bar)
 	spawncatbartender()
 	#*setposang cat_bar setpos -2880.668457 2908.302490 0;setang -90 210 0*
 	#*setposang player setpos -2649.127686 2834.540283 0;setang 0.328832 157.771545 0*
