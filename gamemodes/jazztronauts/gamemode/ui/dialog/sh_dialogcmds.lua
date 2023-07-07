@@ -535,6 +535,32 @@ local function WorldToSceneRootCam(set)
 	return tab
 end
 
+local function groundAdjust(vec,pos)
+	local pos = pos or vector_origin
+	
+	local tr = util.TraceLine( {
+		start = vec + Vector(0,0,zSnap),
+		endpos = vec - Vector(0,0,zSnap),
+		--using a function here is expensive let's gooo
+		filter = function(ent)
+			if ent:IsPlayer() then return false end
+			--if ent:GetClass() == "prop_physics_multiplayer" then return true end --test
+			if ent:GetClass() == "jazz_cat" then return false end
+			if ent:GetClass() == "jazz_door_eclipse" then return false end
+			if ent:GetClass() == "jazz_shard_podium" then return false end
+		end,
+		mask = MASK_NPCSOLID
+	} )
+	
+	if tr.Hit then
+		--print(tostring(name).." adjusted by "..tostring(tr.HitPos-tab.pos) .."!")
+		vec = Vector(tr.HitPos)
+		vec.z = vec.z + pos.z
+	end
+	return vec
+end
+
+
 --figure out our world position, from our offset to the sceneroot
 
 local function SceneRootToWorld(name, set)
@@ -563,27 +589,7 @@ local function SceneRootToWorld(name, set)
 	tab.pos,tab.ang = LocalToWorld(pos,ang,rootpos,rootang)
 
 	--ground work
-	if prop.gravity and zSnap > 0 then
-		local tr = util.TraceLine( {
-			start = tab.pos + Vector(0,0,zSnap),
-			endpos = tab.pos - Vector(0,0,zSnap),
-			--using a function here is expensive let's gooo
-			filter = function(ent)
-				if ent:IsPlayer() then return false end
-				--if ent:GetClass() == "prop_physics_multiplayer" then return true end --test
-				if ent:GetClass() == "jazz_cat" then return false end
-				if ent:GetClass() == "jazz_door_eclipse" then return false end
-				if ent:GetClass() == "jazz_shard_podium" then return false end
-			end,
-			mask = MASK_NPCSOLID
-		} )
-		
-		if tr.Hit then
-			--print(tostring(name).." adjusted by "..tostring(tr.HitPos-tab.pos) .."!")
-			tab.pos = Vector(tr.HitPos)
-			tab.pos.z = tab.pos.z + pos.z
-		end
-	end
+	if prop.gravity and zSnap > 0 then tab.pos = groundAdjust(tab.pos,pos) end
 
 	--we want to set the prop's position in the world, rather than return the values
 	if set then
@@ -1308,6 +1314,7 @@ local function getTweenValues(obj)
 			if obj.goaloffset then
 				--obj.startpos = obj:GetPos()
 				obj.goalpos, _ = LocalToWorld(obj.goaloffset, obj.goalrot or obj.goalang, rootpos, rootang)
+				obj.goalpos = groundAdjust(obj.goalpos,obj.goaloffset)
 			end
 
 			if obj.goalrot then
