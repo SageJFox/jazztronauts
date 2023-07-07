@@ -3,15 +3,21 @@
 begin:
 	# Scene setup
 	*txout*
-	spawngang()
-	*setposang cat_bar setpos -2889.937988 2926.586670 0;setang -90 180 0.000000*
-	*setcam setpos -2595.013428 2744.007568 85.509125;setang 6.983787 148.065491 0.000000 fov70*
-	*setposang cat_piano setpos -2927.378174 2883.511963 0;setang -90 300 0.000000*
-	*setposang cat_singer setpos -2856.525635 2876.622559 0;setang -90 51 0.000000*
-	*setposang player setpos -2726.948975 2782.044189 0;setang 3.300901 140.335999 0.000000*
-	*setposang cat_cello setpos 3586.341309 522.965698 0;setang -90 270 0.000000*
-	*setanim cat_cello pose_sit01*
-	*CELLO_EMPTY*
+	#*zsnap 0*
+	spawnnarratorroot(scene_bar_solo scene_bar)
+	spawncatbartender()
+	spawncatpianist()
+	spawncatsinger()
+	#*setposang cat_bar setpos -2889.937988 2926.586670 0;setang -90 180 0.000000*
+	#*setposang cat_piano setpos -2927.378174 2883.511963 0;setang -90 300 0.000000*
+	#*setposang cat_singer setpos -2856.525635 2876.622559 0;setang -90 51 0.000000*
+	#*setposang player setpos -2726.948975 2782.044189 0;setang 3.300901 140.335999 0.000000*
+	*setoffset cat_bar setpos 25.413330 -25.937988 0.000000;setang 0.000 0.000 0.000*
+	*setoffset cat_piano setpos 68.488037 -63.378174 0.000000;setang 0.000 120.000 0.000*
+	*setoffset cat_singer setpos 75.377441 7.474365 0.000000;setang 0.000 231.000 0.000*
+	*setoffset player setpos 169.955811 137.051025 0.000000;setang 3.301 -129.664 0.000*
+	*setcamroot player setpos -130.557373 -54.931641 78.121094;setang 3.713 7.688 -0.445 fov70*
+	#*setcam setpos -2595.013428 2744.007568 85.509125;setang 6.983787 148.065491 0.000000 fov70*
 	*txin*
 	
 ###### START
@@ -22,11 +28,16 @@ begin:
 	&b1
 
 b1:
-	*tweenposang cat_bar .35 setpos -2889.937988 2926.586670 0;setang -90 216 0.000000*
-	*tweenposang cat_piano .35 setpos -2927.378174 2883.511963 0;setang -90 230 0.000000*
-	*tweenposang cat_singer .35 setpos -2856.525635 2876.622559 0;setang -90 216 0.000000*
+	#*tweenposang cat_bar .35 setpos -2889.937988 2926.586670 0;setang -90 216 0.000000*
+	#*tweenposang cat_piano .35 setpos -2927.378174 2883.511963 0;setang -90 230 0.000000*
+	#*tweenposang cat_singer .35 setpos -2856.525635 2876.622559 0;setang -90 216 0.000000*
+	*tweenoffset cat_bar .35 setpos 25.413330 -25.937988 0.000000;setang 0.000 36.000 0.000*
+	*tweenoffset cat_piano .35 setpos 68.488037 -63.378174 0.000000;setang 0.000 50.000 0.000*
+	*tweenoffset cat_singer .35 setpos 75.377441 7.474365 0.000000;setang 0.000 36.000 0.000*
 	*setspeaker cat_piano*
-	*setcam setpos -2851.549805 2833.720459 57.335415;setang 8.687464 145.084076 0.000000* #### PIANO
+	*block spawn pianoroot dummy --> setoffset pianoroot setpos 68.488037 -63.378174 0;setang 0 120 0*
+	*setcamroot pianoroot setpos 40.773438 -81.034668 57.335415;setang 8.687 115.084 0.000* #### PIANO
+	#*setcam setpos -2851.549805 2833.720459 57.335415;setang 8.687464 145.084076 0.000000* #### PIANO
 	*PIANO_NEUTRAL*
 	*setanim cat_piano gesture_anger 2*
 	There you are.%%%
@@ -34,7 +45,9 @@ b1:
 	&b2
 	
 b2:
-	*setcam setpos -2833.064697 2905.589111 54.574524;setang 10.870310 155.732285 0.000000* ###### BAR
+	*setcamroot cat_bar setpos 50.416748 33.669434 54.574524;setang 10.870 -150.268 0.000* ###### BAR
+	#*setcam setpos -2833.064697 2905.589111 54.574524;setang 10.870310 155.732285 0.000000* ###### BAR
+	*remove pianoroot*
 	*setspeaker cat_bar*
 	*setanim cat_bar gesture_sweep 1 idle*
 	He came in here a little while ago drinking something,%% and got 
@@ -63,26 +76,28 @@ b5:
 	&b6
 	
 b6:
-	*setcam setpos -2810.619873 2851.688965 35.836128;setang -0.017270 148.544876 0.000000* ####### SINGER
+	*setcamroot cat_singer setpos 47.154785 22.483032 35.836128;setang -0.017 -157.455 0.000* ####### SINGER
+	#*setcam setpos -2810.619873 2851.688965 35.836128;setang -0.017270 148.544876 0.000000* ####### SINGER
 	*setspeaker cat_singer*
 	*SINGER_FLUSTERED*
 	*setanim cat_singer gesture_exchange 1.4 idle*
-	> The Singer anxiously explains that the Cellist won't listen to
-	any of them,%% not even when the Singer tried to make it clear they
-	were more concerned about him than upset with his outburst by giving
-	a peace offering of a weighted blanket covered in weed leaf decals.
+	> The Singer anxiously explains that the Cellist won't listen to any of them,%% 
+	not even when the Singer tried to make it clear they were more 
+	concerned about him than upset with his outburst by giving a peace 
+	offering of a weighted blanket covered in weed leaf decals.
 	&b7
 	
 b7:
 	*setanim cat_singer gesture_anger 1.4 idle*
-	> "If he won't listen to us then maybe he'll listen to you??%%%
+	> “If he won't listen to us then maybe he'll listen to you??%%%
 	He's talked to you more than he's talked to anyone else we've
 	met in a Really Long Time even though he was on a downswing!!!%%%%*setanim cat_singer gesture_agree 1 idle*
-	That's really impressive!!!"
+	That's really impressive!!!”
 	&b8
 	
 b8:
-	*setcam setpos -3009.787842 2799.737305 87.404266;setang 7.835631 19.437826 0.000000* 
+	*setcamoffset setpos -27.883301 -169.183716 87.404266;setang 7.836 73.438 0.000*
+	#*setcam setpos -3009.787842 2799.737305 87.404266;setang 7.835631 19.437826 0.000000* 
 	*setspeaker narrator*
 	> This is the last event in the Cellist's questline.%% You may
 	want to give the other players a heads up that you'll be busy
@@ -99,10 +114,10 @@ b9:
 		&m1:
 			Point me where I need to go.
 		&r1a1:
-			I'll go make sure he's alright. (Read Summary)
+			I'll go make sure he's alright. *c 0*(Read Summary)*c*
 		&r2a1:
 			I need some time before that kind of talk. 
-			I'll be back when I'm ready. (exit)
+			I'll be back when I'm ready. *c 0*(exit)*c*
 
 
 ###### OPTIONAL SUMMARY. Y'know the one we have in case someone who has these same issues plays our game.
@@ -149,7 +164,8 @@ r1a5:
 	
 ###### EARLY EXIT
 r2a1:
-	*setcam setpos -2833.064697 2905.589111 54.574524;setang 10.870310 155.732285 0.000000* ###### BAR
+	*setcamroot cat_bar setpos 50.416748 33.669434 54.574524;setang 10.870 -150.268 0.000* ###### BAR
+	#*setcam setpos -2833.064697 2905.589111 54.574524;setang 10.870310 155.732285 0.000000* ###### BAR
 	*setspeaker cat_bar*
 	*BAR_NEUTRAL*
 	*setanim cat_bar gesture_facepalm 1 idle*
@@ -159,21 +175,24 @@ r2a1:
 	
 ###### MERGE Point
 m1:
-	*setcam setpos -2851.549805 2833.720459 57.335415;setang 8.687464 145.084076 0.000000* #### PIANO
+	*setcamroot cat_piano setpos 90.093262 10.599243 57.335415;setang 8.687 -174.916 0.000* #### PIANO
+	#*setcam setpos -2851.549805 2833.720459 57.335415;setang 8.687464 145.084076 0.000000* #### PIANO
 	*setanim cat_piano gesture_exchange 1 idle*
 	*setspeaker cat_piano*
 	He's on the patio that overlooks the lake. 
 	&m2
 	
 m2:
-	*setcam setpos -2810.619873 2851.688965 35.836128;setang -0.017270 148.544876 0.000000* ####### SINGER
+	*setcamroot cat_singer setpos 47.154785 22.483032 35.836128;setang -0.017 -157.455 0.000* ####### SINGER
+	#*setcam setpos -2810.619873 2851.688965 35.836128;setang -0.017270 148.544876 0.000000* ####### SINGER
 	*setanim cat_singer gesture_clap 1 idle*
 	*setspeaker cat_singer*
-	> "You're gonna do great, I know it! ✧/ᐠ-ꞈ-ᐟ\"
+	> “You're gonna do great, I know it! ✧/ᐠ-ꞈ-ᐟ\\”
 	&m3
 	
 m3:
-	*setcam setpos -2833.064697 2905.589111 54.574524;setang 10.870310 155.732285 0.000000* ###### BAR
+	*setcamroot cat_bar setpos 50.416748 33.669434 54.574524;setang 10.870 -150.268 0.000* ###### BAR
+	#*setcam setpos -2833.064697 2905.589111 54.574524;setang 10.870310 155.732285 0.000000* ###### BAR
 	*setanim cat_singer gesture_agree 1 idle*
 	*setspeaker cat_bar*
 	Thank you.
@@ -182,9 +201,20 @@ m3:
 m4:
 	*hide*
 	*txout*
+	*remove cat_bar*
+	*remove cat_piano*
+	*remove cat_singer*
+	*setlocale narrator scene_patio*
+	spawncatcellist()
+	#*setposang cat_cello setpos 3586.341309 522.965698 0;setang -90 270 0.000000*
+	#*setposang player setpos 3105.299072 523.735535 0;setang 0.701462 -2.710294 0.000000*
+	*setoffset cat_cello setpos 50.341309 10.965698 0.000000;setang 0.000 0.000 0.000*
+	*setoffset player setpos -430.700928 11.735535 0.000000;setang 0.701 -2.710 0.000*
+	*setcamroot player setpos -116.733887 181.702271 121.050705;setang 18.242 -46.512 0.537*
+	#*setcam setpos 2998.774902 710.683411 122.469833;setang 18.723225 -49.392609 0.000000*
+	*setanim cat_cello pose_sit01*
+	*CELLO_EMPTY*
 	*setspeaker cat_cello*
-	*setcam setpos 2998.774902 710.683411 122.469833;setang 18.723225 -49.392609 0.000000*
-	*setposang player setpos 3105.299072 523.735535 0;setang 0.701462 -2.710294 0.000000*
 	*txin*
 	*wait 2.3*
 	*show*
@@ -192,8 +222,10 @@ m4:
 	&m5
 	
 m5:
-	*setcam setpos 3155.001221 515.577759 61.548340;setang 2.618130 -1.689524 0.000000*
-	*tweencam 40 setpos 3295.045654 512.204102 55.122147;setang 2.644750 -0.890923 0.00000*
+	*setcamroot cat_cello setpos -431.340088 -7.387939 61.548340;setang 2.618 -1.690 0.000*
+	*tweencamoffset 40 setpos -291.295654 -10.761597 55.122147;setang 2.645 -0.891 0.000*
+	#*setcam setpos 3155.001221 515.577759 61.548340;setang 2.618130 -1.689524 0.000000*
+	#*tweencam 40 setpos 3295.045654 512.204102 55.122147;setang 2.644750 -0.890923 0.00000*
 	to say something magical that takes all of the shit on my soul
 	away,%%% to channel mr. rogers and give me a nice three-minute pep
 	talk that reminds me it's okay to be sad sometimes and not know
@@ -215,37 +247,45 @@ m7:
 	&m8
 	
 m8:
-	*setcam setpos 3500.529297 508.445374 33.953777;setang -7.843515 0.448955 0.000000*
-	*setposang cat_cello setpos 3586.341309 522.965698 0;setang -90 90 0.000000*
+	#*setposang cat_cello setpos 3586.341309 522.965698 0;setang -90 90 0.000000*
+	*setoffset cat_cello setpos 50.341309 10.965698 0.000000;setang 0.000 180.000 0.000*
+	*setcamoffset setpos 85.812012 14.520325 33.953777;setang -7.844 -179.551 0.000*
+	#*setcam setpos 3500.529297 508.445374 33.953777;setang -7.843515 0.448955 0.000000*
 	*setanim cat_cello gesture_anger 2 idle*
 	i don't WANT help!%%%*setanim cat_cello gesture_anger 1.6 idle* i don't WANT to be pitied by a fucking
-	useless ephemeral piece of shit like you!%%%%*setcam setpos 3637.327881 379.558289 106.256882;setang 11.908493 144.249985 0.000000*%*setanim cat_cello gesture_facepalm 1 idle*
+	useless ephemeral piece of shit like you!%%%%*setcamroot player setpos 536.910156 -118.861267 112.834122;setang 12.496 146.877 -0.391*%*setanim cat_cello gesture_facepalm 1 idle*#*setcamroot player**setcam setpos 3637.327881 379.558289 106.256882;setang 11.908493 144.249985 0.000000*
 	
 	i'm%.*CELLO_BLINK*%.%.%%*bgmplay sound/jazztronauts/music/events/pariah.mp3 .75 10*    i%*setanim cat_cello gesture_sigh 1 idle*.%.%.%%%*CELLO_MAD*
 	&m9
 
 m9:
-	*setcam setpos 3507.908203 458.545197 71.318253;setang 18.004484 36.705151 0.000000* ###### CELLO 3/4
+	*setcamroot cat_cello setpos 78.433105 64.420502 71.318253;setang 18.004 -143.295 0.000* ###### CELLO 3/4
+	#*setcam setpos 3507.908203 458.545197 71.318253;setang 18.004484 36.705151 0.000000* ###### CELLO 3/4
 	*CELLO_EMPTY*
-	*setposang player setpos 3332.448486 503.497314 0;setang 0.941127 0.297801 0.000000*
+	#*setposang player setpos 3332.448486 503.497314 0;setang 0.941127 0.297801 0.000000*
+	*setoffset player setpos -203.551514 -8.502686 0.000000;setang 0.941 0.298 0.000*
 	*setanim cat_cello gesture_embarass 1 idle*
 	I'm sorry,% *player*.%%%%
 	I'm just so tired% of being so tired.
 	player:
 		&concern:
-			*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
+			*setcamroot player setpos 240.691650 -135.857971 52.837269;setang 3.874 124.746 -0.775* ###### PLAYER AND CELLO PLAYER DOMINANT
+			#*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
 			Look,% if you need space right now,%% I'll give it to you,%%%% but I'm
 			concerned about you.
 		&others:
-			*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000*
+			*setcamroot player setpos 240.691650 -135.857971 52.837269;setang 3.874 124.746 -0.775* ###### PLAYER AND CELLO PLAYER DOMINANT
+			#*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
 			The others are all worried sick about you.
 		&yoga:
-			*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000*
-			I know everybody suggests it,%%% but have you tried-
+			*setcamroot player setpos 240.691650 -135.857971 52.837269;setang 3.874 124.746 -0.775* ###### PLAYER AND CELLO PLAYER DOMINANT
+			#*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
+			I know everybody suggests it,%%% but have you tried—
 
 ###### RESPONSE 1		
 concern:
-	*setcam setpos 3264.319092 433.748749 34.417999;setang 2.165646 34.744156 0.000000* ###### PLAYER AND CELLO CELLO DOMINANT
+	*setcamroot player setpos -69.047119 -69.393280 33.288532;setang 1.390 34.430 -0.532* ###### PLAYER AND CELLO CELLO DOMINANT
+	#*setcam setpos 3264.319092 433.748749 34.417999;setang 2.165646 34.744156 0.000000* ###### PLAYER AND CELLO CELLO DOMINANT
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_sigh 1 idle*
 	I%.%.%.%% I appreciate the offer.%%% And the concern.%%%%*setanim cat_cello gesture_disagree 1 idle* But I don't know what 
@@ -253,7 +293,8 @@ concern:
 	&concern1
 	
 concern1:
-	*setcam setpos 3507.908203 458.545197 71.318253;setang 18.004484 36.705151 0.000000* ###### CELLO 3/4
+	*setcamroot cat_cello setpos 78.433105 64.420502 71.318253;setang 18.004 -143.295 0.000* ###### CELLO 3/4
+	#*setcam setpos 3507.908203 458.545197 71.318253;setang 18.004484 36.705151 0.000000* ###### CELLO 3/4
 	*CELLO_MAD*
 	%.%.%.%Well.%%%*setanim cat_cello gesture_confused 1 idle* I do know what I think I need,%% but enough of me's still 
 	stubborn enough to dig its heels in on the matter.%%%%*setanim cat_cello gesture_shrug 1 idle*
@@ -262,7 +303,8 @@ concern1:
 	
 ###### RESPONSE 2
 others:
-	*setcam setpos 3507.908203 458.545197 71.318253;setang 18.004484 36.705151 0.000000* ###### CELLO 3/4
+	*setcamroot cat_cello setpos 78.433105 64.420502 71.318253;setang 18.004 -143.295 0.000* ###### CELLO 3/4
+	#*setcam setpos 3507.908203 458.545197 71.318253;setang 18.004484 36.705151 0.000000* ###### CELLO 3/4
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_laugh 1 idle*
 	*CELLO_EMPTY*
@@ -274,7 +316,8 @@ others:
 	
 ###### RESPONSE 3
 yoga:
-	*setcam setpos 3264.319092 433.748749 34.417999;setang 2.165646 34.744156 0.000000* ###### PLAYER AND CELLO CELLO DOMINANT
+	*setcamroot player setpos -69.047119 -69.393280 33.288532;setang 1.390 34.430 -0.532* ###### PLAYER AND CELLO CELLO DOMINANT
+	#*setcam setpos 3264.319092 433.748749 34.417999;setang 2.165646 34.744156 0.000000* ###### PLAYER AND CELLO CELLO DOMINANT
 	*CELLO_MAD*
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_sigh 1 idle*
@@ -287,7 +330,8 @@ yoga:
 	
 ###### MERGE
 n1:
-	*setcam setpos 3438.793213 462.698669 9.742290;setang -4.515965 35.702534 0.000000*
+	*setcamroot cat_cello setpos 147.548096 60.267029 9.742290;setang -4.516 -144.297 0.000*
+	#*setcam setpos 3438.793213 462.698669 9.742290;setang -4.515965 35.702534 0.000000*
 	*CELLO_MAD*
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_confused 1 idle*
@@ -302,7 +346,8 @@ n1b:
 	&n2
 	
 n2:
-	*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
+	*setcamroot player setpos 240.691650 -135.857971 52.837269;setang 3.874 124.746 -0.775* ###### PLAYER AND CELLO PLAYER DOMINANT
+	#*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
 	*CELLO_EMPTY*
 	*setanim cat_cello gesture_shrug 1 idle*
 	Maybe you can understand that.%%%%*setanim cat_cello gesture_disagree 1 idle* I really hope you don't.%%%%%%% But the
@@ -311,7 +356,8 @@ n2:
 	&n3
 	
 n3:
-	*setcam setpos 3507.908203 458.545197 71.318253;setang 18.004484 36.705151 0.000000* ###### CELLO 3/4
+	*setcamroot cat_cello setpos 78.433105 64.420502 71.318253;setang 18.004 -143.295 0.000* ###### CELLO 3/4
+	#*setcam setpos 3507.908203 458.545197 71.318253;setang 18.004484 36.705151 0.000000* ###### CELLO 3/4
 	*CELLO_MAD*
 	*setanim cat_cello gesture_jab 1 idle*
 	That's what happened to me until I got%.%.%.%%%*setanim cat_cello gesture_confused 1 idle*
@@ -320,48 +366,57 @@ n3:
 	
 	
 n4:
-	*setcam setpos 3435.073975 511.132660 43.181072;setang 1.260591 -0.926584 0.000000*
-	*tweencam 15 setpos 3331.607666 512.866028 45.466423;setang 1.287210 -0.979824 0.000000*
+	#*setcam setpos 3435.073975 511.132660 43.181072;setang 1.260591 -0.926584 0.000000*
+	#*tweencam 15 setpos 3331.607666 512.866028 45.466423;setang 1.287210 -0.979824 0.000000*
+	*setcamoffset setpos 151.267334 11.833038 43.181072;setang 1.261 179.073 0.000*
+	*tweencamoffset 15 setpos 254.733643 10.099670 45.466423;setang 1.287 179.020 0.000*
+	*setoffset player setpos -403.551514 -8.502686 0.000000;setang 0.941 0.298 0.000* #scooching the player back so they don't clip with the backend of the pan
 	*CELLO_BLINK*
 	*setanim cat_cello gesture_foldarms .75 idle*
 	Years ago,% I saw%% ev%ery%thing.%%% Whatever I did,%*CELLO_NEUTRAL* whatever I was on,%%
 	whatever my frame of mind was,%%% it all aligned.%%%%*setanim cat_cello gesture_agree 1 idle* I could see
-	everything in its place.%%% I can't even describe what I saw and
-	felt,%%*setanim cat_cello gesture_disagree 1 idle* because I can't remember it anymore.
+	everything in its place.%%% I can't even describe what I saw and felt,%%*setanim cat_cello gesture_disagree 1 idle* 
+	because I can't remember it anymore.
 	&n5
 	
 n5:
-	In that fleeting glimpse,%%% that trip that lasted ten thousand
-	years in the span of a heartbeat,%%% I was finally comfortable in
-	my own skin.%%%% I knew where I belonged.%% I knew where everything
-	was going,%% what things were building up towards%.%.%.%
+	In that fleeting glimpse,%%% that trip that lasted ten thousand years 
+	in the span of a heartbeat,%%% I was finally comfortable in my own skin.%%%% 
+	I knew where I belonged.%% I knew where everything was going,%% 
+	what things were building up towards%.%.%.%
 	&n6
 	
 n6:
-	*setcam setpos 3507.908203 458.545197 71.318253;setang 18.004484 36.705151 0.000000* ###### CELLO 3/4
-	*CELLO_BLINK*
+	#*setoffset player setpos -203.551514 -8.502686 0.000000;setang 0.941 0.298 0.000*
+	#*setcamroot cat_cello setpos 78.433105 64.420502 71.318253;setang 18.004 -143.295 0.000* ###### CELLO 3/4
+	##*setcam setpos 3507.908203 458.545197 71.318253;setang 18.004484 36.705151 0.000000* ###### CELLO 3/4
+	#*CELLO_BLINK*
+	*block setoffset player setpos -203.551514 -8.502686 0.000000;setang 0.941 0.298 0.000 --> setcamroot cat_cello setpos 78.433105 64.420502 71.318253;setang 18.004 -143.295 0.000 --> CELLO_BLINK*
 	*setanim cat_cello gesture_facepalm 1 idle*
 	%.%.%.%and then I crashed.%%%%*CELLO_MAD*
 	&n7
 	
 n7:
-	*setcam setpos 3536.503662 494.431030 48.873035;setang 1.846230 22.339319 0.000000* ####### CELLO HEADSHOT
+	*setcamroot cat_cello setpos 49.837646 28.534668 48.873035;setang 1.846 -157.661 0.000* ####### CELLO HEADSHOT
+	#*setcam setpos 3536.503662 494.431030 48.873035;setang 1.846230 22.339319 0.000000* ####### CELLO HEADSHOT
 	*CELLO_EMPTY*
 	*setanim cat_cello gesture_disagree 1 idle*
 	It all was stripped from me as I came down.%%% That sense of oneness,%
-	that fulfillment,%*setanim cat_cello gesture_anger 2 idle* all of it gone except the echo of what it felt
-	like.%%% I was left with nothing but that memory.%%%%*setanim cat_cello gesture_shrug 1 idle* That mockery.
+	that fulfillment,%*setanim cat_cello gesture_anger 2 idle* all of it gone except the echo of what it felt like.%%% 
+	I was left with nothing but that memory.%%%%*setanim cat_cello gesture_shrug 1 idle* That mockery.
 	&n8
 	
 n8:
-	*setcam setpos 2983.167969 338.489960 166.048889;setang 13.931705 19.251358 0.000000*
+	*setcamroot player setpos -352.813721 -163.188507 160.276306;setang 13.042 18.880 -0.314*
+	#*setcam setpos 2983.167969 338.489960 166.048889;setang 13.931705 19.251358 0.000000*
 	I needed to see it all again.%%%%
 	To feel it again.%%%%
 	To escape again.
 	&n9
 	
 n9:
-	*setcam setpos 3507.908203 458.545197 71.318253;setang 18.004484 36.705151 0.000000* ###### CELLO 3/4
+	*setcamroot cat_cello setpos 78.433105 64.420502 71.318253;setang 18.004 -143.295 0.000* ###### CELLO 3/4
+	#*setcam setpos 3507.908203 458.545197 71.318253;setang 18.004484 36.705151 0.000000* ###### CELLO 3/4
 	*setanim cat_cello gesture_sweep 1 idle*
 	And that led me to what you see now.%%% A burnt-out drug-addled wreck
 	chasing a mirage.%%%%*setanim cat_cello gesture_disagree 1 idle* 
@@ -374,18 +429,20 @@ n9b:
 	&n10
 	
 n10:
-	*setcam setpos 3264.319092 433.748749 34.417999;setang 2.165646 34.744156 0.000000* ###### PLAYER AND CELLO CELLO DOMINANT
+	*setcamroot player setpos -69.047119 -69.393280 33.288532;setang 1.390 34.430 -0.532* ###### PLAYER AND CELLO CELLO DOMINANT
+	#*setcam setpos 3264.319092 433.748749 34.417999;setang 2.165646 34.744156 0.000000* ###### PLAYER AND CELLO CELLO DOMINANT
 	*setanim cat_cello gesture_sigh 1 idle*
 	I'm useless.%%%% I don't contribute anything to this crew anymore.%%%%*setanim cat_cello gesture_anger 2 idle*
 	I'm just a wallowing piece of shit coasting on old glories and 
-	sympathies until they realize-
+	sympathies until they realize—
 	&n11
 	
 n11:
-	*setcam setpos 3536.503662 494.431030 48.873035;setang 1.846230 22.339319 0.000000* ####### CELLO HEADSHOT
+	*setcamroot cat_cello setpos 49.837646 28.534668 48.873035;setang 1.846 -157.661 0.000* ####### CELLO HEADSHOT
+	#*setcam setpos 3536.503662 494.431030 48.873035;setang 1.846230 22.339319 0.000000* ####### CELLO HEADSHOT
 	*CELLO_MAD*
 	*setanim cat_cello gesture_shock 1 idle*
-	-realize that I'm more trouble than I'm worth,%*setanim cat_cello gesture_anger 2 idle*
+	—realize that I'm more trouble than I'm worth,%*setanim cat_cello gesture_anger 2 idle*
 	and that I'll never live up to my "potential",%%%*CELLO_EMPTY* 
 	and then they'll throw me out on my ass.
 	&n12
@@ -404,22 +461,26 @@ n13:
 	that's all I can hope for anymore.
 	player:
 		&n14:
-			*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
+			*setcamroot player setpos 240.691650 -135.857971 52.837269;setang 3.874 124.746 -0.775* ###### PLAYER AND CELLO PLAYER DOMINANT
+			#*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
 			Are you trying to convince me of that,% or yourself?
 		
 n14:
-	*setcam setpos 3264.319092 433.748749 34.417999;setang 2.165646 34.744156 0.000000* ###### PLAYER AND CELLO CELLO DOMINANT
+	*setcamroot player setpos -69.047119 -69.393280 33.288532;setang 1.390 34.430 -0.532* ###### PLAYER AND CELLO CELLO DOMINANT
+	#*setcam setpos 3264.319092 433.748749 34.417999;setang 2.165646 34.744156 0.000000* ###### PLAYER AND CELLO CELLO DOMINANT
 	*setspeaker cat_cello*
 	%.%.%.%
 	player:
 		&n15:
-			*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
+			*setcamroot player setpos 240.691650 -135.857971 52.837269;setang 3.874 124.746 -0.775* ###### PLAYER AND CELLO PLAYER DOMINANT
+			#*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
 			I don't pretend to know what you're going through, 
 			but I can tell you you're wrong about your friends. 
 			They see you hurting, and want to help.
 		
 n15:
-	*setcam setpos 3264.319092 433.748749 34.417999;setang 2.165646 34.744156 0.000000* ###### PLAYER AND CELLO CELLO DOMINANT
+	*setcamroot player setpos -69.047119 -69.393280 33.288532;setang 1.390 34.430 -0.532* ###### PLAYER AND CELLO CELLO DOMINANT
+	#*setcam setpos 3264.319092 433.748749 34.417999;setang 2.165646 34.744156 0.000000* ###### PLAYER AND CELLO CELLO DOMINANT
 	*setspeaker cat_cello*
 	*CELLO_MAD*
 	*setanim cat_cello gesture_anger 2 idle*
@@ -429,17 +490,20 @@ n15:
 	to see them go through that.
 	player:
 		&n16:
-			*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
+			*setcamroot player setpos 240.691650 -135.857971 52.837269;setang 3.874 124.746 -0.775* ###### PLAYER AND CELLO PLAYER DOMINANT
+			#*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
 			So you think that hurting them on purpose makes up for hurting 
 			them on accident?
 	
 n16:
-	*setcam setpos 3264.319092 433.748749 34.417999;setang 2.165646 34.744156 0.000000* ###### PLAYER AND CELLO CELLO DOMINANT
+	*setcamroot player setpos -69.047119 -69.393280 33.288532;setang 1.390 34.430 -0.532* ###### PLAYER AND CELLO CELLO DOMINANT
+	#*setcam setpos 3264.319092 433.748749 34.417999;setang 2.165646 34.744156 0.000000* ###### PLAYER AND CELLO CELLO DOMINANT
 	*setspeaker cat_cello*
 	%.%.%.%.%.%.%
 	player:
 		&n16b:
-			*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
+			*setcamroot player setpos 240.691650 -135.857971 52.837269;setang 3.874 124.746 -0.775* ###### PLAYER AND CELLO PLAYER DOMINANT
+			#*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
 			Shutting them out only hurts them more, not less. 
 			They keep holding their hands out for you even when 
 			they get burned sometimes. 
@@ -452,20 +516,26 @@ n16b:
 		&n17
 		
 n17:
-	*setcam setpos 3264.319092 433.748749 34.417999;setang 2.165646 34.744156 0.000000* ###### PLAYER AND CELLO CELLO DOMINANT
+	*setcamroot player setpos -69.047119 -69.393280 33.288532;setang 1.390 34.430 -0.532* ###### PLAYER AND CELLO CELLO DOMINANT
+	#*setcam setpos 3264.319092 433.748749 34.417999;setang 2.165646 34.744156 0.000000* ###### PLAYER AND CELLO CELLO DOMINANT
 	*setspeaker cat_cello*
 	%.%.%.%.%.%.%.%.%.%
 	player:
 		&n18:
-			*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
+			*setcamroot player setpos 240.691650 -135.857971 52.837269;setang 3.874 124.746 -0.775* ###### PLAYER AND CELLO PLAYER DOMINANT
+			#*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
 			It's not too late to take their hands.
 		
 n18:
-	*setcam setpos 3204.602783 514.840210 76.961311;setang 5.706127 -0.074771 0.000000*
-	*setposang cat_cello setpos 3586.341309 522.965698 0;setang -90 270 0.000000*
+	##*setposang cat_cello setpos 3586.341309 522.965698 0;setang -90 270 0.000000*
+	#*setoffset cat_cello setpos 50.341309 10.965698 0.000000;setang 0.000 0.000 0.000*
+	#*setcamroot cat_cello setpos -381.738525 -8.125488 76.961311;setang 5.706 -0.075 0.000*
+	##*setcam setpos 3204.602783 514.840210 76.961311;setang 5.706127 -0.074771 0.000000*
+	*block setoffset cat_cello setpos 50.341309 10.965698 0;setang 0 0 0 --> setcamroot cat_cello setpos -381.738525 -8.125488 76.961311;setang 5.706 -0.075 0*
 	*setanim cat_cello pose_sit01*
 	*CELLO_EMPTY*
-	*setposang player setpos 3578.333008 494.673340 5;setang 12.760320 -1.751974 0.000000*
+	#*setposang player setpos 3578.333008 494.673340 5;setang 12.760320 -1.751974 0.000000*
+	*setoffset player setpos 42.333008 -17.326660 0;setang 12.760 -1.752 0.000*
 	*setanim player sit*
 	*setspeaker narrator*
 	> With that,%%% something inside the Cellist finally breaks open,% and he
@@ -473,12 +543,6 @@ n18:
 	&n18b
 	
 n18b:
-	*setcam setpos 3204.602783 514.840210 76.961311;setang 5.706127 -0.074771 0.000000*
-	*setposang cat_cello setpos 3586.341309 522.965698 0;setang -90 270 0.000000*
-	*setanim cat_cello pose_sit01*
-	*CELLO_EMPTY*
-	*setposang player setpos 3578.333008 494.673340 5;setang 12.760320 -1.751974 0.000000*
-	*setanim player sit*
 	You sit with him as his sobbing wracks his body,% 
 	arm around his shoulder,% hand on his.
 	&n19
