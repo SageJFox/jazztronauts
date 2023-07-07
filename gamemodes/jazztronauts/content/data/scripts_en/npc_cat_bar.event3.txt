@@ -32,7 +32,7 @@ a2:
 	#*setcam setpos -2825.425781 2948.380615 69.888466;setang 4.348406 143.379730 0.000000* ###### BAR AND PLAYER SANS CELLIST
 	*BAR_SURPRISE*
 	-shockingly,% yes,%%*BAR_HAPPY* you CAN make a soup stock out of crystallized bone 
-	marrow.%%%*BAR_BLINK* The sheer richness%.%.%.%%%*BAR_NEUTRAL*I wish I could offer you a-
+	marrow.%%%*BAR_BLINK* The sheer richness%.%.%.%%%*BAR_NEUTRAL*I wish I could offer you a—
 	&a3
 
 a3:
@@ -72,7 +72,7 @@ a5:
 	#*setcam setpos -2871.273193 2983.027832 75.699509;setang 0.941066 86.794304 0.000000* ###### BAR HEADSHOT
 	*BAR_NEUTRAL*
 	*setanim cat_bar gesture_dryhands 1 idle*
-	Welcome.%% Would you like something to dri-
+	Welcome.%% Would you like something to dri—
 	&a6
 
 a6:
@@ -192,7 +192,7 @@ c4:
 
 c5:
 	i bet you ain't even got a double black diamond back there it's 
-	probably some weak-ass bunny slope shi-
+	probably some weak-ass bunny slope shi—
 	&c6
 
 c6:

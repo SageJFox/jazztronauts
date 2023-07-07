@@ -51,7 +51,7 @@ a3:
 	*setspeaker cat_piano*
 	*PIANO_NEUTRAL*
 	I know you are.%*setanim cat_piano gesture_facepalm 1 idle*%%% That's why I said it with that tone of voice.%%%*setanim cat_piano gesture_disagree 1 idle* 
-	I wasn't actually aski-
+	I wasn't actually aski—
 	&a4b
 
 a4b:
@@ -350,7 +350,7 @@ c13:
 	*setspeaker cat_piano*
 	*PIANO_ANGRY*
 	*setanim cat_piano gesture_jab 1 idle*
-	Man c'mon I know*PIANO_NEUTRAL* where he's going with this but that thing ain't gonna-
+	Man c'mon I know*PIANO_NEUTRAL* where he's going with this but that thing ain't gonna—
 	&c14
 
 c14:

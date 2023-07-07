@@ -175,7 +175,7 @@ a13:
 	at this point it's starting to feel more like you're just doing this
 	because you know what seeing*setanim cat_cello gesture_anger 2 idle* those fucking things does to me and 
 	this is revenge on behalf of that %'friend'%% you clearly care about 
-	so much more than me you heartless piece of shi-*setcamroot cat_singer setpos 182.004639 -25.966431 83.287720;setang 25.644 171.569 0.000 fov70*#*setcamroot cat_singer**setcam setpos -2911.438721 2963.478271 83.287720;setang 25.644358 -47.431377 0.000000 fov70*
+	so much more than me you heartless piece of shi—*setcamroot cat_singer setpos 182.004639 -25.966431 83.287720;setang 25.644 171.569 0.000 fov70*#*setcamroot cat_singer**setcam setpos -2911.438721 2963.478271 83.287720;setang 25.644358 -47.431377 0.000000 fov70*
 	&a14
 
 a14:
@@ -189,9 +189,9 @@ a15:
 	*CELLO_EMPTY*
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_shock 1.4 idle*
-	%%%.%.%.%pipes no i-%%%*CELLO_MAD*%*setcamoffset setpos -167.536621 -374.956665 2.898863;setang -4.969 62.804 0.000*#*setcam setpos -3261.866699 2754.966064 2.898863;setang -4.968647 23.803549 0.000000* 
-	i didn't mean-%%%%%*setanim cat_cello gesture_embarass 1 idle* 
-	you don't- 
+	%%%.%.%.%pipes no i—%%%*CELLO_MAD*%*setcamoffset setpos -167.536621 -374.956665 2.898863;setang -4.969 62.804 0.000*#*setcam setpos -3261.866699 2754.966064 2.898863;setang -4.968647 23.803549 0.000000* 
+	i didn't mean—%%%%%*setanim cat_cello gesture_embarass 1 idle* 
+	you don't— 
 	&a16
 
 a16:

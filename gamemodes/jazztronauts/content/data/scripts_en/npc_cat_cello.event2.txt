@@ -32,11 +32,11 @@ b1:
 	*setcamoffset setpos 69.595825 -38.121582 49.682854;setang 4.215 119.109 0.000*
 	#*setcam setpos -1464.040039 2978.969971 49.714104;setang 4.215045 -69.891418 0.000000*
 	in summary, when Meat Loaf sings about %%'that'%% in I Would Do Anything 
-	For Love (But I Won't Do That)-%%%*setanim cat_cello gesture_sweep 1 idle* 
+	For Love (But I Won't Do That)—%%%*setanim cat_cello gesture_sweep 1 idle* 
 	&b1b
 	
 b1b:
-	-it should be readily apparent that he's referring to a set of statements 
+	—it should be readily apparent that he's referring to a set of statements 
 	that amount to being a callous or unfaithful lover,%*CELLO_MAD* you fool.%%%%*setanim cat_cello gesture_disagree 1 idle*
 	you imbecile.%%% you great ambulatory chode.
 	&b2
@@ -62,22 +62,22 @@ b3:
 		&b4:
 			*setcamroot player setpos 181.330322 15.603760 62.317734;setang 2.565 -171.984 0.000*
 			#*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
-			Wait, wha-
+			Wait, wha—
 		&b4:
 			*setcamroot player setpos 181.330322 15.603760 62.317734;setang 2.565 -171.984 0.000*
 			#*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
-			No wait I was just passing by-
+			No wait I was just passing by—
 		&b4:
 			*setcamroot player setpos 181.330322 15.603760 62.317734;setang 2.565 -171.984 0.000*
 			#*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
-			Don't you leave me alone with him you rat fu-
+			Don't you leave me alone with him you rat fu—
 		
 b4:
 	*setspeaker cat_piano*
 	*setanim cat_piano gesture_disagree 1 idle*
 	No need to thank me I'll be sure to petition Congress for 
 	a posthumous Medal of Honor,%%*PIANO_NEUTRAL*
-	now if you'll excuse me -
+	now if you'll excuse me—
 	&b5
 	
 b5:

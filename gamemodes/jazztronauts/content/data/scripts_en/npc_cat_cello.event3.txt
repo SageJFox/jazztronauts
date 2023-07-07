@@ -262,14 +262,14 @@ r3a1:
 	*setspeaker cat_cello*
 	well,%% his biographies and contemporary accounts are full of
 	different testimonies.%%%*setanim cat_cello gesture_disagree 1 idle* some say he died of heatstroke or
-	chronically bad health while on a trip-
+	chronically bad health while on a trip—
 	&r3a2
 		
 r3a2:
 	*setcamroot cat_cello setpos 40.369629 10.024597 44.927017;setang -0.550 -158.945 0.000* #### CELLO HEADSHOT
 	#*setcam setpos -1559.578613 519.134888 -19.041733;setang -0.549607 147.054596 0.000000* #### CELLO HEADSHOT
 	*setanim cat_cello gesture_jab 1 idle*
-	-while another guy points out he had been beaten half to death
+	—while another guy points out he had been beaten half to death
 	a year earlier by unknown assailants.
 	&r3a4
 	
@@ -309,7 +309,7 @@ r4a1:
 	*setanim cat_cello gesture_disagree 1 idle*
 	oh he did plenty of incredibly impressive things.%%% giant goddamn paintings,%%*setanim cat_cello gesture_sweep 1 idle*
 	lighting techniques so refined and influential he damn near became
-	synonymous with the term chiaroscuro-
+	synonymous with the term chiaroscuro—
 	&r4a2
 	
 r4a2:
