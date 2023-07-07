@@ -52,6 +52,9 @@ function isTransitioning()
 	local amount = getTransitionAmount()
 	return transitioning != 0 and (amount >= 0 and amount <= 1)
 end
+function isTransitionedOut()
+	return transitioning == -1
+end
 
 concommand.Add("txin", function() transitionIn() end )
 concommand.Add("txout", function() transitionOut() end )

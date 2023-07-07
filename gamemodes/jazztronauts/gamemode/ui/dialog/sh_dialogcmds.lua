@@ -1287,10 +1287,14 @@ function ResetView(instant)
 	//Only do the transition if we've actually overwritten something
 	if table.Count(view) > 0 and not instant then
 		local isSpooky = dialog.GetParam("STYLE") == "horror"
-		transitionOut(nil, isSpooky, nil, isSpooky)
-		timer.Simple(1.5, function()
+		local time = 0.5
+		if not isTransitionedOut() then
+			transitionOut(nil, isSpooky, nil, isSpooky)
+			time = 1.5
+		end
+		timer.Simple(time, function()
 			reset()
-		transitionIn(nil, isSpooky, nil, isSpooky)
+			transitionIn(nil, isSpooky, nil, isSpooky)
 		end)
 	else
 		reset()
@@ -1329,7 +1333,9 @@ local function getTweenValues(obj)
 		if p >= 1 then
 			obj.endtime = nil
 			obj.goaloffset = nil
+			obj.goalpos = nil
 			obj.goalrot = nil
+			obj.goalang = nil
 		end
 
 		return pos, ang
