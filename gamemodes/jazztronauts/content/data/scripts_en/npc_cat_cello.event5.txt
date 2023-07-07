@@ -99,17 +99,17 @@ b8:
 	*setcamoffset setpos -27.883301 -169.183716 87.404266;setang 7.836 73.438 0.000*
 	#*setcam setpos -3009.787842 2799.737305 87.404266;setang 7.835631 19.437826 0.000000* 
 	*setspeaker narrator*
-	> This is the last event in the Cellist's questline.%% You may
+	*OOC*(This is the last event in the Cellist's questline.%% You may
 	want to give the other players a heads up that you'll be busy
-	for a bit,%%% if you continue.
+	for a bit,%%% if you continue.)
 	&b9
 	
 b9:
 	*setspeaker narrator*
-	> Additionally,%% the following scene contains a more serious 
+	*OOC*(Additionally,%% the following scene contains a more serious 
 	depiction of the Cellist's many issues.%%%% An option has been 
 	provided below to skip it and read a summary instead,% if you
-	would prefer to avoid playing through it.
+	would prefer to avoid playing through it.)
 	player:
 		&m1:
 			Point me where I need to go.

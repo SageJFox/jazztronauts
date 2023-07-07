@@ -34,7 +34,7 @@ a2:
 
 a3:
 	*setspeaker narrator*
-	(This is the last event. You may want to give the other players
+	*OOC*(This is the last event. You may want to give the other players
 	a heads-up that you'll be busy for a little while.)
 	player:
 		&a4: Yeah sure,% I'm down for free food.

@@ -77,3 +77,4 @@ spawncatash() *spawn cat_void models/andy/cats/cat_all.mdl**setnpcid cat_void np
 NGPLUSCOLOR 0 200 0
 420COLOR 0 155 0
 ASIDECOLOR 176
+OOC c 176
