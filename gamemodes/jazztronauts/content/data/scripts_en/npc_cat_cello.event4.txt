@@ -3,41 +3,51 @@ SKIP_OPEN = true
 begin:
 	# Scene setup
 	*txout*
-	spawnnarrator()
-	spawncellist()
-	spawnsinger()
-	*setposang cat_cello setpos -2912.563965 2959.992920 36;setang -90 0 0.000000*
+	#*zsnap 0*
+	spawnnarratorroot(scene_bar_solo scene_bar)
+	spawncatcellist()
+	spawncatsinger()
+	#*setposang cat_cello setpos -2912.563965 2959.992920 36;setang -90 0 0.000000*
+	*setoffset cat_cello setpos -7.992920 -48.563965 0;setang 0.000 180.000 0.000*
 	*bgmplay sound/jazztronauts/music/events/allspice.mp3 .5 2.0*
-	*setposang cat_singer setpos -2681.986572 2795.670410 0;setang -90 51 0.000000*
+	#*setposang cat_singer setpos -2681.986572 2795.670410 0;setang -90 51 0.000000*
+	*setoffset cat_singer setpos 156.329590 182.013428 0;setang 0.000 231.000 0.000*
 	*CELLO_MAD*
 	*setanim cat_cello pose_sit02*
 	*SINGER_MAD*
-	*setcam setpos -2801.732178 2749.402588 65.024940;setang -1.082185 105.084007 0.000000 fov70*
-	*setposang player setpos 122.167236 3117.539795 24;setang 0 -177.779892 0.000000*
+	*setcamroot cat_cello setpos -210.590332 -110.831543 29.024940;setang -1.082 15.084 0.000 fov70*
+	#*setcam setpos -2801.732178 2749.402588 65.024940;setang -1.082185 105.084007 0.000000 fov70*
+	*spawn boothroot dummy*
+	*setlocale boothroot scene_booth_solo scene_booth*
+	*setroot player boothroot setpos 58.167236 -18.460205 0;setang -0.000 -177.780 0.000*
+	#*setposang player setpos 122.167236 3117.539795 24;setang 0 -177.779892 0.000000*
 	*setanim player sit*
 	*txin*
 	
 ###### START
 	*setspeaker narrator*
 	*show*
-	> The Bar Samsara.%%%%%%*setcam setpos -92.599274 2894.528809 95.031448;setang 7.010281 47.859997 0.000000* You're minding your own business at a booth near 
+	#> The Bar Samsara.%%%%%%*setcamroot player**setcam setpos -92.599274 2894.528809 95.031448;setang 7.010281 47.859997 0.000000* You're minding your own business at a booth near 
+	> The Bar Samsara.%%%%%%*setcamroot player setpos 223.243988 214.524170 71.031448;setang 7.010 -134.360 0.000* You're minding your own business at a booth near 
 	the bar,%% taking some time to rest your legs and watch the Cellist 
-	knock back what looks suspiciously like shots of antifreeze,%*emitsound physics/wood/wood_panel_impact_hard1.wav 0.45*%*setcam setpos -2889.212646 3035.416260 68.696411;setang 4.880709 -48.762085 0.000000* when 
+	knock back what looks suspiciously like shots of antifreeze,%*emitsound physics/wood/wood_panel_impact_hard1.wav 0.45*%*setcamroot cat_singer setpos 311.921631 -55.905762 68.696411;setang 4.881 170.238 0.000* when #*setcamroot cat_singer**setcam setpos -2889.212646 3035.416260 68.696411;setang 4.880709 -48.762085 0.000000*
 	the Singer storms in.%%% They look,% uh,%% miffed.
 	&a2
 
 a2:
-	*setcam setpos -2906.829590 3070.279053 62.922913;setang 1.979135 -86.136635 0.000000*
+	*setcamroot cat_cello setpos 110.286133 -5.734375 26.922913;setang 1.979 -176.137 0.000*
+	#*setcam setpos -2906.829590 3070.279053 62.922913;setang 1.979135 -86.136635 0.000000*
 	*setspeaker cat_cello*
-	*CELLO_MAD*
 	oh god here we go huh
 	player:
-		&a3: 
-			*setcam setpos -2801.732178 2749.402588 65.024940;setang -1.082185 105.084007 0.000000*
-			[watch silently]
-		&cheeseit: 
-			*setcam setpos -2801.732178 2749.402588 65.024940;setang -1.082185 105.084007 0.000000* 
-			I feel like I should be anywhere else right now. (exit)
+		&a3:
+			*setcamoffset setpos -210.590332 -110.831543 29.024940;setang -1.082 15.084 0.000*
+			#*setcam setpos -2801.732178 2749.402588 65.024940;setang -1.082185 105.084007 0.000000*
+			*slam . . .**c 0*[watch silently]*c*
+		&cheeseit:
+			*setcamoffset setpos -210.590332 -110.831543 29.024940;setang -1.082 15.084 0.000*
+			#*setcam setpos -2801.732178 2749.402588 65.024940;setang -1.082185 105.084007 0.000000* 
+			I feel like I should be anywhere else right now. *c 0*(exit)*c*
 
 
 ### EARLY EXIT
@@ -51,9 +61,14 @@ cheeseit:
 ### MAIN BRANCH
 
 a3:
-	*tweenposang cat_cello .5 setpos -2908 2950 36;setang -90 231 0.000000*
+	##*setposang cat_singer setpos -2786.335693 2828.759277 0;setang -90 51 0.000000*
+	#*setoffset cat_singer setpos 123.240723 77.664307 0;setang 0.000 231.000 0.000*
+	#*setcamroot cat_singer setpos -37.975342 71.361206 65.024940;setang -1.082 -35.916 0.000*
+	##*setcam setpos -2801.732178 2749.402588 65.024940;setang -1.082185 105.084007 0.000000*
+	*block setoffset cat_singer setpos 123.240723 77.664307 0;setang 0 231 0 --> setcamroot cat_singer setpos -37.975342 71.361206 65.024940;setang -1.082 -35.916 0*
+	#*tweenposang cat_cello .5 setpos -2908 2950 36;setang -90 231 0.000000*
+	*tweenoffset cat_cello .5 setpos 2 -44 0;setang 0 51 0*
 	*setanim cat_cello pose_sit01*
-	*setposang cat_singer setpos -2786.335693 2828.759277 0;setang -90 51 0.000000*
 	*setspeaker cat_singer*
 	> You can only see part of the Singer's tablet from where you're 
 	sitting,%% but even the little bit you can see has a lot of cursing 
@@ -62,7 +77,8 @@ a3:
 	&a4
 
 a4:
-	*setcam setpos -2810.136963 2743.730713 17.970165;setang -9.600546 108.446877 0.000000*
+	*setcamroot cat_cello setpos 205.863281 -98.714111 -18.029835;setang -9.601 147.447 0.000*
+	#*setcam setpos -2810.136963 2743.730713 17.970165;setang -9.600546 108.446877 0.000000*
 	*setspeaker cat_cello*
 	*CELLO_BLINK*
 	*setanim cat_cello gesture_facepalm 1 idle*
@@ -81,33 +97,40 @@ a5:
 	&a6
 
 a6:
-	*setcam setpos -2598.027100 3051.372070 79.533783;setang 4.561276 -148.862167 0.000000*
+	*setcamroot cat_singer setpos -6.248291 -291.509155 79.533783;setang 4.561 70.138 0.000*
+	#*setcam setpos -2598.027100 3051.372070 79.533783;setang 4.561276 -148.862167 0.000000*
 	*setspeaker cat_singer*
 	*setanim cat_singer gesture_anger 2 idle*
 	> The Singer's impassioned flailing lets you see more of the tablet 
 	this time.%%%%*setanim cat_singer gesture_shock 1 idle* They seem to be viscerally horrified by the way the 
 	Kleiner was irrevocably destroyed,%%*setanim cat_singer gesture_anger 2 idle* and going on a screed about how 
-	afraid it must have been when it realized what was happening.
+	afraid it must have been*CELLO_MAD* when it realized what was happening.
 	&a7
 
 a7:
-	*setcam setpos -2899.017090 3001.060791 74.680466;setang 12.094728 -81.194077 0.000000*
+	*setcamroot cat_cello setpos -25.152832 45.334717 38.680466;setang 12.095 -42.194 0.000*
+	#*setcam setpos -2899.017090 3001.060791 74.680466;setang 12.094728 -81.194077 0.000000*
 	*setspeaker narrator*
 	> %.%.%.%you notice the Cellist's grip around the shot glass has gotten 
-	tight as a vise right before it shatters in his paw,%% and his 
+	tight as a vise right before it *emitsound physics/glass/glass_bottle_break2.wav 0.7*shatters in his paw,%% and his 
 	composure snaps.
 	&a8
 
 a8:
-	*setcam setpos -2818.010254 2747.359375 63.005245;setang 2.751089 107.754669 0.000000*
-	*setposang cat_cello setpos -2895.698242 2940.927979 0;setang -90 231 0.000000*
+	##*setposang cat_cello setpos -2895.698242 2940.927979 0;setang -90 231 0.000000*
+	#*setoffset cat_cello setpos 11.072021 -31.698242 0;setang 0.000 51.000 0.000*
+	#*setcamoffset setpos 182.191406 -101.540527 63.005245;setang 2.751 146.755 0.000*
+	##*setcam setpos -2818.010254 2747.359375 63.005245;setang 2.751089 107.754669 0.000000*
+	*block setoffset cat_cello setpos 11.072021 -31.698242 0;setang 0 51 0 --> setcamoffset setpos 182.191406 -101.540527 63.005245;setang 2.751 146.755 0*
 	*setanim cat_cello gesture_anger 2.2 idle*
 	*setspeaker cat_cello*
-	for.%%*setanim cat_cello gesture_facepalm 1.8 idle* fuck's.%*setcam setpos -2850.703613 2846.708984 54.163239;setang 4.508009 110.150406 0.000000*%%%*setanim cat_cello gesture_exchange 2.3 idle* SAKE.*CELLO_MAD**setcam setpos -2871.407959 2902.950928 51.328709;setang 4.854068 113.664223 0.000000*
+	#for.%%*setanim cat_cello gesture_facepalm 1.8 idle* fuck's.%*setcam setpos -2850.703613 2846.708984 54.163239;setang 4.508009 110.150406 0.000000*%%%*setanim cat_cello gesture_exchange 2.3 idle* SAKE.*setcam setpos -2871.407959 2902.950928 51.328709;setang 4.854068 113.664223 0.000000*
+	for.%%*setanim cat_cello gesture_facepalm 1.8 idle* fuck's.%*setcamoffset setpos 94.261230 -44.905884 54.163239;setang 4.508 149.150 0.000*%%%*setanim cat_cello gesture_exchange 2.3 idle* SAKE.*setcamoffset setpos 42.776855 -14.227539 51.328709;setang 4.854 152.664 0.000*
 	&a9
 
 a9:
-	*setcam setpos -2858.027832 2916.603027 50.138813;setang 13.851631 144.117416 0.000000*
+	*setcamoffset setpos 44.583496 4.802734 50.138813;setang 13.852 -176.883 0.000*
+	#*setcam setpos -2858.027832 2916.603027 50.138813;setang 13.851631 144.117416 0.000000*
 	*SINGER_FLUSTERED*
 	*setanim cat_cello gesture_anger 2 idle*
 	they're just robots. shitty dime-store robots that have all the 
@@ -117,7 +140,8 @@ a9:
 	&a10
 
 a10:
-	*setcam setpos -2871.787842 2911.376709 24.914227;setang -33.106087 109.990471 0.000000*
+	*setcamoffset setpos 37.179199 -7.918457 24.914227;setang -33.106 148.990 0.000*
+	#*setcam setpos -2871.787842 2911.376709 24.914227;setang -33.106087 109.990471 0.000000*
 	*SINGER_CRY*
 	*setanim cat_cello gesture_facepalm 1.5 idle*
 	a koala with irreparable brain damage has more self-awareness than 
@@ -127,7 +151,8 @@ a10:
 	&a11
 
 a11:
-	*setcam setpos -2897.719727 2912.082031 49.077942;setang -1.667793 47.167252 0.000000*
+	*setcamoffset setpos 16.582031 -23.689575 49.077942;setang -1.668 86.167 0.000*
+	#*setcam setpos -2897.719727 2912.082031 49.077942;setang -1.667793 47.167252 0.000000*
 	*setanim cat_cello gesture_disagree 1.5 idle*
 	i did you a fucking favor by inhaling that thing because if i didn't
 	you'd*setanim cat_cello gesture_jab 1.3 idle* have given it a name and treated it like a person and put your
@@ -136,7 +161,8 @@ a11:
 	&a12
 
 a12:
-	*setcam setpos -2870.269043 2919.815918 15;setang -45 131.073303 0.000000*
+	*setcamoffset setpos 33.048340 -0.404053 15.000000;setang -45.000 170.073 0.000*
+	#*setcam setpos -2870.269043 2919.815918 15;setang -45 131.073303 0.000000*
 	*setanim cat_cello gesture_facepalm 1.5 idle*
 	you're doing all of this just because you made a promise you can't 
 	keep to something that didn't fucking care about us because if they 
@@ -148,8 +174,8 @@ a13:
 	*setanim cat_cello gesture_disagree 1.3 idle*
 	at this point it's starting to feel more like you're just doing this
 	because you know what seeing*setanim cat_cello gesture_anger 2 idle* those fucking things does to me and 
-	this is revenge on behalf of that %‘friend'%% you clearly care about 
-	so much more than me you heartless piece of shi-*setcam setpos -2911.438721 2963.478271 83.287720;setang 25.644358 -47.431377 0.000000 fov70*
+	this is revenge on behalf of that %'friend'%% you clearly care about 
+	so much more than me you heartless piece of shi-*setcamroot cat_singer setpos 182.004639 -25.966431 83.287720;setang 25.644 171.569 0.000 fov70*#*setcamroot cat_singer**setcam setpos -2911.438721 2963.478271 83.287720;setang 25.644358 -47.431377 0.000000 fov70*
 	&a14
 
 a14:
@@ -158,31 +184,37 @@ a14:
 	&a15
 
 a15:
-	*setcam setpos -2814.735596 2812.099854 41.281853;setang -0.123810 103.770172 0.000000*
+	*setcamroot cat_cello setpos 143.993896 -49.166870 41.281853;setang -0.124 142.770 0.000*
+	#*setcam setpos -2814.735596 2812.099854 41.281853;setang -0.123810 103.770172 0.000000*
 	*CELLO_EMPTY*
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_shock 1.4 idle*
-	%%%.%.%.%pipes no i -%%%*CELLO_MAD*%*setcam setpos -3261.866699 2754.966064 2.898863;setang -4.968647 23.803549 0.000000* 
+	%%%.%.%.%pipes no i-%%%*CELLO_MAD*%*setcamoffset setpos -167.536621 -374.956665 2.898863;setang -4.969 62.804 0.000*#*setcam setpos -3261.866699 2754.966064 2.898863;setang -4.968647 23.803549 0.000000* 
 	i didn't mean-%%%%%*setanim cat_cello gesture_embarass 1 idle* 
 	you don't- 
 	&a16
 
 a16:
 	*setspeaker narrator*
-	*setcam setpos -92.599274 2894.528809 95.031448;setang 7.010281 47.859997 0.000000*
+	*setcamroot player setpos 223.243988 214.524170 71.031448;setang 7.010 -134.360 0.000*
+	#*setcam setpos -92.599274 2894.528809 95.031448;setang 7.010281 47.859997 0.000000*
 	> The Cellist makes barely coherent strangled pleas,%% as his brain 
 	visibly catches up to what his mouth was saying.%%%% The sounds escalate
 	into an overloaded yowl,%% and he runs,%%%% blindly seeking an escape from
-	the words that now hang in the air. *setposang cat_cello setpos 0 0 0;setang -90 0 0.000000*
+	the words that now hang in the air. *remove cat_cello*
 	player:
 		&b1: (run after him)
 		&c1: Are you okay,%% Singer?
 
 ### MINI BRANCH 1
 b1:
-	*setcam setpos -3027.578613 2820.252197 44.074524;setang 6.637681 9.171491 0.000000*
-	*setposang player setpos -2951.335449 2883.029297 0;setang 8.820518 -4.724119 0.000000*
+	##*setposang player setpos -2951.335449 2883.029297 0;setang 8.820518 -4.724119 0.000000*
+	#*setroot player narrator setpos 68.970703 -87.335449 0.000000;setang 8.821 85.276 0.000*
+	#*setcamoffset setpos -76.735352 -68.843018 32.694000;setang -1.928 13.808 -2.112*
+	##*setcam setpos -3027.578613 2820.252197 44.074524;setang 6.637681 9.171491 0.000000*
 	*setanim player idle_all_02*
+	*block setroot player narrator setpos 68.970703 -87.335449 0;setang 8.821 85.276 0 --> setcamoffset setpos -76.735352 -68.843018 32.694000;setang -1.928 13.808 -2.112*
+	*remove boothroot*
 	*setspeaker narrator*
 	*setanim cat_singer gesture_disagree 1 idle*
 	> You start after the Cellist,%% only to be stopped by the Singer*setanim cat_singer singer_crawl 1 idle* 
@@ -199,9 +231,12 @@ b2:
 
 ### MINI BRANCH 2
 c1:
-	*setposang player setpos -2951.335449 2883.029297 0;setang 8.820518 -4.724119 0.000000*
+	##*setposang player setpos -2951.335449 2883.029297 0;setang 8.820518 -4.724119 0.000000*
+	#*setroot player narrator setpos 68.970703 -87.335449 0.000000;setang 8.821 85.276 0.000*
+	#*setcamoffset setpos -76.735352 -68.843018 32.694000;setang -1.928 13.808 -2.112*
+	##*setcam setpos -3027.578613 2820.252197 44.074524;setang 6.637681 9.171491 0.000000*
 	*setanim player idle_all_02*
-	*setcam setpos -3027.578613 2820.252197 44.074524;setang 6.637681 9.171491 0.000000*
+	*block setroot player narrator setpos 68.970703 -87.335449 0;setang 8.821 85.276 0 --> setcamoffset setpos -76.735352 -68.843018 32.694000;setang -1.928 13.808 -2.112*
 	*setspeaker cat_singer*
 	*SINGER_FLUSTERED*
 	*setanim cat_singer gesture_agree 1 idle*
