@@ -3,15 +3,20 @@ SKIP_OPEN = true
 begin:
 	# Scene setup
 	*txout*
-	*setcam setpos -2541.998535 2766.207031 47.017006;setang -4.312444 145.029892 0.000000 fov40*
+	#*zsnap 0*
 	*bgmplay sound/jazztronauts/music/events/plumskinzz.mp3 1.0 2.0*
-	spawnnarrator()
-	spawnbartender()
-	spawnpianist()
-	*setposang cat_bar -2864.620361 3044.558594 32.417419;setang -90 90.504135 90.000000*
+	spawnnarratorroot(scene_bar_solo scene_bar)
+	spawncatbartender()
+	spawncatpianist()
+	#*setposang cat_bar -2864.620361 3044.558594 32.417419;setang -90 90.504135 90.000000*
+	*setoffset cat_bar setpos -92.558594 -0.620361 0;setang 0.000 0.504 0.000*
 	*setanim cat_bar gesture_washing*
-	*setposang cat_piano setpos -2910.271484 2959.740967 37;setang -90 0 0.000000*
-	*setposang player setpos -2819.218018 2921.491211 0;setang -1.969878 148.162308 0.000000*
+	#*setposang cat_piano setpos -2910.271484 2959.740967 37;setang -90 0 0.000000*
+	#*setposang player setpos -2819.218018 2921.491211 0;setang -1.969878 148.162308 0.000000*
+	*setoffset cat_piano setpos -7.740967 -46.271484 0;setang 0.000 180.000 0.000*
+	*setoffset player setpos 30.508789 44.781982 0;setang -1.970 -121.838 0.000*
+	*setcamroot player setpos -315.621338 -14.317871 57.901093;setang -2.345 -3.126 -0.108 fov40*
+	#*setcam setpos -2541.998535 2766.207031 47.017006;setang -4.312444 145.029892 0.000000 fov40*
 	*txin*
 	
 ###### START
@@ -22,19 +27,25 @@ begin:
 	
 b1:
 	*setspeaker cat_piano*
-	-All I'm saying is*setanim cat_piano gesture_shrug 1 idle*,% we'd pro*setcam setpos -2781.879395 3055.809082 68.602539;setang -1.149190 -150.279190 0.500000*bably get more customers through here if 
+	#—All I'm saying is*setanim cat_piano gesture_shrug 1 idle*,% we'd pro*setcamroot cat_piano**setcam setpos -2781.879395 3055.809082 68.602539;setang -1.149190 -150.279190 0.500000*bably get more customers through here if 
+	—All I'm saying is*setanim cat_piano gesture_shrug 1 idle*,% we'd pro*setcamroot cat_piano setpos 96.067871 -128.392090 31.602539;setang -1.149 119.721 0.500*bably get more customers through here if 
 	there was a place to cut loose.%% Don't*setanim cat_piano gesture_disagree 1 idle* get me wrong 
 	I love the aesthetic we have but it's so%.%.%.%
 	&b2
 	
 b2:
-	*setcam setpos -946.128357 319.598175 221.469360;setang 14.655734 159.629013 0.000000 fov70*
+	#BIG OL' TODO - definitely a prime candidate for letting the map maker override the camera positioning in this scene... somehow.
+	*spawn sereneroot dummy*
+	*setlocale sereneroot scene_pond scene_diningroom_far scene_diningroom*
+	*setcamroot sereneroot setpos 1229.871582 -192.401825 285.469360;setang 14.656 159.629 0.000 fov70*
+	#*setcam setpos -946.128357 319.598175 221.469360;setang 14.655734 159.629013 0.000000 fov70*
 	.%.%.%Serene.
 	&b3
 	
 b3:
 	*setspeaker cat_bar*
-	*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000*
+	*setcamroot cat_bar setpos 207.832764 62.716553 63.822464;setang 6.929 -161.127 0.000*	##### GROUP SHOT
+	#*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000*	##### GROUP SHOT
 	A*BAR_BLINK*n *BAR_SURPRISE*interesting*setanim cat_bar gesture_confused 1 idle* proposal that I would entertain,%*BAR_NEUTRAL* if not for the 
 	fact that I know what your concept of %"cutting loose" is.%%%%
 	It'*BAR_BLINK*s*BAR_PISSED* very difficult to get blood out of tile grout,% you know.
@@ -47,16 +58,19 @@ b4:
 	
 b5:
 	*setspeaker cat_bar*
-	*setcam setpos -2833.329102 2918.047363 67.908310;setang -1.925611 103.680092 -0.450000 fov30*
+	*setcamroot cat_bar setpos 126.781738 30.177246 35.490891;setang -1.926 -166.824 -0.450 fov30*	##### BAR CLOSEUP
+	#*setcam setpos -2833.329102 2918.047363 67.908310;setang -1.925611 103.680092 -0.450000 fov30*	##### BAR CLOSEUP
 	Ah,% *player*!%% Welcome,*BAR_NEUTRAL*% have a seat.%% 
-	Would*setanim cat_bar gesture_confused 1 idle* you care for a snickerdoodle?%% I can\-
+	Would*setanim cat_bar gesture_confused 1 idle* you care for a snickerdoodle?%% I can—
 	&b6
 	
 b6:
 	*setspeaker narrator*
-	*setposang cat_piano setpos -2910.271484 2959.740967 37;setang -90 270 0.000000*
-	*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000 fov70*
-	> The Pianist*setanim cat_piano gesture_anger 1 idle* slams her paw down on the bar and 
+	#*setposang cat_piano setpos -2910.271484 2959.740967 37;setang -90 270 0.000000*
+	*setoffset cat_piano setpos -7.740967 -46.271484 0;setang 0.000 90.000 0.000*
+	*setcamroot cat_bar setpos 207.832764 62.716553 63.822464;setang 6.929 -161.127 0.000 fov70*	##### GROUP SHOT
+	#*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000 fov70*	##### GROUP SHOT
+	> The Pianist*setanim cat_piano gesture_anger 1 idle**emitsound physics/wood/wood_crate_impact_hard3.wav 0.8* slams her paw down on the bar and 
 	turns to face you,% eyes narrowing.
 	&b7
 	
@@ -69,19 +83,26 @@ b7:
 	
 b8:
 	*PIANO_NEUTRAL*
-	*setcam setpos -2847.833496 2995.645752 86.707962;setang -2.016987 -150.368286 0.000000 fov60*
+	*setcamroot cat_piano setpos 62.437988 35.904785 49.707962;setang -2.017 -150.368 0.000 fov60*	##### PIANO CLOSEUP
+	#*setcam setpos -2847.833496 2995.645752 86.707962;setang -2.016987 -150.368286 0.000000 fov60*	##### PIANO CLOSEUP
 	Something*setanim cat_piano gesture_agree 1 idle* to get the blood pumpin'.
 	%%%%*PIANO_SMIRK*
 	Like a coliseum.
 	
 	player:
 		&r1a1:
+			*setcamroot player setpos 157.751221 -51.835449 78.596077;setang 2.615 167.434 0.430 fov70*		##### PLAYER, FRAMED BY CATS
+			#*setcam setpos -2923.515625 3047.270020 83.972519;setang 4.538206 -44.430779 0.000000 fov70*	##### PLAYER, FRAMED BY CATS
 			I prefer my blood pumping inside my body. 
-			I'll take a snickerdoodle to go, though. (Exit)
+			I'll take a snickerdoodle to go, though. *c 0*(Exit)*c*
 		&r2a1:
+			*setcamroot player setpos 157.751221 -51.835449 78.596077;setang 2.615 167.434 0.430 fov70*		##### PLAYER, FRAMED BY CATS
+			#*setcam setpos -2923.515625 3047.270020 83.972519;setang 4.538206 -44.430779 0.000000 fov70*	##### PLAYER, FRAMED BY CATS
 			Okay, excellent suggestion, but hear me out here\: Dance fighting. 
 			All of the thrill, none of the murder.
 		&r3a1:
+			*setcamroot player setpos 157.751221 -51.835449 78.596077;setang 2.615 167.434 0.430 fov70*		##### PLAYER, FRAMED BY CATS
+			#*setcam setpos -2923.515625 3047.270020 83.972519;setang 4.538206 -44.430779 0.000000 fov70*	##### PLAYER, FRAMED BY CATS
 			If the floor is sand you don't need to worry about blood in the grout!
 	
 	
@@ -90,7 +111,8 @@ r1a1:
 	*setspeaker narrator*
 	*PIANO_NEUTRAL*
 	*setanim cat_piano gesture_disagree 1 idle*
-	*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000 fov70*
+	*setcamroot cat_bar setpos 207.832764 62.716553 63.822464;setang 6.929 -161.127 0.000 fov70*	##### GROUP SHOT
+	#*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000 fov70*	##### GROUP SHOT
 	> The Pianist rolls her eyes.
 	&r1a2
 	
@@ -125,7 +147,7 @@ r1a5:
 	*setanim cat_bar gesture_sigh 1 idle*
 	Pianist.%% We've talked about this.%%%%
 	Plenty of establishments manage to thrive without having a dedicated 
-	avenue for ritual combat.%% We have no need-
+	avenue for ritual combat.%% We have no need—
 	&r1a6
 	
 r1a6:
@@ -139,7 +161,8 @@ r2a1:
 	*setspeaker narrator*
 	*PIANO_NEUTRAL*
 	*setanim cat_piano gesture_confused 1 idle*
-	*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000 fov70*
+	*setcamroot cat_bar setpos 207.832764 62.716553 63.822464;setang 6.929 -161.127 0.000 fov70*	##### GROUP SHOT
+	#*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000 fov70*	##### GROUP SHOT
 	> The Pianist stares at you.%% Her head tilts to one side.%%%
 	Her blank expression makes it difficult to tell if she's thinking about 
 	your suggestion,% or mapping out the optimal way to dismember you.
@@ -148,14 +171,16 @@ r2a1:
 r2a2:
 	*setspeaker cat_piano*
 	*setanim cat_piano gesture_disagree 1 idle*
-	*setcam setpos -2847.833496 2995.645752 86.707962;setang -2.016987 -150.368286 0.000000 fov60*
+	*setcamroot cat_piano setpos 62.437988 35.904785 49.707962;setang -2.017 -150.368 0.000 fov60*	##### PIANO CLOSEUP
+	#*setcam setpos -2847.833496 2995.645752 86.707962;setang -2.016987 -150.368286 0.000000 fov60*	##### PIANO CLOSEUP
 	No.
 	&r2a3
 	
 r2a3:
 	*setspeaker cat_bar*
 	*setanim cat_bar gesture_confused 1 idle*
-	*setcam setpos -2833.329102 2918.047363 67.908310;setang -1.925611 103.680092 -0.450000 fov40*
+	*setcamroot cat_bar setpos 126.781738 30.177246 35.490891;setang -1.926 -166.824 -0.450 fov40*	##### BAR CLOSEUP
+	#*setcam setpos -2833.329102 2918.047363 67.908310;setang -1.925611 103.680092 -0.450000 fov40*	##### BAR CLOSEUP
 	I don't know,% I find the idea quite charming.%% And there would be no 
 	need to build an additional venue to facilitate it.%%%*setanim cat_bar gesture_laugh 1 idle* We*BAR_HAPPY* have plenty of 
 	space!% I could have the Singer make us a nice banner,%% 
@@ -172,23 +197,27 @@ r2a5:
 	*setspeaker narrator*
 	*BAR_BLINK*
 	*setanim cat_bar gesture_foldarms 1 idle*
-	*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000 fov70*
+	*setcamroot cat_bar setpos 207.832764 62.716553 63.822464;setang 6.929 -161.127 0.000 fov70*	##### GROUP SHOT
+	#*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000 fov70*	##### GROUP SHOT
 	> The Bartender appears to be in deep thought.*BAR_HAPPY* 
 	S*setanim cat_bar gesture_clap 1 idle*he claps, brightening.
 	&r2a6
 	
 r2a6:
 	*setspeaker cat_bar*
-	*setcam setpos -2833.329102 2918.047363 67.908310;setang -1.925611 103.680092 -0.450000 fov40*
+	*setcamroot cat_bar setpos 126.781738 30.177246 35.490891;setang -1.926 -166.824 -0.450 fov40*	##### BAR CLOSEUP
+	#*setcam setpos -2833.329102 2918.047363 67.908310;setang -1.925611 103.680092 -0.450000 fov40*	##### BAR CLOSEUP
 	Oh!*BAR_NEUTRAL* We could let the clintele vote on the theme.% *setanim cat_bar gesture_agree*
 	Community participation!
 	&r2a7
 	
 r2a7:
 	*setspeaker narrator*
+	*emitsound physics/wood/wood_panel_impact_hard1.wav 0.7*
 	*shake 1.25*
 	*BAR_SURPRISE*
-	> The Pianist slams her head on the bar.%*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000 fov70*
+	#> The Pianist slams her head on the bar.%*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000 fov70*	##### GROUP SHOT
+	> The Pianist slams her head on the bar.%*setcamroot cat_bar setpos 207.832764 62.716553 63.822464;setang 6.929 -161.127 0.000 fov70*	##### GROUP SHOT
 
 	.%.%.%it was pretty loud too%.%.%.
 	&r2a8
@@ -196,16 +225,16 @@ r2a7:
 r2a8:
 	*setspeaker cat_piano*
 	*BAR_NEUTRAL*
+	*PIANO_BLINK*
 	I'm going to die.%%%
 	You're going to find me one day under a table% with a little epitaph 
 	carved into the blade of the axe you won't let me use.%% 
-	And all it'll say is% "Here lies Pianist.%% Died of boredom"
+	And all it'll say is% "Here lies Pianist.%% *PIANO_NEUTRAL*Died of boredom"
 	&m1
 	
 ###### Branch 3
 r3a1:
 	*setspeaker cat_piano*
-	*setcam setpos -2923.515625 3047.270020 83.972519;setang 4.538206 -44.430779 0.000000 fov70*
 	*PIANO_SMIRK*
 	*setanim cat_piano gesture_clap 1 idle*
 	See!%%
@@ -216,7 +245,8 @@ r3a1:
 r3a2:
 	*setanim cat_piano gesture_foldarms*
 	*PIANO_BLINK*
-	*setcam setpos -2847.833496 2995.645752 86.707962;setang -2.016987 -150.368286 0.000000 fov60*
+	*setcamroot cat_piano setpos 62.437988 35.904785 49.707962;setang -2.017 -150.368 0.000 fov60*	##### PIANO CLOSEUP
+	#*setcam setpos -2847.833496 2995.645752 86.707962;setang -2.016987 -150.368286 0.000000 fov60*	##### PIANO CLOSEUP
 	Nice sand floor,% elevated seats to reduce the chance of being 
 	slapped in the face by a stray hand%.%.%.% 
 	pretzels%.%.%.
@@ -232,7 +262,8 @@ r3a4:
 	*setspeaker cat_bar*
 	*BAR_PISSED*
 	*setanim cat_bar gesture_disagree 1 idle*
-	*setcam setpos -2833.329102 2918.047363 67.908310;setang -1.925611 103.680092 -0.450000 fov40*
+	*setcamroot cat_bar setpos 126.781738 30.177246 35.490891;setang -1.926 -166.824 -0.450 fov40*	##### BAR CLOSEUP
+	#*setcam setpos -2833.329102 2918.047363 67.908310;setang -1.925611 103.680092 -0.450000 fov40*	##### BAR CLOSEUP
 	Sand gets everywhere, Pianist. I know you're excited, but you have to 
 	think about the practical consequences of these things.%%*BAR_NEUTRAL* 
 	Do you really*setanim cat_bar gesture_sigh 1 idle* want to have to spend five hours trying to get all 
@@ -242,7 +273,8 @@ r3a4:
 r3a5:
 	*setspeaker cat_piano*
 	*setanim cat_piano gesture_agree 1 idle*
-	*setcam setpos -2847.833496 2995.645752 86.707962;setang -2.016987 -150.368286 0.000000 fov60*
+	*setcamroot cat_piano setpos 62.437988 35.904785 49.707962;setang -2.017 -150.368 0.000 fov60*	##### PIANO CLOSEUP
+	#*setcam setpos -2847.833496 2995.645752 86.707962;setang -2.016987 -150.368286 0.000000 fov60*	##### PIANO CLOSEUP
 	Yes.
 	&m1
 	
@@ -250,7 +282,8 @@ r3a5:
 ###### MERGE BACK TO COMMON ROUTE
 m1:
 	*setspeaker cat_bar*
-	*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000 fov70*
+	*setcamroot cat_bar setpos 207.832764 62.716553 63.822464;setang 6.929 -161.127 0.000 fov70*	##### GROUP SHOT
+	#*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000 fov70*	##### GROUP SHOT
 	*BAR_NEUTRAL*
 	*setanim cat_bar gesture_disagree 1 idle*
 	.%.%.%I'm sorry,% but I'm afraid I will have to continue to veto the idea of 
@@ -260,7 +293,8 @@ m1:
 	&m2
 	
 m2:
-	*setcam setpos -2833.329102 2918.047363 67.908310;setang -1.925611 103.680092 -0.450000 fov40*
+	*setcamroot cat_bar setpos 126.781738 30.177246 35.490891;setang -1.926 -166.824 -0.450 fov40*	##### BAR CLOSEUP
+	#*setcam setpos -2833.329102 2918.047363 67.908310;setang -1.925611 103.680092 -0.450000 fov40*	##### BAR CLOSEUP
 	And for the other concern,% I can't help but feel you would end up%.%.%.%% 
 	killing% all of our customers.%%%% *BAR_SURPRISE*
 	
@@ -270,7 +304,9 @@ m2:
 m3:
 	*setspeaker cat_piano*
 	*setanim cat_piano gesture_disagree 1 idle*
-	*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000 fov70*
+	*PIANO_SMIRK*
+	*setcamroot cat_bar setpos 207.832764 62.716553 63.822464;setang 6.929 -161.127 0.000 fov70*	##### GROUP SHOT
+	#*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000 fov70*	##### GROUP SHOT
 	%.%.%.%*PIANO_NEUTRAL*No.
 	&m4
 	
@@ -297,8 +333,10 @@ m6:
 	&m7
 	
 m7:
-	*tweenposang cat_piano 1 setpos -2910.271484 2872 37;setang -90 90 0*
-	*setcam setpos -2833.329102 2918.047363 67.908310;setang -1.925611 103.680092 -0.450000*
+	#*tweenposang cat_piano 1 setpos -2910.271484 2872 37;setang -90 90 0*
+	*tweenoffset cat_piano 1 setpos 80.000000 -46.271484 0;setang 0.000 -90.000 0.000*
+	*setcamroot cat_bar setpos 126.781738 30.177246 35.490891;setang -1.926 -166.824 -0.450*	##### BAR CLOSEUP
+	#*setcam setpos -2833.329102 2918.047363 67.908310;setang -1.925611 103.680092 -0.450000*	##### BAR CLOSEUP
 	> The Bartender turns her attention back to you,%%*BAR_HAPPY* and smiles.
 	&m8
 	
