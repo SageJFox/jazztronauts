@@ -42,8 +42,7 @@ b3:
 	*setanim cat_piano gesture_shock 1 idle*
 	> The Singer dead sprints past both of you!%%%*setcamroot cat_piano setpos 109.134918 11.743683 45.019638;setang 0.911 162.797 0.000*#*setcamroot cat_piano**setcam setpos 299.437592 130.605087 45.050888;setang 0.911092 42.797482 0.000000* 
 	On instinct,% you dive into the hiding spot the Pianist%*setoffset player setpos 95.148926 4.181595 0;setang 8.465 131.800 0.000*#*setposang player setpos 447.148926 140.181595 0;setang 8.465133 131.800262 0.000000*
-	is in.*block setoffset cat_piano setpos -8.165283 94.990540 0;setang 0 -60 0 --> setcamoffset setpos 64.737793 -88.641785 45.019638;setang 0.911 102.797 0*
-	#*setoffset cat_piano setpos -8.165283 94.990540 0;setang 0.000 -60.000 0.000**setcamoffset setpos 64.737793 -88.641785 45.019638;setang 0.911 102.797 0.000*#*setcamroot cat_piano**setcam setpos 299.437592 130.605087 45.050888;setang 0.911092 42.797482 0.000000*#*setposang cat_piano setpos 343.834717 230.990540 0;setang -90 210 0.000000*
+	is in.*setcamroot nil**setoffset cat_piano setpos -8.165283 94.990540 0;setang 0 -60 0*#*setposang cat_piano setpos 343.834717 230.990540 0;setang -90 210 0.000000*
 	player:
 		&resp1a:
 			Whatever this is, I'm not getting involved. *c 0*(Exit)*c*
@@ -185,16 +184,14 @@ resp5d:
 			Shut the fuc—
 		
 merge1:
-	##*setposang cat_piano setpos 343.834717 230.990540 0;setang -90 112 0.000000*
-	##*setposang cat_singer setpos 301.032990 230.946976 0;setang -90 240 0.000000*
-	#*setoffset cat_piano setpos -8.165283 94.990540 0;setang 0.000 202.000 0.000*
-	#*setoffset cat_singer setpos -50.967010 94.946976 0;setang 0.000 -30.000 0.000*
-	#*setcamoffset setpos 68.578461 179.159286 73.659958;setang 8.877 -117.096 0.000*
-	##*setcam setpos 347.364136 39.186989 73.691208;setang 8.877127 84.903648 0.000000*
-	*block setoffset cat_piano setpos -8.165283 94.990540 0;setang 0 202 0 --> setoffset cat_singer setpos -50.967010 94.946976 0;setang 0 -30 0 --> setcamoffset setpos 68.578461 179.159286 73.659958;setang 8.877 -117.096 0*
+	*setcamroot nil*
+	#*setposang cat_piano setpos 343.834717 230.990540 0;setang -90 112 0.000000*
+	#*setposang cat_singer setpos 301.032990 230.946976 0;setang -90 240 0.000000*
+	*setoffset cat_piano setpos -8.165283 94.990540 0;setang 0.000 202.000 0.000*
+	*setoffset cat_singer setpos -50.967010 94.946976 0;setang 0.000 -30.000 0.000*
 	*setspeaker narrator*
 	*PIANO_NEUTRAL*
-	> The Singer sprints over to you both and%.%.%.%.%%%*SINGER_CRY*%*setcamoffset setpos 70.162781 82.008087 52.901730;setang 7.546 -120.213 0.000*#*setcam setpos 309.501709 128.670517 52.932980;setang 7.546001 81.787277 0.000000*
+	> The Singer sprints over to you both and%.%.%.%.%%%*SINGER_CRY*%*setcamroot cat_piano setpos 70.162781 82.008087 52.901730;setang 7.546 -120.213 0.000*#*setcam setpos 309.501709 128.670517 52.932980;setang 7.546001 81.787277 0.000000*
 	ineff*setanim cat_singer gesture_anger 1 idle*ectually shoves the Pianist's shoulder.%% Their eyes are brimming
 	with tears,% and they tap agitatedly at their tablet while bouncing
 	in clear distress.

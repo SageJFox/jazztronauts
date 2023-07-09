@@ -28,6 +28,9 @@ begin:
 	&b1
 
 b1:
+	*setcamroot cat_piano setpos 40.773438 -81.034668 57.335415;setang 8.687 115.084 0.000* #### PIANO
+	#*setcam setpos -2851.549805 2833.720459 57.335415;setang 8.687464 145.084076 0.000000* #### PIANO
+	*setcamroot nil*
 	#*tweenposang cat_bar .35 setpos -2889.937988 2926.586670 0;setang -90 216 0.000000*
 	#*tweenposang cat_piano .35 setpos -2927.378174 2883.511963 0;setang -90 230 0.000000*
 	#*tweenposang cat_singer .35 setpos -2856.525635 2876.622559 0;setang -90 216 0.000000*
@@ -35,9 +38,6 @@ b1:
 	*tweenoffset cat_piano .35 setpos 68.488037 -63.378174 0.000000;setang 0.000 50.000 0.000*
 	*tweenoffset cat_singer .35 setpos 75.377441 7.474365 0.000000;setang 0.000 36.000 0.000*
 	*setspeaker cat_piano*
-	*block spawn pianoroot dummy --> setoffset pianoroot setpos 68.488037 -63.378174 0;setang 0 120 0*
-	*setcamroot pianoroot setpos 40.773438 -81.034668 57.335415;setang 8.687 115.084 0.000* #### PIANO
-	#*setcam setpos -2851.549805 2833.720459 57.335415;setang 8.687464 145.084076 0.000000* #### PIANO
 	*PIANO_NEUTRAL*
 	*setanim cat_piano gesture_anger 2*
 	There you are.%%%
@@ -47,7 +47,6 @@ b1:
 b2:
 	*setcamroot cat_bar setpos 50.416748 33.669434 54.574524;setang 10.870 -150.268 0.000* ###### BAR
 	#*setcam setpos -2833.064697 2905.589111 54.574524;setang 10.870310 155.732285 0.000000* ###### BAR
-	*remove pianoroot*
 	*setspeaker cat_bar*
 	*setanim cat_bar gesture_sweep 1 idle*
 	He came in here a little while ago drinking something,%% and got 
@@ -206,15 +205,15 @@ m4:
 	*remove cat_singer*
 	*setlocale narrator scene_patio*
 	spawncatcellist()
-	#*setposang cat_cello setpos 3586.341309 522.965698 0;setang -90 270 0.000000*
 	#*setposang player setpos 3105.299072 523.735535 0;setang 0.701462 -2.710294 0.000000*
-	*setoffset cat_cello setpos 50.341309 10.965698 0.000000;setang 0.000 0.000 0.000*
 	*setoffset player setpos -430.700928 11.735535 0.000000;setang 0.701 -2.710 0.000*
 	*setcamroot player setpos -116.733887 181.702271 121.050705;setang 18.242 -46.512 0.537*
 	#*setcam setpos 2998.774902 710.683411 122.469833;setang 18.723225 -49.392609 0.000000*
 	*setanim cat_cello pose_sit01*
 	*CELLO_EMPTY*
 	*setspeaker cat_cello*
+	#*setposang cat_cello setpos 3586.341309 522.965698 0;setang -90 270 0.000000*
+	*setoffset cat_cello setpos 50.341309 10.965698 0;setang 0.000 0.000 0.000*
 	*txin*
 	*wait 2.3*
 	*show*
@@ -322,8 +321,8 @@ yoga:
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_sigh 1 idle*
 	Please,%% I know you want to help,%%% but I promise you I've tried
-	meditation,% I've tried exercise,% I've tried mindfulness,% I've
-	tried every god damn*setanim cat_cello gesture_anger 2 idle* granola hippie mom yoga program that exists.%%%%
+	meditation,% I've tried exercise,% I've tried mindfulness,% I've tried 
+	every god damn*setanim cat_cello gesture_anger 2 idle* granola hippie mom yoga program that exists.%%%%
 	None of it can fix that I,%% fundamentally,%%% am the problem.
 	&n1
 	

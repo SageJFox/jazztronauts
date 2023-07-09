@@ -544,10 +544,12 @@ local function groundAdjust(vec,pos)
 		--using a function here is expensive let's gooo
 		filter = function(ent)
 			if ent:IsPlayer() then return false end
-			--if ent:GetClass() == "prop_physics_multiplayer" then return true end --test
+			if ent:IsNPC() then return false end
+			if ent:IsNextBot() then return false end
 			if ent:GetClass() == "jazz_cat" then return false end
 			if ent:GetClass() == "jazz_door_eclipse" then return false end
 			if ent:GetClass() == "jazz_shard_podium" then return false end
+			if ent:IsSolid() then return true end
 		end,
 		mask = MASK_NPCSOLID
 	} )
@@ -1034,12 +1036,11 @@ dialog.RegisterFunc("setcamroot", function(d, rootname, setpos, px, py, pzsetang
 			camrootcount = 0
 			sceneRoots[view] = root
 		end
+		SceneRootToWorldCam(true)
 	else
 		sceneRoots[view] = nil
 		camrootcount = 0
 	end
-
-	SceneRootToWorldCam(true)
 
 	if fov then
 		local fov = tonumber(string.Replace(fov,"fov",""))
