@@ -275,10 +275,7 @@ else
 			render.Clear(c.r, c.g, c.b, 255)
 			cam.Start2D()
 				local ctext =  jazzloc.Localize("jazz.tank.shard"..(collected ~= 1 and "s" or ""),collected)
-				local ntext =  jazzloc.Localize("jazz.tank.need",mapgen.GetTotalRequiredShards())
-				if newgame.GetGlobal("ended") then
-					ntext = jazzloc.Localize("jazz.tank.newgameplus")
-				end
+				local ntext = newgame.GetGlobal("ended") and jazzloc.Localize("jazz.tank.newgameplus") or jazzloc.Localize("jazz.tank.need",mapgen.GetTotalRequiredShards())
 				surface.SetFont("JazzShardTankFont")
 				ctext = string.Trim(ctext)
 				local tw, th = surface.GetTextSize(ctext)

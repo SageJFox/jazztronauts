@@ -3,7 +3,7 @@ SKIP_OPEN = true
 begin:
 	# Scene setup
 	*txout*
-	*zsnap 64*
+	#*zsnap 0*
 	spawncatsrooted(scene_gameroom)
 	*bgmplay sound/jazztronauts/music/events/youdiditagain.mp3 1.0 2.0*
 	#*setposang cat_cello setpos -1534.931519 3016.726074 25;setang -90 315 0.000000*
