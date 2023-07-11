@@ -308,8 +308,8 @@ others:
 	*setanim cat_cello gesture_laugh 1 idle*
 	*CELLO_EMPTY*
 	Hah.%% More like worried sick OF me.%%%*setanim cat_cello gesture_disagree 1 idle* They didn't even bother coming
-	up with you,% did they?%%% I know what the lot of them really think of
-	me,%%*setanim cat_cello gesture_sigh 1 idle* even if they don't admit it to themselves.%%%% It's just a matter
+	up with you,% did they?%%% I know what the lot of them really think of me,%%*setanim cat_cello gesture_sigh 1 idle* 
+	even if they don't admit it to themselves.%%%% It's just a matter
 	of time until they get sick of rebuilding torched bridges.
 	&n1
 	

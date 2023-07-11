@@ -968,6 +968,16 @@ dialog.RegisterFunc("setscale", function(d, name, val)
 	end
 end)
 
+dialog.RegisterFunc("render", function(d, name, val)
+	if val == nil then val = true end
+	local val = tobool(val)
+	local prop = FindByName(name)
+	if IsValid(prop) then
+		prop:SetNoDraw(not val)
+		prop:DrawShadow(val)
+	end
+end)
+
 --adding functionality to RUN_CONVERSION print to recognize if this is meant to be the first time the camera has been set to this root, and update accordingly
 local camrootcount = 0
 
