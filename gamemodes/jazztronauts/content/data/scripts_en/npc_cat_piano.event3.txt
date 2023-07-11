@@ -3,16 +3,17 @@ SKIP_OPEN = true
 begin:
 	# Scene setup
 	*txout*
+	#*zsnap 0*
 	*bgmplay sound/jazztronauts/music/events/allspice.mp3 .75 2.0*
-	spawnnarrator()
-	spawnpianist()
-	spawncellist()
-	*setposang cat_piano setpos -1187.520996 467.479309 -64;setang -90 294.221405 0.000000*
-	*setposang cat_cello setpos -2907.271484 2958.740967 -64;setang -90 10.601639 0.000000*
-	*spawn good_shit models/sierra/good_shit.mdl*
-	*setposang good_shit setpos -2867 4266 32;setang 0 75 0.000000*
-	*setposang player setpos -1069.755615 521.588379 -64;setang 0 -165.918091 0.000000*
-	*setcam setpos -788.870239 600.943054 23.847630;setang 5.117703 -166.131042 0.000000 fov70*
+	spawnnarratorroot(scene_diningroom)
+	spawncatpianist()
+	*setanim cat_piano pose_sit01_floor*
+	#*setposang cat_piano setpos -1187.520996 467.479309 -64;setang -90 294.221405 0.000000*
+	#*setposang player setpos -1069.755615 521.588379 -64;setang 0 -165.918091 0.000000*
+	*setoffset cat_piano setpos -163.520996 -44.520691 0;setang 0.000 24.221 0.000*
+	*setoffset player setpos -45.755615 9.588379 0;setang -0.000 -165.918 0.000*
+	*setcamroot player setpos -291.752136 -8.628052 87.847626;setang 5.118 -0.213 0.000 fov70*
+	#*setcam setpos -788.870239 600.943054 23.847630;setang 5.117703 -166.131042 0.000000 fov70*
 	*txin*
 
 ###### START	
@@ -24,7 +25,8 @@ begin:
 	&b1
 	
 b1:
-	*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*
+	*setcamroot cat_piano setpos 80.290100 7.467896 61.609421;setang 8.585 173.265 0.000*
+	#*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*
 	*setspeaker cat_piano*
 	*PIANO_NEUTRAL*
 	*setanim cat_piano gesture_jab 1 idle*
@@ -36,13 +38,14 @@ b1:
 b2:
 	*PIANO_NEUTRAL*
 	*setanim cat_piano gesture_laugh 1 idle*
-	Listen,% *player*.%%% We've been through a lot together. 
-	We've bonded over the acquisition of suspended-animation takeout.%%*setcam setpos -1153.211426 490.722992 -8.163246;setang 10.643499 -147.581436 -0.175000*%*setanim cat_piano gesture_agree 1 idle*
+	Listen,% *player*.%%% We've been through a lot together.%% 
+	We've bonded over the acquisition of suspended-animation takeout.%%*setcamoffset setpos 40.825195 7.121765 55.836754;setang 10.644 -171.802 -0.175*%*setanim cat_piano gesture_agree 1 idle*#*setcam setpos -1153.211426 490.722992 -8.163246;setang 10.643499 -147.581436 -0.175000*
 	And I just decided that means we're friends now.
 	&b3
 	
 b3:
-	*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*
+	*setcamroot cat_piano setpos 80.290100 7.467896 61.609421;setang 8.585 173.265 0.000*
+	#*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*
 	*PIANO_SMIRK*
 	*setanim cat_piano gesture_foldarms 1 idle*
 	I know, it's a lot to take in,% remember to breathe.%%
@@ -59,22 +62,25 @@ b4:
 	gonna steal more shit for me.
 	player:
 		&r1a1:
-			*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
+			*setcamroot player setpos 209.309814 -32.514404 68.809135;setang 6.336 150.110 0.000*
+			#*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
 			I don't like the look in your eye and I don't want to cause 
 			another incident with the Singer. So I'm gonna have to 
-			pass on whatever you've got planned here. (exit and complete)
+			pass on whatever you've got planned here. *c 0*(exit and complete)*c*
 		&r2a1:
-			*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
+			*setcamroot player setpos 209.309814 -32.514404 68.809135;setang 6.336 150.110 0.000*
+			#*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
 			Or, and hear me out here - we could sit down, have a drink, 
 			and talk about our feelings and shared interests?
 		&r3a1:
-			*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
+			*setcamroot player setpos 209.309814 -32.514404 68.809135;setang 6.336 150.110 0.000*
+			#*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
 			I fucking live to steal.
-		
-		
+
 ###### BRANCH 1 (early exit)
 r1a1:
-	*setcam setpos -788.870239 600.943054 23.847630;setang 5.117703 -166.131042 0.000000*
+	*setcamroot player setpos -291.752136 -8.628052 87.847626;setang 5.118 -0.213 0.000*
+	#*setcam setpos -788.870239 600.943054 23.847630;setang 5.117703 -166.131042 0.000000*
 	*setspeaker cat_piano*
 	*PIANO_NEUTRAL*
 	*setanim cat_piano gesture_sigh 1 idle*
@@ -82,11 +88,12 @@ r1a1:
 	I respect your autonomy,% pal.%% Go be 'rel*setanim cat_piano gesture_shrug 1 idle*iable' or whatever 
 	boring thing you have in mind instead,% if that's what you really want to do.*mark_seen*
 	&exit
-	
+
 ###### BRANCH 2 
 r2a1:
-	*setcam setpos -1153.211426 490.722992 -10.163246;setang 10.643499 -147.581436 -0.175000*
-	*setspeaker cat_piano*
+	*setcamroot cat_piano setpos 40.825195 7.121765 53.836754;setang 10.644 -171.802 -0.175*
+	#*setcam setpos -1153.211426 490.722992 -10.163246;setang 10.643499 -147.581436 -0.175000*
+	*setspeaker narrator*
 	*PIANO_NEUTRAL*
 	*setanim cat_piano gesture_confused 1 idle*
 	> The Pianist stares at you,% head tilted to one side.%%% 
@@ -95,33 +102,39 @@ r2a1:
 	&r2a2
 
 r2a2:
-	*setcam setpos -788.870239 600.943054 23.847630;setang 5.117703 -166.131042 0.000000*
+	*setspeaker cat_piano*
+	*setcamroot player setpos -291.752136 -8.628052 87.847626;setang 5.118 -0.213 0.000*
+	#*setcam setpos -788.870239 600.943054 23.847630;setang 5.117703 -166.131042 0.000000*
 	*setanim cat_piano gesture_disagree 1 idle*
 	We don't have that kind of relationship,% buddy.%%*PIANO_NEUTRAL*
-	Our relationship is based on a different kind of give and take.%*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*
+	Our relationship is based on a different kind of give and take.%*setcamroot cat_piano setpos 80.290100 7.467896 61.609421;setang 8.585 173.265 0.000*#*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*
 	The kind where*setanim cat_piano gesture_jab 1 idle* you take shit from other people and give it to me.
 	player:
 		&r1a1:
-			*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
+			*setcamroot player setpos 209.309814 -32.514404 68.809135;setang 6.336 150.110 0.000*
+			#*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
 			I don't like the look in your eye and I don't want to cause 
 			another incident with the Singer. So i'm gonna have to 
-			pass on whatever you've got planned here. (exit and complete)
+			pass on whatever you've got planned here. *c 0*(exit and complete)*c*
 		&r3a1:
-			*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
+			*setcamroot player setpos 209.309814 -32.514404 68.809135;setang 6.336 150.110 0.000*
+			#*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
 			I fucking live to steal.
-		
+
 ###### BRANCH 3 (Also merge point)
 r3a1:
-	*setspeaker cat_piano*
-	*setcam setpos -788.870239 600.943054 23.847630;setang 5.117703 -166.131042 0.000000*
+	*setspeaker narrator*
+	*setcamroot player setpos -291.752136 -8.628052 87.847626;setang 5.118 -0.213 0.000*
+	#*setcam setpos -788.870239 600.943054 23.847630;setang 5.117703 -166.131042 0.000000*
 	*PIANO_SMIRK*
 	*setanim cat_piano gesture_clap 1 idle*
 	> The Pianist claps her hands together and beams,% 
 	tail lashing in excitement.
 	&r3a2
-	
+
 r3a2:
-	*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*
+	*setcamroot cat_piano setpos 80.290100 7.467896 61.609421;setang 8.585 173.265 0.000*
+	#*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*
 	*setspeaker cat_piano*
 	*setanim cat_piano gesture_laugh 1 idle*
 	Hell fucking yeah you do.
@@ -136,25 +149,39 @@ r3a3:
 	&m1
 
 m1:
-*hide*
-*txout*
-	*setposang cat_piano setpos -2829.242188 3937.424805 0;setang -90 144.140579 0.000000*
-	*setcam setpos -2862.619141 3833.609863 21.781422;setang -1.518007 84.334892 0.000000*
+	*hide*
+	*txout*
+	*setlocale narrator scene_cellisthall*
+	#*setposang cat_piano setpos -2829.242188 3937.424805 0;setang -90 144.140579 0.000000*
+	#*setposang player setpos -2875.208740 3945.959717 0;setang 0 40.999508 0.000000*
+	*setoffset cat_piano setpos 22.757813 -14.575195 0;setang 0.000 234.141 0.000*
+	*setoffset player setpos -23.208740 -6.040283 0;setang -0.000 41.000 0.000*
+	*setcamroot cat_piano setpos 103.689941 33.762695 21.781422;setang -1.518 -149.806 0.000*
+	#*setcam setpos -2862.619141 3833.609863 21.781422;setang -1.518007 84.334892 0.000000*
+	newsceneroot(cellistroom,scene_cellistroom)
+	*spawn good_shit models/sierra/good_shit.mdl*
+	spawncatcellist()
+	*setanim cat_cello pose_passedout*
+	*CELLO_HIGH*
+	#*setposang good_shit setpos -2867 4266 32;setang 0 75 0.000000*
+	#*setposang cat_cello setpos -2892 4156 0;setang -90 120 0*
+	*setoffset good_shit setpos -3 130 0;setang 0 75 0*
+	*setoffset cat_cello setpos -28 20 0;setang 0 210 0*
 	*bgmplay sound/jazztronauts/music/events/dangersong.mp3 1 2.0*
-	*setposang player setpos -2875.208740 3945.959717 0;setang 0 40.999508 0.000000*
-*txin*
-*wait .4*
-*setspeaker narrator*
-*show*
+	*txin*
+	*wait .4*
+	*setspeaker narrator*
+	*show*
 	> The Bar Samsara,%% Cellist's Room%.%.%.%.%%%
-	*setcam setpos -2846.563721 3939.643799 66.705505;setang 12.856805 102.003944 0.000000*
+	*setcamroot cat_cello setpos 68.829224 210.088379 66.705505;setang 12.857 -107.996 0.000*#*setcam setpos -2846.563721 3939.643799 66.705505;setang 12.856805 102.003944 0.000000*
 	The Cellist is inside,% surrounded by%.%.%.% substances.%%% He looks pretty 
 	unconscious.
 	&m2
 	
 m2:
 	*setanim cat_piano gesture_jab 1 idle*
-	*setcam setpos -2862.619141 3833.609863 21.781422;setang -1.518007 84.334892 0.000000*
+	*setcamroot cat_piano setpos 103.689941 33.762695 21.781422;setang -1.518 -149.806 0.000*
+	#*setcam setpos -2862.619141 3833.609863 21.781422;setang -1.518007 84.334892 0.000000*
 	> The Pianist holds up her paw,% then points at the Cellist's%.%.%.% workbench?%%%
 	The range of paraphernalia on display is both a marvel,% 
 	and a probable violation of pretty much every drug law there is.
@@ -171,13 +198,13 @@ m4:
 	Okay.%% Here's the deal.%%%
 	In,% out.% Ten seconds,% tops.%%%%
 	
-	I*setanim cat_piano gesture_jab 1 idle*'m after that.%%*setcam setpos -2834.555664 4210.392090 58.149071;setang 19.085867 116.498489 0.000000*
+	I*setanim cat_piano gesture_jab 1 idle*'m after that.%%*setcamroot good_shit setpos -45.315918 -45.731445 26.149071;setang 19.086 41.498 0.000*#*setcamroot good_shit**setcam setpos -2834.555664 4210.392090 58.149071;setang 19.085867 116.498489 0.000000*
 	&m5
 
 m5:
 	*PIANO_SMIRK*
 	*setanim cat_piano gesture_disagree 1 idle*
-	I know how this motherfucker works.%%*setcam setpos -2858.916504 3892.224121 51.301437;setang 8.394613 74.811508 0.000000* All those high concept,% 
+	I know how this motherfucker works.%%*setcamroot cat_piano setpos 54.016357 2.427734 51.301437;setang 8.395 -159.330 0.000* All those high concept,% #*setcamroot cat_piano**setcam setpos -2858.916504 3892.224121 51.301437;setang 8.394613 74.811508 0.000000*
 	probably explosive materials?%%%%
 	
 	T*setanim cat_piano gesture_confused 1 idle*hat's the soft shit.
@@ -188,69 +215,87 @@ m6:
 	*PIANO_NEUTRAL*
 	And I want to get.%%
 	
-	Fucked.%%%*setcam setpos -2845.504395 3920.990967 49.013336;setang 0.159046 42.947407 0.000000*%*PIANO_SMIRK* Up.
+	Fucked.%%%*setcamoffset setpos 22.845337 -3.553223 49.013336;setang 0.159 168.806 0.000*%*PIANO_SMIRK* Up.#*setcam setpos -2845.504395 3920.990967 49.013336;setang 0.159046 42.947407 0.000000*
 	&m7
 
 m7:
-	*setcam setpos -2862.619141 3833.609863 21.781422;setang -1.518007 84.334892 0.000000*
+	*setcamroot cat_piano setpos 103.689941 33.762695 21.781422;setang -1.518 -149.806 0.000*
+	#*setcam setpos -2862.619141 3833.609863 21.781422;setang -1.518007 84.334892 0.000000*
 	*setspeaker cat_piano*
 	*PIANO_NEUTRAL*
 	*setanim cat_piano gesture_foldarms 1 idle*
 	I don't wanna be able to think for a week and I want to make really 
 	stupid life choices.%%*setanim cat_piano gesture_jab 1 idle* You just watch for him twitching.
 	player:
-		&m8:
-			Why don't you just ask h-
-		&m8:
-			This is a really bad id-
-		&m8:
-			You're gonna go blind you kn-
+		&m8: Why don't you just ask h—
+		&m8: This is a really bad id—
+		&m8: You're gonna go blind you kn—
 		
 m8:
-	*setposang cat_piano setpos -2860.124023 4046.866211 0;setang -90 6.9 0.000000*
-	*setcam setpos -2821.140869 3879.906006 83.275093;setang 12.118111 104.898827 0.000000
+	##*setposang cat_piano setpos -2860.124023 4046.866211 0;setang -90 6.9 0.000000*
+	#*setroot cat_piano cellistroom setpos 3.875977 -89.133789 0.000000;setang 0.000 96.900 0.000*
+	#*setcamroot cat_piano -170.434082 -18.642822 83.275093;setang 12.118 7.999 0.000*
+	##*setcam setpos -2821.140869 3879.906006 83.275093;setang 12.118111 104.898827 0.000000*
+	*block setroot cat_piano cellistroom setpos 3.875977 -89.133789 0;setang 0 96.9 0 --> setcamroot cat_piano -170.434082 -18.642822 83.275093;setang 12.118 8 0*
 	*setspeaker narrator*
 	> The Pianist ignores you,% stalking towards the bench.
 	&m8b
 
 m8b:
-	*setposang cat_piano setpos -2865.623291 4168.965820 0;setang -90 3.5 0.000000*
-	*setcam setpos -2977.323242 4272.699707 65.491096;setang 10.021772 -42.143280 0.000000*
+	##*setposang cat_piano setpos -2865.623291 4168.965820 0;setang -90 3.5 0.000000*
+	#*setoffset cat_piano setpos -1.623291 32.965820 0;setang 0.000 93.500 0.000*
+	#*setcamoffset setpos 110.359863 105.158936 65.491096;setang 10.022 -135.643 0.000*
+	##*setcam setpos -2977.323242 4272.699707 65.491096;setang 10.021772 -42.143280 0.000000*
+	*block setoffset cat_piano setpos -1.623291 32.965820 0;setang 0 93.5 0 --> setcamoffset setpos 110.359863 105.158936 65.491096;setang 10.022 -135.643 0*
+	*setanim cat_piano gesture_anger .5 idle*
 	She carefully steps around the soused Cellist,% 
 	and the discarded%.%.%.%% stuff%.%.%.%% surrounding him.
 	&m9
 	
 m9:
-	*setposang cat_piano setpos -2863.152832 4235.968750 0;setang -90 0 0.000000*
-	*setcam setpos -2818.711670 4181.534668 64.234352;setang 8.238340 122.789406 0.000000*
+	##*setposang cat_piano setpos -2863.152832 4235.968750 0;setang -90 0 0.000000*
+	#*setoffset cat_piano setpos 0.847168 99.968750 0;setang 0.000 90.000 0.000*
+	#*setcamoffset setpos -54.434082 -44.441162 64.234352;setang 8.238 32.789 0.000*
+	##*setcam setpos -2818.711670 4181.534668 64.234352;setang 8.238340 122.789406 0.000000*
+	*block setoffset cat_piano setpos 0.847168 99.968750 0;setang 0 90 0 --> setcamroot cat_piano setpos -54.434082 -44.441162 64.234352;setang 8.238 32.789 0*
 	*setspeaker narrator*
-	> Her tail rigid behind her,% she leans in%.%.%.%%%*setcam setpos -2823.478516 4228.416992 52.383907;setang 5.745903 148.544296 0.000000*
+	> Her tail rigid behind her,% she leans in%.%.%.%%%*setcamoffset setpos -7.551758 -39.674316 52.383907;setang 5.746 58.544 0.000*#*setcam setpos -2823.478516 4228.416992 52.383907;setang 5.745903 148.544296 0.000000*
 	and in%.%.%.%%%
-	and%.%.%.%%*setcam setpos -2850.054443 4247.673828 47.791172;setang 15.664083 139.080826 0.000000*%*setanim cat_piano gesture_exchange 3 idle*
-	got it!*setposang good_shit setpos -2867 4266 -32;setang 0 75 0.000000*
+	and%.%.%.%%*setcamroot good_shit setpos -13.315918 -21.111328 15.791172;setang 15.664 64.081 0.000*%*setanim cat_piano gesture_exchange 3 idle*#*setcam setpos -2850.054443 4247.673828 47.791172;setang 15.664083 139.080826 0.000000*
+	got it!*PIANO_SMIRK**render good_shit false*
 	&m10
 	
 m10:
-	*setcam setpos -2833.861816 3878.607178 68.166077;setang 4.524848 96.675133 0.000000*
+	*setcamroot cat_cello setpos 88.347290 269.298340 68.166077;setang 4.525 -113.325 0.000*
+	#*setcam setpos -2833.861816 3878.607178 68.166077;setang 4.524848 96.675133 0.000000*
 	*setspeaker narrator*
-	> The Cellist starts to stir and you frantically signal for your 
+	*PIANO_ANGRY*
+	*tweenoffset cat_piano .55 setpos 0.847168 99.968750 0;setang 0 255 0*
+	*setanim cat_piano gesture_shock 1 idle*
+	*setanim player seq_wave_smg1 1 cidle_passive*
+	> The Cellist starts to stir and you frantically signal for*PIANO_NEUTRAL* your 
 	heist partner to get out of there.%%% 
 	The two of you retreat to a secluded corner to share the spoils.
 	&m11
 	
 m11:
-*hide*
-*txout*
+	*hide*
+	*txout*
+	*setlocale narrator scene_diningroom*
 	*bgmplay sound/jazztronauts/music/events/loveaffair.mp3 1 2.0*
-	*setposang cat_piano setpos -1187.520996 467.479309 -64;setang -90 294.221405 0.000000*
-	*setcam setpos -788.870239 600.943054 23.847630;setang 5.117703 -166.131042 0.000000*
-*txin*
-*wait .25*
-*show*
+	#*setposang cat_piano setpos -1187.520996 467.479309 -64;setang -90 294.221405 0.000000*
+	*setroot cat_piano narrator setpos -163.520996 -44.520691 0.000000;setang 0.000 24.221 0.000*
+	*setoffset player setpos -45.755615 9.588379 0;setang -0.000 -165.918 0.000*
+	*setcamroot player setpos -291.752136 -8.628052 87.847626;setang 5.118 -0.213 0.000*
+	#*setcam setpos -788.870239 600.943054 23.847630;setang 5.117703 -166.131042 0.000000*
+	*setanim player idle_all_01*
+	*txin*
+	*wait .25*
+	*show*
 	*setspeaker cat_piano*
 	*PIANO_SMIRK*
 	*setanim cat_piano gesture_laugh 1 idle*
-	We fucking did it.%% We have scored,% the Good Shit.%%%*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*
+	We fucking did it.%% We have scored,% the Good Shit.%%%*setcamroot cat_piano setpos 80.290100 7.467896 61.609421;setang 8.585 173.265 0.000*#*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*
 	He knows that*setanim cat_piano gesture_shrug 1 idle* I know he hides the hard stuff,% so of course he 
 	left it out in the open as something obvious and innocuous.%%%% 
 	Cellist*setanim cat_piano gesture_confused 1 idle* is smarter than he looks,% you know.
@@ -267,35 +312,36 @@ m12:
 m13:
 	*setspeaker cat_piano*
 	Yeeeeeeee%e%e%e%e%e%%e%e%e%e%e%eeeeeeeeeeeeah.%%%%
-	
+	*setspeaker narrator*
 	> You smell something%.%.%.% floral?%%% Is that lavender?%%% And chamomile?
 	&m14
 	
 m14:
 	*setspeaker cat_piano*
-	The contract of friendship is sealed.%%%%*PIANO_BLINK*
-	*setanim cat_piano pose_passedout*
-	*setposang good_shit setpos -1195 485 -64;setang 0 75 0*
+	The contract of friendship is sealed.%%%%*PIANO_BLINK**setanim cat_piano pose_passedout**render good_shit**setroot good_shit narrator setpos -171 -27 0;setang 0 75 0*#*setposang good_shit setpos -1195 485 -64;setang 0 75 0*
+	*setspeaker narrator*
 	> The Pianist's eyes go blank,% and she falls backward onto the floor.
 	&m15
 	
 m15:
-	*setcam setpos -1176.494019 380.049255 12.085655;setang 16.384089 79.724792 0.000000*
-	*setspeaker narrator*
-	> Nudging her lightly,% you establish that she's not dead.%%%*setcam setpos -1140.250366 476.109009 -12.205513;setang 41.300411 -174.800049 0.000000* 
+	*setcamroot cat_piano setpos -25.812561 -84.257446 76.085655;setang 16.384 55.504 0.000*
+	*setoffset player setpos -145.755615 9.588379 0;setang 14 -65.918 0.000*
+	#*setcam setpos -1176.494019 380.049255 12.085655;setang 16.384089 79.724792 0.000000*
+	> Nudging her lightly,% you establish that she's not dead.%%%*setcamoffset setpos 46.649780 -11.523132 51.794487;setang 41.300 160.979 0.000*#*setcam setpos -1140.250366 476.109009 -12.205513;setang 41.300411 -174.800049 0.000000* 
 	Moments later,% snoring confirms that she's just fast asleep.%%%
 	The air smells delightful.
 	&m16
 	
 m16:
-	*setposang cat_cello setpos -1057.220947 528.489380 -64;setang -90 105.667139 0.000000*
-	*setspeaker narrator*
-	As you turn to leave her to her nap,%% the Cellist steps into view and 
+	*setroot cat_cello narrator setpos -33.220947 16.489380 0;setang 0 195.667 0*#*setposang cat_cello setpos -1057.220947 528.489380 -64;setang -90 105.667139 0.000000*
+	*setanim cat_cello idle*
+	> As you turn to leave her to her nap,%% the Cellist steps into view and 
 	squats beside her.
 	&m17
 	
 m17:
-	*setcam setpos -1215.927002 386.680145 -10;setang 23.451723 54.179680 0.000000*
+	*setcamoffset setpos -59.053833 -62.032654 54.000000;setang 23.452 29.959 0.000*
+	#*setcam setpos -1215.927002 386.680145 -10;setang 23.451723 54.179680 0.000000*
 	*setspeaker cat_cello*
 	*CELLO_GRIN*
 	*setanim cat_cello gesture_shrug 1 idle*
@@ -306,7 +352,8 @@ m17:
 	&m18
 	
 m18:
-	*setcam setpos -1108.357666 512.272339 -8.689590;setang 4.641195 20.931328 0.000000*
+	*setcamroot cat_cello setpos 53.616211 1.805298 55.310410;setang 4.641 -174.736 0.000*
+	#*setcam setpos -1108.357666 512.272339 -8.689590;setang 4.641195 20.931328 0.000000*
 	*setspeaker cat_cello*
 	*CELLO_NEUTRAL*
 	oh,%% it's probably worth noting she didn't*setanim cat_cello gesture_disagree 1 idle* actually get my Good Shit%%%%
@@ -318,7 +365,7 @@ m19:
 	*setanim cat_cello gesture_shrug 1 idle*
 	*CELLO_GRIN*
 	i just rolled a blunt full of aromatherapy stuff i stole from bed bath and 
-	beyond%%%*setcam setpos -1215.927002 386.680145 23.725632;setang 23.451723 54.179680 0.000000* it seems to be working.*CELLO_NEUTRAL*%%*setanim cat_cello gesture_confused 1 idle* now maybe she'll sleep for more than 
+	beyond%%%*setcamroot cat_piano setpos -59.053833 -62.032654 87.725632;setang 23.452 29.959 0.000* it seems to be working.*CELLO_NEUTRAL*%%*setanim cat_cello gesture_confused 1 idle* now maybe she'll sleep for more than #*setcam setpos -1215.927002 386.680145 23.725632;setang 23.451723 54.179680 0.000000*
 	an hour and wake up chill and give us all some 
 	peace and quiet for a day or two.
 	&m20
@@ -330,7 +377,7 @@ m20:
 	&m21
 	
 m21:
-	Bemused,% you snub out the joint and leave the sleeping cat be.*mark_seen*
+	> Bemused,% you snub out the joint and leave the sleeping cat be.*mark_seen*
 	&exit
 
 	
