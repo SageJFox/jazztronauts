@@ -92,7 +92,7 @@ m2:
 m2multi:
 	*setauto*
 	*setspeaker cat_bar*
-	You'll want to fasten yourselves securely in your seat,% and brace yourselves.%%
+	You'll want to fasten yourselves securely in your seats,% and brace yourselves.%%
 	The first few trips through the Void can be*BAR_BLINK*%.%.%.%
 	*setanim cat_bar gesture_confused 1 idle**BAR_HAPPY*...disorienting.
 	&m3
@@ -109,7 +109,7 @@ m3:
 	*setspeaker player*
 	*BAR_NEUTRAL*
 	Wait,% what?%% 
-	What do you mean “the Void”-?
+	What do you mean “the Void”—?
 	&m4
 
 m4:

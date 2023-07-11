@@ -41,7 +41,7 @@ begin3:
 begin4:
 	*setspeaker cat_piano*
 	*setcam setpos -13571.149414 -2157.019287 1042.542480;setang 9.023558 -135.240448 0.000000*
-	*PIANO_ANGRY*That*setanim cat_piano gesture_anger 1 idle* was rhet-
+	*PIANO_ANGRY*That*setanim cat_piano gesture_anger 1 idle* was rhet—
 	&begin5
 
 begin5:
@@ -188,7 +188,7 @@ begin26:
 	*setanim cat_bar gesture_disagree 1 idle*
 	No,% no%*BAR_NEUTRAL* I've a*PIANO_NEUTRAL* better idea.%%*setanim cat_bar gesture_jab 1 idle*% You there!%% Through the window!%%
 	We've a proposition to make.%%%*setcam setpos -13634.369141 -1805.863525 1055.647705;setang 2.375210 -82.293320 0.000000* The end of these tunnels is just*setanim cat_bar gesture_sweep 1 idle*
-	a little ways ahead -% if you'll meet us there,%*BAR_HAPPY* we'll give you the details.
+	a little ways ahead –% if you'll meet us there,%*BAR_HAPPY* we'll give you the details.
 	&begin27
 
 begin27:

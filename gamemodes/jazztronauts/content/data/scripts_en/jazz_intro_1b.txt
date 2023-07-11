@@ -49,7 +49,7 @@ begin4:
 begin5:
 	*setspeaker cat_piano*
 	Did you actually hurt yourself?%%
-	Hang on, let me break out the medi-
+	Hang on, let me break out the medi—
 	&begin6
 
 begin6:

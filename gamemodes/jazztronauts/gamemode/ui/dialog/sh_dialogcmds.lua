@@ -299,8 +299,18 @@ local function FindByName(name)
 	return FindNPCByName(name)
 end
 
-dialog.RegisterFunc("player", function(d, time)
+dialog.RegisterFunc("player", function(d)
 	return LocalPlayer():GetName()
+end)
+
+local shardtotal = GetConVar("jazz_total_shards")
+
+dialog.RegisterFunc("shardtotal", function(d)
+	if shardtotal then
+		return shardtotal:GetString()
+	else
+		return "100"
+	end
 end)
 
 dialog.RegisterFunc("wait", function(d, time)

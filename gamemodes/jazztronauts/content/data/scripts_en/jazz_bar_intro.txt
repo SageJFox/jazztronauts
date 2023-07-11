@@ -29,7 +29,7 @@ saidnobefore:
 	*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
 	*setspeaker cat_bar*
 	*BAR_NEUTRAL*
-    Allow me to formally welc-%%*BAR_SURPRISE*
+    Allow me to formally welc—%%*BAR_SURPRISE*
     Wait*setanim cat_bar gesture_shock 1 idle* a minute,% I recognize you.%%*BAR_NEUTRAL*
     Didn't you say no before?
     &no2
@@ -163,7 +163,7 @@ aask:
 		&skiptutorial:
 			*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
 			Yeah, yeah, sure. Can we skip the meet and greet?
-			I learn better through experience. (Skip Tutorial)
+			I learn better through experience. *c 0*(Skip Tutorial)*c*
 		&why:
 			*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
 			No.
@@ -179,7 +179,10 @@ why:
 	&why2
 
 why2:
-	As agreed, you'll be sent back to the main menu. Goodbye.%%%%
+	As agreed, you'll be sent back to the main menu. Goodbye.
+	&why3
+
+why3:
 	*run disconnect*
 	&exit
 
@@ -281,10 +284,10 @@ a23:
 	player:
 		&a24:
 			*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
-			Yeah sure,% clue me in. (View Tutorial)
+			Yeah sure,% clue me in. *c 0*(View Tutorial)*c*
 		&skiptutorial:
 			*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
-			No thanks,% I'm good. (Skip Tutorial)
+			No thanks,% I'm good. *c 0*(Skip Tutorial)*c*
 
 ### I'M GOOD SEEN THIS BEFORE
 skiptutorial:
@@ -292,8 +295,8 @@ skiptutorial:
 	*setspeaker cat_bar*
 	*BAR_NEUTRAL*
 	*setanim cat_bar gesture_agree 1 idle*
-	As you wish,% I'm sure you'll be able to figure it all out.%%%% Let's 
-	get to work, gang.
+	As you wish,% I'm sure you'll be able to figure it all out.%%%% 
+	Let's get to work, gang.
 	&b2
 
 b2:
@@ -374,9 +377,9 @@ a30:
 	Moving on,% let's talk about the prop snatcher.
 	&a32
 
-a31:
-	Moving on,% let's talk about the prop snatcher.
-	&a32
+#a31:
+#	Moving on,% let's talk about the prop snatcher.
+#	&a32
 
 a32:
 	*setcam setpos -4283.793945 3310.579102 42.825569;setang -2.413082 104.905144 0.000000* #### CELLO
@@ -532,8 +535,8 @@ a52:
 	*setspeaker cat_bar*
 	Again,%% we'll pay you and whoever you're working with a flat rate 
 	for each one found. It doesn't matter who found it. We need a 
-	minimum of 100, but will pay you the same rate for each shard you 
-	find after 100.
+	minimum of *shardtotal*, but will pay you the same rate for each shard you 
+	find after *shardtotal*.
 	&a53
 
 a53:
@@ -567,7 +570,7 @@ wiz2:
 	*PIANO_SMIRK*
 	*setanim cat_piano gesture_disagree 1 idle*
 	The shards themselves are completely harmless anyways.%%%*BAR_NEUTRAL* 
-	You'll see why when you spot one - they make a really warm sound,%% 
+	You'll see why when you spot one – they make a really warm sound,%% 
 	and are generally just calming to be near.
 	&wiz3
 
