@@ -30,12 +30,24 @@ a2:
 	Ah!% *player*!%%%%*BAR_HAPPY* 
 	I was going to come find you,% actually.%%%*BAR_NEUTRAL* We're going on a little field
 	trip to the hot spring,%%*setanim cat_bar gesture_confused 1 idle* would you care to join us?
-	&a3
+	condition:
+		&a3:
+			return multiplayer()
+		&a3single:
+			return true
 
 a3:
 	*setspeaker narrator*
-	*OOC*(This is the last event. You may want to give the other players
-	a heads-up that you'll be busy for a little while.)
+	*OOC*(This is the last event in the Bartender's quest line. You may want to give 
+	the other players a heads-up that you'll be busy for a little while.)
+	player:
+		&a4: Yeah sure,% I'm down for free food.
+		&leave: I have some stuff to do,% but maybe later? *c 0*(exit)*c*
+
+a3single:
+	*setspeaker narrator*
+	*OOC*(This is the last event in the Bartender's questline. It may take a while to 
+	watch,% you can come back to it without penalty if you are in a hurry.)
 	player:
 		&a4: Yeah sure,% I'm down for free food.
 		&leave: I have some stuff to do,% but maybe later? *c 0*(exit)*c*

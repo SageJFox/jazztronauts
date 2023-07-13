@@ -92,7 +92,11 @@ b7:
 	He's talked to you more than he's talked to anyone else we've
 	met in a Really Long Time even though he was on a downswing!!!%%%%*setanim cat_singer gesture_agree 1 idle*
 	That's really impressive!!!”
-	&b8
+	condition:
+		&b8:
+			return multiplayer()
+		&b8single:
+			return true
 	
 b8:
 	*setcamoffset setpos -27.883301 -169.183716 87.404266;setang 7.836 73.438 0.000*
@@ -101,14 +105,22 @@ b8:
 	*OOC*(This is the last event in the Cellist's questline.%% You may
 	want to give the other players a heads up that you'll be busy
 	for a bit,%%% if you continue.)
+	&b9	
+	
+b8single:
+	*setcamoffset setpos -27.883301 -169.183716 87.404266;setang 7.836 73.438 0.000*
+	#*setcam setpos -3009.787842 2799.737305 87.404266;setang 7.835631 19.437826 0.000000* 
+	*setspeaker narrator*
+	*OOC*(This is the last event in the Cellist's questline.%% 
+	It may take a while to watch,% you can come back to it
+	without penalty if you are in a hurry.)
 	&b9
 	
 b9:
 	*setspeaker narrator*
-	*OOC*(Additionally,%% the following scene contains a more serious 
-	depiction of the Cellist's many issues.%%%% An option has been 
-	provided below to skip it and read a summary instead,% if you
-	would prefer to avoid playing through it.)
+	*OOC*(Additionally,%% the following scene contains a more serious depiction of 
+	the Cellist's many issues.%%%% An option has been provided to skip it and read 
+	a summary instead,% if you would prefer to avoid playing through it.)
 	player:
 		&m1:
 			Point me where I need to go.
