@@ -387,7 +387,7 @@ piano_truebark1:
 
 piano_truebark2:
     *setauto*
-     Between you and me, I think this ‘going legit' thing won't last too  
+     Between you and me, I think this 'going legit' thing won't last too  
      long. Give it a hundred years, and you'll probably see us out on the
      Voidway again. 
      &exit
@@ -550,7 +550,7 @@ itsthattime4:
 
 
 begin12:
-    Hey it's been a while how've y*emitsound ambient/materials/door_hit1.wav*-
+    Hey it's been a while how've y*emitsound ambient/materials/door_hit1.wav*—
     *slam [CRASH THROUGH DOOR]**shake 0.25*
     *setskin focus 3* *emitsound npc/metropolice/gear1.wav*%*emitsound npc/metropolice/gear2.wav*%
     *slam FUCK.* *emitsound npc/metropolice/gear3.wav*% BAIL.

@@ -19,16 +19,16 @@ a1:
 	
 a1b:
 	*setspeaker npc_cat_sing*
-	"Hey so this is the last thing I need to finally test a theory 
+	“Hey so this is the last thing I need to finally test a theory 
 	I've been developing for actual years!!!! If you can get me 
 	10 radios, I should be able to make some motherfucking
-	magic happen. Hopefully. Maybe." *start 5*
+	magic happen. Hopefully. Maybe.” *start 5*
 	&a2
 	
 a2:
-	> "We'll see together it'll be a journey of 
+	> “We'll see together it'll be a journey of 
 	discovery \:･ﾟ✧\(\=✪ ᆺ ✪\=)/\:･ﾟ✧ This is the last job I'll be able 
-	to give, so I'll be sure it's your biggest haul yet!!!"
+	to give, so I'll be sure it's your biggest haul yet!!!”
 	&a3
 	
 a3:
@@ -152,12 +152,12 @@ t7:
 	*setposang player setpos 410 121 0;setang 0 210 0*
 	*setcam setpos 339 157 80;setang 20.2231 311.64 0*
 	*SINGER_CRY*
-	> The Singer is actually crying with joy.%%%% 
+	> The Singer is actually crying with joy.%%%%
 	&t8
 	
 t8:
 	> They tell you that they will never be able to fully express
-	how much you've helped them and their research out-%% 
+	how much you've helped them and their research out—%%
 	&t9
 	
 t9:

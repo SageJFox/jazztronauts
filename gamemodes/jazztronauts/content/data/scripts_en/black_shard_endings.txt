@@ -221,7 +221,7 @@ t4b:
 	*BAR_PISSED*
 	*setspeaker cat_bar*
 	*emitsound ambient/atmosphere/terrain_rumble1.wav .45 .7*
-	You okay, *player*? Here, sit dow-*emitsound ambient/atmosphere/terrain_rumble1.wav .58 .8*
+	You okay, *player*? Here, sit dow—*emitsound ambient/atmosphere/terrain_rumble1.wav .58 .8*
 	&t5
 
 Aaand the road gibs. Trolley starts to fall into the void, shot of the eclipse cat directly overhead flipping its shit.
@@ -352,7 +352,7 @@ t15:
 t16:
 	*setspeaker cat_cello*
 	*CELLO_NEUTRAL*
-	i for one am blameless and go to the grave without-%%*CELLO_MAD*
+	i for one am blameless and go to the grave without—%%*CELLO_MAD*
 	okay*setanim cat_cello gesture_facepalm 1 idle* y'know what,% Real Talk,%% i've been a god damned
 	moron% and i hope you can forgive me for being such
 	a shitty friend.
@@ -695,7 +695,7 @@ r2c:
 	
 r2c1:
 	If these days of quiet*setanim cat_bar gesture_shrug 1 idle* contentment will be a thing I resent in time for 
-	‘robbing' me of time spent working on some other project.
+	'robbing' me of time spent working on some other project.
 	&r2d
 
 r2d:

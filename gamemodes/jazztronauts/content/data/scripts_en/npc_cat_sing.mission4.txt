@@ -28,9 +28,9 @@ a3:
 	&a3b
 	
 a3b:
-	> "This time I'm not going to ask anything too weird of you, I promise!! 
+	> “This time I'm not going to ask anything too weird of you, I promise!! 
 	Really this one is pretty pedestrian. I need you to 
-	find an instance of Alyx."
+	find an instance of Alyx.”
 	&a4
 	
 a4:
@@ -59,7 +59,7 @@ idle3:
 	
 i1:
 	> There's a nice picture of them giving a big smile and holding up a 
-	board with "You can do it!!!!" scribbled on it attached 
+	board with “You can do it!!!!” scribbled on it attached 
 	to the end of the message.
 	&exit
 

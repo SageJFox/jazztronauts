@@ -55,7 +55,7 @@ i1:
 i2:
 	You helped me inflict terror on those poor,% emotionless,%% 
 	meaningless husks of your own volition,%% for money.%%%% 
-	You're just as guilty as I-
+	You're just as guilty as I—
 	&i3
 	
 i3:

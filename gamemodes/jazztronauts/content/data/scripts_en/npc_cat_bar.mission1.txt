@@ -66,7 +66,7 @@ a9:
 	&a10
 
 a10:
-	You've already proven that hiring you was an excellent decision - 
+	You've already proven that hiring you was an excellent decision – 
 	drop by later, if you'd care to participate in a community activity 
 	I organize from time to time. *finish 1*
 	&exit

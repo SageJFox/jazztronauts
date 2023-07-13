@@ -21,8 +21,8 @@ a2b:
 	&a3
 	
 a3:
-	> Skimming over it, you find they've reintroduced themselves-
-	you did have the name right- hope you are settling in well,
+	> Skimming over it, you find they've reintroduced themselves—
+	you did have the name right—hope you are settling in well,
 	and are eager to work with you.
 	&a4
 	
@@ -80,13 +80,13 @@ t1:
 	
 t2:
 	> Grabbing their tablet, they tap away with great enthusiasm\:
-	"Oh man fuck yes there's some really useful shit in here!!! I might 
+	“Oh man fuck yes there's some really useful shit in here!!! I might 
 	be able to make some of my digital storage protocols now this 
 	is so rad thank you so much!!! (๑✪ᆺ✪๑)✧”
 	&t3
 	
 t3:
-	> "You should find me later once I've gone through all of these and 
+	> “You should find me later once I've gone through all of these and 
 	I can show you something cool ₍⸍.ʷ̣̫.⸌₎”
 	&t4
 	

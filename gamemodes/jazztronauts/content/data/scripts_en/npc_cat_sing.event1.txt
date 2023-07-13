@@ -46,7 +46,7 @@ b3:
 	*SINGER_NEUTRAL*
 	*setanim cat_singer gesture_sweep 1 idle*
 	
-	> A hurried message is presented\:%%%*SINGER_HAPPY* "Hi sorry I get super fucking 
+	> A hurried message is presented\:%%%*SINGER_HAPPY* “Hi sorry I get super fucking 
 	out of it when I'm catalouging!!!
 	&b3b
 	
@@ -55,7 +55,7 @@ b3b:
 	*setcam setpos 3210.891113 7908.113281 38.489910;setang 2.671340 -13.117636 0.000000* ####### SINGER HEADSHOT
 	> It'*setanim cat_singer gesture_sigh 1 idle*s really relaxing%.%.%.%%% 
 	I thought after your hard work helping me get these you*setanim cat_singer gesture_confused 1 idle* might like to 
-	help me enter their descriptions for my archives,% maybe. "
+	help me enter their descriptions for my archives,% maybe.”
 	player:
 		&r1a1:
 			*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
@@ -202,10 +202,10 @@ an1:
 	
 an1b:
 	*SINGER_NEUTRAL*
-	"While that's creative and very engaging!!!%%% It doesn't really.%% Say.%%% 
+	“While that's creative and very engaging!!!%%% It doesn't really.%% Say.%%% 
 	Anything.%% About what the doll looks like.% And also is claiming it's 
 	a medical device????%%% Which,% it's super not.%%% BUT!!!!!!!%% 
-	That was a very good first attempt!!!"
+	That was a very good first attempt!!!”
 	&an2
 	
 an2:

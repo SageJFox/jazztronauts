@@ -266,7 +266,7 @@ t19:
 	*SINGER_HAPPY*
 	*setanim cat_singer gesture_clap 1 idle*
 	> The Singer beams.%%%% They take out their tablet and tap out a message\:%%%
-	"THANK YOU SO MUCH IM SO PROUD OF YOU!!!"
+	“THANK YOU SO MUCH IM SO PROUD OF YOU!!!”
 	&t20
 	
 t20:

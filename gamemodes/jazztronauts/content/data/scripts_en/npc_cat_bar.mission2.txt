@@ -26,7 +26,7 @@ idle:
 a3:
 	*setspeaker npc_cat_bar*
 	Hm. No need to restock the sugar cider yet, we have an ample supply 
-	of void gin, and- 
+	of void gin, and—
 	&a4
 
 a4:

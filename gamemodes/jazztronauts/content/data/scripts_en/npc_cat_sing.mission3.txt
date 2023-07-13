@@ -9,7 +9,7 @@ accept:
 	
 a1:
 	*setspeaker npc_cat_bar*
-	-So if I understand correctly, your research suggests we may now be 
+	—So if I understand correctly, your research suggests we may now be 
 	able to clone plants if we grow the original to maturity in these?
 	&a2
 	
@@ -24,7 +24,7 @@ a3:
 	*setspeaker npc_cat_bar*
 	Incredible work. Having ready access to fresh ingredients would do 
 	wonders for our budget, and of course 
-	the quality of our menu. I- Oh!
+	the quality of our menu. I—Oh!
 	&a4
 	
 a4:
@@ -46,13 +46,13 @@ a6:
 	&a7
 	
 a7:
-	> "Hi excellent yes you're here!!! As you probably overheard, I've 
+	> “Hi excellent yes you're here!!! As you probably overheard, I've 
 	made some incredible strides in my research at the Mewseum!!!!! 
 	&a7b
 	
 a7b:
 	But to put it into practice I'm going to need your help again, 
-	/ᐠ. ｡.ᐟ\\ We need 10 flower pots for science!!!!"
+	/ᐠ. ｡.ᐟ\\ We need 10 flower pots for science!!!!”
 	&a8
 	
 a8:

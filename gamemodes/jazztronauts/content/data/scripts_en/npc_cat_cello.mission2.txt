@@ -13,7 +13,7 @@ a3:
 	in a desperate attempt to survive
 	&a4
 a4:
-	this allows %(and requires)% me to pursue novel forms of intoxication
+	this allows %*c ASIDECOLOR*(and requires)*c*% me to pursue novel forms of intoxication
 	in ways that would ordinarily be considered particularly 
 	overengineered suicide attempts
 	&a5
@@ -26,7 +26,7 @@ a5:
 a6:
 	for now %%i'm gonna need a shit-ton of random chemicals.%
 	buckets, %% jugs, %%bottles, %%mysterious glowing cubes, %%whatever.%%%
-	ten of ‘em should be a good start
+	ten of 'em should be a good start
 	*start 2*
 	&exit
 

@@ -144,8 +144,8 @@ m5:
 	*setanim cat_singer gesture_exchange 1 idle*
 	> They hold it straight above their head when they've finished so 
 	all three of you can see the screen\:%%%*SINGER_MISCHIEF* 
-	"I was sleeping motherfuckers so now we're going to have a 
-	Talk about healthy conflict resolution (￣ー￣) "
+	“I was sleeping motherfuckers so now we're going to have a 
+	Talk about healthy conflict resolution (￣ー￣)”
 	&m6
 
 m6:
@@ -213,10 +213,10 @@ m12:
 	*setcam setpos -76.639259 712.453308 608.491882;setang 51.226170 -151.509552 0.000000*
 	*SINGER_HAPPY*
 	*setanim cat_singer gesture_agree .75 idle*
-	> "You both have so much in common I wish you'd talk things out 
+	> “You both have so much in common I wish you'd talk things out 
 	instead of escalating!!%%% You could have had a really neat discussion 
 	about the merits of the things you*SINGER_MAD* like*setanim cat_singer gesture_anger 1.5 idle* but noooooo straight to 
-	property damage.%%*SINGER_BLINK*%%*SINGER_NEUTRAL*%%%%*setcam setpos -547.753540 500.597992 51.454922;setang 6.344849 -119.885254 0.000000* Why are you Like This."
+	property damage.%%*SINGER_BLINK*%%*SINGER_NEUTRAL*%%%%*setcam setpos -547.753540 500.597992 51.454922;setang 6.344849 -119.885254 0.000000* Why are you Like This.”
 	&m13
 
 m13:

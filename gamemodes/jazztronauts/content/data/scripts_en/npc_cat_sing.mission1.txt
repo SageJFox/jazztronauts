@@ -9,14 +9,14 @@ accept:
 	
 a1:
 	> The Singer has your next job ready, and hands the tablet over to you 
-	for you to check the details\: "Okay so bear with me here because I 
+	for you to check the details\: “Okay so bear with me here because I 
 	know how weird it sounds, but I need a bunch of messed up dolls.
-	5, to be more precise."
+	5, to be more precise.”
 	&a2
 	
 a2:
 	> You shake your head and keep reading\:
-	"I'm really close to a research breakthrough!!!! I'm sure if I 
+	“I'm really close to a research breakthrough!!!! I'm sure if I 
 	throw more bodies at the problem something will stick but 
 	last time when I asked the Pianist for help she...
 	&a2b
@@ -60,7 +60,7 @@ turnin:
 	spawnnarrator()
 	*setspeaker npc_cat_cello*
 	oh hey you're back with what pipes wanted
-	what was it this time, nice pillow for our tenants or someth-
+	what was it this time, nice pillows for our tenants or someth—
 	&t1
 	
 t1:
@@ -74,7 +74,7 @@ t2:
 	what the f*setskin 2*UCK did you have our minion bring back to us i will not stand 
 	for these busted ass cursed as fuck haunted doll watch worthy held by 
 	a creepy little girl lookin watches	your ass while you sleep type 
-	offsceen teleporting jumpscares in my house, fuckin-
+	offsceen teleporting jumpscares in my house, fuckin—
 	&t3
 	
 t3:
@@ -86,7 +86,7 @@ t3:
 	
 t4:
 	*setspeaker npc_cat_cello*
-	-if one of those fucking things put a bespoke artisanal swedish death 
+	—if one of those fucking things put a bespoke artisanal swedish death 
 	curse on me or some shit i swear to the little i find sacred that i 
 	will come back from the grave and haunt your ass so badly you won't be 
 	able to sit down without it going ooOooOOoOOo*setskin 0*

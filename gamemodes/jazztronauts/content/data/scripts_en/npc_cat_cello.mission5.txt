@@ -1,6 +1,6 @@
 accept:
 	*setskin 2*
-	don't-%% just,% don't say it.%%% i know.%% i get it.%% i fucked up.
+	don't—%%%just,% don't say it.%%% i know.%% i get it.%% i fucked up.
 	&a2
 a2:
 	and keep your mouth shut because i've got one last request for you.% 

@@ -12,7 +12,7 @@ a1b:
 
    y'know,%% to disguise their constant requests to have 
    stupid bullshit delivered to them like its sketchy takeout%%%%
-   (sometimes it may in fact be sketchy takeout)
+   *c ASIDECOLOR*(sometimes it may in fact be sketchy takeout)*c*
    &a2
 
 a2: 
