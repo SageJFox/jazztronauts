@@ -77,9 +77,6 @@ function isTransitionedOut()
 end
 
 
-if mapcontrol.IsInHub() then
-	transitionIn(2)
-end
 
 local function drawHorse(amount)
 	local display = Rect("screen")
@@ -162,3 +159,15 @@ hook.Add("PreDrawHUD", "jazzCatTransitionEarly", function()
 	drawTransition()
 	cam.End2D()
 end )
+
+if mapcontrol.IsInHub() then
+	-- Prevents flash frame before OnClientInitialized runs
+	hook.Add("PostDrawHUD", "JazzPrepareTransitionIntoBar", function()
+		surface.SetDrawColor(0,0,0,255)
+		surface.DrawRect( 0, 0, ScrW(), ScrH() )
+	end )
+	hook.Add("OnClientInitialized", "JazzTransitionIntoBar", function(ply)
+		transitionIn(1)
+		hook.Remove("PostDrawHUD", "JazzPrepareTransitionIntoBar")
+	end )
+end
