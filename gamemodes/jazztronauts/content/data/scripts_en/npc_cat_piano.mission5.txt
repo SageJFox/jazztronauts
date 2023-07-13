@@ -75,16 +75,20 @@ i3:
 turnin:
 	*hide*
 	*txout*
-	spawnnarrator()
-	spawnpianist()
-	spawnsinger()
-	*setposang cat_piano setpos 119.712593 3120.789307 24;setang -90 140 0.000000
+	#*zsnap 0*
+	spawnnarratorroot(scene_booth_solo scene_booth)
+	spawncatpianist()
+	*setoffset cat_piano setpos 55.712593 -15.210693 0;setang 0.000 230.000 0.000*
+	#*setposang cat_piano setpos 119.712593 3120.789307 24;setang -90 140 0.000000*
 	*spawn metrocop_model models/police.mdl*
 	*setname metrocop_model Metrocop*
 	*bgmplay sound/jazztronauts/music/events/loveaffair.mp3 1 2.0*
-	*setposang metrocop_model setpos 105.750031 2986.230957 0;setang -0.922405 84.788383 0.000000*
-	*setposang player setpos 6.328891 2987.953613 0;setang 5.732626 21.565920 0.000000*
-	*setcam setpos -114.676605 2833.304443 75.460381;setang 4.348427 46.162735 0.000000*
+	#*setposang metrocop_model setpos 105.750031 2986.230957 0;setang -0.922405 84.788383 0.000000*
+	#*setposang player setpos 6.328891 2987.953613 0;setang 5.732626 21.565920 0.000000*
+	*setoffset metrocop_model setpos 41.750031 -149.769043 0;setang -0.922 84.788 0.000*
+	*setoffset player setpos -57.671108 -148.046387 0;setang 5.733 21.566 0.000*
+	*setcamroot player setpos -176.070190 -99.344482 58.163162;setang -0.867 24.524 -2.383* #### ESTABLISHING SHOT
+	#*setcam setpos -114.676605 2833.304443 75.460381;setang 4.348427 46.162735 0.000000* #### ESTABLISHING SHOT
 	*setanim metrocop_model busyidle2*
 	*txin*
 	*wait .5*
@@ -96,15 +100,18 @@ turnin:
 	&t1
 	
 t1:
-	*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
+	*setcamroot cat_piano setpos 95.318115 29.060913 49.167290;setang 1.473 178.186 0.000* ##### PIANO
+	#*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
 	*setspeaker cat_piano*
 	Oh,% cool,%% you're back.%%%%
 	They made it before you did,%% we had a Chat.
 	&t2
 	
 t2:
-	*setcam setpos -114.676605 2833.304443 75.460381;setang 4.348427 46.162735 0.000000*
-	*setposang metrocop_model setpos 105.750031 2986.230957 0;setang 4.667794 168.321960 0.000000*
+	*setcamroot player setpos -176.070190 -99.344482 58.163162;setang -0.867 24.524 -2.383* #### ESTABLISHING SHOT
+	#*setcam setpos -114.676605 2833.304443 75.460381;setang 4.348427 46.162735 0.000000* #### ESTABLISHING SHOT
+	#*setposang metrocop_model setpos 105.750031 2986.230957 0;setang 4.667794 168.321960 0.000000*
+	*setoffset metrocop_model setpos 41.750031 -149.769043 0;setang 4.668 168.322 0.000*
 	*setspeaker narrator*
 	> The metrocop gives you a wave while the Pianist puts a briefcase
 	on the table.%%%%
@@ -113,7 +120,8 @@ t2:
 	&t3
 	
 t3:
-	*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
+	*setcamroot cat_piano setpos 95.318115 29.060913 49.167290;setang 1.473 178.186 0.000* ##### PIANO
+	#*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
 	*setspeaker cat_piano*
 	A long time ago we had someone here who like.%%% 
 	Helped.%%%% The Singer,% with,%% their project?%%%
@@ -129,30 +137,33 @@ t4:
 	
 t5:
 	*setspeaker cat_piano*
-	After some%.%.%.%%%*setcam setpos 7.626283 3141.380859 89.093765;setang 11.376108 -58.373978 0.000000* #### GANG
+	After some%.%.%.%%%*setcamroot metrocop_model setpos 119.823151 -132.077148 99.174164;setang 14.555 132.516 -3.508* #*setcamroot metrocop_model**setcam setpos 7.626283 3141.380859 89.093765;setang 11.376108 -58.373978 0.000000* #### GANG
 	
 	Haggling.
 	&t6
 	
 t6:
-	*setcam setpos 15.191477 2912.617676 63.811058;setang 0 38.602680 0.000000* #### METROCOP
+	*setcamroot metrocop_model setpos 68.346039 90.419434 69.604065;setang 2.981 -129.626 3.594* #### METROCOP
+	#*setcam setpos 15.191477 2912.617676 63.811058;setang 0 38.602680 0.000000* #### METROCOP
 	*setspeaker metrocop_model*
 	*emitsound jazztronauts/mc1que_perks.wav .8*
-	So,%% you getting the perks they promise you?
+	So,%% you getting the perks they promised you?
 	&t7
 	
 t7:
-	*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
+	*setcamroot cat_piano setpos 95.318115 29.060913 49.167290;setang 1.473 178.186 0.000* ##### PIANO
+	#*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
 	*setspeaker cat_piano*
 	Chill.%%%%
 	I added the dental.
 	&t8
 	
 t8:
-	*setcam setpos 7.626283 3141.380859 89.093765;setang 11.376108 -58.373978 0.000000* #### GANG
+	*setcamroot metrocop_model setpos 119.823151 -132.077148 99.174164;setang 14.555 132.516 -3.508* #### GANG
+	#*setcam setpos 7.626283 3141.380859 89.093765;setang 11.376108 -58.373978 0.000000* #### GANG
 	*setspeaker metrocop_model*
 	*emitsound jazztronauts/mc1que_career.wav .8*
-	Yep,% this was definitely the best career choice I've ever made.
+	Yep,% this was definitely the best career choice I ever made.
 	&t8b
 	
 t8b:
@@ -175,12 +186,14 @@ t10:
 	
 t11:
 	*setspeaker cat_piano*
-	*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
+	*setcamroot cat_piano setpos 95.318115 29.060913 49.167290;setang 1.473 178.186 0.000* ##### PIANO
+	#*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
 	This was the worst idea I've ever had.
 	&t12
 	
 t12:
-	*setcam setpos 15.191477 2912.617676 63.811058;setang -0.389936 38.602680 0.000000* #### METROCOP
+	*setcamroot metrocop_model setpos 68.346039 90.419434 69.604065;setang 2.981 -129.626 3.594* #### METROCOP
+	#*setcam setpos 15.191477 2912.617676 63.811058;setang -0.389936 38.602680 0.000000* #### METROCOP
 	*setspeaker metrocop_model*
 	*emitsound jazztronauts/mc1que_yourwife.wav .8*
 	Your wife doesn't like me,% does she?
@@ -188,26 +201,34 @@ t12:
 	
 t13:
 	*setspeaker cat_piano*
-	OKAY YOU KNOW WHA-
+	*PIANO_ANGRY*
+	OKAY YOU KNOW WHA—
 	&t14
 	
 t14:
-	*setcam setpos 65.159882 3145.150391 86.652924;setang 18.297302 -73.573898 0.000000*
-	*setposang cat_singer setpos 100.028259 3020.481445 0;setang -90 4 0.000000*
+	spawncatsinger()
+	##*setposang cat_singer setpos 100.028259 3020.481445 0;setang -90 4 0.000000*
+	#*setoffset cat_singer setpos 36.028259 -115.518555 0;setang 0.000 94.000 0.000*
+	#*setcamroot cat_singer setpos 126.797363 26.087006 86.652924;setang 18.297 -167.574 0.000*
+	##*setcam setpos 65.159882 3145.150391 86.652924;setang 18.297302 -73.573898 0.000000*
+	*block setoffset cat_singer setpos 36.028259 -115.518555 0;setang 0 94 0 --> setcamroot cat_singer setpos 126.797363 26.087006 86.652924;setang 18.297 -167.574 0*
+	*SINGER_MAD*
 	*setspeaker cat_singer*
-	> The Singer comes skidding to a halt in front of the Metrocop!
+	> The Singer comes skidding to a halt in front of the Metrocop! 
 	They put their arms out to shield them!
 	&t15
 	
 t15:
-*setcam setpos 7.626283 3141.380859 89.093765;setang 11.376108 -58.373978 0.000000* #### GANG
+	*setcamroot metrocop_model setpos 119.823151 -132.077148 99.174164;setang 14.555 132.516 -3.508* #### GANG
+	#*setcam setpos 7.626283 3141.380859 89.093765;setang 11.376108 -58.373978 0.000000* #### GANG
 	*setspeaker narrator*
-	> The Pianist wrangles her fury back into its box and shakes off the
+	> The Pianist wrangles her fury back into *PIANO_NEUTRAL*its box and shakes off the
 	tension in the air.
 	&t16
 	
 t16:
-	*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
+	*setcamroot cat_piano setpos 95.318115 29.060913 49.167290;setang 1.473 178.186 0.000* ##### PIANO
+	#*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
 	*setspeaker cat_piano*
 	Hey.%%%
 	Uh.%%%%
@@ -217,10 +238,12 @@ t16:
 t17:
 	*setspeaker narrator*
 	*hide*
-	*setcam setpos 85.541794 3062.095703 58.737503;setang 16.646872 -74.585396 0.000000* ##### SINGER
+	*setcamroot cat_singer setpos 42.523438 11.548309 58.737503;setang 16.647 -168.585 0.000* ##### SINGER
+	#*setcam setpos 85.541794 3062.095703 58.737503;setang 16.646872 -74.585396 0.000000* ##### SINGER
 	*SINGER_MAD*
 	*wait 1.5*
-	*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
+	*setcamroot cat_piano setpos 95.318115 29.060913 49.167290;setang 1.473 178.186 0.000* ##### PIANO
+	#*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
 	*show*
 	*setspeaker cat_piano*
 	No,% really.%% Uh.%%%% I.%%%%
@@ -229,14 +252,16 @@ t17:
 	&t18
 	
 t18:
-	*setcam setpos 15.191477 2912.617676 63.811058;setang -0.389936 38.602680 0.000000* #### METROCOP
+	*setcamroot metrocop_model setpos 68.346039 90.419434 69.604065;setang 2.981 -129.626 3.594* #### METROCOP
+	#*setcam setpos 15.191477 2912.617676 63.811058;setang -0.389936 38.602680 0.000000* #### METROCOP
 	*setspeaker metrocop_model*
 	*emitsound jazztronauts/mc1que_everythingihoped.wav .8*
 	This is everything I hoped it would be.
 	&t19
 	
 t19:
-	*setcam setpos 85.541794 3062.095703 58.737503;setang 16.646872 -74.585396 0.000000* ##### SINGER
+	*setcamroot cat_singer setpos 42.523438 11.548309 58.737503;setang 16.647 -168.585 0.000* ##### SINGER
+	#*setcam setpos 85.541794 3062.095703 58.737503;setang 16.646872 -74.585396 0.000000* ##### SINGER
 	*setspeaker cat_singer*
 	*SINGER_HAPPY*
 	*setanim cat_singer gesture_clap 1 idle*
@@ -245,7 +270,8 @@ t19:
 	&t20
 	
 t20:
-	*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
+	*setcamroot cat_piano setpos 95.318115 29.060913 49.167290;setang 1.473 178.186 0.000* ##### PIANO
+	#*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
 	*setspeaker cat_piano*
 	*PIANO_FLUSTERED*
 	*setanim cat_piano gesture_shock 1.3 idle*
@@ -255,7 +281,8 @@ t20:
 	&t21
 	
 t21:
-	*setcam setpos -208.442261 3254.030518 132.024811;setang 10.896953 -42.747852 0.000000*
+	*setcamroot cat_singer setpos 254.498047 291.427551 132.024811;setang 10.897 -136.748 0.000*
+	#*setcam setpos -208.442261 3254.030518 132.024811;setang 10.896953 -42.747852 0.000000*
 	*setspeaker cat_singer*
 	> The Singer hugs the Pianist.%%%% She clearly has no idea how to deal with
 	this.
@@ -264,7 +291,7 @@ t21:
 t21b:
 	*setspeaker narrator*
 	After a few moments,%% the Singer waves to you two and 
-	walks towards the Mewseum,%% chatting with the metrocop.
+	walks towards the Mewseum,%% chatting with the metrocop.*block render cat_singer false --> render metrocop_model false*
 	&t22
 	
 t22:
