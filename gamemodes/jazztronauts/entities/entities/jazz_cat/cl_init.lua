@@ -66,8 +66,8 @@ function ENT:OnMouseReleased(ply, key)
 end
 
 function ENT:ShouldDrawChat()
-	local pos = self:GetMenuPosAng(LocalPlayer())
-	return LocalPlayer():EyePos():Distance(pos) < self.ChatFadeDistance
+	local _,_,dist = self:GetMenuPosAng(LocalPlayer())
+	return (dist < self.ChatFadeDistance) and !dialog.IsInDialog()
 end
 
 function ENT:UpdateChatFade()
