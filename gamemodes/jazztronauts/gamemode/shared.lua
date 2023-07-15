@@ -9,6 +9,17 @@ GM.Website = "https://steamcommunity.com/sharedfiles/filedetails/?id=1452613192"
 
 team.SetUp( 1, "Jazztronauts", Color( 255, 128, 0, 255 ) )
 
+-- Defined here for users to see, functionality is in init.lua
+CreateConVar("jazz_player_pvp", "0", { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_NOTIFY },
+	"Allow players to damage each other. Default is 0. When enabled, players will collide, as hitscan weapons won't function otherwise.")
+
+cvars.AddChangeCallback("jazz_player_pvp", function(_, old, new)
+	if tobool(new) == true then
+		for i, ply in ipairs( player.GetAll() ) do
+			hook.Run("JazzPlayerOnPlayer", ply)
+		end
+	end
+end )
 
 CreateConVar("jazz_override_noclip", "1", { FCVAR_REPLICATED, FCVAR_NOTIFY }, "Allow jazztronauts to override when players can noclip. If 0, it is determined by sandbox + whatever other mods you've got.")
 
@@ -140,7 +151,7 @@ else
 
 	--get a table of all the damage types that made up this damage
 	local function getDamageTypes(dmg)
-		
+
 		local damtab = {}
 		if dmg == DMG_GENERIC then
 			table.insert(damtab,"0")
@@ -178,44 +189,44 @@ else
 		if leftJazzBus then
 
 			leftJazzBus = nil
-			ev:Title(jazzloc.Localize("jazz.death.leftbus","%name"), 
+			ev:Title(jazzloc.Localize("jazz.death.leftbus","%name"),
 				{ name = name }
 			)
 		--tripped on a cloud and fell eight miles high
 		elseif dmg == DMG_FALL then
 
-			ev:Title(jazzloc.Localize("jazz.death.fall","%name"), 
+			ev:Title(jazzloc.Localize("jazz.death.fall","%name"),
 				{ name = name }
 			)
 		--not likely to show up unless HL2 suit is on
 		elseif dmg == DMG_DROWN then
 
-			ev:Title(jazzloc.Localize("jazz.death.drown","%name"), 
+			ev:Title(jazzloc.Localize("jazz.death.drown","%name"),
 				{ name = name }
 			)
 		--trust no one, not even yourself
 		elseif attacker == ply then
 
-			ev:Title(jazzloc.Localize("jazz.death.self","%name"), 
+			ev:Title(jazzloc.Localize("jazz.death.self","%name"),
 				{ name = name }
 			)
 		--jazztronauts specific
 		elseif attackname == "prop_killer" then
 
-			ev:Title(jazzloc.Localize("jazz.death.propchute","%name"), 
+			ev:Title(jazzloc.Localize("jazz.death.propchute","%name"),
 				{ name = name }
 			)
 
 		elseif attackname == "lasermurder" then
 
-			ev:Title(jazzloc.Localize("jazz.death.selector","%name"), 
+			ev:Title(jazzloc.Localize("jazz.death.selector","%name"),
 				{ name = name }
 			)
 		--trigger_hurt special messages
 		elseif attackclass == "trigger_hurt" then
 
 			local damtab = getDamageTypes(dmg)
-			ev:Title(jazzloc.Localize("jazz.triggerhurt." .. damtab[ math.random( #damtab ) ],"%name"), 
+			ev:Title(jazzloc.Localize("jazz.triggerhurt." .. damtab[ math.random( #damtab ) ],"%name"),
 				{ name = name }
 			)
 		--agh, you've killed me!
@@ -232,14 +243,14 @@ else
 				killedby = jazzloc.Localize("jazz.death.weapon",jazzloc.Localize(attackclass),jazzloc.Localize(weapon:GetClass()))
 			end
 			--put it all together, with picking a random damage type from the list
-			ev:Title(jazzloc.Localize("jazz.death.killer","%name",jazzloc.Localize("jazz.dmg." .. damtab[ math.random( #damtab ) ] ),"%killer"), 
+			ev:Title(jazzloc.Localize("jazz.death.killer","%name",jazzloc.Localize("jazz.dmg." .. damtab[ math.random( #damtab ) ] ),"%killer"),
 				{ name = name, killer = killedby },
 				{ killer = "red_name" }
 			)
 
 		else
 
-			ev:Title(jazzloc.Localize("jazz.death.generic","%name"), 
+			ev:Title(jazzloc.Localize("jazz.death.generic","%name"),
 				{ name = name }
 			)
 
