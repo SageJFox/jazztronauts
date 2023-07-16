@@ -157,14 +157,29 @@ local defaultRoot = nil
 -- locales are points defined in the hub map. This list keeps track of the ones we're using in the current scene.
 local sceneLocales = {}
 -- z snap is how far up or down a character will be adjusted on the Z axis in order to appear standing on the ground. 0 or less to disable
-local zSnap = 64
+local zSnap = {64}
+--[[ layers are different heights for potentially different ground levels. They each have their own zsnap.
+	This allows us to, say, put one character on top of the bar while another character is seated at it.
+	z snap on its own would either put both characters on top of the bar or both below it depending on how large it was set.
+	layers are defined by the locale entity in order to remain flexible for map makers. If a necessary layer isn't defined there, it is assumed zero. 
+	The first layer is always defined by the position of the locale entity (and are thus always 0). The rest are defined in relation to it. ]]
+local layers = {0}
 
 dialog.RegisterFunc("sceneroot", function(d, name)
 	defaultRoot = sceneModels[name] or nil
 end)
 
-dialog.RegisterFunc("zsnap", function(d, amount)
-	zSnap = math.max(0, tonumber(amount))
+--these next two are more "in-dev" commands than actually meant to stay used. Should eventually get these values from the maps themselves.
+dialog.RegisterFunc("zsnap", function(d, amount, layer)
+	local layer = tonumber(layer) or 1
+	zSnap[layer] = tonumber(amount) or 0
+	--print("Wow look we set zSnap at layer "..layer.." to "..zSnap[layer])
+end)
+
+dialog.RegisterFunc("layer", function(d, depth, layer)
+	local layer = tonumber(layer) or 2
+	layers[layer] = tonumber(depth) or 0
+	--print("Wow look we set layer "..layer.." at "..layers[layer])
 end)
 
 dialog.RegisterFunc("setgravity",function(d, name, enabled)
@@ -260,6 +275,7 @@ dialog.RegisterFunc("spawn", function(d, name, mdl, root)
 	sceneModels[name]:SetNoDraw(isdummy)
 	sceneModels[name].IsDummy = isdummy
 	sceneModels[name].gravity = true --gravity is enabled by default, prop will attempt to move to ground by +/-zSnap units
+	sceneModels[name].layer = 1 --different layers can be used to give positioning more nuance than just zSnap alone can provide
 	if root ~= nil then --funnily enough, this actually lets us set the root as nil (i.e. "nil")
 		sceneRoots[sceneModels[name]] = sceneModels[root]
 	else
@@ -293,6 +309,7 @@ local function FindByName(name)
 		local plyobj = CreatePlayerProxy()
 		sceneModels[name] = plyobj
 		plyobj.gravity = true
+		plyobj.layer = 1
 		return plyobj
 	end
 
@@ -545,12 +562,13 @@ local function WorldToSceneRootCam(set)
 	return tab
 end
 
-local function groundAdjust(vec,pos)
+local function groundAdjust(vec,pos,layer)
 	local pos = pos or vector_origin
+	local layer = layer or 1
 	
 	local tr = util.TraceLine( {
-		start = vec + Vector(0,0,zSnap),
-		endpos = vec - Vector(0,0,zSnap),
+		start = vec + Vector(0,0,zSnap[layer]),
+		endpos = vec - Vector(0,0,zSnap[layer]),
 		--using a function here is expensive let's gooo
 		filter = function(ent)
 			if ent:IsPlayer() then return false end
@@ -563,9 +581,10 @@ local function groundAdjust(vec,pos)
 		end,
 		mask = MASK_NPCSOLID
 	} )
+	--print("Here's where it all began: ",tr.StartPos)
 	
 	if tr.Hit then
-		--print(tostring(name).." adjusted by "..tostring(tr.HitPos-tab.pos) .."!")
+		--print("We adjusted by "..tostring(tr.HitPos-vec) .."!")
 		vec = Vector(tr.HitPos)
 		vec.z = vec.z + pos.z
 	end
@@ -593,6 +612,12 @@ local function SceneRootToWorld(name, set)
 		rootpos = root:GetPos()
 		rootang = root:GetAngles()
 	end
+	--compare it to its layer
+	--print("root to world before: ".. rootpos.z)
+	if prop.layer and prop.layer > 1 then
+		rootpos.z = rootpos.z + (layers[prop.layer] or 0)
+		--print("after: ".. rootpos.z)
+	end
 
 	local pos = Vector(prop.offset) or vector_origin
 	local ang = prop.rot or angle_zero
@@ -601,7 +626,8 @@ local function SceneRootToWorld(name, set)
 	tab.pos,tab.ang = LocalToWorld(pos,ang,rootpos,rootang)
 
 	--ground work
-	if prop.gravity and zSnap > 0 then tab.pos = groundAdjust(tab.pos,pos) end
+	--print("Hey this is a funny number:",prop.layer,zSnap[prop.layer])
+	if prop.gravity and zSnap[prop.layer or 1] > 0 then tab.pos = groundAdjust(tab.pos,pos,prop.layer) end
 
 	--we want to set the prop's position in the world, rather than return the values
 	if set then
@@ -642,6 +668,12 @@ local function WorldToSceneRoot(name, set)
 	if IsValid(root) then
 		rootpos = root:GetPos()
 		rootang = root:GetAngles()
+	end
+	--compare it to its layer
+	--print("world to root before: ".. rootpos.z)
+	if prop.layer and prop.layer > 1 then
+		rootpos.z = rootpos.z - layers[prop.layer]
+		--print("after: ".. rootpos.z)
 	end
 
 	local pos = prop:GetPos()
@@ -811,6 +843,24 @@ dialog.RegisterFunc("setlocale", function(d, name, ...)
 			ent:SetPos(sceneLocales[localetest[gotone].."pos"])
 			ent:SetAngles(sceneLocales[localetest[gotone].."ang"])
 			WorldToSceneRoot(name,true)
+		end
+	end
+end)
+
+dialog.RegisterFunc("setlayer",function(d, layer, ...)
+	local props = {}
+	for _, name in ipairs({...}) do
+		local prop = FindByName(name)
+		if IsValid(prop) then
+			table.insert(props,prop)
+		end
+	end
+
+	if table.IsEmpty(props) then return end
+
+	for _, prop in ipairs(props) do
+		if IsValid(prop) then
+			prop.layer = tonumber(layer) or 1
 		end
 	end
 end)
@@ -1339,7 +1389,7 @@ local function getTweenValues(obj)
 			if obj.goaloffset then
 				--obj.startpos = obj:GetPos()
 				obj.goalpos, _ = LocalToWorld(obj.goaloffset, obj.goalrot or obj.goalang, rootpos, rootang)
-				obj.goalpos = groundAdjust(obj.goalpos,obj.goaloffset)
+				obj.goalpos = groundAdjust(obj.goalpos,obj.goaloffset,obj.layer)
 			end
 
 			if obj.goalrot then
