@@ -508,5 +508,3 @@ merge2k:
 	> You make idle conversation with the cats while putting things away. 
 	*mark_seen*
 	&exit
-	
-	

@@ -346,25 +346,3 @@ m8:
 	Now,% what can I get you?
 	*mark_seen*
 	&exit
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

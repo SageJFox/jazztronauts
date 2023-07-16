@@ -338,24 +338,3 @@ pianistconclude:
 	*setspeaker narrator*
 	> The two of you quietly head back to the bar. *mark_seen*
 	&exit
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-		
-		
-		
-	
-	

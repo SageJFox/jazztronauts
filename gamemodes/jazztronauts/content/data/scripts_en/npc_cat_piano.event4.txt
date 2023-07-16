@@ -262,14 +262,3 @@ m8:
 	Don't worry,% I'll make sure she's taken care of.
 	*mark_seen*
 	&exit
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	
-	

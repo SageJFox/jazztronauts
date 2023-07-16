@@ -325,33 +325,3 @@ end:
 	*setspeaker narrator*
 	You share a pleasant moment with the Singer. *mark_seen*
 	&exit
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

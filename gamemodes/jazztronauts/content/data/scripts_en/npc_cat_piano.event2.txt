@@ -351,12 +351,3 @@ m5:
 	Thank you for joining us,% *player*,%
 	it was delightful.
 	&exit
-
-	
-	
-	
-	
-	
-
-
-	
