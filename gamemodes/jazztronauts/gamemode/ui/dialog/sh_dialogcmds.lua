@@ -185,6 +185,7 @@ end)
 dialog.RegisterFunc("setgravity",function(d, name, enabled)
 	local prop = sceneModels[name]
 	if not IsValid(prop) then return end
+	if enabled == nil then enabled = true end
 	local enabled = tobool(enabled)
 	prop.gravity = enabled
 end)
