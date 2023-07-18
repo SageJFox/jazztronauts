@@ -47,7 +47,7 @@ b2:
 	*show*
 	#note - we're not tweening to the new scene root because we want the Cellist to fly past the player,
 	# and do so at a reasonable speed, which might not happen if we go right to the new root.
-	> You make it to the Performance Hall*setcamoffset setpos 7.575684 128.841766 51.663170;setang 2.458 -85.345 0**render cat_cello* relatively quickly as you w*tweenoffset cat_cello .5 setpos 479.030334 -112.329254 32;setang 0 150 0*—%%%#*setcam setpos -830.770874 423.708344 -12.305580;setang 2.458383 95.515366 0.000000**tweenposang cat_cello .5 setpos -544.969666 399.670746 0;setang -90 60 0*
+	> You make it to the Performance Hall*setcamoffset setpos 7.575684 128.841766 51.663170;setang 2.458 -85.345 0**render cat_cello* relatively quickly as you w*tweenoffset cat_cello .5 setpos 479.030334 -112.329254 64;setang 0 150 0*—%%%#*setcam setpos -830.770874 423.708344 -12.305580;setang 2.458383 95.515366 0.000000**tweenposang cat_cello .5 setpos -544.969666 399.670746 0;setang -90 60 0*
 	%.%.%.%wait did the Cellist fly past you just now?%%%%*setcamoffset setpos -77.654419 -38.032837 89.610100;setang 12.760 37.586 0* You turn around to see#*setcam setpos -748.055054 591.843384 25.641350;setang 12.760325 -141.553528 0.000000*
 	what launched him and see the Pianist charging after the Cellist!
 	&b3
