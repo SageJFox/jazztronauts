@@ -1390,7 +1390,7 @@ local function getTweenValues(obj)
 			if obj.goaloffset then
 				--obj.startpos = obj:GetPos()
 				obj.goalpos, _ = LocalToWorld(obj.goaloffset, obj.goalrot or obj.goalang, rootpos, rootang)
-				obj.goalpos = groundAdjust(obj.goalpos,obj.goaloffset,obj.layer)
+				if obj.gravity and zSnap[obj.layer or 1] > 0 then obj.goalpos = groundAdjust(obj.goalpos,obj.goaloffset,obj.layer) end
 			end
 
 			if obj.goalrot then
