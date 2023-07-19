@@ -3,13 +3,18 @@ begin:
 ###### SCENE SETUP
 	*hide*
 	*txout*
-	spawnnarrator()
-	spawnsinger()
+	#*zsnap 0*
+	spawnnarratorroot(scene_bar_solo scene_bar)
+	spawncatsinger()
 	*spawn hulacrate models/items/item_item_crate.mdl*
-	*setposang hulacrate setpos -2892.274414 2812.868652 16;setang 5.839129 -0.567616 0.000000*
-	*setposang cat_singer setpos -2609.358398 2753.060059 0;setang -90 75 0.000000*
-	*setcam setpos -2754.079590 2807.214111 87.238869;setang 18.919519 171.730621 0.000000 fov70*
-	*setposang player setpos -2926.215576 2855.541748 0;setang 0 -25.057766 0.000000*
+	#*setposang hulacrate setpos -2892.274414 2812.868652 16;setang 5.839129 -0.567616 0.000000*
+	#*setposang cat_singer setpos -2609.358398 2753.060059 0;setang -90 75 0.000000*
+	#*setposang player setpos -2926.215576 2855.541748 0;setang 0 -25.057766 0.000000*
+	*setoffset hulacrate setpos 139.131348 -28.274414 16;setang 5.839 89.432 0.000*
+	*setoffset cat_singer setpos 198.939941 254.641602 0;setang 0.000 255.000 0.000*
+	*setoffset player setpos 96.458252 -62.215576 0;setang -0.000 64.942 0.000*
+	*setcamroot hulacrate setpos 130.279541 -4.284424 84.933319;setang 24.704 171.979 -0.860 fov70*
+	#*setcam setpos -2754.079590 2807.214111 87.238869;setang 18.919519 171.730621 0.000000 fov70*
 	*txin*
 	*show*
 	
@@ -25,7 +30,8 @@ cut:
 	&b1
 	
 b1:
-	*setcam setpos -3002.230957 2837.869873 77.731094;setang 6.834046 -10.980259 0.000000*
+	*setcamroot cat_singer setpos 401.436279 19.762939 77.731094;setang 6.834 -175.980 0.000*
+	#*setcam setpos -3002.230957 2837.869873 77.731094;setang 6.834046 -10.980259 0.000000*
 	*setspeaker cat_singer*
 	*SINGER_HAPPY*
 	*setanim cat_singer gesture_exchange 2 idle*
@@ -34,15 +40,20 @@ b1:
 	&b1b
 	
 b1b:
-	*setcam setpos -2871.305176 2776.962646 53.465935;setang 0.445232 129.688690 0.000000*
+	*setcamroot player setpos 83.023193 -47.926636 53.465935;setang 0.445 154.747 0.000*
+	#*setcam setpos -2871.305176 2776.962646 53.465935;setang 0.445232 129.688690 0.000000*
+	#*setspeaker narrator* #todo - the split portrait thing again
 	> They're clearly excited about something,% and don't notice the
 	hula dolls in their path.%%%%%*setanim cat_singer gesture_shock 1 idle*
 	You*SINGER_FLUSTERED* call out,% but it's too late!
 	&b2
 	
 b2:
-	*setcam setpos -3018.806641 2836.171143 63.855316;setang 5.556273 -8.202921 0.000000*
-	*setposang cat_singer setpos -2827.382324 2789.024170 0;setang -90 60 0.000000*
+	##*setposang cat_singer setpos -2827.382324 2789.024170 0;setang -90 60 0.000000*
+	#*setoffset cat_singer setpos 162.975830 36.617676 0.000000;setang 0.000 240.000 0.000*
+	#*setcamroot hulacrate setpos -130.967773 22.046875 34.711609;setang -0.231 -7.599 0.774*
+	##*setcam setpos -3018.806641 2836.171143 63.855316;setang 5.556273 -8.202921 0.000000*
+	*block setoffset cat_singer setpos 162.975830 36.617676 0;setang 0 240 0 --> setcamroot hulacrate setpos -130.967773 22.046875 34.711609;setang -0.231 -7.599 0.774*
 	*setspeaker narrator*
 	*SINGER_CRY*
 	*setanim cat_singer pose_passedout*
@@ -52,49 +63,56 @@ b2:
 	
 b3:
 	*setanim cat_singer pose_sit01 1 idle*
-	> The Singer hit the floor pretty hard%.%.%.%and there's%.%.%%%fluff in the air?%%*SINGER_MAD*%*setcam setpos -2890.010742 2810.836914 64.296967;setang 26.426382 -17.573183 0.000000*
+	> The Singer hit the floor pretty hard%.%.%.%and there's%.%.%%%fluff in the air?%%*SINGER_MAD*%*setcamroot cat_singer setpos 65.144287 12.423828 64.296967;setang 26.426 -167.573 0.000*#*setcam setpos -2890.010742 2810.836914 64.296967;setang 26.426382 -17.573183 0.000000*
 	You peek over the crate and see the Singer cradling a knee.%%%*SINGER_CRY* 
 	They notice the dino plush on the floor,% ripped and mangled.
 	&b4
 	
 b4:
-	*setcam setpos -2877.793701 2808.520508 48.880089;setang 3.639660 -13.952859 0.000000*
+	*setcamoffset setpos 53.405762 8.321167 48.880089;setang 3.640 -163.953 0.000*
+	#*setcam setpos -2877.793701 2808.520508 48.880089;setang 3.639660 -13.952859 0.000000*
 	*setspeaker cat_singer*
 	*setanim cat_singer singer_showshard*
-	*SINGER_CRY*
 	> The Singer stares down at the torn dinosaur plush in their paws and 
 	tears leak down their face,%%%*SINGER_DEPRESSED* a profound aura of 
 	deep sorrow settling over them.
 	&b5
 	
 b5:
-	*setposang player setpos -2847.582031 2832.552979 0;setang 0 -91.789627 0.000000*
-	*setcam setpos -2873.917480 2770.631348 46.226074;setang 3.922465 46.740841 0.000000*
+	##*setposang player setpos -2847.582031 2832.552979 0;setang 0 -91.789627 0.000000*
+	#*setoffset player setpos 119.447021 16.417969 0.000000;setang -0.000 -1.790 0.000*
+	#*setcamroot player setpos 62.714111 -24.388672 46.226074;setang 3.922 138.531 0.000*
+	##*setcam setpos -2873.917480 2770.631348 46.226074;setang 3.922465 46.740841 0.000000*
+	*block setoffset player setpos 119.447021 16.417969 0;setang 0 -1.79 0 --> setcamroot player setpos 62.714111 -24.388672 46.226074;setang 3.922 138.531 0*
 	*setspeaker narrator*
 	> You hurry over and they don't look up at you.
 	&b6
 	
 b6:
 	*setspeaker narrator*
-	> This is the last Event in the Singer's quest line.%%
+	*OOC*(This is the last Event in the Singer's quest line.%%
 	It may take a while to watch,% you can come back to it
-	without penalty if you are in a hurry.
+	without penalty if you are in a hurry.)
 	player:
 		&r1a1:
-			*setcam setpos -2861.892090 2789.874023 77.781456;setang 13.186233 74.106201 0.000000*
+			*setcamroot player setpos 43.104980 -12.970215 77.781456;setang 13.186 165.896 0.000*
+			#*setcam setpos -2861.892090 2789.874023 77.781456;setang 13.186233 74.106201 0.000000*
 			Hey, hey it'll be okay. I need to finish something, 
-			and then we'll get some supplies and fix 'er up. (exit)
+			and then we'll get some supplies and fix 'er up. *c 0*(exit)*c*
 		&r2a1:
-			*setcam setpos -2861.892090 2789.874023 77.781456;setang 13.186233 74.106201 0.000000*
+			*setcamroot player setpos 43.104980 -12.970215 77.781456;setang 13.186 165.896 0.000*
+			#*setcam setpos -2861.892090 2789.874023 77.781456;setang 13.186233 74.106201 0.000000*
 			Sure, it looks rough. 
 			But it's gonna make a bitching scar.
 		&r3a1:
-			*setcam setpos -2861.892090 2789.874023 77.781456;setang 13.186233 74.106201 0.000000*
+			*setcamroot player setpos 43.104980 -12.970215 77.781456;setang 13.186 165.896 0.000*
+			#*setcam setpos -2861.892090 2789.874023 77.781456;setang 13.186233 74.106201 0.000000*
 			C'mon. It's okay, I'll help you fix it.
 		
 ###### BRANCH 1 EARLY EXIT
 r1a1:
-	*setcam setpos -2920.266846 2784.651123 277.195313;setang 72.176178 19.481936 0.000000*
+	*setcamroot cat_singer setpos 78.253906 50.229370 277.164063;setang 72.176 -130.518 0.000*
+	#*setcam setpos -2920.266846 2784.651123 277.195313;setang 72.176178 19.481936 0.000000*
 	*setspeaker cat_singer*
 	*setanim cat_singer gesture_agree .6 idle*
 	> Slowly they nod.%%% The plush is pulled close to their chest,% 
@@ -104,7 +122,8 @@ r1a1:
 	
 ###### BRANCH 2
 r2a1:
-	*setcam setpos -2876.490234 2833.769287 62.561646;setang 15.475554 -43.767174 0.000000*
+	*setcamroot cat_singer setpos 64.901367 -14.196533 62.561646;setang 15.476 166.233 0.000*
+	#*setcam setpos -2876.490234 2833.769287 62.561646;setang 15.475554 -43.767174 0.000000*
 	*setspeaker cat_singer*
 	*SINGER_CRY*
 	> Their head jerks upward,%%*SINGER_DEPRESSED* and for a moment their expression 
@@ -117,7 +136,8 @@ r2a1b:
 	&r2a2
 	
 r2a2:
-	*setcam setpos -2873.917480 2770.631348 46.226074;setang 3.922465 46.740841 0.000000*
+	*setcamroot player setpos 62.714111 -24.388672 46.226074;setang 3.922 138.531 0.000*
+	#*setcam setpos -2873.917480 2770.631348 46.226074;setang 3.922465 46.740841 0.000000*
 	*setanim cat_singer gesture_exchange .6 idle*
 	> They pull out their tablet,% thankfully unharmed,%% 
 	and slowly tap out a response\:%%%%
@@ -129,17 +149,20 @@ r2a3:
 	“dont know what 2 do”
 	player:
 		&r1a1:
-			*setcam setpos -2861.892090 2789.874023 77.781456;setang 13.186233 74.106201 0.000000*
+			*setcamroot player setpos 43.104980 -12.970215 77.781456;setang 13.186 165.896 0.000*
+			#*setcam setpos -2861.892090 2789.874023 77.781456;setang 13.186233 74.106201 0.000000*
 			Hey, hey it'll be okay. I need to finish something, 
-			and then we'll get some supplies and fix 'em up. (exit)
+			and then we'll get some supplies and fix 'em up. *c 0*(exit)*c*
 		&r3a1:
-			*setcam setpos -2861.892090 2789.874023 77.781456;setang 13.186233 74.106201 0.000000*
+			*setcamroot player setpos 43.104980 -12.970215 77.781456;setang 13.186 165.896 0.000*
+			#*setcam setpos -2861.892090 2789.874023 77.781456;setang 13.186233 74.106201 0.000000*
 			C'mon. It's okay, I'll help you fix it.
 		
 ###### BRANCH 3
 r3a1:
 	*setspeaker cat_singer*
-	*setcam setpos -2876.490234 2833.769287 62.561646;setang 15.475554 -43.767174 0.000000*
+	*setcamroot cat_singer setpos 64.901367 -14.196533 62.561646;setang 15.476 166.233 0.000*
+	#*setcam setpos -2876.490234 2833.769287 62.561646;setang 15.475554 -43.767174 0.000000*
 	*SINGER_BLINK*
 	> They blink.%%% Their*SINGER_DEPRESSED* reactions seem far slower than normal as they 
 	reach for their tablet.%%
@@ -147,7 +170,8 @@ r3a1:
 	&r3a2
 	
 r3a2:
-	*setcam setpos -2682.924805 3044.944580 143.522476;setang 21.331928 -124.585342 0.000000*
+	*setcamroot player setpos -217.431396 157.942383 143.522476;setang 21.332 -32.795 0.000*
+	#*setcam setpos -2682.924805 3044.944580 143.522476;setang 21.331928 -124.585342 0.000000*
 	*setanim cat_singer gesture_exchange .6 idle*
 	> The message they show you is just one word\:%%% “ok”
 	&r3a3
@@ -156,10 +180,15 @@ r3a3:
 	*hide*
 	*txout*
 	*bgmplay sound/jazztronauts/music/events/pariah.mp3 .5 4*
-	*setcam setpos 188.218704 2839.670654 4.960632;setang -9.014836 112.749840 0.000000*
-	*setposang player setpos 4.526166 3122.123779 24;setang 0 -1.716147 0.000000*
+	*remove hulacrate*
+	*setlocale narrator scene_booth_solo scene_booth*
+	#*setposang player setpos 4.526166 3122.123779 24;setang 0 -1.716147 0.000000*
+	#*setposang cat_singer setpos 119.894188 3121.174072 24;setang -90 90 0.000000*
+	*setoffset player setpos -59.473835 -13.876221 0;setang -0.000 -1.716 0.000*
+	*setoffset cat_singer setpos 55.894188 -14.825928 0;setang 0.000 180.000 0.000*
+	*setcamoffset setpos 192.068329 -276.825684 -19.039368;setang -9.015 114.466 0.000*
+	#*setcam setpos 188.218704 2839.670654 4.960632;setang -9.014836 112.749840 0.000000*
 	*setanim player sit*
-	*setposang cat_singer setpos 119.894188 3121.174072 24;setang -90 90 0.000000*
 	*setanim cat_singer pose_sit02*
 	*setspeaker narrator*
 	*txin*
@@ -170,18 +199,21 @@ r3a3:
 	&r3a4
 	
 r3a4:
-	*setcam setpos 64.944397 2947.811768 42.192295;setang -5.926938 89.856796 0.000000*
+	*setcamoffset setpos 65.610977 -172.424561 18.192295;setang -5.927 91.573 0.000*
+	#*setcam setpos 64.944397 2947.811768 42.192295;setang -5.926938 89.856796 0.000000*
 	They're huddled up and staring intently at the gash in the side of 
 	the plush with a morose expression.
 	&m1
 	
 m1:
-	*setcam setpos 81.491905 3121.584229 75;setang 17.764835 -179.102737 0.000000*
+	*setcamoffset setpos 76.947388 1.765381 51.000000;setang 17.765 -177.387 0.000*
+	#*setcam setpos 81.491905 3121.584229 75;setang 17.764835 -179.102737 0.000000*
 	> You've gotta nail this.
 	&m2
 	
 m2:
-	*setcam setpos 125.149460 3199.404541 78.059509;setang 11.535769 -132.943375 0.000000*
+	*setcamoffset setpos 118.255005 80.858154 54.059509;setang 11.536 -131.227 0.000*
+	#*setcam setpos 125.149460 3199.404541 78.059509;setang 11.535769 -132.943375 0.000000*
 	*setspeaker cat_singer*
 	*setanim cat_singer gesture_exchange .75 idle*
 	> While you're carefully pushing the filling back into the 
@@ -190,14 +222,16 @@ m2:
 	&m3
 	
 m3:
-	*setcam setpos 49.744553 3188.661865 42.950092;setang -4.116798 -48.301064 0.000000*
+	*setcamroot cat_singer setpos 70.149643 -67.487793 18.950092;setang -4.117 131.699 0.000*
+	#*setcam setpos 49.744553 3188.661865 42.950092;setang -4.116798 -48.301064 0.000000*
 	> “youve probably been wondering why i dont talk out loud like the 
 	rest for a while now.%%% especially given my name.%%%% 
 	i appreciate very much that you didnt pry.”
 	&m4
 	
 m4:
-	*setcam setpos 66.343414 3251.400391 243.108917;setang 58.227272 -89.934738 0.000000*
+	*setcamoffset setpos 53.550781 -130.226318 219.108917;setang 58.227 90.065 0.000*
+	#*setcam setpos 66.343414 3251.400391 243.108917;setang 58.227272 -89.934738 0.000000*
 	*SINGER_BLINK*
 	> “a long time ago i saw something amazing.%%% 
 	It was so beautiful,%% I gasped to catch my breath and 
@@ -205,20 +239,23 @@ m4:
 	&m5
 	
 m5:
-	*setcam setpos 2.123435 3116.607178 67.896553;setang 2.644690 0.945876 0.000000*
+	*setcamoffset setpos 117.770752 4.566895 43.896553;setang 2.645 -179.054 0.000*
+	#*setcam setpos 2.123435 3116.607178 67.896553;setang 2.644690 0.945876 0.000000*
 	*SINGER_HAPPY*
 	> The Singer smiles,%%% and their tapping gets a little more confident.
 	&m6
 	
 m6:
-	*setcam setpos 62.515560 2946.465332 67.768532;setang 0.248870 88.951599 0.000000*
+	*setcamoffset setpos 57.378613 174.708740 43.768532;setang 0.249 -91.048 0.000*
+	#*setcam setpos 62.515560 2946.465332 67.768532;setang 0.248870 88.951599 0.000000*
 	*SINGER_NEUTRAL*
 	> “But when I opened my mouth,%%*SINGER_BLINK* nothing came out.%%%*SINGER_NEUTRAL* I was lost for words.%%%%
 	There was no way I could do justice to what I witnessed.”
 	&m7
 	
 m7:
-	*setcam setpos 64.067345 3107.399170 65.100342;setang 0.568299 14.735083 0.000000*
+	*setcamoffset setpos 55.826843 13.774902 41.100342;setang 0.568 -165.265 0.000*
+	#*setcam setpos 64.067345 3107.399170 65.100342;setang 0.568299 14.735083 0.000000*
 	*SINGER_HAPPY*
 	*setanim cat_singer gesture_anger 1 idle*
 	> “It utterly overwhelmed me with how incredible it was.%%*SINGER_NEUTRAL* 
@@ -227,16 +264,17 @@ m7:
 	&m8
 	
 m8:
-	*setcam setpos -283.871948 2940.037598 72.265640;setang 1.952462 27.991856 0.000000*
+	*setcamoffset setpos 403.766113 181.136475 48.265640;setang 1.952 -152.008 0.000*
+	#*setcam setpos -283.871948 2940.037598 72.265640;setang 1.952462 27.991856 0.000000*
 	*SINGER_BLINK*
 	*setanim cat_singer gesture_disagree 1.3 idle*
-	> “But I didn't.%%%%%%%*setcam setpos 64.067345 3107.399170 65.100342;setang 0.568299 14.735083 0.000000* And that was okay!!!*SINGER_HAPPY*%*setanim cat_singer gesture_confused 1 idle*%% Everyone was so understanding,%%%*setcam setpos 59.296944 2832.452881 64.179871;setang 0.302028 89.590530 0.000000* 
+	> “But I didn't.%%%%%%%*setcamoffset setpos 55.826843 13.774902 41.100342;setang 0.568 -165.265 0* And that was okay!!!*SINGER_HAPPY*%*setanim cat_singer gesture_confused 1 idle*%% Everyone was so understanding,%%%*setcamoffset setpos 60.597218 288.721191 40.179871;setang 0.302 -90.409 0*#*setcam setpos 64.067345 3107.399170 65.100342;setang 0.568299 14.735083 0.000000**setcam setpos 59.296944 2832.452881 64.179871;setang 0.302028 89.590530 0.000000* 
 	even if we didn't perform after that%.%.%.%%*SINGER_DEPRESSED* 
 	&m8b
 
 m8b:
 	*setanim cat_singer gesture_sigh 1 idle*
-	> “I felt bad sometimes.%%% Like a burden.%%%%*SINGER_NEUTRAL*%%%*setcam setpos 64.067345 3107.399170 65.100342;setang 0.568299 14.735083 0.000000* 
+	> “I felt bad sometimes.%%% Like a burden.%%%%*SINGER_NEUTRAL*%%%*setcamoffset setpos 55.826843 13.774902 41.100342;setang 0.568 -165.265 0.000*#*setcam setpos 64.067345 3107.399170 65.100342;setang 0.568299 14.735083 0.000000* 
 	Bartender told me to cut*SINGER_HAPPY* that*setanim cat_singer gesture_embarass 1 idle* shit out pretty fast when she found out!”*SINGER_NEUTRAL*
 	&m9
 	
@@ -244,16 +282,17 @@ m9:
 	*SINGER_HAPPY*
 	*setanim cat_singer gesture_laugh 1 idle*
 	> “I've always seen beauty and potential in things the rest didn't,%%*SINGER_NEUTRAL* 
-	and I knew*setanim cat_singer gesture_shrug 1 idle* that made me kind of weird.%%%*setcam setpos 65.330673 3230.297363 93.212181;setang 16.859674 -89.668564 0.000000* But*SINGER_BLINK* I don't*setanim cat_singer gesture_disagree 1 idle* mind,% 
+	and I knew*setanim cat_singer gesture_shrug 1 idle* that made me kind of weird.%%%*setcamoffset setpos 54.563522 -109.123291 69.212181;setang 16.860 90.331 0.000* But*SINGER_BLINK* I don't*setanim cat_singer gesture_disagree 1 idle* mind,% #*setcam setpos 65.330673 3230.297363 93.212181;setang 16.859674 -89.668564 0.000000*
 	because it means I*SINGER_HAPPY* see all the good in people too!!!”
 	&m10
 	
 m10:
-	*setcam setpos 109.733604 3126.984375 91.561447;setang 18.936058 -171.232315 0.000000*
+	*setcamroot player setpos 105.014709 8.009033 67.561447;setang 18.936 -169.516 0.000*
+	#*setcam setpos 109.733604 3126.984375 91.561447;setang 18.936058 -171.232315 0.000000*
 	*setspeaker narrator*
 	*SINGER_NEUTRAL*
 	> You have finished fixing the plush.%%%*setanim cat_singer gesture_clap 1.5 idle* The Singer*SINGER_HAPPY* bounces in 
-	their seat and grabs it,%*setcam setpos 65.330673 3230.297363 93.212181;setang 16.859674 -89.668564 0.000000* inspecting*SINGER_NEUTRAL* your neat fabric-flesh suture work.%%%% 
+	their seat and grabs it,%*setcamroot cat_singer setpos 54.563522 -109.123291 69.212181;setang 16.860 90.331 0.000* inspecting*SINGER_NEUTRAL* your neat fabric-flesh suture work.%%%% #*setcam setpos 65.330673 3230.297363 93.212181;setang 16.859674 -89.668564 0.000000*
 	They pull at their ears,*SINGER_HAPPY*% hug you,%% and pull at their ears again.
 	&m11
 	
@@ -265,7 +304,8 @@ m11:
 	&m12
 	
 m12:
-	*setcam setpos 64.067345 3107.399170 65.100342;setang 0.568299 14.735083 0.000000*
+	*setcamoffset setpos 55.826843 13.774902 41.100342;setang 0.568 -165.265 0.000*
+	#*setcam setpos 64.067345 3107.399170 65.100342;setang 0.568299 14.735083 0.000000*
 	*setspeaker cat_singer*
 	*setanim cat_singer gesture_agree 1 idle*
 	> “Come with me.%%% I don't have words for how much this means to me.% 
@@ -278,17 +318,26 @@ m13:
 	*setanim player sit_zen*
 	*setanim cat_singer pose_elegant*
 	*SINGER_HAPPY*
-	*setcam setpos -936.734924 510.699097 69.524887;setang -2.998844 -179.529037 0.000000*
-	*setposang cat_singer setpos -2762.572998 492.285400 -64;setang -90 270 0.000000*
-	*setposang player setpos -2050.979492 510.209991 -64;setang 0 179.459274 0.000000*
+	*setlocale narrator scene_performancehall*
+	#*setposang cat_singer setpos -2762.572998 492.285400 -64;setang -90 270 0.000000*
+	*setoffset cat_singer setpos -10.572998 -19.714600 0.000000;setang 0.000 0.000 0.000*
+	newsceneroot(scene_pond,scene_pond)
+	*setroot player scene_pond setpos 125.020508 -1.790009 0.000000;setang -0.000 179.459 0.000*
+	#*setposang player setpos -2050.979492 510.209991 -64;setang 0 179.459274 0.000000*
+	*setcamoffset setpos 1825.838135 18.413696 133.524887;setang -2.999 -179.529 0.000*
+	#*setcam setpos -936.734924 510.699097 69.524887;setang -2.998844 -179.529037 0.000000*
 	*bgmplay sound/jazztronauts/music/events/singer_song.mp3 1 3*
 	*txin*
 	*wait .15*
-	*setcam setpos -1801.824707 132.422394 309.284851;setang 18.687258 162.004745 0.000000*
-	*tweencam 10 setpos -1896.000977 887.514648 303.899353;setang 17.915279 -159.875351 0.000000*
+	*setcamoffset setpos 960.748291 -359.863007 373.284851;setang 18.687 162.005 0.000*
+	*tweencamoffset 10 setpos 866.572021 395.229248 367.899353;setang 17.915 -159.875 0.000*
+	#*setcam setpos -1801.824707 132.422394 309.284851;setang 18.687258 162.004745 0.000000*
+	#*tweencam 10 setpos -1896.000977 887.514648 303.899353;setang 17.915279 -159.875351 0.000000*
 	*wait 9*
-	*setcam setpos -2418.260498 513.362000 24.767994;setang 8.252245 179.201523 0.000000*
-	*tweencam 10 setpos -1653.839111 501.998566 135.645935;setang 8.305485 179.361252 0.000000*
+	*setcamoffset setpos 344.312500 21.076599 88.767990;setang 8.252 179.202 0.000*
+	*tweencamoffset 10 setpos 1108.733887 9.713165 199.645935;setang 8.305 179.361 0.000*
+	#*setcam setpos -2418.260498 513.362000 24.767994;setang 8.252245 179.201523 0.000000*
+	#*tweencam 10 setpos -1653.839111 501.998566 135.645935;setang 8.305485 179.361252 0.000000*
 	*wait 10*
 	*setspeaker narrator*
 	*show*
@@ -296,14 +345,16 @@ m13:
 	&m13b
 	
 m13b:
-	*setcam setpos -1968.338745 277.664063 23.926678;setang 8.234809 126.218788 0.000000*
-	*setposang cat_singer setpos -2259.908691 507.602417 -64;setang -90 270 0.000000*
+	##*setposang cat_singer setpos -2259.908691 507.602417 -64;setang -90 270 0.000000*
+	#*setroot cat_singer scene_pond setpos -83.908691 -4.397583 0.000000;setang 0.000 0.000 0.000*
+	#*setcamoffset setpos 291.569946 -229.938354 87.926682;setang 8.235 126.219 0.000*
+	##*setcam setpos -1968.338745 277.664063 23.926678;setang 8.234809 126.218788 0.000000*
+	*block setroot cat_singer scene_pond setpos -83.908691 -4.397583 0;setang 0 0 0 --> setcamoffset setpos 291.569946 -229.938354 87.926682;setang 8.235 126.219 0*
 	> After the final note rings in the air,%%% they come over and 
 	clasp both your hands before pulling out the tablet again.
 	&m14
 	
 m14:
-	*setcam setpos -1968.338745 277.664063 23.926678;setang 8.234809 126.218788 0.000000*
 	*setspeaker cat_singer*
 	*SINGER_HAPPY*
 	*setanim cat_singer gesture_laugh 1.4 idle*
@@ -317,11 +368,12 @@ m15:
 	Maybe I can start finding where I lost my words again now!!!!”
 	player:
 		&end:
-			*setcam setpos -2138.828613 512.549500 -58.184036;setang -13.859795 179.033356 0.000000*
+			*setcamoffset setpos 121.080078 4.947083 5.815964;setang -13.860 179.033 0.000*
+			#*setcam setpos -2138.828613 512.549500 -58.184036;setang -13.859795 179.033356 0.000000*
 			I'll help you look. But it's okay if you don't. 
 			Those words look just fine.
 		
 end:
 	*setspeaker narrator*
-	You share a pleasant moment with the Singer. *mark_seen*
+	> You share a pleasant moment with the Singer. *mark_seen*
 	&exit
