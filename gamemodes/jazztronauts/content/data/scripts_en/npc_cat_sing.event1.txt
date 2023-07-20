@@ -5,7 +5,7 @@ begin:
 ###### SCENE SETUP
 	*hide*
 	*txout*
-	spawnnarratorroot(scene_mewseumlab)
+	spawnnarratorroot(scene_mewseumlab scene_museumlab)
 	spawncatsinger()
 	*spawn dollie models/props_c17/doll01.mdl*
 	*bgmplay sound/jazztronauts/music/events/pocket.mp3 1 2.0*

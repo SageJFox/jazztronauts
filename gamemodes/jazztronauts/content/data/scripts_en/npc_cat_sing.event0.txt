@@ -3,7 +3,7 @@ begin:
 ###### SCENE SETUP
 	*hide*
 	*txout*
-	spawnnarratorroot(scene_mewseumlab)
+	spawnnarratorroot(scene_mewseumlab scene_museumlab)
 	spawncatsinger()
 	*bgmplay sound/jazztronauts/music/events/loveaffair.mp3 .8 2.0*
 	#*setposang cat_singer setpos 2793.226563 7960.495117 0;setang -90 225 0.000000*
@@ -152,7 +152,7 @@ r3a2:
 m1:
 	*hide*
 	*txout*
-	*setlocale narrator scene_mewseumcmb*
+	*setlocale narrator scene_mewseumcmb scene_museumcmb*
 	*spawn metro_idiot models/combine_soldier.mdl*
 	*setanim metro_idiot Walk_all* #so this walk animation starts breaking down the longer it goes. It's like the foot ik goes forward even though the body doesn't.
 	#*setposang cat_singer setpos 4176.487305 6288.590820 0;setang -90 0 0.000000*
