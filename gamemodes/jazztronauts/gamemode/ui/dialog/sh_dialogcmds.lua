@@ -679,7 +679,7 @@ local function WorldToSceneRoot(name, set)
 	--compare it to its layer
 	--print("world to root before: ".. rootpos.z)
 	if prop.layer and prop.layer > 1 then
-		rootpos.z = rootpos.z - layers[prop.layer]
+		rootpos.z = rootpos.z - (layers[prop.layer] or 0)
 		--print("after: ".. rootpos.z)
 	end
 
