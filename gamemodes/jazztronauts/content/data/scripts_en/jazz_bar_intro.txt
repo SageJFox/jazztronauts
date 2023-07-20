@@ -3,14 +3,24 @@ SKIP_OPEN = true
 begin:
 	*hide*
 	*txout*
-    spawngang()
-	*setposang player setpos -4225.765137 2946.239258 -47;setang -1.082015 89.332123 0.000000*
-	*setposang cat_bar setpos -4225.146973 3315.263672 0;setang -90 180 0.000000*
-	*setposang cat_cello setpos -4296.926758 3361.267334 0;setang -90 180 0.000000*
-	*setposang cat_singer setpos -4168.232910 3361.957520 0;setang -90 180 0.000000*
-	*setposang cat_piano setpos -4002.919189 3416.686279 0;setang -90 165 0.00000*
+    #spawngang()
+	spawncatsrooted(scene_stage)
+	*layer 0 LAYER_BELOW*	#BIG TODO - get locale entities going for this instead!
+	*zsnap 64 LAYER_BELOW*	#BIG TODO - get locale entities going for this instead!
+	*setlayer LAYER_BELOW player*
+	#*setposang player setpos -4225.765137 2946.239258 -47;setang -1.082015 89.332123 0.000000*
+	#*setposang cat_bar setpos -4225.146973 3315.263672 0;setang -90 180 0.000000*
+	#*setposang cat_cello setpos -4296.926758 3361.267334 0;setang -90 180 0.000000*
+	#*setposang cat_singer setpos -4168.232910 3361.957520 0;setang -90 180 0.000000*
+	#*setposang cat_piano setpos -4002.919189 3416.686279 0;setang -90 165 0.00000*
+	*setoffset player setpos -1.765137 -317.760742 0;setang -1.082 89.332 0.000*
+	*setoffset cat_bar setpos -1.146973 51.263672 0;setang 0.000 -90.000 0.000*
+	*setoffset cat_cello setpos -72.926758 97.267334 0;setang 0.000 -90.000 0.000*
+	*setoffset cat_singer setpos 55.767090 97.957520 0;setang 0.000 -90.000 0.000*
+	*setoffset cat_piano setpos 221.080811 152.686279 0;setang 0.000 255.000 0.000*
 	*bgmplay sound/jazztronauts/music/events/warm_song.mp3 .6 3*
-	*setcam setpos -4611.800781 2450.187500 80.884155;setang 3.842618 59.837494 0.000000 fov70* ####### ESTABLISH
+	*setcamroot cat_bar setpos 865.076172 -386.653809 80.852905;setang 3.843 149.837 0.000 fov70* ####### ESTABLISH
+	#*setcam setpos -4611.800781 2450.187500 80.884155;setang 3.842618 59.837494 0.000000 fov70* ####### ESTABLISH
 	*setspeaker cat_bar*
 	*txin*
 	*show 0.5*
@@ -26,7 +36,8 @@ begin:
 
 # They rejoined after saying no, but never finished this cutscene
 saidnobefore:
-	*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
+	*setcamroot cat_bar setpos 205.148193 -0.791016 36.242439;setang -1.827 179.545 0.000* #### GANG
+	#*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
 	*setspeaker cat_bar*
 	*BAR_NEUTRAL*
     Allow me to formally welc—%%*BAR_SURPRISE*
@@ -35,21 +46,24 @@ saidnobefore:
     &no2
 no2:
     *setspeaker cat_cello*
-	*setcam setpos -4283.793945 3310.579102 42.825569;setang -2.413082 104.905144 0.000000* #### CELLO
+	*setcamroot cat_cello setpos 50.688232 13.132813 42.794319;setang -2.413 -165.095 0.000* #### CELLO
+	#*setcam setpos -4283.793945 3310.579102 42.825569;setang -2.413082 104.905144 0.000000* #### CELLO
 	*CELLO_GRIN*
 	*setanim cat_cello gesture_confused 1 idle*
     SO YOU COME CRAWLING BACK.
     &no3
 
 no3:
-	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
+	*setcamroot cat_bar setpos 68.150635 27.331055 43.865177;setang 6.398 -158.254 0.000* ###### BAR
+	#*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
     *setspeaker cat_bar*
 	*setanim cat_bar gesture_disagree 1 idle*
     Now now,%%*CELLO_NEUTRAL* *player* just needed more time to think.
     &aask
 
 a1:
-	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
+	*setcamroot cat_bar setpos 68.150635 27.331055 43.865177;setang 6.398 -158.254 0.000* ###### BAR
+	#*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
 	*BAR_HAPPY*
 	*setanim cat_bar gesture_laugh 1 idle*
 	Allow me to formally welcome you to the Bar Samsara!
@@ -63,7 +77,8 @@ a1:
 ##nap on some crates below it.
 
 a2:
-	*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
+	*setcamroot cat_bar setpos 205.148193 -0.791016 36.242439;setang -1.827 179.545 0.000* #### GANG
+	#*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
 	*setspeaker narrator*
 	> The stage lights up!%%%% The other three cats are here too it appears.
 	&a3
@@ -77,7 +92,8 @@ a3:
 	&a4
 
 a4:
-	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
+	*setcamroot cat_bar setpos 68.150635 27.331055 43.865177;setang 6.398 -158.254 0.000* ###### BAR
+	#*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
 	*setanim cat_bar gesture_sweep 1*
 	You are currently inside the Bar Samsara.%%% I am the Bartender 
 	here.%%*setanim cat_bar gesture_agree 1 idle* It is an establishment we run where beings from all dimensions
@@ -95,7 +111,8 @@ a5:
 
 a6:
 	*setspeaker cat_piano*
-	*setcam setpos -4030.469971 3325.654053 42.122913;setang 2.484991 87.336029 0.000000* ####### PIANO
+	*setcamroot cat_piano setpos 95.061035 -3.051270 42.091663;setang 2.485 -167.664 0.000* ####### PIANO
+	#*setcam setpos -4030.469971 3325.654053 42.122913;setang 2.484991 87.336029 0.000000* ####### PIANO
 	*CELLO_NEUTRAL*
 	*setanim cat_piano gesture_facepalm 1 idle*
 	*PIANO_BLINK*
@@ -103,7 +120,8 @@ a6:
 	&a7
 
 a7:
-	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
+	*setcamroot cat_bar setpos 68.150635 27.331055 43.865177;setang 6.398 -158.254 0.000* ###### BAR
+	#*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
 	*setspeaker cat_bar*
 	*BAR_HAPPY*
 	And you as well,% hopefully.%%%*BAR_NEUTRAL* But*setanim cat_bar gesture_confused 1 idle* we'll get to that in a minute.
@@ -126,7 +144,8 @@ a9:
 	&a10
 
 a10:
-	*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
+	*setcamroot cat_bar setpos 205.148193 -0.791016 36.242439;setang -1.827 179.545 0.000* #### GANG
+	#*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
 	*setanim cat_bar gesture_confused 1 idle*
 	You get a cut of the take,% of course.%%% 
 	We will also give you free room and board for the duration of your stay,%*setanim cat_bar gesture_confused 1 idle* 
@@ -141,7 +160,8 @@ a11:
 	&a12
 
 a12:
-	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
+	*setcamroot cat_bar setpos 68.150635 27.331055 43.865177;setang 6.398 -158.254 0.000* ###### BAR
+	#*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
 	*setanim cat_bar gesture_shrug 1 idle*
 	As I said earlier,% you may absolutely refuse.%%% We will immediately 
 	return you to the main menu,%% and you'll be free to go on with your
@@ -155,24 +175,29 @@ aask:
 	So%.%.%.%%%what do you say?
 	player:
 		&a14:
-			*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
+			*setcamroot player setpos 546.062256 -49.117676 135.136536;setang 21.410 170.203 0.199*
+			#*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
 			Yeah okay, that sounds good.
-		&lisaneedsbraces: 
-			*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
+		&lisaneedsbraces:
+			*setcamroot player setpos 546.062256 -49.117676 135.136536;setang 21.410 170.203 0.199*
+			#*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
 			Give me benefits, and yes.
 		&skiptutorial:
-			*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
+			*setcamroot player setpos 546.062256 -49.117676 135.136536;setang 21.410 170.203 0.199*
+			#*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
 			Yeah, yeah, sure. Can we skip the meet and greet?
 			I learn better through experience. *c 0*(Skip Tutorial)*c*
 		&why:
-			*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
+			*setcamroot player setpos 546.062256 -49.117676 135.136536;setang 21.410 170.203 0.199*
+			#*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
 			No.
 
 
 ### VIDEO GAMES SUCK ACTUALLY
 why:
 	*setspeaker cat_bar*
-	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
+	*setcamroot cat_bar setpos 68.150635 27.331055 43.865177;setang 6.398 -158.254 0.000* ###### BAR
+	#*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
     *run jazz_say_no*
 	Ah,% well.%%%% It's not the sort of job for everyone.%% Still,% though,% you
 	heard us out,%% and I appreciate that.
@@ -192,7 +217,8 @@ why3:
 ### DENTAL PLAN 
 lisaneedsbraces:
 	*setspeaker cat_bar*
-	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
+	*setcamroot cat_bar setpos 68.150635 27.331055 43.865177;setang 6.398 -158.254 0.000* ###### BAR
+	#*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
 	*setanim cat_bar gesture_shock 1 idle*
 	*BAR_SURPRISE*
 	Benefits%.%.%.%%?%%*BAR_NEUTRAL* You're the first one to think of asking for that.%%%% 
@@ -203,7 +229,8 @@ lisaneedsbraces:
 ### MAIN BRANCH
 
 a14:
-	*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
+	*setcamroot cat_bar setpos 205.148193 -0.791016 36.242439;setang -1.827 179.545 0.000* #### GANG
+	#*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_sigh 1 idle*
 	oh thank god finally we can stop almost dying in shitty roleplaying
@@ -211,7 +238,8 @@ a14:
 	&a15
 
 a15:
-	*setcam setpos -4030.469971 3325.654053 42.122913;setang 2.484991 87.336029 0.000000* ####### PIANO
+	*setcamroot cat_piano setpos 95.061035 -3.051270 42.091663;setang 2.485 -167.664 0.000* ####### PIANO
+	#*setcam setpos -4030.469971 3325.654053 42.122913;setang 2.484991 87.336029 0.000000* ####### PIANO
 	*PIANO_SMIRK*
 	*setanim cat_piano gesture_laugh 1 idle*
 	*setspeaker cat_piano*
@@ -226,8 +254,11 @@ a16:
 	&a17
 
 a17:
-	*setposang cat_singer setpos -4155.891602 3234.318604 0;setang -90 165 0.000000*
-	*setcam setpos -4156.926270 3135.155518 22.527199;setang -5.341276 90.104485 0.000000* ####### SINGER
+	##*setposang cat_singer setpos -4155.891602 3234.318604 0;setang -90 165 0.000000*
+	#*setoffset cat_singer setpos 68.108398 -29.681396 0.000000;setang 0.000 255.000 0.000*
+	#*setcamroot cat_singer setpos 96.052124 24.666016 22.495949;setang -5.341 -164.896 0.000* ####### SINGER
+	##*setcam setpos -4156.926270 3135.155518 22.527199;setang -5.341276 90.104485 0.000000* ####### SINGER
+	*block setoffset cat_singer setpos 68.108398 -29.681396 0;setang 0 255 0 --> setcamroot cat_singer setpos 96.052124 24.666016 22.495949;setang -5.341 -164.896 0*
 	*setspeaker narrator*
 	*SINGER_HAPPY*
 	*setanim cat_singer gesture_clap 1 idle*
@@ -238,35 +269,52 @@ a17:
 a18:
 	*SINGER_MISCHIEF*
 	*setanim cat_singer gesture_exchange 1 idle*
-	> They stop for second,%% and take out a tablet.%%%% They type on it 
-	furiously.
+	> They stop for second,%% and take out a tablet.%%%% 
+	They type on it furiously.
 	&a19
 
 a19:
 	*SINGER_HAPPY*
 	*setanim cat_singer gesture_laugh 1 idle*
-	> The tablet says 'HI IM THE SINGER NICE TO MEET YOU \:D'.%%% 
-	They're holding it above their head,% 
-	and jumping up and down now.
-	&a20
+	> The tablet says\: 
+	“HI IM THE SINGER NICE TO MEET YOU \:D”%%% 
+	They're holding it above their head,% and jumping up and down now.
+	condition:
+		&a20:
+			return multiplayer()
+		&a20single:
+			return true
 
 a20:
-	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
+	*setcamroot cat_bar setpos 68.150635 27.331055 43.865177;setang 6.398 -158.254 0.000* ###### BAR
+	#*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
 	*setspeaker cat_bar*
 	*BAR_NEUTRAL*
 	*setanim cat_bar gesture_sigh 1 idle*
-	They can't read it if you keep moving it,%% but I think they get the 
-	picture.%%% At any rate,% welcome aboard!%% It's good to have you all 
-	with us.
+	They can't read it if you keep moving it,%% but I think they get the picture.%%% 
+	At any rate,% welcome aboard!%% 
+	It's good to have you all with us.
 	&a22
 
-a21:
-	*setspeaker narrator*
-	> The Pianist hops off her box and walks onto the stage.
-	&a23
+a20single:
+	*setcamroot cat_bar setpos 68.150635 27.331055 43.865177;setang 6.398 -158.254 0.000* ###### BAR
+	#*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
+	*setspeaker cat_bar*
+	*BAR_NEUTRAL*
+	*setanim cat_bar gesture_sigh 1 idle*
+	They can't read it if you keep moving it,%% but I think they get the picture.%%% 
+	At any rate,% welcome aboard!%% 
+	It's good to have you with us.
+	&a22
+
+#a21:
+#	*setspeaker narrator*
+#	> The Pianist hops off her box and walks onto the stage.
+#	&a22
 
 a22:
-	*setcam setpos -4030.469971 3325.654053 42.122913;setang 2.484991 87.336029 0.000000* ####### PIANO
+	*setcamroot cat_piano setpos 95.061035 -3.051270 42.091663;setang 2.485 -167.664 0.000* ####### PIANO
+	#*setcam setpos -4030.469971 3325.654053 42.122913;setang 2.484991 87.336029 0.000000* ####### PIANO
 	*setspeaker cat_piano*
 	*PIANO_SMIRK*
 	*setanim cat_piano gesture_confused 1 idle*
@@ -275,7 +323,8 @@ a22:
 	&a23
 
 a23:
-	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
+	*setcamroot cat_bar setpos 68.150635 27.331055 43.865177;setang 6.398 -158.254 0.000* ###### BAR
+	#*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
 	*setspeaker cat_bar*
 	*BAR_SURPRISE*
 	*setanim cat_bar gesture_shock 1 idle*
@@ -283,15 +332,18 @@ a23:
 	operation we have here?%%%% I recommend it.
 	player:
 		&a24:
-			*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
+			*setcamroot player setpos 546.062256 -49.117676 135.136536;setang 21.410 170.203 0.199*
+			#*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
 			Yeah sure,% clue me in. *c 0*(View Tutorial)*c*
 		&skiptutorial:
-			*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
+			*setcamroot player setpos 546.062256 -49.117676 135.136536;setang 21.410 170.203 0.199*
+			#*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
 			No thanks,% I'm good. *c 0*(Skip Tutorial)*c*
 
 ### I'M GOOD SEEN THIS BEFORE
 skiptutorial:
-	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
+	*setcamroot cat_bar setpos 68.150635 27.331055 43.865177;setang 6.398 -158.254 0.000* ###### BAR
+	#*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
 	*setspeaker cat_bar*
 	*BAR_NEUTRAL*
 	*setanim cat_bar gesture_agree 1 idle*
@@ -300,7 +352,8 @@ skiptutorial:
 	&b2
 
 b2:
-	*setcam setpos -4030.469971 3325.654053 42.122913;setang 2.484991 87.336029 0.000000* ####### PIANO
+	*setcamroot cat_piano setpos 95.061035 -3.051270 42.091663;setang 2.485 -167.664 0.000* ####### PIANO
+	#*setcam setpos -4030.469971 3325.654053 42.122913;setang 2.484991 87.336029 0.000000* ####### PIANO
 	*setspeaker cat_piano*
 	*PIANO_SMIRK*
 	*setanim cat_piano gesture_laugh 1 idle*
@@ -309,7 +362,8 @@ b2:
 	&b3
 
 b3:
-	*setcam setpos -4283.793945 3310.579102 42.825569;setang -2.413082 104.905144 0.000000* #### CELLO
+	*setcamroot cat_cello setpos 50.688232 13.132813 42.794319;setang -2.413 -165.095 0.000* #### CELLO
+	#*setcam setpos -4283.793945 3310.579102 42.825569;setang -2.413082 104.905144 0.000000* #### CELLO
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_sweep 1 idle*
 	just to make sure,% your job is to look out for shards.%%%% they look 
@@ -320,7 +374,8 @@ b3:
 ### PREPARE YOUR ASS FOR TEXT
 
 a24:
-	*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
+	*setcamroot cat_bar setpos 205.148193 -0.791016 36.242439;setang -1.827 179.545 0.000* #### GANG
+	#*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
 	*setspeaker cat_bar*
 	*BAR_HAPPY*
 	*setanim cat_bar gesture_agree 1 idle*
@@ -332,10 +387,10 @@ a24:
 
 a25:
 	*setanim cat_bar gesture_sweep 1 idle*
-	You've also been provided with some car keys that act as a
-	beacon for the trolley's dimensional navigating systems.%%*setanim cat_bar gesture_agree 1 idle* If enough
-	players target the same spot with them,% it will break into the map 
-	from that spot.%%%*setanim cat_bar gesture_confused 1 idle* I suggest you take care to not stand in its way.
+	You've also been provided with some car keys that act as a beacon 
+	for the trolley's dimensional navigating systems.%%*setanim cat_bar gesture_agree 1 idle* If enough players 
+	target the same spot with them,% it will break into the map from that 
+	spot.%%%*setanim cat_bar gesture_confused 1 idle* I suggest you take care to not stand in its way.
 	&a26
 
 a26:
@@ -345,8 +400,11 @@ a26:
 	&a27
 
 a27:
-	*setcam setpos 1401.635864 413.537872 34.458557;setang -4.835499 155.988861 0.000000*
-	*tweencam 40 setpos 1128.569458 535.177490 59.747105;setang -4.835499 155.988861 0.00000*
+	newsceneroot(cameraroot,scene_playercamp)
+	*setcamroot cameraroot setpos 313.635864 -98.462128 34.458557;setang -4.835 155.989 0.000*
+	*tweencamoffset 40 setpos 40.569458 23.177490 59.747105;setang -4.835 155.989 0.000*
+	#*setcam setpos 1401.635864 413.537872 34.458557;setang -4.835499 155.988861 0.000000*
+	#*tweencam 40 setpos 1128.569458 535.177490 59.747105;setang -4.835499 155.988861 0.00000*
 	*setspeaker cat_piano*
 	*setanim cat_piano gesture_jab 1 idle*
 	A little past the depot is the camp you'll be living in,% and the 
@@ -356,7 +414,10 @@ a27:
 
 a28:
 	*setanim cat_piano gesture_laugh 1 idle*
-	There are only two buttons worth a damn on it after all.%%%%%*setcam setpos 695.222534 589.373840 148.941605;setang 12.653843 59.704308 0.000000* 
+	#*setlocale cameraroot scene_selector selector*
+	#*setcamroot cameraroot setpos -257.626099 152.777527 108.941605;setang 12.654 -30.296 0*
+	##*setcam setpos 695.222534 589.373840 148.941605;setang 12.653843 59.704308 0.000000*
+	There are only two buttons worth a damn on it after all.%%%%%*block setlocale cameraroot scene_selector selector --> setcamroot cameraroot setpos -257.626099 152.777527 108.941605;setang 12.654 -30.296 0* 
 	The big clunky lookin' tv is what you use to look for new levels,%*setanim cat_piano gesture_jab 1 idle*
 	and the weird thing in the center is what you use to select one.
 	&a29
@@ -370,7 +431,8 @@ a29:
 	&a30
 
 a30:
-	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
+	*setcamroot cat_bar setpos 68.150635 27.331055 43.865177;setang 6.398 -158.254 0.000* ###### BAR
+	#*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
 	*setanim cat_bar gesture_laugh 1 idle*
 	Just remember,% Browse on the tv% and 
 	Select the Level on the center basin.%%%%
@@ -382,7 +444,8 @@ a30:
 #	&a32
 
 a32:
-	*setcam setpos -4283.793945 3310.579102 42.825569;setang -2.413082 104.905144 0.000000* #### CELLO
+	*setcamroot cat_cello setpos 50.688232 13.132813 42.794319;setang -2.413 -165.095 0.000* #### CELLO
+	#*setcam setpos -4283.793945 3310.579102 42.825569;setang -2.413082 104.905144 0.000000* #### CELLO
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_confused 1 idle*
 	y'know that jury-rigged stun baton I selflessly donated to you all 
@@ -390,7 +453,8 @@ a32:
 	&a33
 
 a33:
-	*setcam setpos -4357.167969 3159.641846 37.272663;setang 0.728068 45.994724 0.000000*
+	*setcamroot cat_piano setpos 339.972168 -275.649902 37.241413;setang 0.728 150.995 0.000*
+	#*setcam setpos -4357.167969 3159.641846 37.272663;setang 0.728068 45.994724 0.000000*
 	*PIANO_NEUTRAL*
 	*setanim cat_piano gesture_facepalm 1 idle*
 	*setspeaker cat_piano*
@@ -398,10 +462,14 @@ a33:
 	&a34
 
 a34:
-	*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
+	*setcamroot cat_bar setpos 205.148193 -0.791016 36.242439;setang -1.827 179.545 0.000* #### GANG
+	#*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
 	*setspeaker cat_bar*
 	*setanim cat_bar gesture_sweep 1 idle*
-	The prop snatcher allows you to steal any prop from a map.%%%*setcam setpos -101.743752 -80.739571 75.311615;setang -1.268438 -161.198425 0.000000*%*setanim cat_bar gesture_shrug 1 idle* Once you 
+	#*setlocale cameraroot scene_moneyden*
+	#*setcamroot cameraroot setpos -207.256241 -74.260406 47.311615;setang -1.268 18.802 0.000*
+	##*setcam setpos -101.743752 -80.739571 75.311615;setang -1.268438 -161.198425 0.000000*
+	The prop snatcher allows you to steal any prop from a map.%%%*block setlocale cameraroot scene_moneyden --> setcamroot cameraroot setpos -207.256241 -74.260406 47.311615;setang -1.268 18.802 0*%*setanim cat_bar gesture_shrug 1 idle* Once you 
 	come back to the bar,% you can exchange the props you've stolen for
 	money.%%% All you need do is pull the lever in the money den,% 
 	and we'll handle the rest.
@@ -443,7 +511,8 @@ a39:
 	&a40
 
 a40:
-	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
+	*setcamroot cat_bar setpos 68.150635 27.331055 43.865177;setang 6.398 -158.254 0.000* ###### BAR
+	#*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
 	I am the Bartender.%%% As my name suggests,% I am the one who tends 
 	the bar.%%%% You can spend the money you've gained here for new equipment,%% 
 	or to level up your tools and allow you to explore and steal 
@@ -477,15 +546,17 @@ a44:
 	&a45
 
 a45:
-	*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
+	*setcamroot cat_bar setpos 205.148193 -0.791016 36.242439;setang -1.827 179.545 0.000* #### GANG
+	#*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
 	*setspeaker cat_bar*
 	*BAR_HAPPY*
 	*setanim cat_bar gesture_clap 1 idle*
-	Well I think that covers everything doesn't it? Lets ge-
+	Well I think that covers everything doesn't it? Lets ge—
 	&a46
 
 a46:
-	*setcam setpos -4283.793945 3310.579102 42.825569;setang -2.413082 104.905144 0.000000* #### CELLO
+	*setcamroot cat_cello setpos 50.688232 13.132813 42.794319;setang -2.413 -165.095 0.000* #### CELLO
+	#*setcam setpos -4283.793945 3310.579102 42.825569;setang -2.413082 104.905144 0.000000* #### CELLO
 	*BAR_NEUTRAL*
 	*setspeaker cat_cello*
 	*CELLO_NEUTRAL*
@@ -494,7 +565,9 @@ a46:
 	&a47
 
 a47:
-	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
+	*setlocale cameraroot scene_shardtank*
+	*setcamroot cat_bar setpos 68.150635 27.331055 43.865177;setang 6.398 -158.254 0.000* ###### BAR
+	#*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
 	*setspeaker cat_bar*
 	*BAR_SURPRISE*
 	*setanim cat_bar gesture_shock 1 idle*
@@ -504,8 +577,10 @@ a47:
 	&a48
 
 a48:
-	*setcam setpos 941.718323 668.771240 128.230713;setang 12.733686 -68.356812 0.000000*
-	*tweencam 40 setpos 992.983765 539.574951 96.820892;setang 12.733686 -68.356812 0.000000*
+	*setcamroot cameraroot setpos 324.771240 146.281677 128.230713;setang 12.734 -158.357 0.000*
+	*tweencamoffset 40 setpos 195.574951 95.016235 96.820892;setang 12.734 -158.357 0.000*
+	#*setcam setpos 941.718323 668.771240 128.230713;setang 12.733686 -68.356812 0.000000*
+	#*tweencam 40 setpos 992.983765 539.574951 96.820892;setang 12.733686 -68.356812 0.000000*
 	*setanim cat_bar gesture_agree 1 idle*
 	We need you to hunt for objects we call shards in each level you 
 	visit.%%% They are naturally occurring spacetime phenomena that can be 
@@ -531,7 +606,8 @@ a51:
 	&a52
 
 a52:
-	*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
+	*setcamroot cat_bar setpos 205.148193 -0.791016 36.242439;setang -1.827 179.545 0.000* #### GANG
+	#*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
 	*setspeaker cat_bar*
 	Again,%% we'll pay you and whoever you're working with a flat rate 
 	for each one found. It doesn't matter who found it. We need a 
@@ -545,18 +621,22 @@ a53:
 	terms.
 		player:
 			&areyouawizard:
-				*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
+				*setcamroot player setpos 546.062256 -49.117676 135.136536;setang 21.410 170.203 0.199*
+				#*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
 				Wait do you need these shards for like, evil stuff?
 			&business: 
-				*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
+				*setcamroot player setpos 546.062256 -49.117676 135.136536;setang 21.410 170.203 0.199*
+				#*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
 				Fair enough, can I get started? 
 			&clownshoes: 
-				*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
+				*setcamroot player setpos 546.062256 -49.117676 135.136536;setang 21.410 170.203 0.199*
+				#*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
 				Do I get a cool costume?
 
 ### YO YOU ARENT GONNA BETRAY ME RIGHT
 areyouawizard:
-	*setcam setpos -4283.793945 3310.579102 42.825569;setang -2.413082 104.905144 0.000000* #### CELLO
+	*setcamroot cat_cello setpos 50.688232 13.132813 42.794319;setang -2.413 -165.095 0.000* #### CELLO
+	#*setcam setpos -4283.793945 3310.579102 42.825569;setang -2.413082 104.905144 0.000000* #### CELLO
 	*setspeaker cat_cello*
 	*CELLO_GRIN*
 	*setanim cat_cello gesture_laugh 1 idle*
@@ -565,7 +645,8 @@ areyouawizard:
 	&wiz2
 
 wiz2:
-	*setcam setpos -4030.469971 3325.654053 42.122913;setang 2.484991 87.336029 0.000000* ####### PIANO
+	*setcamroot cat_piano setpos 95.061035 -3.051270 42.091663;setang 2.485 -167.664 0.000* ####### PIANO
+	#*setcam setpos -4030.469971 3325.654053 42.122913;setang 2.484991 87.336029 0.000000* ####### PIANO
 	*setspeaker cat_piano*
 	*PIANO_SMIRK*
 	*setanim cat_piano gesture_disagree 1 idle*
@@ -575,7 +656,8 @@ wiz2:
 	&wiz3
 
 wiz3:
-	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
+	*setcamroot cat_bar setpos 68.150635 27.331055 43.865177;setang 6.398 -158.254 0.000* ###### BAR
+	#*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
 	*setspeaker cat_bar*
 	*BAR_HAPPY*
 	*setanim cat_bar gesture_agree 1 idle*
@@ -587,7 +669,8 @@ wiz3:
 
 ### I'M HERE FOR BUSINESS
 business:
-	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
+	*setcamroot cat_bar setpos 68.150635 27.331055 43.865177;setang 6.398 -158.254 0.000* ###### BAR
+	#*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
 	*setspeaker cat_bar*
 	*BAR_HAPPY*
 	*setanim cat_bar gesture_agree 1 idle*
@@ -595,7 +678,8 @@ business:
 	&biz2
 	
 biz2:
-	*setcam setpos -4030.469971 3325.654053 42.122913;setang 2.484991 87.336029 0.000000* ####### PIANO
+	*setcamroot cat_piano setpos 95.061035 -3.051270 42.091663;setang 2.485 -167.664 0.000* ####### PIANO
+	#*setcam setpos -4030.469971 3325.654053 42.122913;setang 2.484991 87.336029 0.000000* ####### PIANO
 	*setspeaker cat_piano*
 	*PIANO_SMIRK*
 	*setanim cat_piano gesture_clap 1 idle*
@@ -611,7 +695,8 @@ biz3:
 
 ### I'M HERE TO MEME
 clownshoes:
-	*setcam setpos -4283.793945 3310.579102 42.825569;setang -2.413082 104.905144 0.000000* #### CELLO
+	*setcamroot cat_cello setpos 50.688232 13.132813 42.794319;setang -2.413 -165.095 0.000* #### CELLO
+	#*setcam setpos -4283.793945 3310.579102 42.825569;setang -2.413082 104.905144 0.000000* #### CELLO
 	*setspeaker cat_cello*
 	*CELLO_GRIN*
 	*setanim cat_cello gesture_laugh 1 idle*
@@ -621,7 +706,8 @@ clownshoes:
 	&honk2
 
 honk2:
-	*setcam setpos -4357.167969 3159.641846 37.272663;setang 0.728068 45.994724 0.000000*
+	*setcamroot cat_piano setpos 339.972168 -275.649902 37.241413;setang 0.728 150.995 0.000*
+	#*setcam setpos -4357.167969 3159.641846 37.272663;setang 0.728068 45.994724 0.000000*
 	*setspeaker cat_piano*
 	*PIANO_BLINK*
 	*setanim cat_piano gesture_facepalm 1 idle*
@@ -631,7 +717,8 @@ honk2:
 	&honk3
 
 honk3:
-	*setcam setpos -4283.793945 3310.579102 42.825569;setang -2.413082 104.905144 0.000000* #### CELLO
+	*setcamroot cat_cello setpos 50.688232 13.132813 42.794319;setang -2.413 -165.095 0.000* #### CELLO
+	#*setcam setpos -4283.793945 3310.579102 42.825569;setang -2.413082 104.905144 0.000000* #### CELLO
 	*setspeaker cat_cello*
 	*CELLO_MAD*
 	*setanim cat_cello gesture_disagree 1 idle*
@@ -647,14 +734,14 @@ honk4:
 ### THANK GOD ITS OVER
 
 ending:
-	*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
+	*setcamroot player setpos 546.062256 -49.117676 135.136536;setang 21.410 170.203 0.199*
+	#*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
 	*setspeaker narrator*
-	> The rest of the cats begin to file out of the room.%%% Soon it's just 
-	you in the theater.
+	> The rest of*remove cat_cello* the cats begin*remove cat_piano* to file out*remove cat_singer* of the room.*remove cat_bar*%%% 
+	Soon it's just you in the theater.
 	&ending2
 
 ending2:
-	*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
 	> Working for a group of thieves%.%.%.%%%oh well.%%%% Might as well just go 
 	with the flow,% right?%%% Let's see what we've got to work with. 
 	*mark_seen*
