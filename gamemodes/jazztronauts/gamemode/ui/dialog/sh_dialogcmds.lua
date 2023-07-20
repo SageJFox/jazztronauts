@@ -284,22 +284,6 @@ dialog.RegisterFunc("spawn", function(d, name, mdl, root)
 	end
 end)
 
-dialog.RegisterFunc("remove", function(d, name)
-	local prop = sceneModels[name]
-	removeSceneEntity(name)
-	if not IsValid(prop) then return end
-	--update children
-	for k, v in pairs(sceneRoots) do
-		if v == prop then
-			sceneRoots[k] = nil
-		end
-	end
-end)
-
-dialog.RegisterFunc("clear", function(d)
-	ResetScene()
-end)
-
 local function FindByName(name)
 	if not name then return nil end
 	if name == "focus" then return dialog.GetFocus() end
@@ -316,6 +300,28 @@ local function FindByName(name)
 
 	return FindNPCByName(name)
 end
+
+dialog.RegisterFunc("remove", function(d, ...)
+	if table.IsEmpty({...}) then return end
+
+	for _, name in ipairs({...}) do
+		local prop = FindByName(name)
+		if IsValid(prop) then
+			--update children
+			for k, v in pairs(sceneRoots) do
+				if v == prop then
+					sceneRoots[k] = nil
+				end
+			end
+		end
+		removeSceneEntity(name)
+	end
+
+end)
+
+dialog.RegisterFunc("clear", function(d)
+	ResetScene()
+end)
 
 dialog.RegisterFunc("player", function(d)
 	return LocalPlayer():GetName()
@@ -849,17 +855,13 @@ dialog.RegisterFunc("setlocale", function(d, name, ...)
 end)
 
 dialog.RegisterFunc("setlayer",function(d, layer, ...)
-	local props = {}
-	for _, name in ipairs({...}) do
-		local prop = FindByName(name)
-		if IsValid(prop) then
-			table.insert(props,prop)
-		end
-	end
 
+	local props = {...}
+	if not tonumber(layer) then table.insert(props,layer) end
 	if table.IsEmpty(props) then return end
 
-	for _, prop in ipairs(props) do
+	for _, name in ipairs(props) do
+		local prop = FindByName(name)
 		if IsValid(prop) then
 			prop.layer = tonumber(layer) or 1
 		end
