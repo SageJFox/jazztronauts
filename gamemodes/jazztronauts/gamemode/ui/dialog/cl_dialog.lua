@@ -430,6 +430,14 @@ function SetFocus(focus)
 	_dialog.focus = focus
 end
 
+function SetPortraitOverride(ent)
+	_dialog.speakeroverride = IsValid(ent) and ent or nil
+end
+
+function SetNameOverride(name)
+	_dialog.speakernameoverride = name ~= "nil" and name or nil
+end
+
 function GetCamera()
 	return _dialog.camera
 end

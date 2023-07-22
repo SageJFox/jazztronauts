@@ -285,7 +285,7 @@ dialog.RegisterFunc("spawn", function(d, name, mdl, root)
 end)
 
 local function FindByName(name)
-	if not name then return nil end
+	if (not name) or name == "nil" then return nil end
 	if name == "focus" then return dialog.GetFocus() end
 	if IsValid(sceneModels[name]) then return sceneModels[name] end
 
@@ -399,6 +399,16 @@ dialog.RegisterFunc("setspeaker", function(d, name, skinid)
 	else
 		dialog.SetFocusProxy(ent)
 	end
+	dialog.SetPortraitOverride(nil)
+	dialog.SetNameOverride("nil")
+end)
+
+dialog.RegisterFunc("overrideportrait", function(d, name)
+	local ent = FindByName(name)
+	dialog.SetPortraitOverride(ent)
+end)
+dialog.RegisterFunc("overridename", function(d, name)
+	dialog.SetNameOverride(name)
 end)
 
 dialog.RegisterFunc("setnpcid", function(d, name, npc)

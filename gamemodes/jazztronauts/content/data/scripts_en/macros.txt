@@ -18,7 +18,7 @@ complex_name(v0,v1,v2) first:v0 second:v1 compound(v2): oncat(v2)
 
 
 
-#emotion enums
+# emotion enums
 BAR_NEUTRAL setskin cat_bar 0
 BAR_BLINK setskin cat_bar 4
 BAR_HAPPY setskin cat_bar 1
@@ -74,6 +74,10 @@ VOIDCAT_ASH setskin cat_void 1
 
 spawncatvoid() *spawn cat_void models/andy/cats/cat_all.mdl**setnpcid cat_void npc_cat_void**VOIDCAT_VOID**setanim cat_void idle*
 spawncatash() *spawn cat_void models/andy/cats/cat_all.mdl**setnpcid cat_void npc_cat_void**VOIDCAT_ASH**setanim cat_void idle*
+
+# commands
+narratewithview(subject) *block setspeaker narrator --> overrideportrait subject*
+narratesinger() narratewithview(cat_singer)
 
 # chat colors
 NGPLUSCOLOR 0 200 0

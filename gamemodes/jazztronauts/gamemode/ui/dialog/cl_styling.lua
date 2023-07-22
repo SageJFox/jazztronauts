@@ -252,6 +252,12 @@ DialogCallbacks.Paint = function(_dialog)
 
 	local speaker, speakername, localspeaker = GetCurrentSpeaker()
 
+	--moving this before the overrides because we don't want them to affect the chatbox
+	local chatbg = (IsValid(speaker) and not speaker.IsDummy and chatboxMat) or chatboxNarrateMat
+
+	speaker = _dialog.speakeroverride or speaker
+	speakername = _dialog.speakernameoverride or speakername
+
 	local open = math.sin( _dialog.open * math.pi / 2 )
 	open = math.sqrt(open)
 
@@ -261,7 +267,6 @@ DialogCallbacks.Paint = function(_dialog)
 	local x = ScrW() / 2 + BGOffX * (localspeaker and -1 or 1)
 	local y = ScrH() - h/2 - BGOffY
 
-	local chatbg = (IsValid(speaker) and not speaker.IsDummy and chatboxMat) or chatboxNarrateMat
 	surface.SetMaterial(chatbg)
 	surface.SetDrawColor( 255, 255, 255, 255 )
 	surface.DrawTexturedRectUV( x - w/2, y - h/2, w, h, localspeaker and 1 or 0, 0, localspeaker and 0 or 1, 1)
