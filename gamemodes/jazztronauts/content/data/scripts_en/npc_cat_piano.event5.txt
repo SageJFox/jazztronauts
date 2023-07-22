@@ -97,7 +97,7 @@ m2:
 	##*setcam setpos -3758.718018 4813.087891 85.153534;setang 1.329798 147.011353 0.000000*
 	##*setposang cat_piano setpos -4042.202148 5043.773438 48;setang -90 214 0.000000*
 	#*setoffset cat_piano setpos 53.797852 -76.226563 0;setang 0 -56 0*
-	*block setcamroot player setpos -105.200195 -43.830078 57.153534;setang 1.330 12.815 0.000 --> setoffset cat_piano setpos 53.797852 -76.226563 0;setang 0 -56 0*
+	*block setcamroot player setpos -105.200195 -43.830078 57.153534;setang 1.330 12.815 0 --> setoffset cat_piano setpos 53.797852 -76.226563 0;setang 0 -56 0*
 	*setspeaker narrator*
 	*PIANO_NEUTRAL*
 	> The Pianist sits on the edge of the plinth and 
@@ -124,7 +124,7 @@ m3:
 	
 ###### BRANCH 4 
 r4a1:
-	*setspeaker narrator* #todo- piano focus
+	narratewithview(cat_piano)
 	*PIANO_BLINK*
 	> She blinks,%%%%*PIANO_NEUTRAL* and her face scrunches*PIANO_FLUSTERED* up like she 
 	just bit into something sour.
@@ -155,7 +155,7 @@ r4a3:
 r5a1:
 	*setcamroot player setpos 129.233398 371.034912 287.842529;setang 35.616 -84.933 0.000*
 	#*setcam setpos -4219.586914 4691.958496 315.842529;setang 35.616386 49.262882 0.000000*
-	*setspeaker narrator* #todo- piano focus
+	narratewithview(cat_piano)
 	*PIANO_FLUSTERED*
 	*setanim cat_piano gesture_sigh 1 idle*
 	> She crumples.%%%*PIANO_ANGRY* Anger, frustration, and despair*PIANO_SMIRK* flash over her face 

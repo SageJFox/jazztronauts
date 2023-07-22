@@ -35,8 +35,8 @@ b1b:
 	#*setoffset cat_singer setpos 177.472900 67.236084 0.000000;setang 0.000 190.000 0.000*
 	#*setcamroot cat_singer setpos 304.920898 131.415527 81.214813;setang 2.289 -146.815 0.000*
 	##*setcam setpos -2979.131592 3051.995605 81.246063;setang 2.289290 -46.814655 0.000000*
-	*block setoffset cat_singer setpos 177.472900 67.236084 0.000000;setang 0.000 190.000 0.000 --> setcamroot cat_singer setpos 304.920898 131.415527 81.214813;setang 2.289 -146.815 0.000*
-	*setspeaker cat_singer*
+	*block setoffset cat_singer setpos 177.472900 67.236084 0;setang 0 190 0 --> setcamroot cat_singer setpos 304.920898 131.415527 81.214813;setang 2.289 -146.815 0*
+	narratesinger()
 	*SINGER_MAD*
 	*setanim cat_singer gesture_shock 1.5 idle*
 	When they notice you,%% their tail puffs and 
@@ -73,7 +73,7 @@ b2:
 r1a1:
 	*setcamroot cat_singer setpos 285.250000 -85.157227 88.118294;setang 10.231 139.310 0.000*
 	#*setcam setpos -2762.433350 3070.230957 88.149544;setang 10.231357 -120.689537 0.000000*
-	*setspeaker cat_singer*
+	narratesinger()
 	*SINGER_HAPPY*
 	*setanim cat_singer gesture_agree 1.5 idle*
 	> They smile,%% and nod.%%% 
@@ -86,7 +86,7 @@ r1a1:
 r2a1:
 	*setcamroot cat_singer setpos 246.123047 -210.841309 79.792282;setang 7.277 123.507 0.000* #### KOJIMA SHIT
 	#*setcam setpos -2631.864258 3053.523193 79.823532;setang 7.276561 -136.492889 0.000000* #### KOJIMA SHIT
-	*setspeaker cat_singer*
+	narratesinger()
 	*SINGER_FLUSTERED*
 	*setanim cat_singer gesture_agree .8 idle*
 	> Hesitantly,%% they nod,% and take out their tablet.%%%*SINGER_NEUTRAL* 
@@ -120,13 +120,14 @@ r2a3:
 r2a4:
 	*SINGER_HAPPY*
 	*setanim cat_singer gesture_laugh 1.3 idle*
-	> The Singer beams.%%% “Now it's*SINGER_NEUTRAL* a GENUS rather than just one 
+	> The Singer beams.%%% *setspeaker cat_singer*“Now it's*SINGER_NEUTRAL* a GENUS rather than just one 
 	species so there's like three dinosaurs that get the subtitle 
 	of THUNDER LIZARD*setanim cat_singer gesture_clap 1 idle*!!!! %%*setcamroot cat_singer setpos 43.415771 54.674316 41.160172;setang 7.223 -115.248 0.000*%*SINGER_HAPPY*#*setcam setpos -2858.146484 2807.789307 41.191422;setang 7.223329 -15.247751 0.000000*
 	How fucking rad is that????” 
 	&r2a5
 	
 r2a5:
+	narratesinger()
 	> They seem a little less self-conscious now.
 	player:
 		&r1a1:
@@ -143,7 +144,7 @@ r2a5:
 r3a1:
 	*setcamroot cat_singer setpos 246.123047 -210.841309 79.792282;setang 7.277 123.507 0.000* #### KOJIMA SHIT
 	#*setcam setpos -2631.864258 3053.523193 79.823532;setang 7.276561 -136.492889 0.000000* #### KOJIMA SHIT
-	*setspeaker cat_singer*
+	narratesinger()
 	*SINGER_MAD*
 	*setanim cat_singer gesture_exchange .75 idle*
 	> Slowly,%% they pull the plush out from behind their back.%%%%*SINGER_HAPPY*%%*setcamroot cat_singer setpos 43.415771 54.674316 41.160172;setang 7.223 -115.248 0.000*#*setcam setpos -2858.146484 2807.789307 41.191422;setang 7.223329 -15.247751 0.000000*
@@ -173,7 +174,7 @@ r3a4:
 	*SINGER_NEUTRAL*
 	*setanim cat_singer gesture_disagree .75 idle*
 	> It has a lot of sentimental value,% but is no substitute 
-	for their company\:%%%% “It gets sort of lonely around here 
+	for their company\:%%%% *setspeaker cat_singer*“It gets sort of lonely around here 
 	sometimes.%% And taking care of the Mewseum is much more 
 	work when it's just me ( ._.)”
 	&r3a5
@@ -181,6 +182,7 @@ r3a4:
 r3a5:
 	*setanim cat_singer singer_survey 1 idle*
 	*SINGER_DEPRESSED*
+	narratesinger()
 	> The Singer stares off into the distance for a moment 
 	and then*setanim cat_singer gesture_disagree 2 idle* visibly snaps themselves*SINGER_HAPPY* out of it*setcamroot cat_singer setpos 43.415771 54.674316 41.160172;setang 7.223 -115.248 0.000* #*setcam setpos -2858.146484 2807.789307 41.191422;setang 7.223329 -15.247751 0.000000* ###### SINGER ONLY 
 	to smile at you.
@@ -210,7 +212,7 @@ r3a7:
 	&r3a8
 	
 r3a8:
-	*setspeaker cat_singer*
+	narratesinger()
 	*setcamroot player setpos 62.370117 -207.188721 19.504650;setang -2.440 86.732 0.000*
 	#*setcam setpos -3028.905762 2701.650879 19.535900;setang -2.439646 46.732281 0.000000*
 	*SINGER_HAPPY*
@@ -225,10 +227,10 @@ end:
 	*zsnap 64 LAYER_ABOVE*	#BIG TODO - get locale entities going for this instead!
 	*setlayer LAYER_ABOVE cat_singer*
 	##*setposang cat_singer setpos -2740.499756 3096.201172 180;setang -90 90 0.000000*
-	*setoffset cat_singer setpos -144.201172 123.500244 0;setang 0.000 -90.000 0.000*
-	*setcamroot cat_singer setpos -171.638428 -1.216797 31.555511;setang 16.966 20.516 0.000*
+	#*setoffset cat_singer setpos -144.201172 123.500244 0;setang 0.000 -90.000 0.000*
+	#*setcamroot cat_singer setpos -171.638428 -1.216797 31.555511;setang 16.966 20.516 0.000*
 	##*setcam setpos -2568.861328 3097.417969 211.555511;setang 16.966259 -159.484085 0.000000*
-	#*block setoffset cat_singer setpos -144.201172 123.500244 0;setang 0 -90 0 --> setcamroot cat_singer setpos -171.638428 -1.216797 31.555511;setang 16.966 20.516 0*
+	*block setoffset cat_singer setpos -144.201172 123.500244 0;setang 0 -90 0 --> setcamroot cat_singer setpos -171.638428 -1.216797 31.555511;setang 16.966 20.516 0*
 	*setanim cat_singer pose_passedout*
 	*SINGER_BLINK*
 	*setspeaker narrator*

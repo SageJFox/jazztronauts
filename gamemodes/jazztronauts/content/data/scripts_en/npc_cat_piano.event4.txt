@@ -127,7 +127,7 @@ r2a2:
 r3a1:
 	*setcamroot cat_piano setpos -28.664307 76.546143 31.095818;setang 1.915 -63.755 0.000*
 	#*setcam setpos -2988.546143 2925.335693 67.095818;setang 1.915457 26.244995 0.000000*
-	*setspeaker narrator*
+	narratewithview(cat_piano)
 	*setanim cat_piano pianist_drunk_slam*
 	> She laughs,%% sharp and sudden like glass breaking.
 	&r3a2

@@ -63,21 +63,21 @@ b4:
 	though *CELLO_NEUTRAL*%so I'm gonna chalk that one down as something to revisit.
 	player:
 		&r1a1:
-			*block setoffset player setpos -10.635681 -31.567627 0;setang 5.164 65.622 0 --> setcamroot player setpos 110.338135 -10.018799 88.478668;setang 10.293 -176.680 0.300*
+			*block setoffset player setpos -10.635681 -31.567627 0;setang 5.164 65.622 0 --> setcamroot player setpos 110.338135 -10.018799 88.478668;setang 10.293 -176.68 0.3*
 			##*setposang player setpos -714.635681 3504.432373 0;setang 5.164247 65.622467 0.000000*
 			#*setoffset player setpos -10.635681 -31.567627 0.000000;setang 5.164 65.622 0.000*
 			#*setcamroot player setpos 110.338135 -10.018799 88.478668;setang 10.293 -176.680 0.300*
 			##*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
 			You seem remarkably unfazed by being blown up.
 		&r1a1:
-			*block setoffset player setpos -10.635681 -31.567627 0;setang 5.164 65.622 0 --> setcamroot player setpos 110.338135 -10.018799 88.478668;setang 10.293 -176.680 0.300*
+			*block setoffset player setpos -10.635681 -31.567627 0;setang 5.164 65.622 0 --> setcamroot player setpos 110.338135 -10.018799 88.478668;setang 10.293 -176.68 0.3*
 			##*setposang player setpos -714.635681 3504.432373 0;setang 5.164247 65.622467 0.000000*
 			#*setoffset player setpos -10.635681 -31.567627 0.000000;setang 5.164 65.622 0.000*
 			#*setcamroot player setpos 110.338135 -10.018799 88.478668;setang 10.293 -176.680 0.300*
 			##*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
 			Is this a regular occurrence?
 		&r2a1:
-			*block setoffset player setpos -10.635681 -31.567627 0;setang 5.164 65.622 0 --> setcamroot player setpos 110.338135 -10.018799 88.478668;setang 10.293 -176.680 0.300*
+			*block setoffset player setpos -10.635681 -31.567627 0;setang 5.164 65.622 0 --> setcamroot player setpos 110.338135 -10.018799 88.478668;setang 10.293 -176.68 0.3*
 			##*setposang player setpos -714.635681 3504.432373 0;setang 5.164247 65.622467 0.000000*
 			#*setoffset player setpos -10.635681 -31.567627 0.000000;setang 5.164 65.622 0.000*
 			#*setcamroot player setpos 110.338135 -10.018799 88.478668;setang 10.293 -176.680 0.300*

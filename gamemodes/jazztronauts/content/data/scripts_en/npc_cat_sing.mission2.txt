@@ -1,6 +1,8 @@
 ﻿###### the accept phase of this mission requires camera work
 
 accept:
+	spawnnarrator()
+	narratesinger()
 	> The Singer seems agitated, and the moment they spot you they 
 	hurry over. They pull at their ears, tail lashing, before 
 	grabbing their tablet and hammering away on your 
@@ -8,7 +10,7 @@ accept:
 	&a1
 	
 a1:
-	> It's remarkably short, this time\:
+	> It's remarkably short, this time\: *setspeaker npc_cat_sing*
 	“Hi thank fuck you're here I really need your help!!! All of the 
 	radiators in the Mewseum have busted and I need to keep it warm 
 	in there!! Can you get me 15 radiators 
@@ -56,7 +58,7 @@ turnin2:
 	&t1
 
 t1:
-	*setspeaker npc_cat_sing*
+	narratesinger()
 	> They know it might sound silly, but they take great pride 
 	in making sure they take care of the Mewseum residents. 
 	You leave them to it.

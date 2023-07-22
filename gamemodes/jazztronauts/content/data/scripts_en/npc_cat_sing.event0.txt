@@ -24,7 +24,7 @@ begin:
 b1:
 	*setcamroot cat_singer setpos 87.442383 -56.048828 36.364532;setang 0.439 124.219 0.000* ###### CAT AND PLAYER
 	#*setcam setpos 2815.425049 7859.031250 36.395782;setang 0.438521 79.219254 0.000000* ###### CAT AND PLAYER
-	*setspeaker cat_singer*
+	narratesinger()
 	> As you approach,% the Singer's ears*SINGER_BLINK* perk up.%% They tur*SINGER_NEUTRAL*n,% and wave 
 	when they*setanim cat_singer gesture_exchange 1.2 idle* recognize you.%%% Beckoning,% t*SINGER_HAPPY*hey invite you over.
 	&b2
@@ -53,13 +53,14 @@ b3:
 b4:
 	*SINGER_NEUTRAL*
 	> Much better.%% This time you have no problem parsing the message\:%%%*setcamroot cat_singer setpos 37.089844 -0.185547 43.817337;setang 3.254 163.690 0.000* #### SINGER ALONE #*setcam setpos 2819.321533 7934.137207 43.848587;setang 3.253592 118.690002 0.000000* #### SINGER ALONE
-	“HI!!!%% WELCOME TO THE MEWSEUM!!”
+	*setspeaker cat_singer*“HI!!!%% WELCOME TO THE MEWSEUM!!”
 	&b5
 	
 b5:
+	narratesinger()
 	> A pause,% followed by an apparent r*SINGER_FLUSTERED*ealization*setanim cat_singer gesture_shock 1 idle* that this doesn't 
-	ex*SINGER_NEUTRAL*plain anything\:%%%*setanim cat_singer gesture_exchange 1.3 idle*
-	“This is where I archive a copy of everything you steal for us!!!”
+	ex*SINGER_NEUTRAL*plain anything\:
+	*setspeaker cat_singer*“%*setanim cat_singer gesture_exchange 1.3 idle*%%This is where I archive a copy of everything you steal for us!!!”
 	player:
 		&r1a1:
 			*setcamroot player setpos 99.992859 10.673828 63.069527;setang -2.102 173.876 -0.214*
@@ -78,7 +79,7 @@ b5:
 r1a1:
 	*setcamroot cat_singer setpos 37.089844 -0.185547 43.817337;setang 3.254 163.690 0.000* #### SINGER ALONE
 	#*setcam setpos 2819.321533 7934.137207 43.848587;setang 3.253592 118.690002 0.000000* #### SINGER ALONE
-	*setspeaker cat_singer*
+	narratesinger()
 	*SINGER_CRY*
 	*setanim cat_singer gesture_shock 1 idle*
 	> The Singer informs you that while they think that's a 
@@ -91,7 +92,7 @@ r1a1:
 r2a1:
 	*setcamroot cat_singer setpos 37.089844 -0.185547 43.817337;setang 3.254 163.690 0.000* #### SINGER ALONE
 	#*setcam setpos 2819.321533 7934.137207 43.848587;setang 3.253592 118.690002 0.000000* #### SINGER ALONE
-	*setspeaker cat_singer*
+	narratesinger()
 	*SINGER_BLINK*
 	> The Singer blinks,*SINGER_NEUTRAL* then shakes *setanim cat_singer gesture_disagree 1 idle*their head.%%%% 
 	Apparently they'd just called it The Museum originally,% 
@@ -103,8 +104,8 @@ r2a2:
 	#*setcam setpos 2815.425049 7859.031250 36.395782;setang 0.438521 79.219254 0.000000* ###### CAT AND PLAYER
 	*SINGER_HAPPY*
 	*setanim cat_singer gesture_laugh 1 idle*
-	> The Singer bounces in place and adds to the last message\:%% 
-	“It made her so happy!!!%%%%
+	> The Singer bounces in place and adds to the last message\: *setspeaker cat_singer*
+	“%%It made her so happy!!!%%%%
 	The others will never*setanim cat_singer gesture_shrug 1 idle* admit it and don't you dare tell them*SINGER_NEUTRAL* I told you
 	but they like it too”
 	&r2a3
@@ -114,6 +115,7 @@ r2a3:
 	#*setcam setpos 2819.321533 7934.137207 43.848587;setang 3.253592 118.690002 0.000000* #### SINGER ALONE
 	*SINGER_BLINK*
 	*setanim cat_singer gesture_foldarms 1 idle*
+	narratesinger()
 	> They put a paw to th*SINGER_MISCHIEF*eir mouth in the universal 'shhhh' signal.
 	&r2a4
 	
@@ -135,7 +137,7 @@ r2a4:
 r3a1:
 	*setcamroot cat_singer setpos 37.089844 -0.185547 43.817337;setang 3.254 163.690 0.000* #### SINGER ALONE
 	#*setcam setpos 2819.321533 7934.137207 43.848587;setang 3.253592 118.690002 0.000000* #### SINGER ALONE
-	*setspeaker cat_singer*
+	narratesinger()
 	*SINGER_FLUSTERED*
 	*setanim cat_singer gesture_shock 1 idle*
 	> The Singer looks perturbed.%% Apparently they get this question a lot.%%%*setanim cat_singer gesture_confused 1 idle*
@@ -177,7 +179,7 @@ m1:
 m2:
 	*setcamroot cat_singer setpos 68.512207 -0.908691 64.000000;setang 16.806 179.782 0.000 fov90*
 	#*setcam setpos 4177.395996 6357.103027 64.031250;setang 16.806452 -90.218063 0.000000 fov90*
-	*setspeaker cat_singer*
+	narratesinger()
 	> They tell you to look at the things behind the glass.%%%%*tweencamoffsetroot 1.5 metro_idiot setpos -24.532715 -193.262451 64.000000;setang 0.036 67.117 0.000*%%%%%%*setfov 80*#*setcamroot metro_idiot**tweencam 1.5 setpos 4177.395996 6357.103027 64.031250;setang 0.035854 -24.271908 0.000000*
 	> Closer.%%%%
 	*setfov 70*
@@ -194,7 +196,7 @@ m4:
 	*setcamroot cat_singer setpos 51.381348 210.670654 64.014961;setang -0.363 -82.017 0.000 fov70*
 	#*setcam setpos 3965.816895 6339.972168 64.046211;setang -0.363447 7.983169 0.000000 fov70*
 	*setanim cat_singer gesture_laugh 1 idle*
-	> The Singer beams at you.*SINGER_HAPPY* “Aren't they amazing???” 
+	> The Singer beams at you.*SINGER_HAPPY* *setspeaker cat_singer*“%%Aren't they amazing???” narratesinger()
 	they ask via tablet,%% as you watch one of the NPCs fall 
 	over and continue trying to execute their walk cycle.
 	&m5
@@ -213,7 +215,9 @@ m5:
 	&m5b
 	
 m5b:
-	*setanim cat_singer gesture_agree 1 idle* 
+	*setanim cat_singer gesture_agree 1 idle*
+	*setspeaker cat_singer*
+	narratesinger()
 	> “The Mewseum has a whole extra pocket dimension 
 	full of stuff that's not cool enough to display.”
 	&m6
@@ -222,8 +226,8 @@ m6:
 	*setcamroot cat_singer setpos 51.381348 210.670654 64.014961;setang -0.363 -82.017 0.000*
 	#*setcam setpos 3965.816895 6339.972168 64.046211;setang -0.363447 7.983169 0.000000*
 	*SINGER_MAD*
-	> Seeing your unchanging express*SINGER_BLINK*ion,%%*setanim cat_singer gesture_sigh* they sigh.%%
-	“It didn't see*SINGER_MAD*m RIGHT to just destroy the hard work of everyone 
+	> Seeing your unchanging express*SINGER_BLINK*ion,%%*setanim cat_singer gesture_sigh* they sigh. *setspeaker cat_singer*
+	“%%It didn't see*SINGER_MAD*m RIGHT to just destroy the hard work of everyone 
 	who h*setanim cat_singer gesture_shrug 1 idle*elped make these places in the first place forever!!”
 	&m7
 	
@@ -232,6 +236,7 @@ m7:
 	#*setcam setpos 4157.589844 6339.635254 38.136181;setang -4.516154 -56.943005 0.000000*
 	*SINGER_MISCHIEF*
 	*setanim cat_singer gesture_confused 1 idle*
+	narratesinger()
 	> Plus sometimes they find neat shit.%%%% 
 	Or food supplies.%%*setanim cat_singer gesture_laugh 1 idle* Imagine,% they tell you,%%
 	having the ability to clone your favorite snack on demand.
@@ -240,6 +245,7 @@ m7:
 m8:
 	*SINGER_HAPPY*
 	*setanim cat_singer gesture_exchange 1.5 idle*
+	*setspeaker cat_singer*
 	> “THAT is the true, secret power of the Mewseum.”
 	&m9
 	
@@ -248,6 +254,7 @@ m9:
 	#*setcam setpos 3965.816895 6339.972168 64.046211;setang -0.363447 7.983169 0.000000*
 	*SINGER_NEUTRAL*
 	*setanim cat_singer gesture_agree 1 idle*
+	narratesinger()
 	> Apparently they need to finish up the entry for that 
 	stuff you brought back,%% but they'd be happy to 
 	hang out later! *mark_seen*

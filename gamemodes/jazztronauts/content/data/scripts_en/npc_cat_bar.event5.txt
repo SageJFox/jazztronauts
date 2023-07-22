@@ -126,9 +126,9 @@ a8:
 	&a9
 
 a9:
-	*setspeaker cat_singer*
+	narratesinger()
 	*setanim cat_singer gesture_clap 1 idle*
-	> The Singer claps,% and holds up their tablet\:%%%*SINGER_HAPPY* 
+	> The Singer claps,% and holds up their tablet\:%%%*SINGER_HAPPY* *setspeaker cat_singer*
 	"Yeah fuck him up Socrates!!!!!"
 	&a10
 
@@ -163,6 +163,7 @@ a12:
 	&a13
 
 a13:
+	narratewithview(cat_piano)
 	*PIANO_BLINK*
 	*setanim cat_piano gesture_facepalm 1 idle*
 	> The Pianist initially critiques their wrestling form,%%*PIANO_NEUTRAL* but clues 
@@ -170,6 +171,7 @@ a13:
 	&a14
 
 a14:
+	*setspeaker narrator*
 	> She cracks her knuckles and drops into a wide stance,%%% before her 
 	fists whip out and break chunks*shake 2* off*emitsound physics/concrete/concrete_break3.wav .5* a large boulder.%%%% This appears to
 	be her idea of relaxation??
@@ -337,16 +339,9 @@ a31:
 	&a32
 
 a32:
-	#placing a dummy at the spot the harpoon hits the blanket lets us move it with gravity while keeping it partially submerged
-	*block spawn harpoonroot dummy --> setoffset harpoonroot setpos 30 -9.068359 0;setang 19.256 -93.131 0 --> spawn harpoon models/props_junk/harpoon002a.mdl --> setroot harpoon harpoonroot --> setgravity harpoon false --> setoffset harpoon setpos -22.665527 0 0;setang 0 0 0*
-	#*spawn harpoonroot dummy*
-	##*setposang harpoonroot setpos -2722 6775 4;setang 19.255680 -93.131256 0*
-	#*setoffset harpoonroot setpos 30 -9.068359 0;setang 19.256 -93.131 0*
-	#*spawn harpoon models/props_junk/harpoon002a.mdl*
-	#*setroot harpoon harpoonroot*
-	#*setgravity harpoon false*
-	##*setposang harpoon setpos -2720.753662 6796.527832 11;setang 19.255680 -93.131256 0*
-	#*setoffset harpoon setpos -22.665527 0 0;setang 0 0 0*
+	*spawn harpoon models/props_junk/harpoon002a.mdl*
+	#*setposang harpoon setpos -2720.753662 6796.527832 11;setang 19.255680 -93.131256 0*
+	*setoffset harpoon setpos 31.246338 12.527832 5.000000;setang 19.256 -93.131 0.000*
 	*setcamoffset setpos 153.720215 -67.754395 23.405151;setang 3.417 168.004 0*
 	#*setcam setpos -2696.399658 6934.754395 33.405151;setang 3.416752 -101.995712 0*
 	*BAR_SURPRISE*

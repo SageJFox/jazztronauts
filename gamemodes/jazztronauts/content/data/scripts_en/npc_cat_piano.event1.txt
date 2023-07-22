@@ -200,7 +200,7 @@ merge1:
 merge2:
 	*setcamroot cat_singer setpos 59.158707 -23.216064 49.293461;setang 3.313 157.403 0.175*
 	#*setcam setpos 340.657898 181.261932 49.324711;setang 3.312768 127.402878 0.175000*
-	*setspeaker cat_singer*
+	narratesinger()
 	*setanim cat_singer gesture_sigh 1.3 idle*
 	> The Singer taps out a message\:%%%*SINGER_NEUTRAL* 
 	They are not mad,% they're just disappointed.
@@ -225,7 +225,7 @@ merge4:
 	&merge5
 	
 merge5:
-	*setspeaker cat_singer*
+	narratesinger()
 	*setanim cat_singer gesture_anger 2 idle*
 	> The Singer chastises the Pianist for not listening.%%%
 	The problem is not that they saw what happened in the Mewseum.%
@@ -259,7 +259,7 @@ merge8:
 merge9:
 	*setcamroot cat_singer setpos 59.158707 -23.216064 49.293461;setang 3.313 157.403 0.175*
 	#*setcam setpos 340.657898 181.261932 49.324711;setang 3.312768 127.402878 0.175000*
-	*setspeaker cat_singer*
+	narratesinger()
 	*setanim cat_singer gesture_anger 2 idle*
 	> The Singer makes a clear *PIANO_FLUSTERED*'zip it' gesture at the Pianist.*PIANO_NEUTRAL*
 	&merge10

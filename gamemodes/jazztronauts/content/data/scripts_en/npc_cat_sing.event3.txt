@@ -68,7 +68,7 @@ b3:
 	#*setroot cat_cello scene_stairs setpos -0.969666 -160.329254 0.000000;setang 0.000 150.000 0.000*
 	#*setcamoffset setpos -97.513123 -58.230682 54.991676;setang -3.398 17.622 0.000*
 	##*setcam setpos -945.970520 529.193604 -8.977074;setang -3.397988 -3.662134 0.000000*
-	*block setoffset cat_piano setpos -56.322693 -86.295441 0;setang 0 -45 0 --> setoffset cat_singer setpos 209.017151 85.772827 0;setang 0 -43 0 --> setoffset player setpos 190.028687 36.056152 0;setang 0 -21.284 0 --> setgravity cat_cello --> setroot cat_cello scene_stairs setpos -0.969666 -160.329254 0;setang 0 150 0 --> setcamoffset setpos -97.513123 -58.230682 54.991676;setang -3.398 17.622 0*
+	*block setoffset cat_piano -56.322693 -86.295441 0;0 -45 0-->setoffset cat_singer 209.017151 85.772827 0;0 -43 0-->setoffset player 190.028687 36.056152 0;0 -21.284 0-->setgravity cat_cello-->setroot cat_cello scene_stairs -0.969666 -160.329254 0;0 150 0-->setcamoffset -97.513123 -58.230682 54.991676;-3.398 17.622 0*
 	> Well this suddenly makes a lot more sense.%%% 
 	The Singer walks up next to you as you finish putting 
 	2 and 2 together.%% This must be pretty common if they
@@ -112,7 +112,7 @@ r1a1:
 	&r1a2
 
 r1a2:
-	*setspeaker cat_singer*
+	narratesinger()
 	*SINGER_NEUTRAL*
 	*setanim cat_singer gesture_exchange 1 idle*
 	> The Singer tells you not to worry about it as you pass by.%%
@@ -143,7 +143,7 @@ m2:
 m3:
 	*setcamroot cat_singer setpos 94.303528 18.253448 76.560249;setang 17.232 -157.224 0.000*
 	#*setcam setpos -733.564758 546.807739 12.591496;setang 17.232361 159.775696 0.000000*
-	*setspeaker cat_singer*
+	narratesinger()
 	*SINGER_NEUTRAL*
 	*setanim cat_singer gesture_sweep 1 idle*
 	> Blithely ignoring the crackling tension in the air,%% 
@@ -169,11 +169,11 @@ m5:
 	#maybe todo - interesting framing here with there being two different scene roots involved. Need something for that?
 	*setcamroot cat_singer setpos -47.459229 -33.338715 1.735420;setang -19.716 15.903 0.000*
 	#*setcam setpos -872.429260 605.757629 -62.233330;setang -19.716215 -27.096756 0.000000*
-	*setspeaker cat_singer*
+	narratesinger()
 	*SINGER_MAD*
 	*setanim cat_singer gesture_exchange 1 idle*
 	> They hold it straight above their head when they've finished so 
-	all three of you can see the screen\:%%%*SINGER_MISCHIEF* 
+	all three of you can see the screen\:%%%*SINGER_MISCHIEF* *setspeaker cat_singer*
 	“I was sleeping motherfuckers so now we're going to have a 
 	Talk about healthy conflict resolution (￣ー￣)”
 	&m6
@@ -231,7 +231,7 @@ m9:
 m10:
 	*setcamroot cat_singer setpos -47.459229 -33.338715 1.735420;setang -19.716 15.903 0.000*
 	#*setcam setpos -872.429260 605.757629 -62.233330;setang -19.716215 -27.096756 0.000000*
-	*setspeaker cat_singer*
+	narratesinger()
 	*SINGER_BLINK*
 	*setanim cat_singer gesture_sigh 1 idle*
 	> The Singer sighs.%%%%%*SINGER_MAD*
@@ -245,7 +245,7 @@ m11:
 	#*setoffset cat_piano setpos -56.322693 -86.295441 0;setang 0.000 -90.000 0.000*
 	#*setcamoffset setpos 162.798370 10.226929 59.995281;setang 6.558 -176.598 0.000*
 	##*setcam setpos -502.475708 528.906189 60.026531;setang 6.557827 -131.597961 0.000000*
-	*block setroot cat_singer scene_stairs setpos -66.360046 -153.441193 0;setang 0 45 0 --> setoffset cat_piano setpos -56.322693 -86.295441 0;setang 0 -90 0 --> setcamoffset setpos 162.798370 10.226929 59.995281;setang 6.558 -176.598 0*
+	*block setroot cat_singer scene_stairs -66.360046 -153.441193 0;0 45 0-->setoffset cat_piano -56.322693 -86.295441 0;0 -90 0-->setcamoffset 162.798370 10.226929 59.995281;6.558 -176.598 0*
 	*SINGER_NEUTRAL*
 	*setanim cat_singer gesture_exchange 1 idle*
 	> They give the Cellist and Pianist a reassuring pat on 
@@ -257,6 +257,7 @@ m12:
 	#*setcam setpos -76.639259 712.453308 608.491882;setang 51.226170 -151.509552 0.000000*
 	*SINGER_HAPPY*
 	*setanim cat_singer gesture_agree .75 idle*
+	*setspeaker cat_singer*
 	> “You both have so much in common I wish you'd talk things out 
 	instead of escalating!!%%% You could have had a really neat discussion 
 	about the merits of the things you*SINGER_MAD* like*setanim cat_singer gesture_anger 1.5 idle* but noooooo straight to 
@@ -275,7 +276,7 @@ m13:
 m14:
 	*setcamroot cat_singer setpos 46.744293 14.277649 44.017403;setang -1.162 -160.094 0*
 	#*setcam setpos -587.402649 449.707855 44.048653;setang -1.161997 -115.093628 0.000000*
-	*setspeaker cat_singer*
+	narratesinger()
 	*SINGER_MAD*
 	*setanim cat_singer gesture_jab 1.3 idle*
 	*CELLO_MAD*

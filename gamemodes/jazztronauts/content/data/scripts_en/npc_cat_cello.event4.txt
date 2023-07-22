@@ -69,7 +69,7 @@ a3:
 	#*tweenposang cat_cello .5 setpos -2908 2950 36;setang -90 231 0.000000*
 	*tweenoffset cat_cello .5 setpos 2 -44 0;setang 0 51 0*
 	*setanim cat_cello pose_sit01*
-	*setspeaker cat_singer*
+	narratesinger()
 	> You can only see part of the Singer's tablet from where you're 
 	sitting,%% but even the little bit you can see has a lot of cursing 
 	on it.%%%%%*setanim cat_singer gesture_anger 1.7 idle* 
@@ -99,7 +99,7 @@ a5:
 a6:
 	*setcamroot cat_singer setpos -6.248291 -291.509155 79.533783;setang 4.561 70.138 0.000*
 	#*setcam setpos -2598.027100 3051.372070 79.533783;setang 4.561276 -148.862167 0.000000*
-	*setspeaker cat_singer*
+	narratesinger()
 	*setanim cat_singer gesture_anger 2 idle*
 	> The Singer's impassioned flailing lets you see more of the tablet 
 	this time.%%%%*setanim cat_singer gesture_shock 1 idle* They seem to be viscerally horrified by the way the 
@@ -179,7 +179,7 @@ a13:
 	&a14
 
 a14:
-	*setspeaker cat_singer*
+	narratesinger()
 	> %.%.%.%
 	&a15
 
@@ -222,7 +222,7 @@ b1:
 	&b2
 
 b2:
-	*setspeaker cat_singer*
+	narratesinger()
 	*setanim cat_singer gesture_disagree 2 idle*
 	> They shake their head frantically,%%% still blinking away tears,%% 
 	before hastily typing out a plea for you to let the Cellist have 
@@ -237,10 +237,10 @@ c1:
 	##*setcam setpos -3027.578613 2820.252197 44.074524;setang 6.637681 9.171491 0.000000*
 	*setanim player idle_all_02*
 	*block setroot player narrator setpos 68.970703 -87.335449 0;setang 8.821 85.276 0 --> setcamoffset setpos -76.735352 -68.843018 32.694000;setang -1.928 13.808 -2.112*
-	*setspeaker cat_singer*
+	narratesinger()
 	*SINGER_FLUSTERED*
 	*setanim cat_singer gesture_agree 1 idle*
-	> The Singer nods even as they fight back tears.%%%% “Thank you, but I'm
+	> The Singer nods even as they fight back tears. *setspeaker cat_singer*“%%%%Thank you, but I'm
 	fine.%% I appreciate you making sure though,% you're very kind.”
 	&a17
 

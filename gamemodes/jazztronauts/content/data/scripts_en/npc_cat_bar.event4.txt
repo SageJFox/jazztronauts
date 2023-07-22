@@ -157,7 +157,7 @@ a10:
 	&a11
 
 a11:
-	*setspeaker cat_singer*
+	narratesinger()
 	> The Singer nods,%% once.
 	&a12
 

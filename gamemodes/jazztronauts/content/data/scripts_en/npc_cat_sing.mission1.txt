@@ -2,6 +2,7 @@
 
 accept:
 	spawnnarrator()
+	narratesinger()
 	> The Singer signals for you to keep your voice down as you approach.
 	The Cellist is snoring loudly next to them. They pat him on the head
 	and the snoring settles down into vaguely disgruntled mumbling.
@@ -9,13 +10,14 @@ accept:
 	
 a1:
 	> The Singer has your next job ready, and hands the tablet over to you 
-	for you to check the details\: “Okay so bear with me here because I 
+	for you to check the details\: *setspeaker npc_cat_sing*“Okay so bear with me here because I 
 	know how weird it sounds, but I need a bunch of messed up dolls.
 	5, to be more precise.”
 	&a2
 	
 a2:
-	> You shake your head and keep reading\:
+	narratesinger()
+	> You shake your head and keep reading\: *setspeaker npc_cat_sing*
 	“I'm really close to a research breakthrough!!!! I'm sure if I 
 	throw more bodies at the problem something will stick but 
 	last time when I asked the Pianist for help she...
@@ -33,12 +35,14 @@ a3:
 	&a4
 	
 a4:
-	*setspeaker npc_cat_sing*
+	narratesinger()
 	> The Singer waves goodbye as you hand back the tablet and leave.
 	&exit
 	
 	
 idle:
+	spawnnarrator()
+	narratesinger()
 	> The Singer waves you over. Their tablet appears to be playing 
 	a recording of a light rainstorm. They explain the Cellist was 
 	having a nightmare, so they're helping.
@@ -78,7 +82,7 @@ t2:
 	&t3
 	
 t3:
-	*setspeaker npc_cat_sing*
+	narratesinger()
 	> Ignoring the Cellist's babbling at the sight of your sack full of 
 	probably-not-haunted children's toys, the Singer takes them off 
 	your hands in exchange for the promised payment of $10000. *finish 1*
@@ -93,13 +97,12 @@ t4:
 	&t5
 	
 t5:
-	*setspeaker npc_cat_sing*
+	narratesinger()
 	> They pat him on the arm and the Cellist squints in continued 
 	suspicion at the sack, but stops rambling about ancient curses. 
 	&t6
 	
 t6:
-	*setspeaker narrator*
 	> The Singer thanks you for your assistance and tells
 	you to find them later, if you feel like giving them a hand 
 	entering the haul into the Mewseum's systems.

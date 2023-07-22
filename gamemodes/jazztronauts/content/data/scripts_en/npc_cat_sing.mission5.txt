@@ -2,7 +2,7 @@
 
 accept:
 	spawnnarrator()
-	*setspeaker narrator*
+	narratesinger()
 	> The Singer waves you over as usual and the Pianist cracks open an 
 	eye to look you up and down before returning to her meditation. 
 	&accept1
@@ -32,6 +32,7 @@ a2:
 	&a3
 	
 a3:
+	narratesinger()
 	> The Singer tells you that they've really enjoyed working with you 
 	and hope you'll stick around for a while, before settling in to
 	meditate with the Pianist.
@@ -99,9 +100,9 @@ turnin:
 	*show*
 	*SINGER_HAPPY*
 	*setanim cat_singer gesture_laugh 1 idle*
-	*setspeaker cat_singer*
+	narratesinger()
 	> When the Singer sees you,% they light up with joy.%%%*SINGER_NEUTRAL* They're nearly 
-	vibrating with how fast they're bouncing.%%*block setoffset player setpos -181.717041 -5.753906 0;setang 0 -11.834 0 --> setcamoffset setpos 97.083008 6.862305 31.411472;setang -0.816 -154.124 0*%% After handing over your pay of #*setposang player setpos 3018.282959 7930.246094 0;setang 0 -11.833597 0.000000**setcam setpos 3074.511963 7828.708008 31.442722;setang -0.815863 100.875572 0.000000*
+	vibrating with how fast they're bouncing.%%*block setoffset player -181.717041 -5.753906 0;0 -11.834 0-->setcamoffset 97.083008 6.862305 31.411472;-0.816 -154.124 0*%% After handing over your pay of #*setposang player 3018.282959 7930.246094 0;0 -11.833597 0**setcam 3074.511963 7828.708008 31.442722;-0.815863 100.875572 0*
 	30k,%% they take the radios inside the Mewseum and gesture for 
 	you to follow.*finish 5*
 	&t1
@@ -151,7 +152,7 @@ t5:
 	&t6
 	
 t6:
-	*setspeaker cat_singer*
+	narratesinger()
 	*SINGER_FLUSTERED*
 	> The Singer nearly drops their tablet in shock,%%*setcamroot narrator setpos 377.167969 -1039.709961 884.149780;setang 38.901 119.501 0.000* and immediately turns #*setcam setpos 3577.167969 6896.290039 884.149780;setang 38.901165 119.500954 0.000000*
 	off the radios.*stopsound*%%%% They apologize to the NPC who spoke,%% 
@@ -167,7 +168,7 @@ t7:
 	#*setoffset player setpos 58 -15 0;setang 0 -150 0*
 	#*setcamroot cat_singer setpos 36.769562 84.852798 79.968750;setang 20.223 -93.360 0.000*
 	##*setcam setpos 339 157 80;setang 20.2231 311.64 0*
-	*block remove combine01 combine02 police01 --> setlocale narrator scene_mewseumentrance scene_museumentrance --> setoffset cat_singer setpos 21 -65 0;setang 0 45 0 --> setoffset player setpos 58 -15 0;setang 0 -150 0 --> setcamroot cat_singer setpos 36.769562 84.852798 79.968750;setang 20.223 -93.360 0*
+	*block remove combine01 combine02 police01-->setlocale narrator scene_mewseumentrance scene_museumentrance-->setoffset cat_singer 21 -65 0;0 45 0-->setoffset player 58 -15 0;0 -150 0-->setcamroot cat_singer 36.769562 84.852798 79.968750;20.223 -93.360 0*
 	*SINGER_CRY*
 	> The Singer is actually crying with joy.%%%%
 	&t8

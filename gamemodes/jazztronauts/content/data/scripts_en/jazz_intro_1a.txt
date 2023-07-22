@@ -60,7 +60,7 @@ begin6:
 	&begin7
 
 begin7:
-	*setspeaker narrator*
+	narratesinger()
 	*BAR_NEUTRAL*
 	*setanim cat_singer gesture_embarass 1 idle*
 	*SINGER_HAPPY*

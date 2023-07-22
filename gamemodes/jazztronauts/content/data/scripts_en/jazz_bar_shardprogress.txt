@@ -100,9 +100,9 @@ com3:
 	
 com4:
 	narratewithview(npc_cat_sing)
-	> The Singer punches Cellist in the arm. Apparently,
-	it's a gift from all of them, and they want you
-	to have it.
+	> The Singer punches Cellist in the arm. 
+	Apparently, it's a gift from all of them, 
+	and they want you to have it.
 	&com5
 	
 com5:

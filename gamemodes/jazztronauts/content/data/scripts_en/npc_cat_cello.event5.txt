@@ -77,7 +77,7 @@ b5:
 b6:
 	*setcamroot cat_singer setpos 47.154785 22.483032 35.836128;setang -0.017 -157.455 0.000* ####### SINGER
 	#*setcam setpos -2810.619873 2851.688965 35.836128;setang -0.017270 148.544876 0.000000* ####### SINGER
-	*setspeaker cat_singer*
+	narratesinger()
 	*SINGER_FLUSTERED*
 	*setanim cat_singer gesture_exchange 1.4 idle*
 	> The Singer anxiously explains that the Cellist won't listen to any of them,%% 
@@ -88,6 +88,7 @@ b6:
 	
 b7:
 	*setanim cat_singer gesture_anger 1.4 idle*
+	*setspeaker cat_singer*
 	> “If he won't listen to us then maybe he'll listen to you??%%%
 	He's talked to you more than he's talked to anyone else we've
 	met in a Really Long Time even though he was on a downswing!!!%%%%*setanim cat_singer gesture_agree 1 idle*
@@ -402,7 +403,7 @@ n6:
 	#*setcamroot cat_cello setpos 78.433105 64.420502 71.318253;setang 18.004 -143.295 0.000* ###### CELLO 3/4
 	##*setcam setpos 3507.908203 458.545197 71.318253;setang 18.004484 36.705151 0.000000* ###### CELLO 3/4
 	#*CELLO_BLINK*
-	*block setoffset player setpos -203.551514 -8.502686 0.000000;setang 0.941 0.298 0.000 --> setcamroot cat_cello setpos 78.433105 64.420502 71.318253;setang 18.004 -143.295 0.000 --> CELLO_BLINK*
+	*block setoffset player -203.551514 -8.502686 0;0.941 0.298 0-->setcamroot cat_cello 78.433105 64.420502 71.318253;18.004 -143.295 0-->CELLO_BLINK*
 	*setanim cat_cello gesture_facepalm 1 idle*
 	%.%.%.%and then I crashed.%%%%*CELLO_MAD*
 	&n7

@@ -14,7 +14,7 @@ a1:
 	&a2
 	
 a2:
-	*setspeaker npc_cat_sing*
+	narratesinger()
 	> The Singer nods so fast their head is nearly a blur.
 	They seem to be putting in a conscious effort to 
 	restrain their bounces.
@@ -34,7 +34,7 @@ a4:
 	&a5
 	
 a5:
-	*setspeaker npc_cat_sing*
+	narratesinger()
 	> The Singer continues nodding. At this rate, they're going to get a 
 	hell of a headache. The Bartender appears to have the same thought, 
 	and touches a paw to their shoulder.
@@ -46,6 +46,7 @@ a6:
 	&a7
 	
 a7:
+	*setspeaker npc_cat_sing*
 	> “Hi excellent yes you're here!!! As you probably overheard, I've 
 	made some incredible strides in my research at the Mewseum!!!!! 
 	&a7b
@@ -62,6 +63,8 @@ a8:
 	
 	
 idle:
+	spawnnarrator()
+	narratesinger()
 	> The Singer is clearly very busy, but they still smile and 
 	wave when you approach.
 	&idle2

@@ -129,7 +129,7 @@ begin19:
 	&begin20
 
 begin20:
-	*setspeaker narrator*
+	narratesinger()
 	*setposang cat_singer setpos -13497.522461 -2040.211182 995.031250;setang -90 142.066315 0.000000*
 	*setcam setpos -13527.917969 -2076.759033 1042.751953;setang 18.037712 51.332397 0.000000*
 	> The Singer*setanim cat_singer singer_whistle 1 idle* puts their*SINGER_HAPPY* paw to their mouth*SINGER_NEUTRAL* and whistles very loudly!%%*setcam setpos -13540.255859 -1953.788574 1055.059326;setang 3.460600 -105.256134 0.000000*
@@ -145,7 +145,7 @@ begin21:
 	&begin22
 
 begin22:
-	*setspeaker narrator*
+	narratesinger()
 	*setposang cat_bar setpos -13724.885742 -2105.620850 1006.031250;setang -90 335.829369 0.000000*
 	*setposang cat_cello setpos -13579.467773 -2108.930420 1000.031250;setang -90 12.801361 0.000000*
 	*setposang cat_piano setpos -13656.136719 -2104.135498 1000.031250;setang -90 0.847992 0.000000*

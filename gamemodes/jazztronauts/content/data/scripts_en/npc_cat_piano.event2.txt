@@ -241,7 +241,7 @@ r3a11:
 r3a12:
 	*setcamroot cat_singer setpos 134.677979 1.371948 52.704239;setang 12.840 143.466 0.000* ###### SING AND CELLO
 	#*setcam setpos -1486.503418 3121.125000 84.735489;setang 12.840269 -81.533890 0.000000* ###### SING AND CELLO
-	*setspeaker cat_singer*
+	narratesinger()
 	*SINGER_NEUTRAL*
 	> The Singer puts their tablet on the table.%%%%*SINGER_HAPPY*
 	
@@ -257,7 +257,7 @@ r3a13:
 	&r3a14
 
 r3a14:
-	*setspeaker cat_singer*
+	narratesinger()
 	*setanim cat_singer gesture_anger 2 idle*
 	> The Singer points more emphatically.
 	&r3a15	
@@ -290,7 +290,7 @@ r3a18:
 	*setcamroot nil*
 	*setlocale cat_piano scene_movies*
 	*setanim cat_piano gesture_exchange 2 idle*
-	#TODO - Here (and in some other spots) we'd want the Pianist's portrait while the narrator is talking
+	narratewithview(cat_piano)
 	> As soon as the song is over the Pianist hurls the recorder
 	across the room and storms out!
 	
@@ -321,7 +321,7 @@ m1:
 	&m2
 	
 m2:
-	*setspeaker cat_singer*
+	narratesinger()
 	*SINGER_MAD*
 	*setanim cat_singer gesture_disagree 1.3 idle*
 	> The Singer frowns.%%% They liked it.
