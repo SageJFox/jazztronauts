@@ -195,9 +195,9 @@ dialog.RegisterFunc("block",function(d, ...)
 	--todo: would be nice if they could be on separate lines
 	--local cmds = string.Replace(table.concat({ ... }," "),"\t","")
 	--cmds = string.Split(cmds,"\n")
-	local cmds = string.Split(table.concat({ ... }," ")," --> ")
+	local cmds = string.Split(table.concat({ ... }," "),"-->")
 	for _, v in ipairs(cmds) do
-		local str = v
+		local str = string.Trim(v)
 		--local comment, _, _ = string.find(str,"#")
 		--if comment then str = string.Left(str,comment) end
 		local tab = string.Split(str," ")
