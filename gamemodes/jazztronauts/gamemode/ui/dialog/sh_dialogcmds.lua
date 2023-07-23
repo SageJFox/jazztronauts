@@ -165,6 +165,23 @@ local zSnap = {64}
 	The first layer is always defined by the position of the locale entity (and are thus always 0). The rest are defined in relation to it. ]]
 local layers = {0}
 
+local function FindByName(name)
+	if (not name) or name == "nil" then return nil end
+	if name == "focus" then return dialog.GetFocus() end
+	if IsValid(sceneModels[name]) then return sceneModels[name] end
+
+	-- Lazy-create player object
+	if name == "player" then
+		local plyobj = CreatePlayerProxy()
+		sceneModels[name] = plyobj
+		plyobj.gravity = true
+		plyobj.layer = 1
+		return plyobj
+	end
+
+	return FindNPCByName(name)
+end
+
 dialog.RegisterFunc("sceneroot", function(d, name)
 	defaultRoot = sceneModels[name] or nil
 end)
@@ -182,12 +199,25 @@ dialog.RegisterFunc("layer", function(d, depth, layer)
 	--print("Wow look we set layer "..layer.." at "..layers[layer])
 end)
 
-dialog.RegisterFunc("setgravity",function(d, name, enabled)
-	local prop = sceneModels[name]
-	if not IsValid(prop) then return end
-	if enabled == nil then enabled = true end
-	local enabled = tobool(enabled)
-	prop.gravity = enabled
+dialog.RegisterFunc("setgravity",function(d, ...)
+	local props = {...}
+
+	if table.IsEmpty(props) then return end
+
+	local enabled = true
+	
+	--our last value is (assumed to be) a bool, use it for enabled)
+	if not IsValid(FindByName(props[#props])) then
+		enabled = tobool(props[#props])
+		table.remove(props,#props)
+	end
+
+	for _, name in ipairs(props) do
+		local prop = FindByName(name)
+		if IsValid(prop) then
+			prop.gravity = enabled
+		end
+	end
 end)
 
 --we want to run a series of commands concurrently. Not for plain text!
@@ -283,23 +313,6 @@ dialog.RegisterFunc("spawn", function(d, name, mdl, root)
 		sceneRoots[sceneModels[name]] = defaultRoot
 	end
 end)
-
-local function FindByName(name)
-	if (not name) or name == "nil" then return nil end
-	if name == "focus" then return dialog.GetFocus() end
-	if IsValid(sceneModels[name]) then return sceneModels[name] end
-
-	-- Lazy-create player object
-	if name == "player" then
-		local plyobj = CreatePlayerProxy()
-		sceneModels[name] = plyobj
-		plyobj.gravity = true
-		plyobj.layer = 1
-		return plyobj
-	end
-
-	return FindNPCByName(name)
-end
 
 dialog.RegisterFunc("remove", function(d, ...)
 	if table.IsEmpty({...}) then return end
