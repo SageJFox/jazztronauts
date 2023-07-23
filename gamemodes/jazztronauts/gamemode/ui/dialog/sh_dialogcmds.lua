@@ -128,7 +128,7 @@ local function parsePosAng(...)
 	local posang = string.Split(args, ";")
 	local tblPosAng = {}
 
-	if posang[1] then
+	if posang[1] and posang[1] ~= "" then
 		tblPosAng.pos = Vector(string.Replace(posang[1], "setpos", ""))
 	end
 	if posang[2] then
@@ -807,7 +807,9 @@ dialog.RegisterFunc("setroot", function(d, name, rootname, ...)
 	if posang.ang then
 		prop.rot = posang.ang
 	end
-	SceneRootToWorld(name,true)
+	if posang.pos or posang.ang then
+		SceneRootToWorld(name,true)
+	end
 end)
 
 net.Receive("dialog_returnlocale", function(len, ply)
