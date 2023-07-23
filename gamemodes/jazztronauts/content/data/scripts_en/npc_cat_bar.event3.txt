@@ -14,7 +14,6 @@ begin:
 	*setanim cat_bar gesture_washing*
 	#*setposang cat_cello setpos -2578.243896 2791.908447 0;setang -90 45 0.000000*
 	*setoffset cat_cello setpos 160.091553 285.756104 0;setang 0.000 225.000 0.000*
-	*setanim cat_cello idle*
 	#*setposang player setpos -2911.472656 2960.678223 36;setang 14.517221 62.446011 0.000000*
 	*setoffset player setpos -8.678223 -47.472656 0;setang 14.517 152.446 0.000*
 	*setanim player sit*

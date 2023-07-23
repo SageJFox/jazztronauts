@@ -38,6 +38,7 @@ CELLO_MAD setskin cat_cello 2
 CELLO_EMPTY setskin cat_cello 5
 CELLO_GRIN setskin cat_cello 1
 CELLO_HIGH setskin cat_cello 3
+CELLO_FEAR setskin cat_cello 6
 
 SINGER_NEUTRAL setskin cat_singer 0
 SINGER_BLINK setskin cat_singer 4
@@ -51,7 +52,7 @@ SINGER_MISCHIEF setskin cat_singer 3
 
 spawnnarrator() *spawn narrator dummy**setnpcid narrator npc_narrator*
 spawnnarratorroot(scene_locale) spawnnarrator()*sceneroot narrator**setlocale narrator scene_locale*
-newsceneroot(scene_name,scene_locale) *sceneroot nil**spawn scene_name dummy**setlocale scene_name scene_locale**sceneroot scene_name*
+newsceneroot(root_name,scene_locale) *sceneroot nil**spawn root_name dummy**setlocale root_name scene_locale**sceneroot root_name*
 
 # Old models, leaving them in for backwards compatibility
 spawnbartender() *spawn cat_bar models/andy/bartender/cat_bartender.mdl**setnpcid cat_bar npc_cat_bar**BAR_NEUTRAL**setanim cat_bar idle*
