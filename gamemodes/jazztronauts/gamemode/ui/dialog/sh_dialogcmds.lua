@@ -294,14 +294,30 @@ local function removeSceneEntity(name)
 		sceneModels[name] = nil
 	end
 end
+
+--don't let these be set as names for props, because they're very important elsewhere
+local nononames = {
+	["focus"] = true,
+	["player"] = true,
+	["nil"] = true,
+	["true"] = true,
+	["false"] = true
+}
+
 dialog.RegisterFunc("spawn", function(d, name, mdl, root)
 	local isdummy = mdl == "dummy"
 	if isdummy then mdl = "models/props_interiors/vendingmachinesoda01a.mdl" end
 
-	if name == "focus" or name == "player" or name == "nil" then
+	if nononames[name] or tonumber(name) then
 		ErrorNoHalt("Attempted to use reserved name \"", name, "\" with spawn!")
 		return
 	end
+
+	if IsValid(sceneModels[name]) then
+		print("Scene model \""..name.."\" already exists, ignoring. Use *remove "..name.."* first if you really wanted to do this!")
+		return
+	end
+
 	sceneModels[name] = ManagedCSEnt(name, mdl)
 	sceneModels[name]:SetNoDraw(isdummy)
 	sceneModels[name].IsDummy = isdummy
