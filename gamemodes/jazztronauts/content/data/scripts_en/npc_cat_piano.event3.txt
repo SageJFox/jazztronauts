@@ -17,8 +17,7 @@ begin:
 	*txin*
 
 ###### START	
-	*setspeaker narrator*
-	*show*
+	*show narrator*
 	> The Pianist appears to be doing situps in the performance hall.
 	%%%%
 	She notices you pretty quickly.
@@ -170,8 +169,7 @@ m1:
 	*bgmplay sound/jazztronauts/music/events/dangersong.mp3 1 2.0*
 	*txin*
 	*wait .4*
-	*setspeaker narrator*
-	*show*
+	*show narrator*
 	> The Bar Samsara,%% Cellist's Room%.%.%.%.%%%
 	*setcamroot cat_cello setpos 68.829224 210.088379 66.705505;setang 12.857 -107.996 0.000*#*setcam setpos -2846.563721 3939.643799 66.705505;setang 12.856805 102.003944 0.000000*
 	The Cellist is inside,% surrounded by%.%.%.% substances.%%% He looks pretty 
@@ -291,8 +289,7 @@ m11:
 	*setanim player idle_all_01*
 	*txin*
 	*wait .25*
-	*show*
-	*setspeaker cat_piano*
+	*show cat_piano*
 	*PIANO_SMIRK*
 	*setanim cat_piano gesture_laugh 1 idle*
 	We fucking did it.%% We have scored,% the Good Shit.%%%*setcamroot cat_piano setpos 80.290100 7.467896 61.609421;setang 8.585 173.265 0.000*#*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*

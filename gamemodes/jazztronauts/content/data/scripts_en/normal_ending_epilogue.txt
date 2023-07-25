@@ -20,9 +20,8 @@ begin:
 	*setcamroot cat_bar setpos 169.750977 3.319378 35.019852;setang 0.568 179.705 0.000*
 
 	*setanim player sit*
-	*setspeaker cat_bar*
 	*txin*
-	*show*
+	*show cat_bar*
 	*BAR_HAPPY*
 	*setanim cat_bar gesture_confused 1 idle*
 	I do so adore visiting the Center.*BAR_NEUTRAL* 

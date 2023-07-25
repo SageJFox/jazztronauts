@@ -599,8 +599,7 @@ f4:
 	#*setcam setpos 6069.514648 2575.684326 4245.237305;setang 10.434992 -68.541672 0.000000*
 	*setcamoffset setpos 1098.485352 -2575.684570 597.237305;setang 10.435 111.458 0.000*
 	*wait 3*
-	*setspeaker narrator*
-	*show*
+	*show narrator*
 	> You listened to The Bortles play a set%.%.%.%%%
 	&endplease
 

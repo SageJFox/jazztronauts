@@ -7,8 +7,7 @@ begin:
 	#*zsnap 0*
 	#*setposang cat_piano setpos -4009.657715 4751.496094 34.134026;setang -90 30 0.000000*
 	*setoffset cat_piano setpos 86.342285 -368.503906 0;setang 0 120 0*
-	*setspeaker cat_piano*
-	*show*
+	*show cat_piano*
 	Hey.%%% Do you have a minute?%%
 	I really.%%%% Want to talk.%
 	I need a personal favour.
@@ -85,8 +84,7 @@ m1:
 	*wait .15*
 
 ###### START	
-	*setspeaker narrator*
-	*show*
+	*show narrator*
 	> The Pianist takes you to a%.%.%.%%% custom level?%%%%
 	It's sure something.%% The Pianist walks further into
 	the room.

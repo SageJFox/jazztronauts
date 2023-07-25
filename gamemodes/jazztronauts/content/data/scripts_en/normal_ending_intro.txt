@@ -20,8 +20,7 @@ begin:
 	*setroot cat_bar narrator setpos 1372.219238 -141.141693 0;setang 0.000 178.751 0.000*
 	*setroot cat_cello narrator setpos 559.766602 486.078156 0;setang 0.000 73.123 0.000*
 	*setroot cat_piano narrator setpos 649.004883 -403.150940 0;setang 0.000 204.670 0.000*
-	*setspeaker cat_bar*
-	*show 0.5*
+	*show cat_bar 0.5*
 	Now the last step to get to the festival.%%%
 	&a1
 

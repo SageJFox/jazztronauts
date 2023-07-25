@@ -14,8 +14,7 @@ begin:
 	*bgmplay sound/jazztronauts/music/events/bartender_song.mp3 1.0 2.0*
 	*txin*
 	*wait .15*
-	*show*
-	*setspeaker narrator*
+	*show narrator*
 	> The Bar Samsara%.%.%.%%%
 	You see the Bartender packing supplies into a picnic basket.%% 
 	She beams when she catches sight of you.
@@ -87,8 +86,7 @@ a5:
 	*setcamoffset setpos -170.278320 10.460693 84.339340;setang 12.947 -3.277 0*
 	#*setcam setpos -2003.229126 6788.221191 95.339340;setang 12.946715 116.723183 0*
 	*txin*
-	*setspeaker narrator*
-	*show*
+	*show narrator*
 	> You had to take a boat,%%% but the gang has finally arrived at a sandy
 	little nook in the mountains. 
 	&a6
@@ -208,8 +206,7 @@ a16:
 	#*setposang player setpos -2685.895508 6770.839355 10;setang 14.836672 166.112350 0*
 	*setoffset player setpos 66.104492 -13.160645 0;setang 14.837 166.112 0*
 	*txin*
-	*show*
-	*setspeaker narrator*
+	*show narrator*
 	*BAR_BLINK*
 	*setanim cat_bar pose_sit01_floor*
 	> You're unpacking the basket with the Bartender.%%%% She's quietly 

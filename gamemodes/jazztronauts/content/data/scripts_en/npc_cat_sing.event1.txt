@@ -17,9 +17,8 @@ begin:
 	*setoffset dollie setpos -15.743652 -95.176270 1.75;setang -88.617 -77.105 -175.082*
 	*setcamroot player setpos -529.431641 -146.399414 349.839935;setang 20.374 6.895 0.000 fov70*
 	#*setcam setpos 1903.887451 6713.939941 349.839935;setang 20.373602 45.286469 0.000000 fov70*
-	*setspeaker narrator*
 	*txin*
-	*show*
+	*show narrator*
 	
 ###### START
 	> The Mewseum is quiet as usual.%%%

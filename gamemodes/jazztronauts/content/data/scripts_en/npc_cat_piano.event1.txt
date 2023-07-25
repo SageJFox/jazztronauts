@@ -16,8 +16,7 @@ begin:
 	*txin*
 	
 ###### START
-	*setspeaker narrator*
-	*show*
+	*show narrator*
 	> You could have sworn you saw the Pianist here just now%.%.%.%
 	&b1
 	

@@ -12,8 +12,7 @@ setup1:
 	*setposang cat_cello -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
 	*setposang cat_piano -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
 	*setposang cat_singer -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
-	*setspeaker narrator*
-	*show 0.4*
+	*show narrator 0.4*
 
 ###### START
 	> A stun baton seems to have fallen from a hole in the ceiling.

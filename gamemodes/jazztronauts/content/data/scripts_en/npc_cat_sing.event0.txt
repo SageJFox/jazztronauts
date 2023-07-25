@@ -13,10 +13,9 @@ begin:
 	*setcamroot cat_singer setpos 917.653564 136.850586 97.318542;setang 2.356 -166.735 0.000 fov70*
 	#*setcam setpos 3538.873779 7408.384277 97.349792;setang 2.355879 148.264664 0.000000 fov70*
 	*txin*
-	*show*
+	*show narrator*
 	
 ###### START
-*setspeaker narrator*
 	> The Mewseum%.%.%.%%% 
 	The Singer is here,% tapping away at their tablet.
 	&b1
@@ -167,9 +166,8 @@ m1:
 	#*setcam setpos 3593.667725 6683.125488 68.456795;setang 2.405043 -25.433838 0.000000*
 	*txin*
 	*wait .15*
-	*setspeaker narrator*
 	*SINGER_NEUTRAL*
-	*show*
+	*show narrator*
 	> The Singer has taken you over to the npc_combine playpen.%%%%%
 	%%.%.%.%there's a bunch of Combine soldiers walking in place and falling over.
 	&m2

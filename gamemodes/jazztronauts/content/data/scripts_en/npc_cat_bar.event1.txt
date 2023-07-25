@@ -24,8 +24,7 @@ begin:
 
 ###### START
 	*txin*
-	*show*
-	*setspeaker cat_cello*
+	*show cat_cello*
 	*CELLO_GRIN*
 	*setanim cat_cello gesture_exchange 1 idle*
 	c'mon lady luck% you pebble in the eye of 
@@ -52,12 +51,9 @@ begin4:
 	*setanim cat_cello gesture_shock 1 idle*
 	CONFUSING them?%% now we're getting somewhere
 	player:
-		&resp1a:
-			That wouldn't fly with Zeus.
-		&resp2a:
-			The Cellist makes a lot of sense.
-		&resp3a:
-			Y'know what? I'm not in the mood to gamble. *c 0*(exit)*c*
+		&resp1a: That wouldn't fly with Zeus.
+		&resp2a: The Cellist makes a lot of sense.
+		&resp3a: Y'know what? I'm not in the mood to gamble. *c 0*(exit)*c*
 
 ###### Branch 1
 resp1a:
@@ -175,8 +171,7 @@ resp2h:
 	*wait .6*
 	*setcamroot cat_singer setpos 65.376221 73.771118 50.612041;setang 1.331 -117.597 0.000*
 	#*setcam setpos -1396.263062 3081.129639 50.612041;setang 1.330953 152.403229 0.000000*
-	*show*
-	*setspeaker cat_cello*
+	*show cat_cello*
 	*CELLO_NEUTRAL*
 	.%.%.%sorry.%% go ahead pipes,% do your thing.	
 	&merge1a
@@ -193,8 +188,7 @@ resp3a:
 merge1a:	
 	*hide*
 	*txout*
-	*setspeaker narrator*
-	*show*
+	*show narrator*
 	> A Few Rounds Later%.%.%.
 	&merge1b
 
@@ -260,16 +254,13 @@ merge1i:
 	&decision2
 	
 decision2:
-	*setspeaker player*
+	*setspeaker narrator*
 	> .%.%.%You have two eights in your hand,% totaling 16. 
 	Should you hit,% or stand?
 	player:
-		&resp4a:
-			Hit
-		&resp5a:
-			Stand
-		&resp6a:
-			Fold *c 0*(exit)*c*
+		&resp4a: Hit
+		&resp5a: Stand
+		&resp6a: Fold *c 0*(exit)*c*
 		
 ###### Branch 4
 resp4a:
@@ -426,9 +417,8 @@ resp6a:
 merge2a:
 	*hide*
 	*txout*
-	*setspeaker narrator*
 	*wait .15*
-	*show*
+	*show narrator*
 	> More time passes%.%.%.
 	&merge2b
 	
@@ -495,13 +485,13 @@ merge2i:
 	narratewithview(cat_bar)
 	*BAR_HAPPY*
 	*setanim cat_bar gesture_laugh 1 idle*
-	>The Bartender laughs.
+	> The Bartender laughs.
 	&merge2j
 	
 merge2j:
 	*setspeaker cat_bar*
-	As you wish.%*BAR_NEUTRAL* Well then,%%*setanim cat_bar gesture_confused 1 idle* shall we call it quits for tonight? 
-	%%%Let's help the Singer clean up and then get back to work.
+	As you wish.%*BAR_NEUTRAL*%% Well then,%%*setanim cat_bar gesture_confused 1 idle* shall we call it quits for tonight? %%%
+	Let's help the Singer clean up and then get back to work.
 	&merge2k
 	
 merge2k:

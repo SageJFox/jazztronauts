@@ -16,10 +16,9 @@ begin:
 	*setcamroot hulacrate setpos 130.279541 -4.284424 84.933319;setang 24.704 171.979 -0.860 fov70*
 	#*setcam setpos -2754.079590 2807.214111 87.238869;setang 18.919519 171.730621 0.000000 fov70*
 	*txin*
-	*show*
+	*show narrator*
 	
 ###### START
-	*setspeaker narrator*
 	> Somehow you've been stuck packing novelty hula dolls into this crate.%%%%
 	The Cellist insisted it was important.%% Ah well,% it's nearly done.
 	&cut
@@ -190,10 +189,9 @@ r3a3:
 	#*setcam setpos 188.218704 2839.670654 4.960632;setang -9.014836 112.749840 0.000000*
 	*setanim player sit*
 	*setanim cat_singer pose_sit02*
-	*setspeaker narrator*
 	*txin*
 	*wait 2*
-	*show*
+	*show narrator*
 	> You give the Singer sidelong glances as you set out the 
 	needle and thread you pulled out of the Mewseum's digital archives.
 	&r3a4
@@ -343,8 +341,7 @@ m13:
 	#*setcam setpos -2418.260498 513.362000 24.767994;setang 8.252245 179.201523 0.000000*
 	#*tweencam 10 setpos -1653.839111 501.998566 135.645935;setang 8.305485 179.361252 0.000000*
 	*wait 10*
-	*setspeaker narrator*
-	*show*
+	*show narrator*
 	> The Singer treated you to a recital...
 	&m13b
 	

@@ -71,9 +71,8 @@ a5:
 	#*setposang tunnel -4004 -3978.834473 8300;setang 0 0 -90*
 	*setroot tunnel narrator setpos -0.620117 0.000000 6939.353516;setang -0.000 180.000 -90.000*
 
-	*setspeaker narrator*
 	*wait 1.0*
-	*show 0.5*
+	*show narrator 0.5*
 	> You feel a sudden lurch in your stomach, and the whole
 	world breaks like a cheap wine glass! You're falling into
 	the Void!

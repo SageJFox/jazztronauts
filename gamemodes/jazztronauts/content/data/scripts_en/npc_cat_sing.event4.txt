@@ -15,10 +15,9 @@ begin:
 	#*setcam setpos -3153.723877 2730.842041 40.888985;setang -1.321713 43.303810 0.000000 fov70*	
 	*bgmplay sound/jazztronauts/music/events/allspice.mp3 1 2.0*
 	*txin*
-	*show*
+	*show narrator*
 	
 ###### START
-	*setspeaker narrator*
 	> Passing by the bar, you spot the Singer and Bartender.
 	&b1
 	

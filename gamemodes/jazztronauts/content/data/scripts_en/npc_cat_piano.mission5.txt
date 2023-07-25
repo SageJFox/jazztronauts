@@ -92,8 +92,7 @@ turnin:
 	*setanim metrocop_model busyidle2*
 	*txin*
 	*wait .5*
-	*show*
-	*setspeaker narrator*
+	*show narrator*
 	> The Pianist is sitting in a booth with one of the metrocops you found.%%%
 	%.%.%.%The Pianist is looking around awkwardly.%%% 
 	She notices you and waves you over.
@@ -244,8 +243,7 @@ t17:
 	*wait 1.5*
 	*setcamroot cat_piano setpos 95.318115 29.060913 49.167290;setang 1.473 178.186 0.000* ##### PIANO
 	#*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
-	*show*
-	*setspeaker cat_piano*
+	*show cat_piano*
 	No,% really.%% Uh.%%%% I.%%%%
 	I talked,%% to this guy?%%% And we found you a new assistant.%%%%
 	Paid and everything.% Even dental.

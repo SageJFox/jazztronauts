@@ -10,7 +10,6 @@ begin:
 	#*setposang cat_bar -2864.620361 3044.558594 32.417419;setang -90 90.504135 90.000000*
 	*setoffset cat_bar setpos -92.558594 -0.620361 0;setang 0.000 0.504 0.000*
 	*setanim cat_bar gesture_washing*
-	*setspeaker cat_bar*		# Set the proxy model to be the current speaker (bottom left dialog corner)
 	#*zsnap 0*
 	#*setposang player setpos -2802.731934 2956.768555 0;setang 0 112.757095 0.000000*
 	*setoffset player setpos -4.768555 61.268066 0.000000;setang -0.000 -157.243 0.000*
@@ -33,7 +32,7 @@ begin:
 
 
 	*wait .25*
-	*show 1.0*
+	*show cat_bar 1.0*		# Set the proxy model to be the current speaker (bottom left dialog corner)
 	So now that we have a moment,%%%*BAR_HAPPY* how are you settling in?%%
 	*BAR_NEUTRAL*We have very little idea of how to provide creature comforts,%
 	but I'm told that the camp has a %%"cozy"%% quality these days.

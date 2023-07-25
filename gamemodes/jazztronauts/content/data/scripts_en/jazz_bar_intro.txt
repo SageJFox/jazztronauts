@@ -21,9 +21,8 @@ begin:
 	*bgmplay sound/jazztronauts/music/events/warm_song.mp3 .6 3*
 	*setcamroot cat_bar setpos 865.076172 -386.653809 80.852905;setang 3.843 149.837 0.000 fov70* ####### ESTABLISH
 	#*setcam setpos -4611.800781 2450.187500 80.884155;setang 3.842618 59.837494 0.000000 fov70* ####### ESTABLISH
-	*setspeaker cat_bar*
 	*txin*
-	*show 0.5*
+	*show cat_bar 0.5*
 	*BAR_HAPPY*
 	*setanim cat_bar gesture_exchange 1 idle*
 	Greetings honoured guest!%%% It's time for the much-awaited explanation 

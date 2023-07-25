@@ -20,8 +20,7 @@ begin:
 	*txin*
 	
 ###### START
-	*setspeaker narrator*
-	*show 0.5*
+	*show narrator 0.5*
 	> The Pianist and Bartender are having a chat at the Samsara...
 	&b1
 	

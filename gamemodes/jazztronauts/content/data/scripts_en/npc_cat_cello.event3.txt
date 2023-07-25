@@ -16,8 +16,7 @@ begin:
 	*txin*
 	
 ###### START
-	*setspeaker cat_cello*
-	*show*
+	*show cat_cello*
 	*setanim cat_cello gesture_shock 1 idle*
 	oh,%% it's you.
 	&b1

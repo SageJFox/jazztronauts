@@ -41,8 +41,7 @@ begin:
 	
 	
 ###### START
-	*setspeaker narrator*
-	*show*
+	*show narrator*
 	> This is where the Pianist said the party was.%%% You think.%%
 	All of the cats are here,% seated around the table.%% 
 	%.%.%.%the rotten takeout you got is here too.

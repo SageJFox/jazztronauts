@@ -21,8 +21,7 @@ begin:
 	*txin*
 	
 ###### START
-	*setspeaker narrator*
-	*show*
+	*show narrator*
 	> The Bar Samsara%.%.%.%% %.%.%.%huh.%%%
 	Three of the cats are here,% and they look surprisingly worried.
 	&b1
@@ -138,9 +137,8 @@ b9:
 r1a1:
 	*hide*
 	*txout*
-	*setspeaker narrator*
 	*wait .1*
-	*show*
+	*show narrator*
 	Upon reaching the roof, the Cellist lashes out at you in anger,
 	thinking you're there only to pity him or give him hollow
 	platitudes, before apologizing for losing his temper again.
@@ -224,12 +222,11 @@ m4:
 	#*setcam setpos 2998.774902 710.683411 122.469833;setang 18.723225 -49.392609 0.000000*
 	*setanim cat_cello pose_sit01*
 	*CELLO_EMPTY*
-	*setspeaker cat_cello*
 	#*setposang cat_cello setpos 3586.341309 522.965698 0;setang -90 270 0.000000*
 	*setoffset cat_cello setpos 50.341309 10.965698 0;setang 0.000 0.000 0.000*
 	*txin*
 	*wait 2.3*
-	*show*
+	*show cat_cello*
 	i suppose you think you're here to help me.
 	&m5
 	

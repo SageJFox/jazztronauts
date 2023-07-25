@@ -97,7 +97,7 @@ turnin:
 	*setcamroot cat_singer setpos 434.233887 -31.153198 60.524956;setang 3.656 176.345 0.000*
 	#*setcam setpos 2950.531006 7512.884277 60.556206;setang 3.656331 71.344948 0.000000*
 	*txin*
-	*show*
+	*show narrator*
 	*SINGER_HAPPY*
 	*setanim cat_singer gesture_laugh 1 idle*
 	narratesinger()

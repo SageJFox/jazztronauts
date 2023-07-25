@@ -18,8 +18,7 @@ begin:
 	*txin*
 	
 ###### START
-	*setspeaker narrator*
-	*show*
+	*show narrator*
 	> You seem to have taken a wrong turn on your way to the Mewseum%.%.%.%%%
 	This looks vaguely like a hotel area.%% I guess the Bartender planned
 	for thi*emitsound ambient/explosions/explode_1.wav .4 .8**tweenoffset cat_cello .5 setpos 70 326 0;setang 0 0 0*-%*shake 2*%%

@@ -20,10 +20,9 @@ begin:
 	*txin*
 
 ###### START
-	*setspeaker narrator*
 	*PIANO_FLUSTERED*
 	*BAR_NEUTRAL*
-	*show*
+	*show narrator*
 	> The Bar Samsara%.%.%.%%%% the Bartender and Pianist are here.%%%*setcamroot cat_piano setpos -23.991699 -75.204102 36.372398;setang 5.028 48.527 0.000*#*setcam setpos -2836.795898 2930.008301 72.372398;setang 5.027821 138.527481 0.000000*
 	
 	Though the Pianist appears to be dead,% facedown on the bar.%%%%*setanim cat_piano pianist_drunk_to_player .45*

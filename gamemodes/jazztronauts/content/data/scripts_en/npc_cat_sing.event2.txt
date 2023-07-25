@@ -13,10 +13,9 @@ begin:
 	*setcamroot player setpos -148.112183 88.280273 72.694252;setang 1.774 -21.115 -1.195 fov70* ###### SAMSARA ESTABLISH
 	#*setcam setpos -3082.286865 2792.481445 64.031250;setang -1.321731 46.910137 0.000000 fov70* ###### SAMSARA ESTABLISH
 	*txin*
-	*show*
+	*show narrator*
 	
 ###### START
-	*setspeaker narrator*
 	> The Bar Samsara%.%.%.%% somber as usual.
 	%%%%%.%.%.%?%%%
 	&b1

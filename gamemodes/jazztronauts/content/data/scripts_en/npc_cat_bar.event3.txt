@@ -6,7 +6,6 @@ begin:
 	#*zsnap 0*
 	spawncatbartender()
 	spawncatcellist()
-	*setspeaker narrator*
 	#*setposang cat_bar -2864.620361 3044.558594 32;setang -90 180 0*
 	*setoffset cat_bar setpos -92.558594 -0.620361 0;setang 0.000 0.000 0.000*
 	*setcamroot cat_bar setpos 287.247559 255.489746 71.334732;setang 3.869 -136.896 0.000 fov70* ######## ESTABLISHING SHOT
@@ -20,7 +19,7 @@ begin:
 	*bgmplay sound/jazztronauts/music/events/bartender_song.mp3 1.0 2.0*
 	*txin*
 	*wait .15*
-	*show*
+	*show narrator*
 	> The Bar Samsara%.%.%.%%% 
 	You're chatting the twilight away with the Bartender.
 	&a2

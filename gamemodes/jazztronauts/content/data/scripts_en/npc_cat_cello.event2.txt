@@ -18,8 +18,7 @@ begin:
 	*txin*
 	
 ###### START
-	*setspeaker narrator*
-	*show*
+	*show narrator*
 	> The Cellist appears to be ranting about something at the Pianist,
 	who appears to be enjoying this about as much as someone cornered
 	by Jehovah's Witnesses.

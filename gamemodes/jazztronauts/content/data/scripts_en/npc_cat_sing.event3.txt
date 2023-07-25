@@ -10,10 +10,9 @@ begin:
 	*setcamroot player setpos 289.867798 388.806671 201.846497;setang 13.789 -118.566 0 fov70*
 	#*setcam setpos 1161.969727 182.516861 201.877747;setang 13.789205 120.113113 0.000000 fov70*
 	*txin*
-	*show*
+	*show narrator*
 
 ###### START
-	*setspeaker narrator*
 	> The Home Base%.%.%.%%% 
 	It's the usual scene.%% Map browsing,% quiet lazing about,% 
 	the hum of the shard tank%.%.%.%% Might not be a bad chance 

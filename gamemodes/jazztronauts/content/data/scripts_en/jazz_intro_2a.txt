@@ -11,11 +11,10 @@ begin1:
 	*setposang cat_cello setpos -13525.564453 -2201.192139 995.031250;setang -90 48.527863 0.000000*
 	*setposang cat_piano setpos -13609.130859 -2194.377686 995.031250;setang -90 288 0.000000*
 	*setposang cat_singer setpos -13497.522461 -2040.211182 995.031250;setang -90 142.066315 0.000000*
-	*setspeaker cat_bar*
 	*setanim cat_bar bartender_search 0.8 idle*
 	*setcam setpos -13731.064453 -2133.894043 1013.371338;setang -10.711855 -53.004662 0.000000*
 	*txin*
-	*show .4*
+	*show cat_bar .4*
 
 ###### START
 	Still*bgmplay sound/jazztronauts/music/events/pocket.mp3 1.0 2.0* no sign of that prop snatcher,% eh?%%%

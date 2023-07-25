@@ -36,7 +36,6 @@ begin:
 	*SINGER_BLINK*
 	*BAR_BLINK*
 	*CELLO_BLINK*
-	*setspeaker cat_bar*
 
 	#This initial setcamroot is used to get the data from the setcam/tweencam commands to be transferred properly. In later scripts, it'll be "filled in" rather than having
 	#the command commented out and placed a second time after the inital setcam
@@ -51,7 +50,7 @@ begin:
 	*bgmplay sound/jazztronauts/music/events/pariah.mp3 .75 2.0*
 	*txin*
 	*wait .15*
-	*show*
+	*show cat_bar*
 	Alright.%%% Now,% breathe in.%%%% One,%% two,%% three,%% four.
 	&a2
 

@@ -22,8 +22,7 @@ begin:
 	*setoffset player setpos -50.018433 41.181152 0;setang -0.000 0.000 0.000*
 	*setanim player sit*
 	*txin*
-	*setspeaker narrator*
-	*show 0.5*
+	*show narrator 0.5*
 	> The Samsara store room%.%.%.%%% It's movie night,% apparently.%%%
 	The Singer is bouncing in their seat as the Bartender 
 	shuffles through tapes.
@@ -215,9 +214,8 @@ c1:
 	*wait .1*
 	*setcamroot cat_singer setpos 124.808350 92.931641 59.931953;setang 14.517 -141.977 0.000* ##### GROUP
 	#*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
-	*setspeaker narrator*
 	*txin*
-	*show*
+	*show narrator*
 	> We've gotten past the credits,%% it was a lot of establishing shots 
 	of golf courses.%%%% The mood is bleak.
 	&c2
@@ -321,8 +319,7 @@ c10:
 	*BAR_HAPPY*
 	*SINGER_HAPPY*
 	*txin*
-	*show*
-	*setspeaker narrator*
+	*show narrator*
 	> So far the movie has been about 45 minutes of a Ninja owning 
 	rich people.%%% Frankly,% it's amazing.
 	&c11
@@ -399,9 +396,8 @@ c18:
 	*txout*
 	*wait .1*
 	*PIANO_SMIRK*
-	*setspeaker narrator*
 	*txin*
-	*show*
+	*show narrator*
 	> There was a really dope car chase.%%%% The Ninja took down a helicopter 
 	by jumping up to it and uppercutting the pilot.%%% At any rate he's 
 	surrounded by like,% 50 dead bodies.
