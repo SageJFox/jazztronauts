@@ -407,8 +407,24 @@ dialog.RegisterFunc("hide", function(d, time)
 	d.open = 0
 end)
 
-dialog.RegisterFunc("show", function(d, time)
+local function speakerset(name)
+	local ent = FindByName(name)
+	if name == "player" and (pac or not IsValid(ent)) then
+		dialog.SetFocusProxy(LocalPlayer()) --TODO: remove this PAC conditional if/when PAC is supported nicely on the player proxy.
+	else
+		dialog.SetFocusProxy(ent)
+	end
+	dialog.SetPortraitOverride(nil)
+	dialog.SetNameOverride("nil")
+end
+
+dialog.RegisterFunc("show", function(d, name, time)
 	local time = tonumber(time) or 0
+	if tonumber(name) then 
+		time = tonumber(name)
+	elseif name ~= nil then
+		speakerset(name)
+	end
 	local closetime = CurTime() + time
 
 	while CurTime() < closetime do
@@ -422,14 +438,7 @@ end)
 dialog.RegisterFunc("setspeaker", function(d, name, skinid)
 	skinid = skinid or nil
 	if skinid ~= nil then SetSkinFunc(d, name, skinid) end
-	local ent = FindByName(name)
-	if name == "player" and (pac or not IsValid(ent)) then
-		dialog.SetFocusProxy(LocalPlayer()) --TODO: remove this PAC conditional if/when PAC is supported nicely on the player proxy.
-	else
-		dialog.SetFocusProxy(ent)
-	end
-	dialog.SetPortraitOverride(nil)
-	dialog.SetNameOverride("nil")
+	speakerset(name)
 end)
 
 dialog.RegisterFunc("overrideportrait", function(d, name)
