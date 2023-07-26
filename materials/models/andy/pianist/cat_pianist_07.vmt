@@ -1,0 +1,11 @@
+"Patch"
+{
+	include "materials/models/andy/pianist/cat_pianist_01.vmt"
+	insert
+	{
+		"$detail" 					"models/andy/pianist/pianist_hiss"
+		//had to bump this one down a bit so the face adjustment wouldn't start bleeding to the edges on some mipmaps
+		"$detailtexturetransform"	"center .5 .5 scale 1 1 rotate 0 translate -0.09375 -0.15625"
+	}
+
+}

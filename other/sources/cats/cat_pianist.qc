@@ -16,6 +16,7 @@ $TextureGroup "skinfamilies"
 	{ "cat_pianist_04" }
 	{ "cat_pianist_05" }
 	{ "cat_pianist_06" }
+	{ "cat_pianist_07" }
 }
 
 //$illumposition 0 -1 0

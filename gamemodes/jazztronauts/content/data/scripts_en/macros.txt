@@ -32,7 +32,7 @@ PIANO_ANGRY setskin cat_piano 2
 PIANO_FLUSTERED setskin cat_piano 3
 PIANO_RELIEF setskin cat_piano 5
 PIANO_SMIRK setskin cat_piano 1
-PIANO_HISS setskin cat_piano 2
+PIANO_HISS setskin cat_piano 6
 
 CELLO_NEUTRAL setskin cat_cello 0
 CELLO_BLINK setskin cat_cello 4
