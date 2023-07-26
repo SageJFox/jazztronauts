@@ -17,6 +17,7 @@ $TextureGroup "skinfamilies"
 	{ "cat_cellist_05" }
 	{ "cat_cellist_06" }
 	{ "cat_cellist_07" }
+	{ "cat_cellist_08" }
 }
 
 $include "sequences.qci"

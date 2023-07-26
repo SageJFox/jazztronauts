@@ -24,6 +24,7 @@ BAR_BLINK setskin cat_bar 4
 BAR_HAPPY setskin cat_bar 1
 BAR_PISSED setskin cat_bar 2
 BAR_SURPRISE setskin cat_bar 3
+BAR_HISS setskin cat_bar 5
 
 PIANO_NEUTRAL setskin cat_piano 0
 PIANO_BLINK setskin cat_piano 4
@@ -31,6 +32,7 @@ PIANO_ANGRY setskin cat_piano 2
 PIANO_FLUSTERED setskin cat_piano 3
 PIANO_RELIEF setskin cat_piano 5
 PIANO_SMIRK setskin cat_piano 1
+PIANO_HISS setskin cat_piano 2
 
 CELLO_NEUTRAL setskin cat_cello 0
 CELLO_BLINK setskin cat_cello 4
@@ -39,6 +41,7 @@ CELLO_EMPTY setskin cat_cello 5
 CELLO_GRIN setskin cat_cello 1
 CELLO_HIGH setskin cat_cello 3
 CELLO_FEAR setskin cat_cello 6
+CELLO_HISS setskin cat_cello 7
 
 SINGER_NEUTRAL setskin cat_singer 0
 SINGER_BLINK setskin cat_singer 4
@@ -48,6 +51,7 @@ SINGER_FLUSTERED setskin cat_singer 5
 SINGER_HAPPY setskin cat_singer 1
 SINGER_MAD setskin cat_singer 2
 SINGER_MISCHIEF setskin cat_singer 3
+SINGER_HISS setskin cat_singer 8
 
 
 spawnnarrator() *spawn narrator dummy**setnpcid narrator npc_narrator*
@@ -74,7 +78,7 @@ VOIDCAT_VOID setskin cat_void 0
 VOIDCAT_ASH setskin cat_void 1
 
 spawncatvoid() *spawn cat_void models/andy/cats/cat_all.mdl**setnpcid cat_void npc_cat_void**VOIDCAT_VOID**setanim cat_void idle*
-spawncatash() *spawn cat_void models/andy/cats/cat_all.mdl**setnpcid cat_void npc_cat_void**VOIDCAT_ASH**setanim cat_void idle*
+spawncatash() *spawn cat_void models/andy/cats/cat_all.mdl**setnpcid cat_void npc_cat_ash**VOIDCAT_ASH**setanim cat_void idle*
 
 # commands
 narratewithview(subject) *block setspeaker narrator --> overrideportrait subject*

@@ -15,6 +15,7 @@ $TextureGroup "skinfamilies"
 	{ "cat_bartender_03" }
 	{ "cat_bartender_04" }
 	{ "cat_bartender_05" }
+	{ "cat_bartender_06" }
 }
 
 $include "sequences.qci"

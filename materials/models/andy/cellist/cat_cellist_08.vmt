@@ -1,0 +1,10 @@
+"Patch"
+{
+	include "materials/models/andy/cellist/cat_cellist_01.vmt"
+	insert
+	{
+		"$detail" "models/andy/cellist/cellist_hiss"
+	}
+
+}
+

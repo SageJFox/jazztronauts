@@ -1,0 +1,55 @@
+"VertexlitGeneric"
+{
+	"$basetexture"				"models/andy/bartender/bartender"
+	"$detail"					"models/andy/bartender/bartender_hiss"
+	"$detailtexturetransform"	"center .5 .5 scale 1 1 rotate 0 translate -0.09375 -0.109375"
+	"$detailblendmode"			"2"
+	"$detailblendfactor"		"1"
+	"$lightwarptexture"			"sunabouzu/lightwarp"
+	"$nodecal"					"1"
+
+	"$phong" "1"
+	"$phongexponent" "10"
+	"$phongboost" ".3"	
+	"$phongfresnelranges"	"[.3 1 8]"
+	"$halflambert" "0"
+
+	// Rim lighting parameters
+	"$rimlight" "1"												// To enable rim lighting (requires phong)
+	"$rimlightexponent" "4"										// Exponent for phong component of rim lighting	
+	"$rimlightboost" "2"											
+
+	"$twitch"	"0"
+	"$twitch2"	"0"
+	"Proxies"
+	{
+		"Sine"
+		{
+			"sineperiod"	".7"
+			"sinemin"		"-0.8"
+			"sinemax"		"1.06"
+			"resultVar"		"$twitch"
+		}
+		"Sine"	//annoyingly, can't patch two sine proxies in apparently
+		{
+			"sineperiod"	".7"
+			"sinemin"		"-0.8"
+			"sinemax"		"1.06"
+			"timeoffset"		".97"
+			"resultVar"		"$twitch2"
+		}
+		"LessOrEqual"
+		{
+			"lessEqualVar"	"$twitch2"
+			"greaterVar"		"$twitch"
+			"srcVar1"		"$twitch"
+			"srcVar2"		"$twitch2"
+			"resultVar"		"$detailframe"
+		}
+		"Int"
+		{
+			"srcVar1"	"$detailframe"
+			"resultVar"	"$detailframe"
+		}
+	}
+}
