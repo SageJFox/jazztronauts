@@ -199,3 +199,18 @@ $Sequence "pianist_drunk_slam" {
 	"cat_anims\pianist_drunk_slam.smd"
 	fps 24
 }
+
+$animation "ears_base" "cat_anims\ears_base.smd"
+$animation "ears_back_a" "cat_anims\ears_back.smd" subtract "ears_base" 0
+$animation "ears_up_a" "cat_anims\ears_up.smd" subtract "ears_base" 0
+
+$Sequence "blend_ears_back" {
+	"ears_back_a"
+	delta
+	fps 24
+}
+$Sequence "blend_ears_up" {
+	"ears_up_a"
+	delta
+	fps 24
+}
