@@ -8,8 +8,8 @@ begin:
 	#*setposang cat_bar setpos -2880.668457 2908.302490 0;setang -90 210 0*
 	#*setposang player setpos -2649.127686 2834.540283 0;setang 0.328832 157.771545 0*
 	*setoffset cat_bar setpos 43.697510 -16.668457 0;setang 0 30 0*
-	*setoffset player setpos 117.459717 214.872314 0;setang 0.329 -112.228 0*
-	*setcamroot player setpos -107.671143 78.176147 63.414040;setang 3.421 -16.819 0.095 fov70*
+	*block setoffset player setpos 117.459717 214.872314 0;setang 0 -112.228 0 --> setlook player -0.329*
+	*setcamroot player setpos -107.305420 78.176270 64.000000;setang 3.736 -16.825 0.000 fov70*
 	#*setcam setpos -2579.370361 2721.580811 64.031250;setang 3.736192 140.947372 0 fov70*
 	*bgmplay sound/jazztronauts/music/events/bartender_song.mp3 1.0 2.0*
 	*txin*
@@ -61,7 +61,7 @@ leave:
 
 a4:
 	*setspeaker cat_bar*
-	Nice.%%% Here,% help me carry these-
+	Nice.%%% Here,% help me carry these—
 	&a5
 [FADE OUT/IN]
 
@@ -151,10 +151,12 @@ a11:
 	&a12
 
 a12:
-	#*setposang player setpos -2422.034180 6827.894043 10;setang 8.155142 101.221214 0*
-	*setoffset player setpos -78.034180 -164.105957 0;setang 8.155 101.221 0*
-	*setcamroot player setpos 124.658691 40.538208 49.216675;setang -1.100 -163.956 2.274*
-	#*setcam setpos -2487.168457 6947.892090 41.036049;setang -8.934914 -62.536053 0*
+	##*setposang player setpos -2422.034180 6827.894043 10;setang 8.155142 101.221214 0*
+	#*setoffset player setpos -78.034180 -164.105957 0;setang 0 101.221 0*
+	#*setlook player -8.155*
+	#*setcamroot player setpos 130.379395 40.538208 43.378929;setang -8.935 -163.757 0*
+	##*setcam setpos -2487.168457 6947.892090 41.036049;setang -8.934914 -62.536053 0*
+	*block setoffset player -78.034180 -164.105957 0;0 101.221 0-->setlook player -8.155-->setcamroot player 130.379395 40.538208 43.378929;-8.935 -163.757 0*
 	*setspeaker narrator*
 	> The Cellist makes a big show of chasing the Singer around,%%% and they
 	seem to be enjoying it judging from all the general horseplay.
@@ -178,17 +180,14 @@ a15:
 	*setroot cat_cello nil*
 	*setroot cat_piano nil*
 	*setroot cat_singer nil*
-	*block setlocale narrator scene_beachpicnic --> setroot player narrator setpos 317.940430 41.065430 0;setang 5.280 -174.127 0 --> setcamroot player setpos 37.235107 -127.616699 34.609375;setang -6.961 112.275 -4.945 --> setroot cat_bar narrator setpos -12.154053 -2.965820 0;setang 0 90 0*
-		#*setlocale narrator scene_beachpicnic*
-		##*setposang player setpos -2434.059570 6825.065430 10;setang 5.280183 -174.127090 0*
-		#*setroot player narrator setpos 317.940430 41.065430 0;setang 5.280 -174.127 0*
-		##*setcam setpos -2487.168457 6947.892090 41.036049;setang -8.934914 -62.536053 0* #need to reposition the camera since the player rotates here
-		#*setcamroot player setpos 37.235107 -127.616699 34.609375;setang -6.961 112.275 -4.945*
-		##*setposang cat_bar setpos -2764.154053 6781.034180 10;setang -90 0 0*
-		#*setroot cat_bar narrator setpos -12.154053 -2.965820 0;setang 0 90 0*
-	
-	
-	
+	*block setlocale narrator scene_beachpicnic --> setroot player narrator 317.940430 41.065430 0;0 -174.127 0 --> setlook player -5.280 --> setcamroot player 40.261963 -127.616699 43.554710;-8.935 111.591 0--> setroot cat_bar narrator -12.154053 -2.965820 0;0 90 0*
+	#*setlocale narrator scene_beachpicnic*
+	##*setposang player setpos -2434.059570 6825.065430 10;setang 5.280183 -174.127090 0*
+	#*setroot player narrator setpos 317.940430 41.065430 0;setang 5.280 -174.127 0*
+	##*setcam setpos -2487.168457 6947.892090 41.036049;setang -8.934914 -62.536053 0* #need to reposition the camera since the player rotates here
+	#*setcamroot player setpos 40.261963 -127.616699 43.554710;setang -8.935 111.591 0.000*
+	##*setposang cat_bar setpos -2764.154053 6781.034180 10;setang -90 0 0*
+	#*setroot cat_bar narrator setpos -12.154053 -2.965820 0;setang 0 90 0*
 	*setspeaker cat_bar*
 	*setanim cat_bar gesture_exchange 1 idle*
 	A moment,%% *player*?%%%%
@@ -204,7 +203,8 @@ a16:
 	*setcamroot cat_bar setpos 251.943848 6.535645 13.387096;setang -4.942 -171.702 0*
 	#*setcam setpos -2770.689697 7032.978027 23.387096;setang -4.941894 -81.702370 0*
 	#*setposang player setpos -2685.895508 6770.839355 10;setang 14.836672 166.112350 0*
-	*setoffset player setpos 66.104492 -13.160645 0;setang 14.837 166.112 0*
+	*setoffset player setpos 66.104492 -13.160645 0;setang 0 166.112 0*
+	*setlook player -14.837*
 	*txin*
 	*show narrator*
 	*BAR_BLINK*
@@ -248,10 +248,8 @@ a20:
 
 a21:
 	#*setposang player setpos -2699.208984 6792.118652 3;setang 0 90.990601 0*
-	*setoffset player setpos 52.791016 8.118652 0;setang -0 90.991 0*
-	*remove cat_cello*
-	*remove cat_piano*
-	*remove cat_singer*
+	*block setoffset player setpos 52.791016 8.118652 0;setang -0 90.991 0 --> setlook player*
+	*remove cat_cello cat_piano cat_singer*
 	*setanim player sit_zen*
 	*bgmplay sound/jazztronauts/music/events/pariah.mp3 .75 4.0*
 	*setspeaker narrator*

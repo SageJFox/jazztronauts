@@ -10,11 +10,11 @@ begin:
 	#*setposang cat_cello -1550.800171 3010.119873 0;setang -90 345 0.000000*
 	#*setposang cat_piano -1413.009766 3020.624512 0;setang -90 60 0.000000*
 	#*setposang cat_singer -1470.034180 3146.505859 0;setang -90 180 0.000000*
-	*setoffset player setpos -20.517822 -77.004150 0.000000;setang -0.000 87.726 0.000*
-	*setoffset cat_bar setpos 15.093506 -69.970215 0.000000;setang 0.000 105.000 0.000*
-	*setoffset cat_cello setpos -78.800171 -61.880127 0.000000;setang 0.000 75.000 0.000*
-	*setoffset cat_piano setpos 58.990234 -51.375488 0.000000;setang 0.000 150.000 0.000*
-	*setoffset cat_singer setpos 1.965820 74.505859 0.000000;setang 0.000 -90.000 0.000*
+	*setoffset player setpos -20.517822 -77.004150 0;setang -0.000 87.726 0.000*
+	*setoffset cat_bar setpos 15.093506 -69.970215 0;setang 0.000 105.000 0.000*
+	*setoffset cat_cello setpos -78.800171 -61.880127 0;setang 0.000 75.000 0.000*
+	*setoffset cat_piano setpos 58.990234 -51.375488 0;setang 0.000 150.000 0.000*
+	*setoffset cat_singer setpos 1.965820 74.505859 0;setang 0.000 -90.000 0.000*
 	*bgmplay sound/jazztronauts/music/events/loveaffair.mp3 1.0 2.0*
 	*wait .1*
 	*setcamroot player setpos 72.250000 51.867188 49.034027;setang 2.379 -156.118 0.000 fov70*

@@ -58,7 +58,7 @@ a4b:
 	#*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
 	*setanim cat_bar idle*
 	#*setposang cat_bar setpos -2021.996704 2994.898438 0;setang -90 260 0.000000*
-	*setoffset cat_bar setpos -37.767822 80.577637 0.000000;setang 0.000 -40.000 0.000*
+	*setoffset cat_bar setpos -37.767822 80.577637 0;setang 0.000 -40.000 0.000*
 	*setspeaker narrator*
 	*setanim cat_piano gesture_shock 1 idle*
 	> The VCR makes a loud ka-CHUNK sound.%%*PIANO_FLUSTERED*

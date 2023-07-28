@@ -21,7 +21,7 @@ begin:
 	*show narrator*
 	> You seem to have taken a wrong turn on your way to the Mewseum%.%.%.%%%
 	This looks vaguely like a hotel area.%% I guess the Bartender planned
-	for thi*emitsound ambient/explosions/explode_1.wav .4 .8**tweenoffset cat_cello .5 setpos 70 326 0;setang 0 0 0*-%*shake 2*%%
+	for thi*emitsound ambient/explosions/explode_1.wav .4 .8**tweenoffset cat_cello .5 setpos 70 326 0;setang 0 0 0*—%*shake 2*%%
 	#for thi*emitsound ambient/explosions/explode_1.wav .4 .8**tweenposang cat_cello .5 setpos -634 3862 0;setang -90 270 0.000000*-%*shake 2*%%
 	&b1
 	
@@ -62,24 +62,24 @@ b4:
 	though *CELLO_NEUTRAL*%so I'm gonna chalk that one down as something to revisit.
 	player:
 		&r1a1:
-			*block setoffset player setpos -10.635681 -31.567627 0;setang 5.164 65.622 0 --> setcamroot player setpos 110.338135 -10.018799 88.478668;setang 10.293 -176.68 0.3*
+			*block setoffset player -10.635681 -31.567627 0;0 65.622 0 -->setlook player -5.164-->setcamroot player 117.854004 -10.018799 78.157104;5.138 -176.721 0*
 			##*setposang player setpos -714.635681 3504.432373 0;setang 5.164247 65.622467 0.000000*
 			#*setoffset player setpos -10.635681 -31.567627 0.000000;setang 5.164 65.622 0.000*
-			#*setcamroot player setpos 110.338135 -10.018799 88.478668;setang 10.293 -176.680 0.300*
+			#*setcamroot player setpos 117.854004 -10.018799 78.157104;setang 5.138 -176.721 0.000*
 			##*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
 			You seem remarkably unfazed by being blown up.
 		&r1a1:
-			*block setoffset player setpos -10.635681 -31.567627 0;setang 5.164 65.622 0 --> setcamroot player setpos 110.338135 -10.018799 88.478668;setang 10.293 -176.68 0.3*
+			*block setoffset player -10.635681 -31.567627 0;0 65.622 0 -->setlook player -5.164-->setcamroot player 117.854004 -10.018799 78.157104;5.138 -176.721 0*
 			##*setposang player setpos -714.635681 3504.432373 0;setang 5.164247 65.622467 0.000000*
 			#*setoffset player setpos -10.635681 -31.567627 0.000000;setang 5.164 65.622 0.000*
-			#*setcamroot player setpos 110.338135 -10.018799 88.478668;setang 10.293 -176.680 0.300*
+			#*setcamroot player setpos 117.854004 -10.018799 78.157104;setang 5.138 -176.721 0.000*
 			##*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
 			Is this a regular occurrence?
 		&r2a1:
-			*block setoffset player setpos -10.635681 -31.567627 0;setang 5.164 65.622 0 --> setcamroot player setpos 110.338135 -10.018799 88.478668;setang 10.293 -176.68 0.3*
+			*block setoffset player -10.635681 -31.567627 0;0 65.622 0 -->setlook player -5.164-->setcamroot player 117.854004 -10.018799 78.157104;5.138 -176.721 0*
 			##*setposang player setpos -714.635681 3504.432373 0;setang 5.164247 65.622467 0.000000*
 			#*setoffset player setpos -10.635681 -31.567627 0.000000;setang 5.164 65.622 0.000*
-			#*setcamroot player setpos 110.338135 -10.018799 88.478668;setang 10.293 -176.680 0.300*
+			#*setcamroot player setpos 117.854004 -10.018799 78.157104;setang 5.138 -176.721 0.000*
 			##*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
 			Y'know that feels like something you could have figured out
 			with common sense.
@@ -247,7 +247,7 @@ comrad2:
 	&comrad3
 	
 comrad3:
-	*setcamroot player setpos 244.582275 -170.895264 104.697784;setang 12.505 143.434 -3.107*
+	*setcamroot player setpos 253.013184 -170.895264 82.227509;setang 8.341 143.997 0.000*
 	#*setcam setpos -454.544678 3664.349609 82.258759;setang 8.341365 -150.381134 0.000000*
 	*CELLO_NEUTRAL*
 	*setanim cat_cello gesture_sweep 1 idle*
@@ -336,7 +336,7 @@ n1:
 	&n2
 	
 n2:
-	*setcamroot player setpos 110.338135 -10.018799 88.478668;setang 10.293 -176.680 0.300*
+	*setcamroot player setpos 117.854004 -10.018799 78.157104;setang 5.138 -176.721 0.000*
 	#*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
 	*setspeaker narrator*
 	> The Cellist walks over to a bong, and instead of lighting it like
@@ -358,13 +358,14 @@ n3:
 	
 n4:
 	*setanim player cidle_all*
-	#*setposang player setpos -689.756470 3525.622070 0;setang 31.633858 70.191818 0.000000*
-	*setoffset player setpos 14.243530 -10.377930 0;setang 31.634 70.192 0*
-	*setcamroot player setpos 149.084717 110.384888 108.374023;setang 18.660 -141.106 19.359*
-	#*setcam setpos -731.334839 3735.929199 14.077698;setang -6.565836 -73.023735 0.000000*
+	##*setposang player setpos -689.756470 3525.622070 0;setang 31.633858 70.191818 0.000000*
+	#*setoffset player setpos 14.243530 -10.377930 0;setang 0 70.192 0*
+	#*setlook player -31.634*
+	#*setcamroot player setpos 183.774414 110.384888 14.046448;setang -6.566 -143.216 0.000*
+	##*setcam setpos -731.334839 3735.929199 14.077698;setang -6.565836 -73.023735 0.000000*
+	*block setoffset player 14.243530 -10.377930 0;0 70.192 0-->setlook player -31.634-->setcamroot player 183.774414 110.384888 14.046448;-6.566 -143.216 0*
 	*setspeaker narrator*
 	> The Cellist,% upon a moment's examination,%% proves to be passed out
 	cold in a deep sleep,%% and not in fact dead from some sort of turbo
-	aneurysm.%%%% You decide its best to let sleeping cats lie,%% 
-	in this case. *mark_seen*
+	aneurysm.%%%% You decide its best to let sleeping cats lie,%% in this case. *mark_seen*
 	&exit

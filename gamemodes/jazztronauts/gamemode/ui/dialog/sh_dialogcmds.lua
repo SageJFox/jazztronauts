@@ -174,6 +174,7 @@ local function FindByName(name)
 	if name == "player" then
 		local plyobj = CreatePlayerProxy()
 		sceneModels[name] = plyobj
+		g_funcs["setlook"]("setlook","player") --reset player look
 		plyobj.gravity = true
 		plyobj.layer = 1
 		return plyobj
@@ -1017,6 +1018,38 @@ dialog.RegisterFunc("setanim", function(d, name, anim, speed, finishIdleAnim)
 	-- If finish anim is specified, this animation won't loop and will return
 	-- to the specified idle animation when finished
 	prop.finishanim = finishIdleAnim
+end)
+
+dialog.RegisterFunc("setlook", function(d, name, pitch, yaw, roll)
+
+	--[[Some useage notes:
+			-Pitch to look down, +Pitch to look up
+			-Yaw to look left, +Yaw to look right
+			-Roll to tilt left, +Roll to tilt right
+
+			if we've provided no value, we want to reset that part of the angle]]
+	local x = tonumber(pitch) or 0
+	local y = tonumber(yaw) or 0
+	local z = (tonumber(roll) or 0) * -1
+
+	local prop = FindByName(name)
+	if not IsValid(prop) then return end
+
+	local head = prop:LookupBone( "ValveBiped.Bip01_Head1" ) --default player/most NPC head bone
+
+	if not head then
+		head = prop:LookupBone( "rig_cat:j_head" ) --a cat is fine too
+
+		--cats' X and Z are flipped relative to players'
+		x = x * -1
+		z = z * -1
+	end
+
+	if head then
+		prop:ManipulateBoneAngles( head, Angle(z,x,y) )
+		--print("Head at ",x,y,z,prop:GetManipulateBoneAngles(head))
+	end
+
 end)
 
 dialog.RegisterFunc("setskin", function(d, name, skinid)

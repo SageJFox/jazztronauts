@@ -12,7 +12,7 @@ begin:
 	*setanim cat_bar gesture_washing*
 	#*zsnap 0*
 	#*setposang player setpos -2802.731934 2956.768555 0;setang 0 112.757095 0.000000*
-	*setoffset player setpos -4.768555 61.268066 0.000000;setang -0.000 -157.243 0.000*
+	*setoffset player setpos -4.768555 61.268066 0;setang -0.000 -157.243 0.000*
 
 	#camera shots
 		##Shot 1- bar and player setpos -2917.238037 2928.200439 72.834885;setang 3.407556 58.931564 0.000000
@@ -58,8 +58,8 @@ resp1a:
 resp1b:
 	*setspeaker cat_bar*
 	#*setcamroot cat_bar*
-	#Certainly raised a few*setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000* eyebrows, %though.%% It's not often you see a-*BAR_SURPRISE*%%%%
-	Certainly raised a few*setcamroot cat_bar setpos 54.813477 4.117920 42.767632;setang 2.449 179.999 0.000* eyebrows, %though.%% It's not often you see a-*BAR_SURPRISE*%%%%
+	#Certainly raised a few*setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000* eyebrows, %though.%% It's not often you see a—*BAR_SURPRISE*%%%%
+	Certainly raised a few*setcamroot cat_bar setpos 54.813477 4.117920 42.767632;setang 2.449 179.999 0.000* eyebrows, %though.%% It's not often you see a—*BAR_SURPRISE*%%%%
 	Well.*BAR_NEUTRAL*%%% Hm.*BAR_PISSED*%%%%*BAR_NEUTRAL**setanim cat_bar gesture_dryhands 1.0 idle* I'm not sure this is my story to tell,% honestly.%%
 	Forgive me,% I try not to gossip about my patrons.
 	player:

@@ -26,7 +26,8 @@ begin:
 	*setoffset cat_cello setpos 57.030029 61.165955 0.000000;setang 0.000 -165.000 0.000*
 	*setoffset cat_piano setpos 60.017578 -47.296082 0.000000;setang 0.000 165.000 0.000*
 	*setoffset cat_bar setpos -8.213867 4.635986 0.000000;setang 0.000 180.000 0.000*
-	*setoffset player setpos 267.528198 -47.615723 0.000000;setang 9.193 172.696 0.000*
+	*setoffset player setpos 267.528198 -47.615723 0.000000;setang 0 172.696 0.000*
+	*setlook player -9.193*
 
 	*setanim cat_bar pose_sit01_floor*
 	*setanim cat_piano pose_sit01_floor*
@@ -108,7 +109,7 @@ dingus2:
 ###MAIN THROUGHLINE
 a5:
 	#*setposang player setpos -2192.571045 467.875122 -64;setang -3.690856 178.553116 0.000000*
-	*setoffset player setpos -16.571045 -44.124878 0.000000;setang -3.691 178.553 0.000*
+	*block setoffset player setpos -16.571045 -44.124878 0.000000;setang -3.691 178.553 0.000 --> setlook player*
 	*setanim player sit_zen*
 	*setspeaker narrator*
 	#*setcam setpos -2323.443359 388.313568 16.408169;setang 13.239491 32.089962 0.000000*
@@ -200,7 +201,8 @@ a16:
 	*setoffset cat_cello setpos 57.030029 61.165955 0.000000;setang 0.000 -165.000 0.000*
 	*setoffset cat_piano setpos 60.017578 -47.296082 0.000000;setang 0.000 165.000 0.000*
 	*setoffset cat_bar setpos -8.213867 4.635986 0.000000;setang 0.000 0.000 0.000*
-	*setoffset player setpos -16.571045 -44.124878 0.000000;setang 12.175 32.835 0.000*
+	*setoffset player setpos -16.571045 -44.124878 0.000000;setang 0 32.835 0.000*
+	*setlook player -12.175*
 	*setanim cat_piano idle*
 	*setanim cat_singer idle*
 	*setanim cat_bar idle*

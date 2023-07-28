@@ -111,12 +111,13 @@ r2a1:
 	
 ###BRANCH 1
 r1a1:
-	*setcamroot cat_cello setpos 75.916870 -2.151855 58.913067;setang 6.442 -170.845 0.000* ###### CELLO HEADSHOT
-	#*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
-	#*setposang cat_cello setpos -1401.264526 2930.430420 0;setang -90 81 0.000000*
-	#*setposang player setpos -1496.223877 2928.228027 0;setang 5.971942 -7.068141 0.000000*
-	*setoffset cat_cello setpos 70.735474 -141.569580 0.000000;setang 0.000 171.000 0.000*
-	*setoffset player setpos -24.223877 -143.771973 0.000000;setang 5.972 -7.068 0.000*
+	#*setcamroot cat_cello setpos 75.916870 -2.151855 58.913067;setang 6.442 -170.845 0.000* ###### CELLO HEADSHOT
+	##*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
+	##*setposang cat_cello setpos -1401.264526 2930.430420 0;setang -90 81 0.000000*
+	##*setposang player setpos -1496.223877 2928.228027 0;setang 5.971942 -7.068141 0.000000*
+	#*setoffset cat_cello setpos 70.735474 -141.569580 0;setang 0.000 171.000 0.000*
+	*block setoffset cat_cello setpos 70.735474 -141.569580 0;setang 0 171 0 --> setcamroot cat_cello setpos 75.916870 -2.151855 58.913067;setang 6.442 -170.845 0*
+	*block setoffset player setpos -24.223877 -143.771973 0;setang 0 -7.068 0.000 --> setlook player -5.972*
 	*setspeaker cat_cello*
 	*CELLO_GRIN*
 	*setanim cat_cello gesture_confused 1 idle*
@@ -126,7 +127,7 @@ r1a1:
 	
 mikeyboy:
 	*hide .1*
-	*setcamroot player setpos 110.396484 -18.648193 83.075562;setang 7.312 -179.576 0.044*
+	*setcamroot player setpos 118.440674 -18.648193 71.138779;setang 1.340 -179.579 0.000*
 	#*setcam setpos -1380.977783 2895.147705 71.170029;setang 1.340097 173.352905 0.000000*
 	*wait 1*
 	*show .1*
@@ -157,12 +158,12 @@ r1a3:
 	&r1a4
 	
 r1a4:
-	*setcamroot player setpos -175.530762 324.028320 138.744690;setang 13.790 -59.860 5.391*
+	*setcamroot player setpos -160.142822 324.028320 156.254333;setang 16.726 -61.280 0.000*
 	#*setcam setpos -1615.278809 3269.499023 156.285583;setang 16.726448 -68.347870 0.000000*
 	*CELLO_NEUTRAL*
 	*setanim cat_cello gesture_agree 1 idle*
 	michelangelo did way more interesting things than a jumbo size statue 
-	of a dude with big hands and a wee bepis though,%*setcamoffset setpos -60.262573 128.118896 51.568665;setang 9.566 -53.814 4.945*%*setanim cat_cello gesture_sweep 1 idle* like that time he #*setcam setpos -1534.614624 3062.087891 57.589897;setang 13.052918 -61.852760 0.000000*
+	of a dude with big hands and a wee bepis though,%*setcamoffset -54.570068 128.118896 57.558647;13.053 -54.785 0*%*setanim cat_cello gesture_sweep 1 idle* like that time he #*setcam setpos -1534.614624 3062.087891 57.589897;setang 13.052918 -61.852760 0.000000*
 	painted a picture of a critic burning in hell so 
 	sick it became a world-renowned tourist attraction
 	player:
@@ -263,13 +264,13 @@ m1:
 m2:
 	*setanim cat_cello gesture_clap 1 idle*
 	big ol portrait of the end times with ya boy Jesus up top conducting the 
-	show with a torso built like a goddamn tree trunk,%%*setcamoffset setpos 41.073364 17.928711 50.102936;setang 6.611 -176.738 0.000* like*setanim cat_cello gesture_shrug 1 idle* homeboy skipped #*setcam setpos -1444.636963 2919.147705 50.134186;setang 6.610850 -5.737509 0.000000*
+	show with a torso built like a goddamn tree trunk,%%*setcamoffset 41.073364 17.928711 50.102936;6.611 -176.738 0* like*setanim cat_cello gesture_shrug 1 idle* homeboy skipped #*setcam setpos -1444.636963 2919.147705 50.134186;setang 6.610850 -5.737509 0.000000*
 	both arm and leg day and just did crunches 24/7 after 
 	blasting off into space on the 40th day
 	&m3
 	
 m3:
-	*setcamroot player setpos -154.773315 97.069336 90.066429;setang 9.155 -31.610 3.225*
+	*setcamroot player setpos -144.562622 97.069336 105.680618;setang 14.224 -32.264 0.000*
 	#*setcam setpos -1627.743774 3042.347656 105.711868;setang 14.224164 -39.332272 0.000000*
 	*setanim cat_cello gesture_sweep 1 idle*
 	now it is entirely possible to go on a big ol diatribe about the 
@@ -289,7 +290,7 @@ m4:
 m5:
 	*setanim cat_cello gesture_agree 1 idle*
 	and is way less funny than talking about all the people who got 
-	super mad that mike drew a bunch of butts on a church wall%%%%%*setcamroot player setpos 184.778198 82.088135 103.414787;setang 11.173 -153.631 2.662*#*setcamroot player**setcam setpos -1293.066528 2985.755127 83.660019;setang 5.812237 -161.092316 0.000000*
+	super mad that mike drew a bunch of butts on a church wall%%%%%*setcamroot player 194.534912 82.088135 83.628769;5.812 -154.024 0*#*setcam setpos -1293.066528 2985.755127 83.660019;setang 5.812237 -161.092316 0.000000*
 	&m5b
 	
 m5b:
@@ -300,7 +301,7 @@ m5b:
 m6:
 	*CELLO_NEUTRAL*
 	*setspeaker cat_cello*
-	*setcamroot player setpos -47.135986 93.878662 28.289520;setang -6.402 -56.421 4.980* ###### CELLO AND PLAYER
+	*setcamroot player setpos -43.936890 93.878662 33.040119;setang -3.079 -56.009 0.000* ###### CELLO AND PLAYER
 	#*setcam setpos -1528.275269 3026.799561 33.071369;setang -3.078806 -63.077377 0.000000* ###### CELLO AND PLAYER
 	*setanim cat_cello gesture_sweep 1 idle*
 	see this dude biagio da cesena,%% the emcee for the pope*setanim cat_cello gesture_agree 1 idle* *c ASIDECOLOR*(which may be 
@@ -341,7 +342,7 @@ m8:
 		
 ###### BRANCH 3: AGREED
 r3a1:
-	*setcamroot player setpos -47.135986 93.878662 28.289520;setang -6.402 -56.421 4.980* ###### CELLO AND PLAYER
+	*setcamroot player setpos -43.936890 93.878662 33.040119;setang -3.079 -56.009 0.000* ###### CELLO AND PLAYER
 	#*setcam setpos -1528.275269 3026.799561 33.071369;setang -3.078806 -63.077377 0.000000* ###### CELLO AND PLAYER
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_agree 1 idle*
@@ -391,7 +392,7 @@ r5a1:
 	&r5a2
 	
 r5a2:
-	*setcamroot player setpos 85.465576 86.595703 45.201859;setang -2.756 -119.856 5.203*
+	*setcamroot player setpos 89.704590 86.595703 36.064476;setang -5.714 -119.471 0.000*
 	#*setcam setpos -1396.545410 3003.127686 36.095726;setang -5.714046 -126.539261 0.000000*
 	*CELLO_BLINK*
 	*setanim cat_cello gesture_foldarms .75 idle*
@@ -411,7 +412,7 @@ r5a3:
 	
 ###### MERGE POINT 2
 n1:
-	*setcamroot player setpos -47.135986 93.878662 28.289520;setang -6.402 -56.421 4.980* ###### CELLO AND PLAYER
+	*setcamroot player setpos -43.936890 93.878662 33.040119;setang -3.079 -56.009 0.000* ###### CELLO AND PLAYER
 	#*setcam setpos -1528.275269 3026.799561 33.071369;setang -3.078806 -63.077377 0.000000* ###### CELLO AND PLAYER
 	*CELLO_NEUTRAL*
 	*setspeaker cat_cello*
