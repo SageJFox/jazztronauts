@@ -64,7 +64,7 @@ a3:
 	#*setoffset cat_singer setpos 123.240723 77.664307 0;setang 0.000 231.000 0.000*
 	#*setcamroot cat_singer setpos -37.975342 71.361206 65.024940;setang -1.082 -35.916 0.000*
 	##*setcam setpos -2801.732178 2749.402588 65.024940;setang -1.082185 105.084007 0.000000*
-	*block setoffset cat_singer setpos 123.240723 77.664307 0;setang 0 231 0 --> setcamroot cat_singer setpos -37.975342 71.361206 65.024940;setang -1.082 -35.916 0*
+	*block setoffset cat_singer setpos 123.240723 77.664307 0;setang 0 231 0 --> setcamroot nil*
 	#*tweenposang cat_cello .5 setpos -2908 2950 36;setang -90 231 0.000000*
 	*tweenoffset cat_cello .5 setpos 2 -44 0;setang 0 51 0*
 	*setanim cat_cello pose_sit01*
@@ -190,7 +190,7 @@ a15:
 	*setanim cat_cello gesture_shock 1.4 idle*
 	%%%.%.%.%pipes no i—%%%*CELLO_MAD*%*setcamoffset setpos -167.536621 -374.956665 2.898863;setang -4.969 62.804 0.000*#*setcam setpos -3261.866699 2754.966064 2.898863;setang -4.968647 23.803549 0.000000* 
 	i didn't mean—%%%%%*setanim cat_cello gesture_embarass 1 idle* 
-	you don't— 
+	you don't—
 	&a16
 
 a16:
@@ -202,17 +202,17 @@ a16:
 	into an overloaded yowl,%% and he runs,%%%% blindly seeking an escape from
 	the words that now hang in the air. *remove cat_cello*
 	player:
-		&b1: (run after him)
+		&b1: *c ASIDECOLOR**slam Shit—**c 0*(run after him)*c*
 		&c1: Are you okay,%% Singer?
 
 ### MINI BRANCH 1
 b1:
 	##*setposang player setpos -2951.335449 2883.029297 0;setang 8.820518 -4.724119 0.000000*
 	#*setroot player narrator setpos 68.970703 -87.335449 0.000000;setang 8.821 85.276 0.000*
-	#*setcamoffset setpos -76.735352 -68.843018 32.694000;setang -1.928 13.808 -2.112*
+	#*setcamoffset setpos -70.813965 -68.843018 44.043274;setang 6.638 13.895 0.000*
 	##*setcam setpos -3027.578613 2820.252197 44.074524;setang 6.637681 9.171491 0.000000*
 	*setanim player idle_all_02*
-	*block setroot player narrator setpos 68.970703 -87.335449 0;setang 8.821 85.276 0 --> setcamoffset setpos -76.735352 -68.843018 32.694000;setang -1.928 13.808 -2.112*
+	*block setroot player narrator 68.970703 -87.335449 0;0 85.276 0-->setlook player -8.821-->setcamoffset -70.813965 -68.843018 44.043274;6.638 13.895 0*
 	*remove boothroot*
 	*setspeaker narrator*
 	*setanim cat_singer gesture_disagree 1 idle*
@@ -232,10 +232,11 @@ b2:
 c1:
 	##*setposang player setpos -2951.335449 2883.029297 0;setang 8.820518 -4.724119 0.000000*
 	#*setroot player narrator setpos 68.970703 -87.335449 0.000000;setang 8.821 85.276 0.000*
-	#*setcamoffset setpos -76.735352 -68.843018 32.694000;setang -1.928 13.808 -2.112*
+	#*setcamoffset setpos -70.813965 -68.843018 44.043274;setang 6.638 13.895 0.000*
 	##*setcam setpos -3027.578613 2820.252197 44.074524;setang 6.637681 9.171491 0.000000*
 	*setanim player idle_all_02*
-	*block setroot player narrator setpos 68.970703 -87.335449 0;setang 8.821 85.276 0 --> setcamoffset setpos -76.735352 -68.843018 32.694000;setang -1.928 13.808 -2.112*
+	*block setroot player narrator 68.970703 -87.335449 0;0 85.276 0-->setlook player -8.821-->setcamoffset -70.813965 -68.843018 44.043274;6.638 13.895 0*
+	*remove boothroot*
 	narratesinger()
 	*SINGER_FLUSTERED*
 	*setanim cat_singer gesture_agree 1 idle*
