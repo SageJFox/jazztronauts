@@ -1,38 +1,14 @@
 
 surface.CreateFont( "Mission_ProgressPercent", {
 	font = "KG Shake it Off Chunky",
-	extended = false,
 	size = ScreenScale(10),
 	weight = 500,
-	blursize = 0,
-	scanlines = 0,
-	antialias = true,
-	underline = false,
-	italic = false,
-	strikeout = false,
-	symbol = false,
-	rotary = false,
-	shadow = false,
-	additive = false,
-	outline = false,
 } )
 
 surface.CreateFont( "Mission_Description", {
-	font = "Verdana",
-	extended = false,
+	font = "Tahoma",
 	size = ScreenScale(7),
 	weight = 1000,
-	blursize = 0,
-	scanlines = 0,
-	antialias = true,
-	underline = false,
-	italic = false,
-	strikeout = false,
-	symbol = false,
-	rotary = false,
-	shadow = false,
-	additive = false,
-	outline = false,
 } )
 
 local function drawProgressBar(m, x, y, width, height, prog, max, animclip)
@@ -68,8 +44,8 @@ local function drawProgressBar(m, x, y, width, height, prog, max, animclip)
 end
 
 local metrics = {
-	width = ScreenScale(120),
-	height = ScreenScale(20),
+	width = ScreenScale(125),
+	height = ScreenScale(25),
 	spacing = ScreenScale(2),
 }
 
@@ -114,14 +90,16 @@ local function DrawMission(mission, x, y)
 	local tr = TextRect( minfo.Instructions, font ):Dock( rect, DOCK_TOP + DOCK_LEFT):Inset(ScreenScale(2))
 
 	draw.RoundedBox(5, x, y, width, height, Color(255 - bumpdt*255, bumpdt*255, 255 - bumpdt*255, 50))
-	draw.SimpleText(minfo.Instructions, font, tr.x, tr.y, Color(255 - bumpdt*255,255,255 - bumpdt*255))
+	draw.SimpleText(minfo.Instructions, font, tr.x + ScreenScale(1), tr.y, Color(255 - bumpdt*255,255,255 - bumpdt*255))
+
+	font = "Mission_ProgressPercent"
 
 	if not mission.completed then
-		drawProgressBar(m, x + 5, y + height - 25, width-10, 20, missions.Active[mid], minfo.Count, animclip)
+		drawProgressBar(m, x + ScreenScale(2.5), y + height - ScreenScale(14), width - ScreenScale(5), height - ScreenScale(14), missions.Active[mid], minfo.Count, animclip)
 	elseif mission.completed then
-		draw.SimpleText(jazzloc.Localize("jazz.mission.finished"), font, x + 5, y + 5 + 20, Color(255, 255, 0))
+		draw.SimpleText(jazzloc.Localize("jazz.mission.finished"), font, tr.x + ScreenScale(1), y + ScreenScale(11), Color(255, 255, 0))
 	else
-		draw.SimpleText(jazzloc.Localize("jazz.mission.locked"), font, x + 5, y + 5 + 20, Color(200, 200, 200))
+		draw.SimpleText(jazzloc.Localize("jazz.mission.locked"), font, tr.x + ScreenScale(1), y + ScreenScale(11), Color(200, 200, 200))
 	end
 
 	animclip:SetClip(false)
@@ -129,19 +107,55 @@ local function DrawMission(mission, x, y)
 	return y - metrics.spacing
 end
 
+local ActiveMissions = {}
+local CompletedMissions = {}
+hook.Add("JazzMissionsUpdateUI", "JazzMissionListsToRender", function(prog, hist)
+	ActiveMissions = prog
+	CompletedMissions = table.Reverse(hist) -- more recent missions towards the bottom (vaguely, it's separated by cat rather than order number)
+end)
+
+local MissionsXShow = ScreenScale(12)
+local MissionsXHide = -(metrics.width)
+local MissionsX = MissionsXShow
+local SlideSpeed = ScreenScale(450) -- needs to get faster the more pixels there are to travel
+local function SlideOutMissions()
+	local fraction = Lerp( (MissionsX - MissionsXHide) * 0.01, 0, 1)
+	local ease = math.ease.OutQuad(fraction)
+	return MissionsX - (FrameTime() * SlideSpeed) * ease
+end
+local function SlideInMissions()
+	local fraction = Lerp( (MissionsXShow - MissionsX) * 0.01, 0, 1)
+	local ease = math.ease.OutQuad(fraction)
+	return MissionsX + (FrameTime() * SlideSpeed) * ease
+end
+
 local ShowFinishedMissions = false
 hook.Add("HUDPaint", "JazzDrawMissions", function()
 	if jazzHideHUD then return end
 
-	local spacing = ScreenScale(2)
+	if dialog.IsInDialog() then
+		if MissionsX <= MissionsXHide then
+			return -- Don't render if offscreen
+		else
+			MissionsX = SlideOutMissions()
+		end
+	else
+		if MissionsX < MissionsXShow then
+			MissionsX = SlideInMissions()
+		end
+	end
+
 	local offset = ScreenScale(40)
 	local y = ScrH() - offset
-	for k, v in pairs(missions.ClientMissionHistory) do
-		if ( ShowFinishedMissions and v.completed ) or not v.completed then
-			y = DrawMission(v, ScreenScale(12), y)
-		elseif ( not ShowFinishedMissions and v.completed ) then
-			v.timer = nil
-		end
+
+	for k, v in pairs(ActiveMissions) do
+		y = DrawMission(v, MissionsX, y)
+	end
+
+	if not ShowFinishedMissions then return end
+
+	for k, v in pairs(CompletedMissions) do
+		y = DrawMission(v, MissionsX, y)
 	end
 end )
 
