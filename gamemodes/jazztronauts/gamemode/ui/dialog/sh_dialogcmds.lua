@@ -233,8 +233,8 @@ dialog.RegisterFunc("block",function(d, ...)
 		--if comment then str = string.Left(str,comment) end
 		local tab = string.Split(str," ")
 		if next(tab) ~= nil then
-			local name = tab[1]
-			if name ~= "block" and g_funcs[name] then g_funcs[name](unpack(tab)) end
+			local name = table.remove(tab,1)
+			if name ~= "block" and g_funcs[name] then g_funcs[name](d,unpack(tab)) end
 		end
 	end
 end)
