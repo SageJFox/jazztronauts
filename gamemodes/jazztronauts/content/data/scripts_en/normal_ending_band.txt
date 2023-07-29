@@ -3,11 +3,7 @@ CMD_DELAY = 0
 begin:
 	#*zsnap 0*
 	spawncatsrooted(scene_falling)
-	*setgravity cat_bar false*
-	*setgravity cat_cello false*
-	*setgravity cat_piano false*
-	*setgravity cat_singer false*
-	*setgravity player false*
+	*setgravity cat_bar cat_cello cat_piano cat_singer player false*
 	#*setroot cat_bar narrator*
 	#*setroot cat_cello narrator*
 	#*setroot cat_piano narrator*
@@ -26,7 +22,8 @@ begin:
 	*setoffset cat_piano setpos -146.000000 141.000000 16.000000;setang 0.000 0.000 0.000*
 	*setoffset cat_singer setpos -146.000000 -51.000000 -8.000000;setang 0.000 0.000 0.000*
 	#*setposang player setpos -7294.063965 -1565.545898 3584;setang 0.612256 90.094734 0.000000*
-	*setoffset player setpos -93.545898 11.063965 256.000000;setang 0.612 0.095 0.000*
+	*setoffset player setpos -93.545898 11.063965 256.000000;setang 0 0.095 0.000*
+	*setlook player -0.612*
 	#*setcamroot narrator*
 	#*setcam setpos -7283.202148 -1279.565552 3168.028809;setang 9.796160 -88.578621 0.000000*
 	*setcamroot narrator setpos 192.434448 0.202148 -159.971191;setang 9.796 -178.579 0.000*
@@ -80,16 +77,13 @@ oops:
 
 a1:
 	#*setroot player narrator*
-	*setgravity cat_bar true*
-	*setgravity cat_cello true*
-	*setgravity cat_piano true*
-	*setgravity cat_singer true*
-	*setgravity player true*
+	*setgravity cat_bar cat_cello cat_piano cat_singer player true*
 	#*setcamroot podge*
 	#*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
 	*setcamroot podge setpos 134.280762 -44.185677 87.278564;setang -9.610 163.144 0.000*
 	#*setposang player setpos 6315.488281 82.928795 3648.031250;setang -7.986032 -7.538742 0.000000*
-	*setroot player narrator setpos 852.511719 -82.928871 0;setang -7.986 172.461 0.000*
+	*setroot player narrator setpos 852.511719 -82.928871 0;setang 0 172.461 0.000*
+	*setlook player 7.986*
 	*setroot cat_bar narrator setpos 1372.219238 -141.141693 0;setang 0.000 178.751 0.000*
 	*setroot cat_cello narrator setpos 559.766602 486.078156 0;setang 0.000 73.123 0.000*
 	*setanim cat_cello pose_passedout*
@@ -174,17 +168,16 @@ a10:
 	So yeah,% whatcha got on your mind?
 	player:
 		&happiness:
-			#*setcamroot player*
+			*setcamroot player setpos 324.485352 -29.027161 100.919189;setang 6.682 -172.710 0.000*
 			#*setcam setpos 6633.360352 11.579720 3684.950439;setang 6.681584 179.750626 0.000000*
-			*setcamroot player setpos 326.467773 -29.028625 -8.520020;setang -1.241 -172.759 -1.010*
 			What's the key to a happy life?
-		&purpose: 
+		&purpose:
+			*setcamroot player setpos 324.485352 -29.027161 100.919189;setang 6.682 -172.710 0.000*
 			#*setcam setpos 6633.360352 11.579720 3684.950439;setang 6.681584 179.750626 0.000000*
-			*setcamroot player setpos 326.467773 -29.028625 -8.520020;setang -1.241 -172.759 -1.010*
 			Is there a point to it all?
 		&stickybuns: 
+			*setcamroot player setpos 324.485352 -29.027161 100.919189;setang 6.682 -172.710 0.000*
 			#*setcam setpos 6633.360352 11.579720 3684.950439;setang 6.681584 179.750626 0.000000*
-			*setcamroot player setpos 326.467773 -29.028625 -8.520020;setang -1.241 -172.759 -1.010*
 			Any 'a y'all got a bombass recipe?
 
 #### HOW TO BE HAPPY
@@ -229,7 +222,7 @@ h6:
 	*setspeaker rob*
 	#*setcamroot narrator*
 	Right,% so,%% you can't be happy all the time.%%%% Gotta have the other side #of that coin or else it isn't a coin right?%%*setcam setpos 6013.335449 268.352417 3622.178955;setang -8.198992 0.234206 0.000000*%*tweencam 20 setpos 6015.707520 -286.642578 3622.178955;setang -8.198992 0.287446 0.000000* It'd be some sorta 
-	of that coin or else it isn't a coin right?%%*setcamroot narrator setpos 1154.664551 -268.352539 -25.821045;setang -8.199 -179.766 0.000*%*tweencamoffset 40 setpos 1152.292480 286.642456 -25.821045;setang -8.199 -179.713 0.000* It'd be some sorta 
+	of that coin or else it isn't a coin right?%%*setcamroot narrator 1154.664551 -268.352539 -25.821045;-8.199 -179.766 0*%*tweencamoffset 40 1152.292480 286.642456 -25.821045;-8.199 -179.713 0* It'd be some sorta 
 	mobius strip upon which any image is indistinguishable from own 
 	reflection,% thus making sadness and happiness identical experiences. 
 	&h7
@@ -414,7 +407,7 @@ s4a:
 	&s4b
 
 s4b:
-	This next part's a bit critical -%% you need a box of Jello Butterscotch mix.%%% 
+	This next part's a bit critical—%%% you need a box of Jello Butterscotch mix.%%% 
 	I know,% I know,% but we told you this wasn't fancy.%%% The important bit is to 
 	NOT get the type that says "Instant." 
 	&s4c
@@ -483,7 +476,7 @@ s10:
 	*setcamroot rob setpos 205.420898 10.956299 38.578369;setang -16.957 -176.863 0.000*
 	*setspeaker rob*
 	In the morning,% set the oven to 350 degrees fahrenheit 
-	-% about 176 celsius -%%% and bake the rolls until they're done to 
+	–% about 176 celsius –%%% and bake the rolls until they're done to 
 	your taste.%%% 
 	&s10a
 	

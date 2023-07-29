@@ -13,7 +13,8 @@ begin:
 	#*setposang cat_cello setpos -4296.926758 3361.267334 0;setang -90 180 0.000000*
 	#*setposang cat_singer setpos -4168.232910 3361.957520 0;setang -90 180 0.000000*
 	#*setposang cat_piano setpos -4002.919189 3416.686279 0;setang -90 165 0.00000*
-	*setoffset player setpos -1.765137 -317.760742 0;setang -1.082 89.332 0.000*
+	*setoffset player setpos -1.765137 -317.760742 0;setang 0 89.332 0.000*
+	*setlook player 1.082*
 	*setoffset cat_bar setpos -1.146973 51.263672 0;setang 0.000 -90.000 0.000*
 	*setoffset cat_cello setpos -72.926758 97.267334 0;setang 0.000 -90.000 0.000*
 	*setoffset cat_singer setpos 55.767090 97.957520 0;setang 0.000 -90.000 0.000*
@@ -174,20 +175,20 @@ aask:
 	So%.%.%.%%%what do you say?
 	player:
 		&a14:
-			*setcamroot player setpos 546.062256 -49.117676 135.136536;setang 21.410 170.203 0.199*
+			*setcamroot player setpos 543.413086 -49.117676 145.423920;setang 22.477 170.129 0.000*
 			#*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
 			Yeah okay, that sounds good.
 		&lisaneedsbraces:
-			*setcamroot player setpos 546.062256 -49.117676 135.136536;setang 21.410 170.203 0.199*
+			*setcamroot player setpos 543.413086 -49.117676 145.423920;setang 22.477 170.129 0.000*
 			#*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
 			Give me benefits, and yes.
 		&skiptutorial:
-			*setcamroot player setpos 546.062256 -49.117676 135.136536;setang 21.410 170.203 0.199*
+			*setcamroot player setpos 543.413086 -49.117676 145.423920;setang 22.477 170.129 0.000*
 			#*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
 			Yeah, yeah, sure. Can we skip the meet and greet?
 			I learn better through experience. *c 0*(Skip Tutorial)*c*
 		&why:
-			*setcamroot player setpos 546.062256 -49.117676 135.136536;setang 21.410 170.203 0.199*
+			*setcamroot player setpos 543.413086 -49.117676 145.423920;setang 22.477 170.129 0.000*
 			#*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
 			No.
 
@@ -331,11 +332,11 @@ a23:
 	operation we have here?%%%% I recommend it.
 	player:
 		&a24:
-			*setcamroot player setpos 546.062256 -49.117676 135.136536;setang 21.410 170.203 0.199*
+			*setcamroot player setpos 543.413086 -49.117676 145.423920;setang 22.477 170.129 0.000*
 			#*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
 			Yeah sure,% clue me in. *c 0*(View Tutorial)*c*
 		&skiptutorial:
-			*setcamroot player setpos 546.062256 -49.117676 135.136536;setang 21.410 170.203 0.199*
+			*setcamroot player setpos 543.413086 -49.117676 145.423920;setang 22.477 170.129 0.000*
 			#*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
 			No thanks,% I'm good. *c 0*(Skip Tutorial)*c*
 
@@ -620,15 +621,15 @@ a53:
 	terms.
 		player:
 			&areyouawizard:
-				*setcamroot player setpos 546.062256 -49.117676 135.136536;setang 21.410 170.203 0.199*
+				*setcamroot player setpos 543.413086 -49.117676 145.423920;setang 22.477 170.129 0.000*
 				#*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
 				Wait do you need these shards for like, evil stuff?
 			&business: 
-				*setcamroot player setpos 546.062256 -49.117676 135.136536;setang 21.410 170.203 0.199*
+				*setcamroot player setpos 543.413086 -49.117676 145.423920;setang 22.477 170.129 0.000*
 				#*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
 				Fair enough, can I get started? 
 			&clownshoes: 
-				*setcamroot player setpos 546.062256 -49.117676 135.136536;setang 21.410 170.203 0.199*
+				*setcamroot player setpos 543.413086 -49.117676 145.423920;setang 22.477 170.129 0.000*
 				#*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
 				Do I get a cool costume?
 
@@ -733,7 +734,7 @@ honk4:
 ### THANK GOD ITS OVER
 
 ending:
-	*setcamroot player setpos 546.062256 -49.117676 135.136536;setang 21.410 170.203 0.199*
+	*setcamroot player setpos 543.413086 -49.117676 145.423920;setang 22.477 170.129 0.000*
 	#*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
 	*setspeaker narrator*
 	> The rest of*remove cat_cello* the cats begin*remove cat_piano* to file out*remove cat_singer* of the room.*remove cat_bar*%%% 
