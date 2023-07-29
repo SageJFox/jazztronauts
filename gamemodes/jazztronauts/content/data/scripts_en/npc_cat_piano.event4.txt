@@ -143,7 +143,7 @@ r3a2:
 	
 r3a3:
 	*setspeaker cat_piano*
-	That never goes away for me.%%% It's my natural state of being.%%%%*setanim cat_piano pianist_drunk_to_idle .4*%%*setcamroot cat_piano**setcamroot cat_piano setpos 67.438965 -28.228516 20.788147;setang -4.633 146.862 0.000*#*setcam setpos -2883.771484 3021.438965 56.788147;setang -4.633031 -123.137527 0.000000*
+	That never goes away for me.%%% It's my natural state of being.%%%%*setanim cat_piano pianist_drunk_to_idle .4*%%*setcamroot cat_piano 67.438965 -28.228516 20.788147;-4.633 146.862 0*#*setcam setpos -2883.771484 3021.438965 56.788147;setang -4.633031 -123.137527 0.000000*
 	I can't take a shit without planning it in advance.
 	&r3a4
 

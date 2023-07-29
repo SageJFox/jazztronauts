@@ -14,8 +14,9 @@ begin:
 	#*setposang cat_piano setpos -2910.271484 2959.740967 37;setang -90 0 0.000000*
 	#*setposang player setpos -2819.218018 2921.491211 0;setang -1.969878 148.162308 0.000000*
 	*setoffset cat_piano setpos -7.740967 -46.271484 0;setang 0.000 180.000 0.000*
-	*setoffset player setpos 30.508789 44.781982 0;setang -1.970 -121.838 0.000*
-	*setcamroot player setpos -315.621338 -14.317871 57.901093;setang -2.345 -3.126 -0.108 fov40*
+	*setoffset player setpos 30.508789 44.781982 0;setang 0 -121.838 0.000*
+	*setlook player 1.970*
+	*setcamroot player setpos -317.425293 -14.317871 46.985756;setang -4.312 -3.132 0.000 fov40*
 	#*setcam setpos -2541.998535 2766.207031 47.017006;setang -4.312444 145.029892 0.000000 fov40*
 	*txin*
 	
@@ -90,17 +91,17 @@ b8:
 	
 	player:
 		&r1a1:
-			*setcamroot player setpos 157.751221 -51.835449 78.596077;setang 2.615 167.434 0.430 fov70*		##### PLAYER, FRAMED BY CATS
+			*setcamroot player setpos 154.956055 -51.835449 83.941269;setang 4.538 167.407 0.000 fov70*		##### PLAYER, FRAMED BY CATS
 			#*setcam setpos -2923.515625 3047.270020 83.972519;setang 4.538206 -44.430779 0.000000 fov70*	##### PLAYER, FRAMED BY CATS
 			I prefer my blood pumping inside my body. 
 			I'll take a snickerdoodle to go, though. *c 0*(Exit)*c*
 		&r2a1:
-			*setcamroot player setpos 157.751221 -51.835449 78.596077;setang 2.615 167.434 0.430 fov70*		##### PLAYER, FRAMED BY CATS
+			*setcamroot player setpos 154.956055 -51.835449 83.941269;setang 4.538 167.407 0.000 fov70*		##### PLAYER, FRAMED BY CATS
 			#*setcam setpos -2923.515625 3047.270020 83.972519;setang 4.538206 -44.430779 0.000000 fov70*	##### PLAYER, FRAMED BY CATS
 			Okay, excellent suggestion, but hear me out here\: Dance fighting. 
 			All of the thrill, none of the murder.
 		&r3a1:
-			*setcamroot player setpos 157.751221 -51.835449 78.596077;setang 2.615 167.434 0.430 fov70*		##### PLAYER, FRAMED BY CATS
+			*setcamroot player setpos 154.956055 -51.835449 83.941269;setang 4.538 167.407 0.000 fov70*		##### PLAYER, FRAMED BY CATS
 			#*setcam setpos -2923.515625 3047.270020 83.972519;setang 4.538206 -44.430779 0.000000 fov70*	##### PLAYER, FRAMED BY CATS
 			If the floor is sand you don't need to worry about blood in the grout!
 	

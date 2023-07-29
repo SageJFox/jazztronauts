@@ -85,9 +85,11 @@ turnin:
 	*bgmplay sound/jazztronauts/music/events/loveaffair.mp3 1 2.0*
 	#*setposang metrocop_model setpos 105.750031 2986.230957 0;setang -0.922405 84.788383 0.000000*
 	#*setposang player setpos 6.328891 2987.953613 0;setang 5.732626 21.565920 0.000000*
-	*setoffset metrocop_model setpos 41.750031 -149.769043 0;setang -0.922 84.788 0.000*
-	*setoffset player setpos -57.671108 -148.046387 0;setang 5.733 21.566 0.000*
-	*setcamroot player setpos -176.070190 -99.344482 58.163162;setang -0.867 24.524 -2.383* #### ESTABLISHING SHOT
+	*setoffset metrocop_model setpos 41.750031 -149.769043 0;setang 0 84.788 0.000*
+	*setlook metrocop_model 0.922*
+	*setoffset player setpos -57.671108 -148.046387 0;setang 0 21.566 0.000*
+	*setlook player -5.733*
+	*setcamroot player setpos -169.379211 -99.344482 75.429131;setang 4.348 24.597 0.000* #### ESTABLISHING SHOT
 	#*setcam setpos -114.676605 2833.304443 75.460381;setang 4.348427 46.162735 0.000000* #### ESTABLISHING SHOT
 	*setanim metrocop_model busyidle2*
 	*txin*
@@ -107,10 +109,10 @@ t1:
 	&t2
 	
 t2:
-	*setcamroot player setpos -176.070190 -99.344482 58.163162;setang -0.867 24.524 -2.383* #### ESTABLISHING SHOT
+	*setcamroot player setpos -169.379211 -99.344482 75.429131;setang 4.348 24.597 0.000* #### ESTABLISHING SHOT
 	#*setcam setpos -114.676605 2833.304443 75.460381;setang 4.348427 46.162735 0.000000* #### ESTABLISHING SHOT
 	#*setposang metrocop_model setpos 105.750031 2986.230957 0;setang 4.667794 168.321960 0.000000*
-	*setoffset metrocop_model setpos 41.750031 -149.769043 0;setang 4.668 168.322 0.000*
+	*block setoffset metrocop_model setpos 41.750031 -149.769043 0;setang 0 168.322 0.000-->setlook metrocop_model -4.668*
 	*setspeaker narrator*
 	> The metrocop gives you a wave while the Pianist puts a briefcase
 	on the table.%%%%
@@ -136,13 +138,13 @@ t4:
 	
 t5:
 	*setspeaker cat_piano*
-	After some%.%.%.%%%*setcamroot metrocop_model setpos 119.823151 -132.077148 99.174164;setang 14.555 132.516 -3.508* #*setcamroot metrocop_model**setcam setpos 7.626283 3141.380859 89.093765;setang 11.376108 -58.373978 0.000000* #### GANG
+	After some%.%.%.%%%*setcamroot metrocop_model setpos 127.496674 -132.077148 89.062515;setang 11.376 133.304 0.000* #*setcam setpos 7.626283 3141.380859 89.093765;setang 11.376108 -58.373978 0.000000* #### GANG
 	
 	Haggling.
 	&t6
 	
 t6:
-	*setcamroot metrocop_model setpos 68.346039 90.419434 69.604065;setang 2.981 -129.626 3.594* #### METROCOP
+	*setcamroot metrocop_model setpos 73.783905 90.419434 63.779808;setang -0.000 -129.719 0.000* #### METROCOP
 	#*setcam setpos 15.191477 2912.617676 63.811058;setang 0 38.602680 0.000000* #### METROCOP
 	*setspeaker metrocop_model*
 	*emitsound jazztronauts/mc1que_perks.wav .8*
@@ -158,7 +160,7 @@ t7:
 	&t8
 	
 t8:
-	*setcamroot metrocop_model setpos 119.823151 -132.077148 99.174164;setang 14.555 132.516 -3.508* #### GANG
+	*setcamroot metrocop_model setpos 127.496674 -132.077148 89.062515;setang 11.376 133.304 0.000* #### GANG
 	#*setcam setpos 7.626283 3141.380859 89.093765;setang 11.376108 -58.373978 0.000000* #### GANG
 	*setspeaker metrocop_model*
 	*emitsound jazztronauts/mc1que_career.wav .8*
@@ -191,7 +193,7 @@ t11:
 	&t12
 	
 t12:
-	*setcamroot metrocop_model setpos 68.346039 90.419434 69.604065;setang 2.981 -129.626 3.594* #### METROCOP
+	*setcamroot metrocop_model setpos 73.783905 90.419434 63.779808;setang -0.000 -129.719 0.000* #### METROCOP
 	#*setcam setpos 15.191477 2912.617676 63.811058;setang -0.389936 38.602680 0.000000* #### METROCOP
 	*setspeaker metrocop_model*
 	*emitsound jazztronauts/mc1que_yourwife.wav .8*
@@ -218,7 +220,7 @@ t14:
 	&t15
 	
 t15:
-	*setcamroot metrocop_model setpos 119.823151 -132.077148 99.174164;setang 14.555 132.516 -3.508* #### GANG
+	*setcamroot metrocop_model setpos 127.496674 -132.077148 89.062515;setang 11.376 133.304 0.000* #### GANG
 	#*setcam setpos 7.626283 3141.380859 89.093765;setang 11.376108 -58.373978 0.000000* #### GANG
 	*setspeaker narrator*
 	> The Pianist wrangles her fury back into *PIANO_NEUTRAL*its box and shakes off the
@@ -250,7 +252,7 @@ t17:
 	&t18
 	
 t18:
-	*setcamroot metrocop_model setpos 68.346039 90.419434 69.604065;setang 2.981 -129.626 3.594* #### METROCOP
+	*setcamroot metrocop_model setpos 73.783905 90.419434 63.779808;setang -0.000 -129.719 0.000* #### METROCOP
 	#*setcam setpos 15.191477 2912.617676 63.811058;setang -0.389936 38.602680 0.000000* #### METROCOP
 	*setspeaker metrocop_model*
 	*emitsound jazztronauts/mc1que_everythingihoped.wav .8*

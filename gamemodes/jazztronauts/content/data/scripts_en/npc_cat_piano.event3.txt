@@ -322,7 +322,7 @@ m14:
 	
 m15:
 	*setcamroot cat_piano setpos -25.812561 -84.257446 76.085655;setang 16.384 55.504 0.000*
-	*setoffset player setpos -145.755615 9.588379 0;setang 14 -65.918 0.000*
+	*block setoffset player setpos -145.755615 9.588379 0;setang 0 -65.918 0.000-->setlook player -14*
 	#*setcam setpos -1176.494019 380.049255 12.085655;setang 16.384089 79.724792 0.000000*
 	> Nudging her lightly,% you establish that she's not dead.%%%*setcamoffset setpos 46.649780 -11.523132 51.794487;setang 41.300 160.979 0.000*#*setcam setpos -1140.250366 476.109009 -12.205513;setang 41.300411 -174.800049 0.000000* 
 	Moments later,% snoring confirms that she's just fast asleep.%%%
