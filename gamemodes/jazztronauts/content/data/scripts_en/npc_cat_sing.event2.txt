@@ -9,8 +9,9 @@ begin:
 	#*setposang cat_singer setpos -2609.358398 2753.060059 0;setang -90 75 0.000000*
 	#*setposang player setpos -2943.505615 2900.457520 0;setang -3.318230 68.020081 0.000000*
 	*setoffset cat_singer setpos 198.939941 254.641602 0.000000;setang 0.000 255.000 0.000*
-	*setoffset player setpos 51.542480 -79.505615 0.000000;setang -3.318 158.020 0.000*
-	*setcamroot player setpos -148.112183 88.280273 72.694252;setang 1.774 -21.115 -1.195 fov70* ###### SAMSARA ESTABLISH
+	*setoffset player setpos 51.542480 -79.505615 0.000000;setang 0 158.020 0.000*
+	*setlook player 3.318*
+	*setcamroot player setpos -152.071167 88.280273 64.000000;setang -1.322 -21.110 0.000 fov70* ###### SAMSARA ESTABLISH
 	#*setcam setpos -3082.286865 2792.481445 64.031250;setang -1.321731 46.910137 0.000000 fov70* ###### SAMSARA ESTABLISH
 	*txin*
 	*show narrator*
@@ -21,7 +22,7 @@ begin:
 	&b1
 	
 b1:
-	*setcamoffset setpos 125.543701 166.460693 69.339523;setang 5.928 -115.162 -3.028*
+	*setcamoffset setpos 121.319946 166.460693 76.489456;setang 7.330 -114.812 0.000*
 	#*setcam setpos -3052.458984 3075.262695 76.520706;setang 7.329771 -46.792278 0.000000*
 	> You see the Singer en route back to the Mewseum 
 	and head over to say hi.
@@ -53,19 +54,19 @@ b2:
 			#*setoffset player setpos 51.542480 -79.505615 0.000000;setang -0.000 50.000 0.000*
 			#*setcamroot player setpos 149.772949 -37.619263 45.063198;setang -0.124 137.089 0.000*
 			##*setcam setpos -2852.954102 2775.367432 45.094448;setang -0.123793 97.088692 0.000000*
-			*block setoffset player setpos 51.542480 -79.505615 0;setang 0 50 0 --> setcamroot player setpos 149.772949 -37.619263 45.063198;setang -0.124 137.089 0*
+			*block setoffset player 51.542480 -79.505615 0; 0 50 0-->setlook player -5-->setcamroot player 149.772949 -37.619263 45.063198;-0.124 137.089 0*
 			If you don't want me to see it,% that's cool.%%%
 			See you later, yeah? *c 0*(exit)*c*
 		&r2a1:
 			#*setposang player setpos -2943.505615 2900.457520 0;setang 0 -40 0.000000*
 			#*setcam setpos -2852.954102 2775.367432 45.094448;setang -0.123793 97.088692 0.000000*
-			*block setoffset player setpos 51.542480 -79.505615 0;setang 0 50 0 --> setcamroot player setpos 149.772949 -37.619263 45.063198;setang -0.124 137.089 0*
+			*block setoffset player 51.542480 -79.505615 0; 0 50 0-->setlook player -5-->setcamroot player 149.772949 -37.619263 45.063198;-0.124 137.089 0*
 			Oh shit was that a brontosaurus? 
 			I love brontos.
 		&r3a1:
 			#*setposang player setpos -2943.505615 2900.457520 0;setang 0 -40 0.000000*
 			#*setcam setpos -2852.954102 2775.367432 45.094448;setang -0.123793 97.088692 0.000000*
-			*block setoffset player setpos 51.542480 -79.505615 0;setang 0 50 0 --> setcamroot player setpos 149.772949 -37.619263 45.063198;setang -0.124 137.089 0*
+			*block setoffset player 51.542480 -79.505615 0; 0 50 0-->setlook player -5-->setcamroot player 149.772949 -37.619263 45.063198;-0.124 137.089 0*
 			It's okay,%% I'm not gonna give you shit or anything.
 		
 ###### BRANCH 1 EARLY EXIT

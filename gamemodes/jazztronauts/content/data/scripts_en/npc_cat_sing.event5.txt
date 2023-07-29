@@ -13,6 +13,7 @@ begin:
 	*setoffset hulacrate setpos 139.131348 -28.274414 16;setang 5.839 89.432 0.000*
 	*setoffset cat_singer setpos 198.939941 254.641602 0;setang 0.000 255.000 0.000*
 	*setoffset player setpos 96.458252 -62.215576 0;setang -0.000 64.942 0.000*
+	*setlook player -15 -30*
 	*setcamroot hulacrate setpos 130.279541 -4.284424 84.933319;setang 24.704 171.979 -0.860 fov70*
 	#*setcam setpos -2754.079590 2807.214111 87.238869;setang 18.919519 171.730621 0.000000 fov70*
 	*txin*
@@ -29,7 +30,7 @@ cut:
 	&b1
 	
 b1:
-	*setcamroot cat_singer setpos 401.436279 19.762939 77.731094;setang 6.834 -175.980 0.000*
+	*block setcamroot cat_singer setpos 401.436279 19.762939 77.731094;setang 6.834 -175.980 0-->setlook player -5*
 	#*setcam setpos -3002.230957 2837.869873 77.731094;setang 6.834046 -10.980259 0.000000*
 	narratesinger()
 	*SINGER_HAPPY*
@@ -51,7 +52,7 @@ b2:
 	#*setoffset cat_singer setpos 162.975830 36.617676 0.000000;setang 0.000 240.000 0.000*
 	#*setcamroot hulacrate setpos -130.967773 22.046875 34.711609;setang -0.231 -7.599 0.774*
 	##*setcam setpos -3018.806641 2836.171143 63.855316;setang 5.556273 -8.202921 0.000000*
-	*block setoffset cat_singer setpos 162.975830 36.617676 0;setang 0 240 0 --> setcamroot hulacrate setpos -130.967773 22.046875 34.711609;setang -0.231 -7.599 0.774*
+	*block setoffset cat_singer 162.975830 36.617676 0;setang 0 240 0-->setlook player -20-->setcamroot hulacrate -130.967773 22.046875 34.711609;-0.231 -7.599 0.774*
 	*setspeaker narrator*
 	*SINGER_CRY*
 	*setanim cat_singer pose_passedout*
@@ -61,7 +62,7 @@ b2:
 	
 b3:
 	*setanim cat_singer pose_sit01 1 idle*
-	> The Singer hit the floor pretty hard%.%.%.%and there's%.%.%%%fluff in the air?%%*SINGER_MAD*%*setcamroot cat_singer setpos 65.144287 12.423828 64.296967;setang 26.426 -167.573 0.000*#*setcam setpos -2890.010742 2810.836914 64.296967;setang 26.426382 -17.573183 0.000000*
+	> The Singer hit the floor pretty hard%.%.%.%*setlook player -5*and there's%.%.%%%fluff in the air?%%*SINGER_MAD*%*setcamroot cat_singer 65.144287 12.423828 64.296967;26.426 -167.573 0*#*setcam setpos -2890.010742 2810.836914 64.296967;setang 26.426382 -17.573183 0.000000*
 	You peek over the crate and see the Singer cradling a knee.%%%*SINGER_CRY* 
 	They notice the dino plush on the floor,% ripped and mangled.
 	&b4
@@ -81,7 +82,7 @@ b5:
 	#*setoffset player setpos 119.447021 16.417969 0.000000;setang -0.000 -1.790 0.000*
 	#*setcamroot player setpos 62.714111 -24.388672 46.226074;setang 3.922 138.531 0.000*
 	##*setcam setpos -2873.917480 2770.631348 46.226074;setang 3.922465 46.740841 0.000000*
-	*block setoffset player setpos 119.447021 16.417969 0;setang 0 -1.79 0 --> setcamroot player setpos 62.714111 -24.388672 46.226074;setang 3.922 138.531 0*
+	*block setoffset player 119.447021 16.417969 0;0 -1.79 0-->setlook player -10-->setcamroot player 62.714111 -24.388672 46.226074;3.922 138.531 0*
 	*setspeaker narrator*
 	> You hurry over and they don't look up at you.
 	&b6
@@ -184,6 +185,7 @@ r3a3:
 	#*setposang player setpos 4.526166 3122.123779 24;setang 0 -1.716147 0.000000*
 	#*setposang cat_singer setpos 119.894188 3121.174072 24;setang -90 90 0.000000*
 	*setoffset player setpos -59.473835 -13.876221 0;setang -0.000 -1.716 0.000*
+	*setlook player -15*
 	*setoffset cat_singer setpos 55.894188 -14.825928 0;setang 0.000 180.000 0.000*
 	*setcamoffset setpos 192.068329 -276.825684 -19.039368;setang -9.015 114.466 0.000*
 	#*setcam setpos 188.218704 2839.670654 4.960632;setang -9.014836 112.749840 0.000000*
@@ -288,12 +290,12 @@ m9:
 	&m10
 	
 m10:
-	*setcamroot player setpos 105.014709 8.009033 67.561447;setang 18.936 -169.516 0.000*
+	*block setcamroot player setpos 105.014709 8.009033 67.561447;setang 18.936 -169.516 0-->setlook player*
 	#*setcam setpos 109.733604 3126.984375 91.561447;setang 18.936058 -171.232315 0.000000*
 	*setspeaker narrator*
 	*SINGER_NEUTRAL*
 	> You have finished fixing the plush.%%%*setanim cat_singer gesture_clap 1.5 idle* The Singer*SINGER_HAPPY* bounces in 
-	their seat and grabs it,%*setcamroot cat_singer setpos 54.563522 -109.123291 69.212181;setang 16.860 90.331 0.000* inspecting*SINGER_NEUTRAL* your neat fabric-flesh suture work.%%%% #*setcam setpos 65.330673 3230.297363 93.212181;setang 16.859674 -89.668564 0.000000*
+	their seat and grabs it,%*block setcamroot cat_singer 54.563522 -109.123291 69.212181;16.86 90.331 0-->setlook player 15* inspecting*SINGER_NEUTRAL* your neat fabric-flesh suture work.%%%% #*setcam setpos 65.330673 3230.297363 93.212181;setang 16.859674 -89.668564 0.000000*
 	They pull at their ears,*SINGER_HAPPY*% hug you,%% and pull at their ears again.
 	&m11
 	
@@ -350,7 +352,7 @@ m13b:
 	#*setroot cat_singer scene_pond setpos -83.908691 -4.397583 0.000000;setang 0.000 0.000 0.000*
 	#*setcamoffset setpos 291.569946 -229.938354 87.926682;setang 8.235 126.219 0.000*
 	##*setcam setpos -1968.338745 277.664063 23.926678;setang 8.234809 126.218788 0.000000*
-	*block setroot cat_singer scene_pond setpos -83.908691 -4.397583 0;setang 0 0 0 --> setcamoffset setpos 291.569946 -229.938354 87.926682;setang 8.235 126.219 0*
+	*block setroot cat_singer scene_pond -83.908691 -4.397583 0;0 0 0-->setlook player -5-->setcamoffset 291.569946 -229.938354 87.926682;8.235 126.219 0*
 	> After the final note rings in the air,%%% they come over and 
 	clasp both your hands before pulling out the tablet again.
 	&m14
