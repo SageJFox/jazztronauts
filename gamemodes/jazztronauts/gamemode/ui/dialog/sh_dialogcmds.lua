@@ -162,7 +162,7 @@ local zSnap = {64}
 	This allows us to, say, put one character on top of the bar while another character is seated at it.
 	z snap on its own would either put both characters on top of the bar or both below it depending on how large it was set.
 	layers are defined by the locale entity in order to remain flexible for map makers. If a necessary layer isn't defined there, it is assumed zero. 
-	The first layer is always defined by the position of the locale entity (and are thus always 0). The rest are defined in relation to it. ]]
+	The first layer is always defined by the position of the locale entity (and is thus always 0). The rest are defined in relation to it. ]]
 local layers = {0}
 
 local function FindByName(name)
@@ -207,10 +207,9 @@ dialog.RegisterFunc("setgravity",function(d, ...)
 
 	local enabled = true
 	
-	--our last value is (assumed to be) a bool, use it for enabled)
+	--our last value is (assumed to be) a bool, use it for enabled
 	if not IsValid(FindByName(props[#props])) then
-		enabled = tobool(props[#props])
-		table.remove(props,#props)
+		enabled = tobool(table.remove(props,#props))
 	end
 
 	for _, name in ipairs(props) do
@@ -905,16 +904,23 @@ dialog.RegisterFunc("setlocale", function(d, name, ...)
 	end
 end)
 
-dialog.RegisterFunc("setlayer",function(d, layer, ...)
+dialog.RegisterFunc("setlayer",function(d, ...)
 
 	local props = {...}
-	if not tonumber(layer) then table.insert(props,layer) end
+
 	if table.IsEmpty(props) then return end
+
+	local layer = 1
+	
+	--our last value is (assumed to be) a number, use it for the layer
+	if not IsValid(FindByName(props[#props])) then
+		layer = tonumber(table.remove(props,#props)) or layer
+	end
 
 	for _, name in ipairs(props) do
 		local prop = FindByName(name)
 		if IsValid(prop) then
-			prop.layer = tonumber(layer) or 1
+			prop.layer = layer
 		end
 	end
 end)
