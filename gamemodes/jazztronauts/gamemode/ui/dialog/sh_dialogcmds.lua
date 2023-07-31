@@ -457,12 +457,11 @@ dialog.RegisterFunc("setnpcid", function(d, name, npc)
 	prop.JazzDialogID = tonumber(npc) or missions.GetNPCID(npc)
 end)
 
-dialog.RegisterFunc("setname", function(d, name, visualname)
+dialog.RegisterFunc("setname", function(d, name, ...)
 	local prop = FindByName(name)
 	if not IsValid(prop) then return end
 
-	-- npc can be the name or npcid, we support both
-	prop.JazzDialogName = visualname
+	prop.JazzDialogName = table.concat({...}," ")
 end)
 
 local view = {}
