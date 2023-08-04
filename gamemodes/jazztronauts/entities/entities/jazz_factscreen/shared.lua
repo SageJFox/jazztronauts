@@ -7,6 +7,8 @@ ENT.Base = "base_anim"
 ENT.RenderGroup = RENDERGROUP_OPAQUE
 ENT.Model =  "models/sunabouzu/jazz_tv01.mdl"
 
+local SF_VISIBLE_WHEN_OFF = 1
+
 function ENT:SetupDataTables()
 	self:NetworkVar("Int", 0, "FactID")
 	self:NetworkVar("Float", 0, "ToggleDelay")
@@ -255,7 +257,7 @@ function ENT:Initialize()
 end
 
 function ENT:ShouldShowTestPattern()
-	return not self.CurrentFactMaterial
+	return (not self.CurrentFactMaterial) and self:HasSpawnFlags(SF_VISIBLE_WHEN_OFF)
 end
 
 function ENT:Think()
@@ -293,7 +295,9 @@ function ENT:Draw()
 	if self:ShouldShowTestPattern() then
 		curMat = loadMaterial
 	end
-	render.MaterialOverrideByIndex(1, curMat)
-	self:DrawModel()
-	render.MaterialOverrideByIndex(1, nil)
+	if curMat then
+		render.MaterialOverrideByIndex(1, curMat)
+		self:DrawModel()
+		render.MaterialOverrideByIndex(1, nil)
+	end
 end

@@ -228,6 +228,10 @@
 		"entity_count" : "Entity Count"
 		"map_name" : "Map Name"
 	]
+	spawnflags(flags) =
+	[
+		1 : "Visible When Off"   : 1
+	]
 ]
 
 @PointClass base(Targetname) iconsprite("editor/env_shooter.vmt") = jazz_vote_podiums : "Jazz Vote Podium Circle"
