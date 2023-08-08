@@ -546,6 +546,10 @@ hook.Add("Think", "JazzDialogSkipListener", function()
 		-- If we couldn't, that means we're still writing
 		-- So speed up the text output
 		dialog.SkipText()
+	else
+		-- we have a sound being played to match the text, cut it off
+		local play = LocalPlayer()
+		if play.jazzvocal then play.jazzvocal:Stop() end
 	end
 end)
 

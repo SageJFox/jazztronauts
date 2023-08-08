@@ -147,7 +147,7 @@ t6:
 	*setcamroot metrocop_model setpos 73.783905 90.419434 63.779808;setang -0.000 -129.719 0.000* #### METROCOP
 	#*setcam setpos 15.191477 2912.617676 63.811058;setang 0 38.602680 0.000000* #### METROCOP
 	*setspeaker metrocop_model*
-	*emitsound jazztronauts/mc1que_perks.wav .8*
+	*vocalize jazztronauts/mc1que_perks.wav .8*
 	So,%% you getting the perks they promised you?
 	&t7
 	
@@ -163,12 +163,12 @@ t8:
 	*setcamroot metrocop_model setpos 127.496674 -132.077148 89.062515;setang 11.376 133.304 0.000* #### GANG
 	#*setcam setpos 7.626283 3141.380859 89.093765;setang 11.376108 -58.373978 0.000000* #### GANG
 	*setspeaker metrocop_model*
-	*emitsound jazztronauts/mc1que_career.wav .8*
+	*vocalize jazztronauts/mc1que_career.wav .8*
 	Yep,% this was definitely the best career choice I ever made.
 	&t8b
 	
 t8b:
-	*emitsound jazztronauts/mc1que_lastjob.wav .8*
+	*vocalize jazztronauts/mc1que_lastjob.wav .8*
 	Beats the shit out of my last job.
 	&t9
 	
@@ -180,7 +180,7 @@ t9:
 	&t10
 	
 t10:
-	*emitsound jazztronauts/mc1ans_bellyaching.wav .8*
+	*vocalize jazztronauts/mc1ans_bellyaching.wav .8*
 	*setspeaker metrocop_model*
 	Quit yer' bellyaching.
 	&t11
@@ -196,7 +196,7 @@ t12:
 	*setcamroot metrocop_model setpos 73.783905 90.419434 63.779808;setang -0.000 -129.719 0.000* #### METROCOP
 	#*setcam setpos 15.191477 2912.617676 63.811058;setang -0.389936 38.602680 0.000000* #### METROCOP
 	*setspeaker metrocop_model*
-	*emitsound jazztronauts/mc1que_yourwife.wav .8*
+	*vocalize jazztronauts/mc1que_yourwife.wav .8*
 	Your wife doesn't like me,% does she?
 	&t13
 	
@@ -255,7 +255,7 @@ t18:
 	*setcamroot metrocop_model setpos 73.783905 90.419434 63.779808;setang -0.000 -129.719 0.000* #### METROCOP
 	#*setcam setpos 15.191477 2912.617676 63.811058;setang -0.389936 38.602680 0.000000* #### METROCOP
 	*setspeaker metrocop_model*
-	*emitsound jazztronauts/mc1que_everythingihoped.wav .8*
+	*vocalize jazztronauts/mc1que_everythingihoped.wav .8*
 	This is everything I hoped it would be.
 	&t19
 	

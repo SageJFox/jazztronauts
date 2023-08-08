@@ -1390,6 +1390,23 @@ dialog.RegisterFunc("emitsound", function(d, snd, vol, pitch)
 	LocalPlayer():EmitSound(snd, 0, pitch, vol)
 end )
 
+--emitsound, but cut off if another is played/dialog is skipped
+dialog.RegisterFunc("vocalize", function(d, snd, vol, pitch)
+	local play = LocalPlayer()
+	local vol = tonumber(vol) or 1
+	local pitch = (tonumber(pitch) or 1) * 100.0
+
+	if play.jazzvocal then play.jazzvocal:Stop() end
+
+	play.jazzvocal = CreateSound(play,snd)
+
+	if play.jazzvocal then
+		play.jazzvocal:ChangePitch(pitch)
+		play.jazzvocal:Play()
+		play.jazzvocal:ChangeVolume(vol)
+	end
+end )
+
 dialog.RegisterFunc("slam", function(d, ...)
 	return table.concat({...}, " ")
 end )
