@@ -20,7 +20,7 @@ if CLIENT then
 			strtable = arg[1]
 			strang = tostring(table.remove(strtable,1))
 		else
-			error("jazzloc.Localize needs strings or a table of strings, recieved " .. type(arg) )
+			error("jazzloc.Localize needs strings or a table of strings, recieved " .. type(arg[1]) )
 		end
 
 		--see if we have a Jazztronauts specific override for a default localization string
@@ -32,7 +32,7 @@ if CLIENT then
 		strang = language.GetPhrase(strang)
 		
 		for i,v in ipairs(strtable) do
-			strang = string.Replace(strang,"%"..i.."%",language.GetPhrase(tostring(v)))
+			strang = string.Replace(strang,"%"..i.."%",Localize(tostring(v)))
 		end
 		
 		return strang
