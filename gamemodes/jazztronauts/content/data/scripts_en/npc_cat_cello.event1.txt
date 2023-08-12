@@ -293,8 +293,10 @@ m2:
 	*wait 1*
 	*show cat_cello*
 	*drugson*
-	#note for translators - I thought this part was done with some sort of cipher, but if it is I can't tell what, so assume it's complete gibberish.
-	wbk bmh've fhljy goagfgbys gvdr'f ynpcpkbr  
+	#note for translators - In the original writing for this, this part was "encoded via ROT13 into Base64 encoding",
+	#however, this text is different and very much *not* done that way. I haven't been able to find a cipher for this text,
+	#so assume it's complete gibberish.
+	wbk bmh've fhljy goagfgbys gvdr'f ynpcpkbr
 	player:
 		&m3: oh god what the fuck
 		&m3: (literally just constant screaming)
@@ -302,8 +304,8 @@ m2:
 m3:
 	*setspeaker cat_cello*
 	auvk dhgk usuc ji gb klru xhr gfpremvbj quyt hd ecssrr 
-	mrs zekr ah fnze gc hvcpavb wfvw
-	ybcrs cvoooejl gaah xlqirfhdlq e wbfg g'z walwqe uyh
+	mrs zekr ah fnze gc hvcpavb wfvw 
+	ybcrs cvoooejl gaah xlqirfhdlq e wbfg g'z walwqe uyh 
 	jsoj sycx
 	&m4
 	

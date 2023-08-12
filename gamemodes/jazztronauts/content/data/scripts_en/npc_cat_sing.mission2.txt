@@ -2,7 +2,7 @@
 
 accept:
 	spawnnarrator()
-	narratesinger()
+	narratewithview(npc_cat_sing)
 	> The Singer seems agitated, and the moment they spot you they 
 	hurry over. They pull at their ears, tail lashing, before 
 	grabbing their tablet and hammering away on your 
@@ -45,7 +45,7 @@ i2:
 
 turnin:
 	spawnnarrator()
-	*setspeaker npc_cat_sing*
+	narratewithview(npc_cat_sing)
 	> The Singer looks incredibly relieved. You help them wheel the 
 	radiators into the Mewseum and set up alongside the NPCs, 
 	who do not react in any way to the surge of warmth in the 
@@ -58,7 +58,7 @@ turnin2:
 	&t1
 
 t1:
-	narratesinger()
+	narratewithview(npc_cat_sing)
 	> They know it might sound silly, but they take great pride 
 	in making sure they take care of the Mewseum residents. 
 	You leave them to it.

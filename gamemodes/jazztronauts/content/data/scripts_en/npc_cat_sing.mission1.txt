@@ -2,7 +2,7 @@
 
 accept:
 	spawnnarrator()
-	narratesinger()
+	narratewithview(npc_cat_sing)
 	> The Singer signals for you to keep your voice down as you approach.
 	The Cellist is snoring loudly next to them. They pat him on the head
 	and the snoring settles down into vaguely disgruntled mumbling.
@@ -16,7 +16,7 @@ a1:
 	&a2
 	
 a2:
-	narratesinger()
+	narratewithview(npc_cat_sing)
 	> You shake your head and keep reading\: *setspeaker npc_cat_sing*
 	“I'm really close to a research breakthrough!!!! I'm sure if I 
 	throw more bodies at the problem something will stick but 
@@ -35,14 +35,14 @@ a3:
 	&a4
 	
 a4:
-	narratesinger()
+	narratewithview(npc_cat_sing)
 	> The Singer waves goodbye as you hand back the tablet and leave.
 	&exit
 	
 	
 idle:
 	spawnnarrator()
-	narratesinger()
+	narratewithview(npc_cat_sing)
 	> The Singer waves you over. Their tablet appears to be playing 
 	a recording of a light rainstorm. They explain the Cellist was 
 	having a nightmare, so they're helping.
@@ -82,7 +82,7 @@ t2:
 	&t3
 	
 t3:
-	narratesinger()
+	narratewithview(npc_cat_sing)
 	> Ignoring the Cellist's babbling at the sight of your sack full of 
 	probably-not-haunted children's toys, the Singer takes them off 
 	your hands in exchange for the promised payment of $10000. *finish 1*
@@ -97,7 +97,7 @@ t4:
 	&t5
 	
 t5:
-	narratesinger()
+	narratewithview(npc_cat_sing)
 	> They pat him on the arm and the Cellist squints in continued 
 	suspicion at the sack, but stops rambling about ancient curses. 
 	&t6

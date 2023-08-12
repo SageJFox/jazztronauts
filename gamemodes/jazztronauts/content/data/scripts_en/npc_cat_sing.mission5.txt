@@ -2,7 +2,7 @@
 
 accept:
 	spawnnarrator()
-	narratesinger()
+	narratewithview(npc_cat_sing)
 	> The Singer waves you over as usual and the Pianist cracks open an 
 	eye to look you up and down before returning to her meditation. 
 	&accept1
@@ -32,7 +32,7 @@ a2:
 	&a3
 	
 a3:
-	narratesinger()
+	narratewithview(npc_cat_sing)
 	> The Singer tells you that they've really enjoyed working with you 
 	and hope you'll stick around for a while, before settling in to
 	meditate with the Pianist.

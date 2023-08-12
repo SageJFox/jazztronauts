@@ -48,7 +48,7 @@ a6:
 	
 idle:
 	spawnnarrator()
-	narratesinger()
+	narratewithview(npc_cat_sing)
 	> You find the Singer working away at something on their tablet with
 	and expression of intense concentration, but when they see you 
 	they beam with apparent delight. 
@@ -71,7 +71,7 @@ i1b:
 
 turnin:
 	spawnnarrator()
-	narratesinger()
+	narratewithview(npc_cat_sing)
 	> The Singer jumps out of their seat and bounces in delight as you put 
 	the binders down in front of them. With a flourish, they present to you 
 	a wad of cash! $5000 in total. *finish 0*
@@ -94,7 +94,7 @@ t3:
 	&t4
 	
 t4:
-	narratesinger()
+	narratewithview(npc_cat_sing)
 	> You leave the Singer clapping over the binders you deliver, 
 	and they wave to you as you go.
 	&exit

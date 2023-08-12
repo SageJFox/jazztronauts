@@ -2,7 +2,7 @@
 
 accept:
 	spawnnarrator()
-	narratesinger()
+	narratewithview(npc_cat_sing)
 	> The Singer waves you over and invites you to contemplate the water
 	with them for a little while.
 	&a1
@@ -37,7 +37,7 @@ a3b:
 	&a4
 	
 a4:
-	narratesinger()
+	narratewithview(npc_cat_sing)
 	> They further elaborate that while there's a fairly robust collection of 
 	entities in the Mewseum, they found a reference to an NPC named Alyx 
 	that appears to be relatively uncommon and thus needs to be preserved 
@@ -47,7 +47,7 @@ a4:
 	
 idle:
 	spawnnarrator()
-	narratesinger()
+	narratewithview(npc_cat_sing)
 	> The Singer doesn't stir when you approach, but their tablet has been 
 	left in reach for you.
 	&idle2
@@ -85,7 +85,7 @@ turnin2:
 	&t1
 	
 t1:
-	narratesinger()
+	narratewithview(npc_cat_sing)
 	> The Singer grabs their tablet, flustered, and quickly writes out a 
 	message to the effect of if you ever wake them up like that again they 
 	will not be held responsible for the sick new facial scar 
@@ -104,7 +104,7 @@ t2b:
 	&t3
 	
 t3:
-	narratesinger()
+	narratewithview(npc_cat_sing)
 	> They encourage you to just call their name the next 
 	time you need to wake them up.
 	&exit
