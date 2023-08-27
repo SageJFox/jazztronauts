@@ -26,15 +26,15 @@ local catPitches = {}
 timer.Simple(0, function()
 	catPitches = {
 		[missions.NPC_CAT_BAR]		= { pitch = 120, vol = 0.5, delay = 0.05, snds = catSounds },
-		[missions.NPC_CAT_CELLO]	= { pitch = 50, vol = 0.5, delay = 0.1, snds = catSounds },
-		[missions.NPC_CAT_SING]	= { pitch = 200, vol = 1.0, delay = 0.2, snds = keyboardSounds },
+		[missions.NPC_CAT_CELLO]	= { pitch =  50, vol = 0.5, delay = 0.10, snds = catSounds },
+		[missions.NPC_CAT_SING]		= { pitch = 200, vol = 1.0, delay = 0.20, snds = keyboardSounds },
 		[missions.NPC_CAT_PIANO]	= { pitch = 100, vol = 0.5, delay = 0.05, snds = catSounds },
-		[missions.NPC_NARRATOR]	= { pitch = 100, vol = 1.0, delay = 0.2, snds = keyboardSounds }
+		[missions.NPC_NARRATOR]		= { pitch = 100, vol = 1.0, delay = 0.20, snds = keyboardSounds }
 	}
 end )
 
 local silentChars = {}
-for i, ch in ipairs( string.Explode( "", " .?!,:;\"'><()\n" ) ) do
+for i, ch in ipairs( string.Explode( "", " .?!,:;\"'><()\n—–“”‘’/\\" ) ) do
 	silentChars[ch] = true
 end
 
