@@ -3,18 +3,21 @@ $Sequence "idle" {
 	activity "ACT_IDLE" -1
 	fps 24
 	loop
+	addlayer head_yaw
 }
 
 $Sequence "gesture_sweep" {
 	"cat_anims\gesture_sweep.smd"
 	//snap
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "gesture_dryhands" {
 	"cat_anims\gesture_dryhands.smd"
 	//snap
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "gesture_washing" {
@@ -23,36 +26,42 @@ $Sequence "gesture_washing" {
 	fadeout 0.1
 	fps 24
 	loop
+	addlayer head_yaw
 }
 
 $Sequence "gesture_jab" {
 	"cat_anims\gesture_jab.smd"
 	//snap
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "gesture_foldarms" {
 	"cat_anims\gesture_foldarms.smd"
 	//snap
 	fps 30
+	addlayer head_yaw
 }
 
 $Sequence "pose_elegant" {
 	"cat_anims\pose_elegant.smd"
 	fps 24
 	loop
+	addlayer head_yaw
 }
 
 $Sequence "pose_hangingout" {
 	"cat_anims\pose_hangingout.smd"
 	fps 24
 	loop
+	addlayer head_yaw
 }
 
 $Sequence "pose_leanwallback" {
 	"cat_anims\pose_leanwallback.smd"
 	fps 24
 	loop
+	addlayer head_yaw
 }
 
 $Sequence "pose_passedout" {
@@ -65,142 +74,175 @@ $Sequence "pose_relax" {
 	"cat_anims\pose_relax.smd"
 	fps 24
 	loop
+	addlayer head_yaw
 }
 
 $Sequence "gesture_agree" {
 	"cat_anims\gesture_agree.smd"
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "gesture_disagree" {
 	"cat_anims\gesture_disagree.smd"
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "gesture_laugh" {
 	"cat_anims\gesture_laugh.smd"
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "gesture_sigh" {
 	"cat_anims\gesture_sigh.smd"
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "gesture_anger" {
 	"cat_anims\gesture_anger.smd"
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "gesture_clap" {
 	"cat_anims\gesture_clap.smd"
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "gesture_confused" {
 	"cat_anims\gesture_confused.smd"
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "gesture_embarass" {
 	"cat_anims\gesture_embarass.smd"
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "gesture_exchange" {
 	"cat_anims\gesture_exchange.smd"
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "gesture_facepalm" {
 	"cat_anims\gesture_facepalm.smd"
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "gesture_shock" {
 	"cat_anims\gesture_shock.smd"
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "bartender_search" {
 	"cat_anims\bartender_search.smd"
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "cellist_bendgesture" {
 	"cat_anims\cellist_bendgesture.smd"
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "singer_crawl" {
 	"cat_anims\singer_crawl.smd"
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "singer_reveal" {
 	"cat_anims\singer_reveal.smd"
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "singer_showshard" {
 	"cat_anims\singer_showshard.smd"
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "singer_survey" {
 	"cat_anims\singer_survey.smd"
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "singer_whistle" {
 	"cat_anims\singer_whistle.smd"
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "gesture_shrug" {
 	"cat_anims\gesture_shrug.smd"
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "pose_sit01" {
 	"cat_anims\pose_sit01.smd"
 	fps 24
 	loop
+	addlayer head_yaw
 }
 
 $Sequence "pose_sit01_floor" {
 	"cat_anims\pose_sit01_floor.smd"
 	fps 24
 	loop
+	addlayer head_yaw
 }
 
 $Sequence "pose_sit02" {
 	"cat_anims\pose_sit02.smd"
 	fps 24
 	loop
+	addlayer head_yaw
 }
 
 $Sequence "pianist_drunk_idle" {
 	"cat_anims\pianist_drunk_idle.smd"
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "pianist_drunk_to_player" {
 	"cat_anims\pianist_drunk_to_player.smd"
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "pianist_drunk_to_idle" {
 	"cat_anims\pianist_drunk_to_idle.smd"
 	fps 24
+	addlayer head_yaw
 }
 
 $Sequence "pianist_drunk_slam" {
 	"cat_anims\pianist_drunk_slam.smd"
 	fps 24
+	addlayer head_yaw
 }
 
-$animation "ears_base" "cat_anims\ears_base.smd"
+$Sequence "falling" {
+	"cat_anims\falling.smd"
+	fps 24
+	addlayer head_yaw
+}
+
+/*$animation "ears_base" "cat_anims\ears_base.smd"
 $animation "ears_back_a" "cat_anims\ears_back.smd" subtract "ears_base" 0
 $animation "ears_up_a" "cat_anims\ears_up.smd" subtract "ears_base" 0
 
@@ -213,4 +255,29 @@ $Sequence "blend_ears_up" {
 	"ears_up_a"
 	delta
 	fps 24
+} */
+
+$animation "head_base" "cat_anims\head_neutral.smd"
+$animation "head_neutral" "cat_anims\head_neutral.smd" subtract "head_base" 0
+$animation "head_left_a" "cat_anims\head_left.smd" subtract "head_base" 0
+$animation "head_right_a" "cat_anims\head_right.smd" subtract "head_base" 0
+$animation "head_up_a" "cat_anims\head_up.smd" subtract "head_base" 0
+$animation "head_down_a" "cat_anims\head_down.smd" subtract "head_base" 0
+
+
+$Sequence "head_yaw" {
+	head_right_a	head_neutral	head_left_a
+	blend head_yaw -90 90
+	blendwidth 3
+	delta
+	hidden
+	addlayer head_pitch
+}
+
+$Sequence "head_pitch" {
+	head_up_a		head_neutral	head_down_a
+	blend head_pitch -60 60
+	blendwidth 3
+	delta
+	hidden
 }
