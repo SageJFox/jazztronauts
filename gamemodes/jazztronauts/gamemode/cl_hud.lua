@@ -196,9 +196,8 @@ local function DrawShardCount()
 	local left, total = mapgen.GetShardCount()
 	local str = jazzloc.Localize("jazz.shards.partialcollected",total - left,total)
 	local color = Color(143, 0, 255, 100)
-	if left == 0 then
-		if total == 1 then str = jazzloc.Localize("jazz.shards.all1") else
-		str = jazzloc.Localize("jazz.shards.all",total) end
+	if left == 0 then 
+		str = total == 1 and jazzloc.Localize("jazz.shards.all1") or jazzloc.Localize("jazz.shards.all",total)
 		color = HSVToColor(math.fmod(CurTime() * 360, 360), .3, .7)
 	end
 
