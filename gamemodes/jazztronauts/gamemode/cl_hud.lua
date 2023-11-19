@@ -197,7 +197,8 @@ local function DrawShardCount()
 	local str = jazzloc.Localize("jazz.shards.partialcollected",total - left,total)
 	local color = Color(143, 0, 255, 100)
 	if left == 0 then
-		str = jazzloc.Localize("jazz.shards.all",total)
+		if total == 1 then str = jazzloc.Localize("jazz.shards.all1") else
+		str = jazzloc.Localize("jazz.shards.all",total) end
 		color = HSVToColor(math.fmod(CurTime() * 360, 360), .3, .7)
 	end
 
@@ -222,6 +223,7 @@ hook.Add("HUDPaint", "JazzDrawHUD", function()
 	-- Always show the moneybux in the hub
 	if mapcontrol.IsInHub() then
 		HideTime = math.huge
+
 	end
 
 end )
