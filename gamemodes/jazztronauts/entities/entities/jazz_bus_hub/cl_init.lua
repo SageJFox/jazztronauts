@@ -96,7 +96,7 @@ end
 
 local function ProgressString(col, total)
 	if col == total then
-		return jazzloc.Localize("jazz.shards.all",total)
+		return total == 1 and jazzloc.Localize("jazz.shards.all1",total) or jazzloc.Localize("jazz.shards.all",total)
 	end
 
 	return jazzloc.Localize("jazz.shards.partial",col,total)
