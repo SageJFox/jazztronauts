@@ -30,7 +30,7 @@ AddCSLuaFile("cl_texturelocs.lua")
 
 util.AddNetworkString("shard_notify")
 
-local LOADING_SCREEN_URL = "host.foohy.net/public/Documents/Jazz/"
+local LOADING_SCREEN_URL = "asset://jazztronauts/html/loading.html"
 
 CreateConVar("crazyfix","0",bit.bor(FCVAR_PROTECTED,FCVAR_UNREGISTERED,FCVAR_UNLOGGED))
 

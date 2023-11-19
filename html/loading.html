@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<link rel="preload" href="../resource/fonts/kgshakeitoffchunky.ttf" as="font" type="font/ttf" crossorigin>
+		<link rel="stylesheet" href="style.css">
+		<script defer src="script.js"></script>
+	</head>
+	<body>
+		<div id="top">
+			<img src="images/logo.png">
+			<div>
+				<h2 id="nextstop"></h2>
+				<h3 id="mapname"></h3>
+			</div>
+		</div>
+
+		<div id="road"></div>
+		<img id="trolley" src="images/trolley.png">
+
+		<div id="scrollers"></div>
+
+		<!--<img src="startinglua.png" style="position: absolute; bottom: 10px; right: 10px; z-index: 9999"> <!--placement reference don't ship lol-->
+	</body>
+	<script>
+		function GameDetails(_, _, mapname, _, _, _, _, language) {
+			let nextstop = "Next Stop:";
+			let thebar = "The Bar";
+			
+			if (language === "en-PT") {
+				nextstop = "Avast, ye be comin' up on:";
+				thebar = "Th' Tavern";
+			}
+			document.getElementById("nextstop").textContent = nextstop;
+			if (mapname == "jazz_bar") mapname = thebar;
+			if (mapname == "jazz_outro") mapname = thebar;
+			if (mapname == "jazz_outro2") mapname = thebar;
+			if (mapname == "jazz_apartments") mapname = thebar; //tee hee
+			document.getElementById("mapname").textContent = mapname;
+		}
+	</script>
+</html>

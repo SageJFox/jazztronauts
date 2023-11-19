@@ -1,0 +1,136 @@
+@font-face {
+	font-family: "KG Shake It Off Chunky"; font-display: block;
+	src: url("../resource/fonts/kgshakeitoffchunky.ttf") format("truetype");
+}
+
+html {
+	min-height: 100vh;
+}
+
+body {
+	margin: 0;
+	font-family: "KG Shake It Off Chunky";
+	color: #d9c040;
+	text-align: center;
+	background-image:	url("images/jazzshell.jpg"),
+						url("images/jazzswirl01.jpg");
+	background-repeat: repeat, repeat;
+	background-size: 18%, 100%;
+	background-blend-mode: color-dodge;
+	animation: void 2000s infinite linear;
+}
+
+@keyframes void {
+	0% { background-position-x: 0, -5120px }
+	to { background-position-x: -51200px, -25600px; }
+}
+
+
+
+#top {
+	position: relative;
+	z-index: 999;
+	margin-top: 100px;
+	filter: drop-shadow(0 0 3px black)
+}
+#top h2 { font-size: 2em; margin: 20px 0 }
+#top h3 { font-size: 1.3em; margin: 0 }
+
+@media (max-height: 1000px) {
+	#top { margin-top: 70px }
+}
+
+@media (max-height: 899px) {
+	#top h2 { margin: 10px 0 }
+}
+
+@media (max-height: 850px) {
+	#top { margin-top: 50px }
+	#top h2 { margin: 5px 0 }
+}
+
+@media (max-height: 719px) {
+	#top { margin-top: 25px }
+}
+
+/* move text to one line */
+@media (max-height: 630px) {
+	#top div {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	#top h2 { margin-right: 20px; }
+}
+
+/* this works for 640x480, gmod can't go lower */
+@media (max-height: 530px) {
+	#top { margin-top: 10px }
+}
+
+
+
+#road, #trolley {
+	z-index: 26;
+}
+
+#road {
+	position: absolute;
+	bottom: 15%;
+	background: url("images/road.jpg");
+	background-size: auto 100%;
+	height: min(15%, 12vw); width: 100%;
+	animation: road 200s infinite linear;
+}
+
+@keyframes road {
+	0% { background-position-x: 0; }
+	to { background-position-x: -102400px; }
+}
+
+#trolley {
+	position: fixed;
+	bottom: 20%;
+	left: 50%;
+	transform: translateX(-50%);
+	max-height: 36%;
+	max-width: 90%;
+}
+
+
+
+#scrollers img {
+	position: fixed;
+	animation-timing-function: linear;
+	right: -25%;
+}
+
+@keyframes scrollanim {
+	0% { right: -25%; }
+	to { right: 125%; }
+}
+
+.scroller-asset {
+	image-rendering: crisp-edges;
+}
+
+@keyframes spinny {
+	from {transform: rotate(0deg)}
+	50% {transform: rotate(180deg)}
+	to {transform: rotate(360deg)}
+}
+
+@keyframes bouncy {
+	from {transform: translateY(25px)}
+	to {transform: translateY(-25px)}
+}
+
+@keyframes flyout {
+	from {transform: scale(1)}
+	to {transform: scale(0.2)}
+}
+
+@keyframes flyin {
+	from {transform: scale(1)}
+	to {transform: scale(2)}
+}
