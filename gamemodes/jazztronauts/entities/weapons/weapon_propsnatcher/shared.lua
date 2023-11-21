@@ -518,6 +518,9 @@ SWEP.ShootFade = 0
 SWEP.WorldShootFade = 0
 SWEP.BadShootFade = 0
 SWEP.EquipFade = 0
+
+local drawhud = GetConVar("cl_drawhud")
+
 function SWEP:DrawHUD()
 	local owner = self:GetOwner()
 	if not IsValid(owner) or IsValid(owner:GetVehicle()) then return end -- Don't draw while in vehicle
@@ -539,54 +542,57 @@ function SWEP:DrawHUD()
 	local ent, accept, near = self.ConeEnt, self.ConeAccept or {}, self.ConeNear or {}
 
 	-- Draw entities we can't grab now, but we're nearby
-	local s = ScreenScale(1)
-	surface.SetDrawColor(100, 100, 100)
-	for _, v in pairs(near) do
-		if not IsValid(v) then continue end
-
-		cam.Start3D()
-		local toscr = getPropCenter(v):ToScreen()
-		cam.End3D()
-
-		surface.DrawRect(toscr.x - s, toscr.y - s, s *2, s *2)
-	end
-
-	-- Draw all the entities that are currently eligible to be snatched
-	local s = ScreenScale(2)
-	surface.SetDrawColor(255, 100, 100)
-
-	render.SetStencilEnable(true)
-	render.SetStencilWriteMask(0xFF)
-	render.SetStencilTestMask(0xFF)
-
-	render.ClearStencil()
-
-	-- First, draw where we cut out the world
-	render.SetStencilReferenceValue(1)
-	render.SetStencilCompareFunction(STENCIL_ALWAYS)
-	render.SetStencilPassOperation(STENCIL_REPLACE)
-
-	-- Write the circle where we want to clip props to
-	render.OverrideColorWriteEnable(true, false)
-	drawCircle(ScrW() / 2, ScrH() / 2, radius * 0.75, 15)
-	render.OverrideColorWriteEnable(false)
-
-	-- Now every prop drawn will obey the stencil
-	render.SetStencilCompareFunction(STENCIL_EQUAL)
-
-	-- Highlight the hovered entity the most
-
-	render.SuppressEngineLighting(true)
-
-	-- Also redraw/color all 'available' props
-	local _, mat = jazzvoid.GetVoidOverlay()
-	render.MaterialOverride(mat)
-	render.SetColorModulation(4, 4, 4)
-	cam.Start3D()
-
-		for k, v in pairs(accept) do
+	if not drawhud or drawhud:GetBool() then
+		local s = ScreenScale(1)
+		surface.SetDrawColor(100, 100, 100)
+		for _, v in pairs(near) do
 			if not IsValid(v) then continue end
-			v:DrawModel()
+
+			cam.Start3D()
+			local toscr = getPropCenter(v):ToScreen()
+			cam.End3D()
+
+			surface.DrawRect(toscr.x - s, toscr.y - s, s *2, s *2)
+		end
+
+		-- Draw all the entities that are currently eligible to be snatched
+		--local s = ScreenScale(2)
+		--surface.SetDrawColor(255, 100, 100)
+
+		render.SetStencilEnable(true)
+		render.SetStencilWriteMask(0xFF)
+		render.SetStencilTestMask(0xFF)
+
+		render.ClearStencil()
+
+		-- First, draw where we cut out the world
+		render.SetStencilReferenceValue(1)
+		render.SetStencilCompareFunction(STENCIL_ALWAYS)
+		render.SetStencilPassOperation(STENCIL_REPLACE)
+
+		-- Write the circle where we want to clip props to
+		render.OverrideColorWriteEnable(true, false)
+		drawCircle(ScrW() / 2, ScrH() / 2, radius * 0.75, 15)
+		render.OverrideColorWriteEnable(false)
+
+		-- Now every prop drawn will obey the stencil
+		render.SetStencilCompareFunction(STENCIL_EQUAL)
+
+		-- Highlight the hovered entity the most
+
+		render.SuppressEngineLighting(true) --note/todo: this currently affects *all* props in the cone. This doesn't seem intentional based on its comment?
+
+		-- Also redraw/color all 'available' props
+		local _, mat = jazzvoid.GetVoidOverlay()
+		render.MaterialOverride(mat)
+		render.SetColorModulation(4, 4, 4)
+	end
+	cam.Start3D()
+		if not drawhud or drawhud:GetBool() then
+			for k, v in pairs(accept) do
+				if not IsValid(v) then continue end
+				v:DrawModel()
+			end
 		end
 
 		render.SetColorModulation(1, 1, 1)
@@ -605,6 +611,7 @@ function SWEP:DrawHUD()
 		end
 
 	cam.End3D()
+	if drawhud and not drawhud:GetBool() then return end
 
 	-- Draw what we're currently hovered over
 	if IsValid(ent) and drawExtended then

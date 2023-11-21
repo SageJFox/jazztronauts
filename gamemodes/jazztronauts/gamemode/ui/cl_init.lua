@@ -9,15 +9,19 @@ include("worldmarker/cl_init.lua")
 include("nametags/cl_init.lua")
 include("cl_skin.lua")
 
+local drawhud = GetConVar("cl_drawhud")
+
 function GM:HUDPaint()
 
 	self.BaseClass.HUDPaint(self)
 
 	dialog.PaintAll()
 	--radar.Paint()
-	propfeed.Paint()
-	eventfeed.Paint()
-	jnametag.Paint()
+	if not drawhud or drawhud:GetBool() then
+		propfeed.Paint()
+		eventfeed.Paint()
+		jnametag.Paint()
+	end
 	loadicon.Paint()
 
 end
