@@ -4,7 +4,7 @@
 	"$envmapmask" "models/sunabouzu/jazztable02_s"
 	$selfillum 1
 	"$selfillumtint"	"[1 1 1]"
-	"$nocull" 1
+	//"$nocull" 1
 	"%keywords" "jazz"
     	"$envmap" "env_cubemap"
 //	"$basealphaenvmapmask" 1
