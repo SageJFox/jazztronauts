@@ -34,7 +34,6 @@ b1:
 	&b2
 	
 b2:
-	#BIG OL' TODO - definitely a prime candidate for letting the map maker override the camera positioning in this scene... somehow.
 	*spawn sereneroot dummy*
 	*setlocale sereneroot scene_pond scene_diningroom_far scene_diningroom*
 	*setcamroot sereneroot setpos 1229.871582 -192.401825 285.469360;setang 14.656 159.629 0.000 fov70*
@@ -44,10 +43,10 @@ b2:
 	
 b3:
 	*setspeaker cat_bar*
-	*setcamroot cat_bar setpos 207.832764 62.716553 63.822464;setang 6.929 -161.127 0.000*	##### GROUP SHOT
+	*setcamroot cat_bar setpos 207.832764 62.716553 63.822464;setang 6.929 -161.127 0.000 fov70*	##### GROUP SHOT
 	#*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000*	##### GROUP SHOT
 	A*BAR_BLINK*n *BAR_SURPRISE*interesting*setanim cat_bar gesture_confused 1 idle* proposal that I would entertain,%*BAR_NEUTRAL* if not for the 
-	fact that I know what your concept of %"cutting loose" is.%%%%
+	fact that I know what your concept of %"cutting loose"% is.%%%%
 	It'*BAR_BLINK*s*BAR_PISSED* very difficult to get blood out of tile grout,% you know.
 	&b4
 	
@@ -70,7 +69,7 @@ b6:
 	*setoffset cat_piano setpos -7.740967 -46.271484 0;setang 0.000 90.000 0.000*
 	*setcamroot cat_bar setpos 207.832764 62.716553 63.822464;setang 6.929 -161.127 0.000 fov70*	##### GROUP SHOT
 	#*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000 fov70*	##### GROUP SHOT
-	> The Pianist*setanim cat_piano gesture_anger 1 idle**emitsound physics/wood/wood_crate_impact_hard3.wav 0.8* slams her paw down on the bar and 
+	*setanim cat_piano gesture_anger 1.375 idle*> The Pianist*emitsound physics/wood/wood_crate_impact_hard3.wav 0.8* slams her paw down on the bar and 
 	turns to face you,% eyes narrowing.
 	&b7
 	

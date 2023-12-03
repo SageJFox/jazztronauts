@@ -72,7 +72,6 @@
 	input StopVomit(void)  : "Stop vomiting props"
 ]
 
-
 @PointClass base(Targetname, Angles) studioprop("models/sunabouzu/jazzbigtv.mdl") = jazz_hub_browser : "Jazz Addon Browser"
 [
 	output OnMapRolled(void) : "Fires when a map has been successfully rolled"
@@ -182,7 +181,6 @@
 	StealThreshold(integer) : "Steal Threshold": 100 : "Percentage of brushes needed to be stolen for the OnThresholdHit output to fire. (0-100 where 50 is half brushes, 100 is all, etc.)"
 ]
 
-
 @PointClass base(Targetname) iconsprite("editor/jazz_concommand.vmt") = jazz_concommand : "Jazz Console Command Executer"
 [
 	Concommand(string)	: "Console Command" : "" : "Command to run on the server."
@@ -268,7 +266,6 @@
 	output OnMapSpawn(integer) : "Fired when map spawns, with the value being which cat encounter to show. 1 is first, 2 is second, 0 is none."
 ]
 
-
 @PointClass base(Targetname, Angles) studioprop() = mediaplayer_tv : "Plays media"
 [
 	output OnMediaStarted(void) : "Fired when media playback begins"
@@ -286,6 +283,16 @@
 	model(studio) : "World Model" : "models/sunabouzu/jazzlily01.mdl"
 	bodygroup(string) : "Bodygroup" : "0" : "Sets the model's bodygroups. Uses the GMod method, so each character in the string represents a separate bodygroup. (0 to 9, a to z being 10 to 35)"
 	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
+]
+
+@PointClass base(Targetname, Angles) studioprop("models/editor/camera.mdl") = jazz_sceneviewoverride : "Manual camera placement for jazz scenes"
+[
+	script(string) : "Script" : "" : "The script that this entity works on"
+	branch(string) : "Branch" : "" : "The part of the script that this entity is overriding"
+	branchnumber(integer) : "Location" : 0 : "If branch has multiple camera calls, defines which one this entity is overriding, if any. 0 to insert at start, -1 for end, otherwise replace nth view"
+	fov(integer) : "FOV" :  : "The FOV of this view. Leave blank to use existing FOV"
+	istween(boolean) : "Tween" : 0 : "Is this view a tween end location?"
+	tweentime(float) : "Tween Time" : "5.0" : "Time to spend tweening"
 ]
 
 @PointClass base(Targetname, Angles) studioprop("models/matt/jazz_trolley.mdl") = info_busstop : "Marker for summoned trolley to travel to"

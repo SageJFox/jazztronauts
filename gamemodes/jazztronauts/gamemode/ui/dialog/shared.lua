@@ -473,6 +473,51 @@ function LoadScripts()
 		for _, script in pairs( local_scripts ) do
 			ScriptSources[script] = file.Read( local_scriptpath .. script, "GAME" )
 		end
+
+		-- Get camera overrides and apply them here
+		for _, override in ipairs( ents.FindByClass("jazz_sceneviewoverride") ) do
+			if IsValid(override) then
+				-- first, find the script we're working on
+				local scriptname =string.Explode(".txt$",override:GetScript(),true)[1]..".txt" --let the mapper put .txt on if they want, but don't require it
+				local script = ScriptSources[scriptname]
+				print("Working on script: ",scriptname)
+
+				-- then find the start of the branch we want
+				local _,branchstart,_ = string.find(script,override:GetBranch()..":\n",0)
+
+				--now find the command we want to change
+				local foundstart, foundend, branchnumber, oldcommand = branchstart, branchstart, override:GetBranchNumber(), ""
+				
+				if branchnumber > 0 then
+					local pattern = "[%w]*cam[%w]* [%w%d%-%.%ssetpos]+ [%d%-%.]+ [%d%-%.]+%s*;[setang]*%s*[%d%-%.]+ [%d%-%.]+ [%d%-%.]+" --attempting to find various camera setting commands - can put [%*]? at the start and end if needed
+					if override:GetFOV() ~= 0 then pattern = pattern .. "[ ]*[fov%d%-%.]*" end -- add FOV to the mix if we're replacing it
+
+					for var = 1, branchnumber do --TODO: This doesn't ignore comments, which we have a lot of for old camera stuff.
+						foundstart,foundend,_ = string.find(script,pattern,foundend)
+						oldcommand = string.sub(script,foundstart,foundend)
+						--print(foundend,oldcommand)
+					end
+
+					local left, right, command = string.Left(script,foundstart - 1), string.sub(script,foundend + 1),override:GetCommand()
+					print("Replacing [ "..oldcommand.." ] with [ "..command.." ]")
+					--print(string.sub(left,-50),command,string.sub(right,0,50))
+					script = left .. command .. right
+
+				-- we don't want to find a specific command, we just want this at the end of this branch
+				elseif branchnumber < 0 then
+					foundend,_,_ = string.find(script,"[\t ]*[%w]-:\n",branchstart)
+					script = string.Left(script,foundend - 1).. "*" .. override:GetCommand() .. "*\n" .. string.sub(script,foundend + 1)
+
+				-- we don't want to find a specific command, we just want this at the start of this branch
+				else
+					script = string.Left(script,foundend - 1).. "\n*" .. override:GetCommand() .. "*" .. string.sub(script,foundend + 1)
+				end
+				
+				ScriptSources[scriptname] = script
+				--print("LET ME GET THIS RIGHT:")
+				--print(string.sub(script,math.max(0,foundend - 255),math.min(0,foundend - 255) + foundend + 255))
+			end
+		end
 	end
 
 	print("[Jazz Dialog] Compiling scripts...")
@@ -586,9 +631,7 @@ function EnterNode(cmd, callback)
 end
 
 function Init()
-
 	LoadScripts()
-
 end
 
 local function EncodeScripts( sources, whitelist )
