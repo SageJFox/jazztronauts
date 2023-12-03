@@ -43,3 +43,11 @@ function ENT:Initialize()
 	end
 	--print(self:GetScript().."."..self:GetBranch().. ": *"..self:GetCommand().."* ("..self:GetBranchNumber()..")")
 end
+
+if SERVER then
+	hook.Add( "SetupPlayerVisibility", "AddJazzSceneViewOverrides", function( ply, viewEntity )
+		for _, ent in ents.Iterator() do
+			if IsValid(ent) and ent:GetClass() == "jazz_sceneviewoverride" and not ply:TestPVS(ent) then AddOriginToPVS( ent:GetPos() ) end
+		end
+	end )
+end
