@@ -133,8 +133,12 @@ local function parsePosAng(...)
 	end
 	if posang[2] then
 		tblPosAng.ang = Angle(string.Replace(posang[2], "setang", ""))
+		local fovtest = string.Split(string.TrimLeft(string.Replace(posang[2], "setang", ""))," ")
+		if #fovtest > 3 then
+			tblPosAng.fov = tonumber(string.Replace(fovtest[4],"fov",""))
+		end
 	end
-
+	
 	return tblPosAng
 end
 
@@ -1132,8 +1136,8 @@ end)
 --adding functionality to RUN_CONVERSION print to recognize if this is meant to be the first time the camera has been set to this root, and update accordingly
 local camrootcount = 0
 
-dialog.RegisterFunc("setcam", function(d, setpos, px, py, pzsetang, ax, ay, az, fov)
-	local posang = parsePosAng(setpos, px, py, pzsetang, ax, ay, az)
+dialog.RegisterFunc("setcam", function(d, ...)
+	local posang = parsePosAng(...)
 
 	if !posang.pos or !posang.ang then
 		view = nil
@@ -1145,13 +1149,9 @@ dialog.RegisterFunc("setcam", function(d, setpos, px, py, pzsetang, ax, ay, az, 
 	view.endtime = nil
 	view.curpos = posang.pos
 	view.curang = posang.ang
+	if posang.fov then view.fov = posang.fov end
 
 	WorldToSceneRootCam(true)
-
-	if fov then
-		local fov = tonumber(string.Replace(fov,"fov",""))
-		view.fov = fov
-	end
 
 	if IsValid(sceneRoots[view]) and RUN_CONVERSION then
 		local str = "\t*setcamoffset setpos "..tostring(view.offset)..";setang "..tostring(view.rot)
@@ -1162,7 +1162,7 @@ dialog.RegisterFunc("setcam", function(d, setpos, px, py, pzsetang, ax, ay, az, 
 			end
 			if root ~= "" then str = string.Replace(str,"setcamoffset","setcamroot "..root) end
 		end
-		if fov then str = str.." "..fov end
+		if posang.fov then str = str.." fov"..tostring(posang.fov) end
 		camrootcount = camrootcount + 1
 		print(str.."*")
 	end
@@ -1177,9 +1177,9 @@ dialog.RegisterFunc("setcam", function(d, setpos, px, py, pzsetang, ax, ay, az, 
 
 end)
 
-dialog.RegisterFunc("setcamroot", function(d, rootname, setpos, px, py, pzsetang, ax, ay, az, fov)
+dialog.RegisterFunc("setcamroot", function(d, rootname, ...)
 	local root = FindByName(rootname)
-	local posang = parsePosAng(setpos, px, py, pzsetang, ax, ay, az)
+	local posang = parsePosAng(...)
 
 	view = view or {}
 	if posang.pos then
@@ -1188,6 +1188,10 @@ dialog.RegisterFunc("setcamroot", function(d, rootname, setpos, px, py, pzsetang
 		
 	if posang.ang then
 		view.rot = posang.ang
+	end
+
+	if posang.fov then 
+		view.fov = posang.fov
 	end
 
 	if IsValid(root) then
@@ -1203,11 +1207,6 @@ dialog.RegisterFunc("setcamroot", function(d, rootname, setpos, px, py, pzsetang
 		camrootcount = 0
 	end
 
-	if fov then
-		local fov = tonumber(string.Replace(fov,"fov",""))
-		view.fov = fov
-	end
-
 	-- Only create the player proxy if we modify the camera
 	FindByName("player")
 
@@ -1215,8 +1214,8 @@ end)
 
 --update the view's offset to its current scene root
 
-dialog.RegisterFunc("setcamoffset", function(d, setpos, px, py, pzsetang, ax, ay, az, fov)
-	local posang = parsePosAng(setpos, px, py, pzsetang, ax, ay, az)
+dialog.RegisterFunc("setcamoffset", function(d, ...)
+	local posang = parsePosAng(...)
 
 	if !posang.pos or !posang.ang then
 		view = nil
@@ -1228,13 +1227,9 @@ dialog.RegisterFunc("setcamoffset", function(d, setpos, px, py, pzsetang, ax, ay
 	view.endtime = nil
 	view.offset = posang.pos
 	view.rot = posang.ang
+	if posang.fov then view.fov = posang.fov end
 
 	SceneRootToWorldCam(true)
-
-	if fov then
-		local fov = tonumber(string.Replace(fov,"fov",""))
-		view.fov = fov
-	end
 
 	-- Only create the player proxy if we modify the camera
 	FindByName("player")
