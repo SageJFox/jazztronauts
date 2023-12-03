@@ -486,15 +486,23 @@ function LoadScripts()
 				local _,branchstart,_ = string.find(script,override:GetBranch()..":\n",0)
 
 				--now find the command we want to change
-				local foundstart, foundend, branchnumber, oldcommand = branchstart, branchstart, override:GetBranchNumber(), ""
+				local foundstart, foundend, branchnumber = branchstart, branchstart, override:GetBranchNumber()
 				
 				if branchnumber > 0 then
-					local pattern = "[%w]*cam[%w]* [%w%d%-%.%ssetpos]+ [%d%-%.]+ [%d%-%.]+%s*;[setang]*%s*[%d%-%.]+ [%d%-%.]+ [%d%-%.]+" --attempting to find various camera setting commands - can put [%*]? at the start and end if needed
+					local pattern = "[%w]*cam[%w]* [%w%d%-%.%ssetpos]+ [%d%-%.]+ [%d%-%.]+%s*;[setang]*%s*[%d%-%.]+ [%d%-%.]+ [%d%-%.]+" --attempting to find various camera setting commands
 					if override:GetFOV() ~= 0 then pattern = pattern .. "[ ]*[fov%d%-%.]*" end -- add FOV to the mix if we're replacing it
-
-					for var = 1, branchnumber do --TODO: This doesn't ignore comments, which we have a lot of for old camera stuff.
+					local comment, endline, oldcommand = "#[%g%s]*", "[%g%s]*\n", ""
+					while branchnumber > 0 do
+						local oldfoundend = foundend
 						foundstart,foundend,_ = string.find(script,pattern,foundend)
 						oldcommand = string.sub(script,foundstart,foundend)
+						branchnumber = branchnumber - 1
+						--check if the camera call we just found was actually inside of a comment, and skip it (by just going on our merry way)
+						local oldcommandpatternsafe = string.Replace(oldcommand,".","%.") --gotta escape these characters
+						oldcommandpatternsafe = string.Replace(oldcommand,"-","%-")
+						if string.find(script,comment..oldcommandpatternsafe..endline,oldfoundend) then
+							branchnumber = branchnumber + 1
+						end
 						--print(foundend,oldcommand)
 					end
 
