@@ -459,7 +459,6 @@ function GM:PlayerSpawn( ply )
 
 	-- Stop observer mode
 	ply:UnSpectate()
-	ply:SetupHands()
 
 	local ang = ply:EyeAngles()
 	ang.r = 0
@@ -468,8 +467,11 @@ function GM:PlayerSpawn( ply )
 	player_manager.OnPlayerSpawn( ply )
 	player_manager.RunClass( ply, "Spawn" )
 
+	--self.BaseClass.PlayerSpawn( self, ply )
+	
 	hook.Call( "PlayerLoadout", GAMEMODE, ply )
 	hook.Call( "PlayerSetModel", GAMEMODE, ply )
+	ply:SetupHands()
 end
 
 -- Stop killing the player, they don't collide
