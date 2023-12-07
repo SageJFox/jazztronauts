@@ -201,7 +201,6 @@ m4:
 	&m5
 	
 m5:
-	#big ol' todo - another one of these "just being pretty" sorta shots.
 	*setcamroot narrator setpos -785.246338 -1119.675781 8.292404;setang -10.000 -25.000 0.000*
 	*tweencamoffset 20 setpos -653.617920 -841.764648 8.292404;setang -10.000 -25.000 0.000*
 	#*setcam setpos 3310.753662 5280.324219 8.292404;setang -10 -25 0.000000*
@@ -216,7 +215,6 @@ m5:
 m5b:
 	*setanim cat_singer gesture_agree 1 idle*
 	*setspeaker cat_singer*
-	narratesinger()
 	> “The Mewseum has a whole extra pocket dimension 
 	full of stuff that's not cool enough to display.”
 	&m6
@@ -224,6 +222,7 @@ m5b:
 m6:
 	*setcamroot cat_singer setpos 51.381348 210.670654 64.014961;setang -0.363 -82.017 0.000*
 	#*setcam setpos 3965.816895 6339.972168 64.046211;setang -0.363447 7.983169 0.000000*
+	narratesinger()
 	*SINGER_MAD*
 	> Seeing your unchanging express*SINGER_BLINK*ion,%%*setanim cat_singer gesture_sigh* they sigh. *setspeaker cat_singer*
 	“%%It didn't see*SINGER_MAD*m RIGHT to just destroy the hard work of everyone 

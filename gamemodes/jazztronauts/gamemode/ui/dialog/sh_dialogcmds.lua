@@ -264,7 +264,6 @@ function CreatePlayerProxy()
 	ent:SetSkin(LocalPlayer():GetSkin())
 	for bodygroup = 0, #LocalPlayer():GetBodyGroups() do
 		ent:SetBodygroup(bodygroup,LocalPlayer():GetBodygroup(bodygroup))
-		bodygroup = bodygroup + 1
 	end
 	
 	function ent.GetPlayerColor()
