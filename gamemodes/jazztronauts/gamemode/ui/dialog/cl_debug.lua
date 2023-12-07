@@ -36,3 +36,5 @@ concommand.Add("jazz_debug_runscript", function(ply, cmd, args)
 
 	dialog.StartGraph(script)
 end )
+
+CreateClientConVar("jazz_debug_sceneEditor_inCamera","1",false,false,"Set false to allow player control while playing a scene",0,1)
