@@ -50,6 +50,11 @@ function meta:GetNotes()
 	return jazzmoney.GetNotes(self)
 end
 
+function PLAYER:SetModel() -- whywhywhywhywhywhy (don't delete this or we lose playermodel skin/bodygroup setting)
+
+	BaseClass.SetModel( self )
+
+end
 
 if CLIENT then
 	-- Clientside only version of player:Lock()

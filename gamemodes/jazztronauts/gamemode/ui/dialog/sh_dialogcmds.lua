@@ -261,6 +261,16 @@ function CreatePlayerProxy()
 	ent:SetPos(LocalPlayer():GetPos())
 	ent:SetAngles(LocalPlayer():GetAngles())
 	ent:SetNoDraw(false)
+	ent:SetSkin(LocalPlayer():GetSkin())
+	for bodygroup = 0, #LocalPlayer():GetBodyGroups() do
+		ent:SetBodygroup(bodygroup,LocalPlayer():GetBodygroup(bodygroup))
+		bodygroup = bodygroup + 1
+	end
+	
+	function ent.GetPlayerColor()
+		return LocalPlayer():GetPlayerColor()
+	end
+
 	LocalPlayer().JazzDialogProxy = ent
 	function ent:GetName()
 		return LocalPlayer():GetName()
@@ -1547,6 +1557,9 @@ hook.Add("CalcView", "JazzDialogView", function(ply, origin, angles, fov, znear,
 	view.angles = view.curang and view.curang + angoff
 
 	view.drawviewer = false
+
+	if GetConVar("jazz_debug_sceneEditor_inCamera"):GetBool() == false then return end
+
 	return view
 end )
 
