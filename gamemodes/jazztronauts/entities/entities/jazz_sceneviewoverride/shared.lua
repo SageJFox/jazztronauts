@@ -42,7 +42,11 @@ function ENT:Initialize()
 		self:SetCommand(command .. tostring(self:GetPos()) .. ";" .. tostring(self:GetAngles()) .. fov)
 	end
 	--print(self:GetScript().."."..self:GetBranch().. ": *"..self:GetCommand().."* ("..self:GetBranchNumber()..")")
+	self:SetModel("models/editor/camera.mdl")
+	self:SetCollisionGroup(COLLISION_GROUP_IN_VEHICLE)
+	self:DrawShadow(false)
 end
+
 
 if SERVER then
 	hook.Add( "SetupPlayerVisibility", "AddJazzSceneViewOverrides", function( ply, viewEntity )
@@ -50,4 +54,10 @@ if SERVER then
 			if IsValid(ent) and ent:GetClass() == "jazz_sceneviewoverride" and not ply:TestPVS(ent) then AddOriginToPVS( ent:GetPos() ) end
 		end
 	end )
+	
+	return
+end
+
+
+function ENT:Draw()
 end
