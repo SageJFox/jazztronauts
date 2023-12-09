@@ -8,6 +8,8 @@ ENT.HeadLookSpeed = 3
 ENT.HeadLookBone = "rig_cat:j_head"
 ENT.HeadLookDistance = 400
 ENT.HeadLookRange = math.cos(math.rad(80))
+ENT.HeadLookExtra = math.cos(math.rad(81))
+ENT.HeadLooking = false
 ENT.LastChatFadeUpdate = 0
 
 ENT.ChatFade = 0
@@ -126,9 +128,9 @@ function ENT:UpdateHeadFollow()
 		lookAng:RotateAroundAxis(lookAng:Up(), 90)
 		lookAng:RotateAroundAxis(lookAng:Right(), 90)
 
-		if mat:GetRight():Dot(lookAng:Right()) > self.HeadLookRange then
-			goalAng = lookAng
-		end
+		 --compare to HeadLookExtra if we're currently looking at player, to prevent things like idle breathing repeatedly putting us into/out of range in edge cases
+		self.HeadLooking = mat:GetRight():Dot(lookAng:Right()) > (self.HeadLooking and self.HeadLookExtra or self.HeadLookRange)
+		if self.HeadLooking then goalAng = lookAng end
 	end
 
 	self.CurFollowAngle = self.CurFollowAngle or goalAng
