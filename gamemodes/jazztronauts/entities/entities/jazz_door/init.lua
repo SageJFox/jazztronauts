@@ -8,6 +8,8 @@ ENT.DoorOpen = Sound("doors/door1_move.wav")
 ENT.DoorClose = Sound("doors/door_wood_close1.wav")
 ENT.DoorLocked = Sound("krio/door_locked1.wav")
 
+local SF_STRIPWEAPONS = 1
+
 local outputs =
 {
 	"OnTeleport",
@@ -126,6 +128,10 @@ function ENT:StartLoading( ply )
 	timer.Simple( self.FadeTime + self.DelayTime, function()
 
 		if IsValid( ply ) then
+			//strip weapons
+			if self:HasSpawnFlags(SF_STRIPWEAPONS) then
+				ply:StripWeapons()
+			end
 			//Teleport the player
 			ply.Teleporting = false
 			ply:Freeze( false )

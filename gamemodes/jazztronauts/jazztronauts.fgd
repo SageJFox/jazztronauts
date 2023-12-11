@@ -32,6 +32,10 @@
 		0 : "No"
 		1 : "Yes"
 	]
+	spawnflags(flags) =
+	[
+		1 : "Strip Weapons"   : 0
+	]
 	
 	output OnTeleport(void) : "Fires on Teleport"
 	output OnUnlock(void) : "Fires when the door is unlocked"
