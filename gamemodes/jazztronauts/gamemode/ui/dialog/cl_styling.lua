@@ -224,7 +224,7 @@ end
 local function GetCurrentSpeaker()
 	local speaker = dialog.GetSpeaker()
 	if not IsValid(speaker) then speaker = focusProxy end
-	if not IsValid(speaker) then return nil, "   " end
+	if not IsValid(speaker) then return nil, "nil" end
 
 	-- Allow entities to have their own passive proxies
 	if speaker.JazzDialogProxy then
@@ -433,6 +433,8 @@ DialogCallbacks.DialogEnd = function(d)
 	dialog.ResetView()
 	dialog.StopBGMusic(1.5)
 	dialog.SetFocusProxy(nil)
+	dialog.SetPortraitOverride(nil)
+	dialog.SetNameOverride("nil")
 	LocalPlayer().JazzDialogLastLockAngles = nil
 
 	if IsValid(d.textpanel) then
