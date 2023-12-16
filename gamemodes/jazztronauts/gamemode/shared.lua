@@ -201,7 +201,13 @@ else
 			ev:Title(jazzloc.Localize("jazz.death.selector","%name"), 
 				{ name = name }
 			)
+		--trigger_hurt special messages
+		elseif attackclass == "trigger_hurt" then
 
+			local damtab = getDamageTypes(dmg)
+			ev:Title(jazzloc.Localize("jazz.triggerhurt." .. damtab[ math.random( #damtab ) ],"%name"), 
+				{ name = name }
+			)
 		--agh, you've killed me!
 		elseif IsValid(attacker) or attackclass ~= "" then
 
