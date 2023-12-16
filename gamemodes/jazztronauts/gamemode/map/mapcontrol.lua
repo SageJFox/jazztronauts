@@ -1,7 +1,7 @@
 
 module( 'mapcontrol', package.seeall )
 local defaultMapHost = "http://host.foohy.net/jazz/data/addons.txt"
-local defaultAddonCache = "jazztronauts/addons.txt"
+local defaultAddonCache = "data_static/jazztronauts/addons.txt"
 local overrideAddonCache = "jazztronauts/addons_override.txt"
 
 local fallbackVersion = VERSION < 210618 -- Maps unmounted fixed in gmod dev branch version 210618. Before that, fallback to local addons/maps instead
@@ -317,7 +317,7 @@ if SERVER then
 				addonsStr = file.Read(overrideAddonCache, "DATA")
 
 				-- Built in cache that comes with the game
-				addonsStr = addonsStr or file.Read(defaultAddonCache, "DATA")
+				addonsStr = addonsStr or file.Read(defaultAddonCache, "GAME")
 			end
 
 			insertAddons(GetExternalMapAddons(addonsStr or ""))
