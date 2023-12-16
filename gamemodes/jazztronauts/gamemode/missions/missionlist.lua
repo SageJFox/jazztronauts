@@ -126,7 +126,7 @@ AddMission(0, NPC_CAT_CELLO, {
 	-- They need to collect 15 of em' to complete the mission.
 	Count = count,
 
-	-- List of all missions that needs to have been completed before this one becomes available
+	-- List of all missions that need to have been completed before this one becomes available
 	-- Leave empty to be available immediately
 	Prerequisites = nil,
 
@@ -149,7 +149,7 @@ AddMission(1, NPC_CAT_CELLO, {
 	-- They need to collect 10 of em' to complete the mission.
 	Count = count,
 
-	-- List of all missions that needs to have been completed before this one becomes available
+	-- List of all missions that need to have been completed before this one becomes available
 	Prerequisites = { IndexToMID(0, NPC_CAT_CELLO) },
 
 	-- When they finish the mission, this function is called to give out a reward
@@ -173,7 +173,8 @@ AddMission(2, NPC_CAT_CELLO, {
 				"models/props/de_train/biohazardtank.mdl",
 				"models/props/de_train/biohazardtank_dm_10.mdl"
 			}) or
-			string.match(mdl, "jar") or
+			(string.match(mdl, "jar") and 
+				not string.match(mdl,"_ajar")) or
 			(string.match(mdl, "bottle") and
 				(string.match(mdl, "plastic") or
 				 string.match(mdl, "flask") or
@@ -204,7 +205,7 @@ AddMission(3, NPC_CAT_CELLO, {
 	-- They need to collect 1 of em' to complete the mission.
 	Count = count,
 
-	-- List of all missions that needs to have been completed before this one becomes available
+	-- List of all missions that need to have been completed before this one becomes available
 	Prerequisites = { IndexToMID(2, NPC_CAT_CELLO)  },
 
 	-- When they finish the mission, this function is called to give out a reward
