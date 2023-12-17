@@ -87,7 +87,8 @@ function RegisterSeries(baseUnlockName, basePrice, count, props)
 	for i=1, count do
 		local unlock = baseUnlockName .. i
 		local itemprops = {
-			name = name .. " - " .. i,
+			name = jazzloc.Localize("jazz.weapon.upgradeseries",name,i),
+			desc = isfunction(props.desc) and props.desc(i) or props.desc,
 			requires = req,
 			level = i,
 			baseseries = baseUnlockName

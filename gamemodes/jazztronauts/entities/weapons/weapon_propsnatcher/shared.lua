@@ -95,7 +95,7 @@ local snatch_multi = jstore.Register("snatch_multi", 50000, {
 })
 local snatch_world_speed = jstore.RegisterSeries("snatch_world_speed", 1, 10, {
 	name = jazzloc.Localize("jazz.weapon.snatcher.upgrade.wspeed"),
-	desc = jazzloc.Localize("jazz.weapon.snatcher.upgrade.wspeed.desc"),
+	desc = function(num) local num = num or 0 return jazzloc.Localize("jazz.weapon.snatcher.upgrade.wspeed.desc",num*100) end,
 	requires = snatch_world,
 	type = "upgrade",
 	cat = jazzloc.Localize("jazz.weapon.snatcher"),
