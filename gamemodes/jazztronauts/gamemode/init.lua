@@ -494,6 +494,26 @@ function GM:GetFallDamage(ply, speed)
 	return self.BaseClass.GetFallDamage(self, ply, speed)
 end
 
+function GM:EntityTakeDamage( target, dmginfo )
+	if  target:IsPlayer() and bit.band(dmginfo:GetDamageType(),bit.bor(DMG_CLUB,DMG_SLASH,DMG_CRUSH)) > 0 and not dmginfo:GetAttacker():IsNPC() then
+		local wep = target:GetActiveWeapon()
+		if IsValid(wep) and wep:GetClass() == "weapon_run" then
+			local scale = wep:PhysDmgScale() or 1
+			local olddmg = dmginfo:GetDamage()
+			dmginfo:ScaleDamage( scale )
+			if scale < 1 then
+				if dmginfo:GetDamage() <= (wep:PhysDmgLevel() or 0) then dmginfo:SetDamage(0) end --completely block damage if it's less than [level]
+				local volumeadjust = math.max(15,math.min(100,olddmg - dmginfo:GetDamage())) / 100 --get a number between 0.15 and 1 depending on our damage blocked
+				target:EmitSound("weapons/physcannon/energy_bounce1.wav",100,125 - scale * 100 + math.Rand(-10,10),volumeadjust)
+				--print("Bdoosh",volumeadjust)
+			end
+		end
+	end
+
+	return self.BaseClass.EntityTakeDamage(target,dmginfo)
+end
+
+
 local acknowledge = "yep, dump it"
 concommand.Add("jazz_reset_progress", function(ply, cmd, args)
 	if IsValid(ply) and not ply:IsSuperAdmin() then return end

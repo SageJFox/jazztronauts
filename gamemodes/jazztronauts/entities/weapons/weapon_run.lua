@@ -57,6 +57,15 @@ local run_highjump = jstore.Register("run_highjump", 25000, {
 	requires = run_nofall
 })
 
+-- Reduce physics damage
+local run_propbump = jstore.RegisterSeries("run_propbump", 15000, 6, {
+	name = jazzloc.Localize("jazz.weapon.run.upgrade.propbump"),
+	desc = function(num) local num = num or 0 return jazzloc.Localize("jazz.weapon.run.upgrade.propbump.desc",15*num,num) end,
+	type = "upgrade",
+	requires = storeRun,
+	priceMultiplier = 1.1,
+})
+
 function SWEP:PlayChargeSound(pitch)
 
 	pitch = pitch or 100
@@ -113,6 +122,12 @@ end
 function SWEP:ShouldTakeFallDamage()
 	return not self.IgnoreFallDamage
 end
+function SWEP:PhysDmgScale()
+	return math.max(0,1 - (jstore.GetSeries(self:GetOwner(), run_propbump) * 0.15 or 0))
+end
+function SWEP:PhysDmgLevel()
+	return jstore.GetSeries(self:GetOwner(), run_propbump) or 0
+end
 
 function SWEP:SetupDataTables()
 	self.BaseClass.SetupDataTables( self )
@@ -142,7 +157,8 @@ function SWEP:Cleanup()
 		owner:SetRunSpeed(self.OldRunSpeed)
 		owner:SetWalkSpeed(self.OldWalkSpeed)
 		owner:SetJumpPower(self.OldJumpPower)
-
+	end
+	if CLIENT and IsValid(owner) then
 		--clean up posing
 		local arm_right = owner:LookupBone( "ValveBiped.Bip01_R_UpperArm" )
 		local arm_right2 = owner:LookupBone( "ValveBiped.Bip01_R_ForeArm" )
