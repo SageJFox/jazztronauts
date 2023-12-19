@@ -206,7 +206,8 @@ r1a1:
 		&r4a1:
 			*setcamroot player setpos 87.991455 105.850830 118.539520;setang 18.936 -137.785 0.000*
 			#*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
-			I'm going to need to come back considerably more prepared to handle that stuff. *c 0*(exit)*c*
+			I'm going to need to come back considerably 
+			more prepared to handle that stuff. *c 0*(exit)*c*
 		&r5a1:
 			*setcamroot player setpos 87.991455 105.850830 118.539520;setang 18.936 -137.785 0.000*
 			#*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
@@ -323,6 +324,7 @@ m5:
 	#adjusted in here some since the original, got the player lying on the floor with the cellist looking over them
 	*setoffset player setpos 32.120567 -121.754395 0;setang -86 31.675 0.000*
 	*setcamroot cat_cello setpos 73.385254 -36.426025 1.469858;setang -27.489 153.512 0.000 fov70*
+	*remove tunnel*
 	#*setcam setpos 75.970108 2957.786377 1.469858;setang -27.489294 113.511642 0.000000 fov70*
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_jab 1 idle*
@@ -368,5 +370,5 @@ m8:
 	
 m9:
 	*setspeaker narrator*
-	> The Cellist helps you up and walks helps you walk over to the bar%.%.%.%% *mark_seen*
+	> The Cellist helps you up and walks you over to the bar%.%.%.%% *mark_seen*
 	&exit
