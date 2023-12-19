@@ -3,26 +3,54 @@
 	src: url("../resource/fonts/kgshakeitoffchunky.ttf") format("truetype");
 }
 
-html {
-	min-height: 100vh;
-}
+html { min-height: 100vh }
 
 body {
 	margin: 0;
-	font-family: "KG Shake It Off Chunky";
+	overflow: hidden;
+
 	color: #d9c040;
 	text-align: center;
-	background-image:	url("images/jazzshell.jpg"),
-						url("images/jazzswirl01.jpg");
-	background-repeat: repeat, repeat;
-	background-size: 18%, 100%;
-	background-blend-mode: color-dodge;
-	animation: void 2000s infinite linear;
+	font-family: "KG Shake It Off Chunky", "Comic Sans MS", sans-serif;
 }
 
-@keyframes void {
-	0% { background-position-x: 0, -5120px }
-	to { background-position-x: -51200px, -25600px; }
+
+
+#bgbelow, #bgabove {
+	position: absolute; top: 0;
+	width: 100vw; height: 100vh;
+
+	background-repeat: repeat;
+	animation-duration: 2000s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+
+#bgbelow {
+	background-image: url("images/jazzswirl01.jpg");
+	background-size: 200vh; width: 20480px;
+	animation-name: voidbelow;
+}
+
+#bgabove {
+	background-image: url("images/jazzshell.jpg");
+	background-size: 30vh; width: 51200px;
+	animation-name: voidabove;
+	opacity: 0.5;
+}
+
+@supports ( mix-blend-mode: color-dodge ) {
+	#bgabove { opacity: 1; mix-blend-mode: color-dodge }
+}
+
+/* why loop shit properly (impossible??) when you can make a 30 minute animation */
+@keyframes voidbelow {
+	0% { transform: translateX(0) }
+	to { transform: translateX(-25600px) }
+}
+@keyframes voidabove {
+	0% { transform: translateX(0) }
+	to { transform: translateX(-51200px) }
 }
 
 
@@ -31,8 +59,9 @@ body {
 	position: relative;
 	z-index: 999;
 	margin-top: 100px;
-	filter: drop-shadow(0 0 3px black)
+	text-shadow: 0 0 5px #000, 0 0 15px #000;
 }
+#top img { filter: drop-shadow(0 0 3px black) }
 #top h2 { font-size: 2em; margin: 20px 0 }
 #top h3 { font-size: 1.3em; margin: 0 }
 
@@ -77,21 +106,23 @@ body {
 #road {
 	position: absolute;
 	bottom: 15%;
-	background: url("images/road.jpg");
-	background-size: auto 100%;
-	height: min(15%, 12vw); width: 100%;
-	animation: road 200s infinite linear;
+	background: url("images/road.jpg") repeat-x;
+	background-size: contain;
+	height: min(15%, 12vw);
+	width: 1024000px;
+	animation: road 2000s infinite linear;
 }
 
 @keyframes road {
-	0% { background-position-x: 0; }
-	to { background-position-x: -102400px; }
+	0% { transform: translateX(0) }
+	to { transform: translateX(-100%) }
 }
 
 #trolley {
 	position: fixed;
 	bottom: 20%;
 	left: 50%;
+	-webkit-transform: translateX(-50%); /* for awesomium */
 	transform: translateX(-50%);
 	max-height: 36%;
 	max-width: 90%;
@@ -99,19 +130,21 @@ body {
 
 
 
+.crispy {
+	image-rendering: pixelated;
+	image-rendering: crisp-edges;
+}
+
 #scrollers img {
 	position: fixed;
+	animation-iteration-count: 1, infinite;
 	animation-timing-function: linear;
 	right: -25%;
 }
 
 @keyframes scrollanim {
-	0% { right: -25%; }
-	to { right: 125%; }
-}
-
-.scroller-asset {
-	image-rendering: crisp-edges;
+	0% { transform: translateX(0) }
+	to { transform: translateX(calc(-125vw))}
 }
 
 @keyframes spinny {

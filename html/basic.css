@@ -1,0 +1,16 @@
+body {
+	background:	url("images/jazzbakedswirl.jpg");
+	background-repeat: repeat;
+	background-size: 100%;
+}
+
+#top { margin-top: 40px }
+#top h2 { margin: 5px 0 }
+
+/* emulate awesomium's lack of features */
+#top div { display: block }
+#top img { filter: none }
+#road {
+	height: 15%;
+	animation: none;
+}
