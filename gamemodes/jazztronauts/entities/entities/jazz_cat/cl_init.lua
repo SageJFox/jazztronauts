@@ -28,7 +28,12 @@ function ENT:Initialize()
 	end
 
 	worldmarker.Register(self, self.AttentionMarker, 20)
-	worldmarker.Update(self, self:GetPos() + Vector(0, 0, 70))
+	
+	local markerpos = self:GetPos()
+	local _,maxs = self:GetCollisionBounds()
+	markerpos.z = markerpos.z + maxs.z + 6
+	worldmarker.Update(self, markerpos)
+
 	worldmarker.SetEnabled(false)
 end
 
