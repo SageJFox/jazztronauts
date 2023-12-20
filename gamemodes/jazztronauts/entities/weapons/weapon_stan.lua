@@ -180,6 +180,7 @@ local MatFlare = Material("effects/blueflare1")
 function SWEP:PostDrawViewModel(viewmodel, weapon, ply)
 
 	local hands = ply:GetHands()
+	if not IsValid(hands) then return end
 	local atBone = hands:LookupBone( "ValveBiped.Bip01_R_Hand" )
 
 	if not atBone then return end
@@ -380,17 +381,17 @@ function SWEP:DrawHUD()
 		local owner = self:GetOwner()
 		local viewmodel = owner:GetViewModel(0)
 		local hands = LocalPlayer():GetHands()
-		local atBone = hands:LookupBone( "ValveBiped.Bip01_R_Hand" )
-
-		if not atBone then return end
-
-		local atpos, atang = hands:GetBonePosition( atBone )
+		local atpos = nil
+		if IsValid(hands) then
+			local atBone = hands:LookupBone( "ValveBiped.Bip01_R_Hand" )
+			atpos, _ = hands:GetBonePosition( atBone or 1 )
+		end
 		local distance = self.TeleportDistance
 		local viewdir = owner:GetAimVector()
 		local startpos = owner:GetShootPos()
 		local endpos = startpos + viewdir * distance
 
-		local origin = atpos
+		local origin = atpos or (owner:GetPos() + (owner:Crouching() and owner:GetViewOffsetDucked() or owner:GetViewOffset()))
 
 		local fragments = self:TraceFragments( startpos, endpos )
 		if #fragments ~= 3 then return end
