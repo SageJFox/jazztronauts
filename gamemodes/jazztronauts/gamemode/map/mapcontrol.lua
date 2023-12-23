@@ -37,7 +37,7 @@ if file.Find("lua/bin/gmsv_workshop_*.dll", "GAME")[1] ~= nil then
 	server_ugc = true
 else
 	if game.IsDedicated() then
-		print("If you want to use ugc maps on a deticated server please install gmsv_workshop! | https://github.com/WilliamVenner/gmsv_workshop")
+		print("If you want to use ugc maps on a dedicated server please install gmsv_workshop! | https://github.com/WilliamVenner/gmsv_workshop")
 	end
 end
 
@@ -277,12 +277,14 @@ if SERVER then
 	end
 
 	local function GetLocalMaps()
-		local maps = file.Find("maps/*.bsp", "GAME")
+		local maps, nojazz = file.Find("maps/*.bsp", "GAME"), {}
 		for k, v in pairs(maps) do
-			maps[k] = string.StripExtension(v)
+			--remove jazz maps from pool
+			local pref = string.Split(string.GetFileFromFilename(v), "_")[1]
+			if pref ~= "jazz" then table.insert(nojazz,string.StripExtension(v)) end
 		end
 
-		return maps
+		return nojazz
 	end
 
 	-- Build a list of all addons that have maps installed
@@ -340,6 +342,7 @@ if SERVER then
 
 	-- Spawn the exit bus's enterance portal at the specified position/angle.
 	-- Note this spawns three entities, the enterance, the bus, and the exit
+	-- (also note the bus itself has many entities attached to it. The seats, the radio...)
 	lastBusEnts = lastBusEnts or {}
 	function SpawnExitBus(pos, ang)
 		local spawnpos = pos
@@ -383,34 +386,52 @@ if SERVER then
  		--delay the bus so crazy physics has a chance to turn off before it spawns in and just gets removed anyway
 		timer.Simple(0, function()
 			local bus = ents.Create("jazz_bus_explore")
-			bus:SetPos(spawnpos)
-			bus:SetAngles(spawnang)
-			bus:Spawn()
-			bus:Activate()
+			if IsValid(bus) then 
+				-- Remove last ones
+				for _, v in pairs(lastBusEnts) do SafeRemoveEntityDelayed(v, 5) end
 
-			local ent = ents.Create("jazz_bus_portal")
-			ent:SetPos(spawnpos)
-			ent:SetAngles(spawnang)
-			ent:SetBus(bus)
-			ent:Spawn()
-			ent:Activate()
+				bus:SetPos(spawnpos)
+				bus:SetAngles(spawnang)
+				bus:Spawn()
+				bus:Activate()
+				table.insert(lastBusEnts, bus)
 
-			local exit = ents.Create("jazz_bus_portal")
-			exit:SetPos(pos2)
-			exit:SetAngles(ang2)
-			exit:SetBus(bus)
-			exit:SetIsExit(true)
-			exit:Spawn()
-			exit:Activate()
+				local ent = ents.Create("jazz_bus_portal")
+				if IsValid(ent) then
+					ent:SetPos(spawnpos)
+					ent:SetAngles(spawnang)
+					ent:SetBus(bus)
+					ent:Spawn()
+					ent:Activate()
+					table.insert(lastBusEnts, ent)
+				end
 
-			bus.ExitPortal = exit -- So bus knows when to stop
+				local exit = ents.Create("jazz_bus_portal")
+				if IsValid(exit) then
+					exit:SetPos(pos2)
+					exit:SetAngles(ang2)
+					exit:SetBus(bus)
+					exit:SetIsExit(true)
+					exit:Spawn()
+					exit:Activate()
 
-			-- Remove last ones
-			for _, v in pairs(lastBusEnts) do SafeRemoveEntityDelayed(v, 5) end
+					bus.ExitPortal = exit -- So bus knows when to stop
+					table.insert(lastBusEnts, exit)
+				end
+			elseif ents.GetEdictCount() >= 8064 then --bus was unable to spawn, check edicts. If we're here we're in a bad spot
+				local oldbus = nil
+				if #lastBusEnts > 0 then
+					for _, ent in ipairs(lastBusEnts) do
+						if IsValid(ent) and ent:GetClass() == "jazz_bus_explore" then
+							oldbus = ent
+							break
+						end
+					end
+				end
+				if IsValid(oldbus) then return end --we have an old bus, crisis averted
+				print("No bus and nearing edict limit. Abort!")
+			end
 
-			table.insert(lastBusEnts, bus)
-			table.insert(lastBusEnts, ent)
-			table.insert(lastBusEnts, exit)
 		end)
 	end
 
