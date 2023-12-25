@@ -44,6 +44,11 @@ end
 curSelected = curSelected or {}
 addonList = addonList or {}
 
+local function jazzmap(mapname)
+	local pref = string.Split(mapname, "_")[1]
+	return pref == "jazz"
+end
+
 function GetMap()
 	return curSelected.map
 end
@@ -57,8 +62,7 @@ function IsInEncounter()
 end
 
 function IsInGamemodeMap()
-	local pref = string.Split(game.GetMap(), "_")[1]
-	return pref == "jazz"
+	return jazzmap(game.GetMap())
 end
 
 function GetIntroMap()
@@ -133,7 +137,7 @@ if SERVER then
 
 	-- Given a unique map id, roll to it
 	function RollMapID(id)
-		local newMap = mapIDs[id] and table.Random(mapIDs[id])
+		local newMap = addonList[id] and table.Random(addonList[id])
 		if newMap then
 			SetSelectedMap(newMap)
 		end
@@ -143,8 +147,8 @@ if SERVER then
 
 	-- Get a random valid unique map id
 	function GetRandomMapID()
-		local _, k = table.Random(mapIDs)
-		return k
+		local v, _ = table.Random(addonList)
+		return v
 	end
 
 	function GetMapsInAddon(wsid)
@@ -279,9 +283,8 @@ if SERVER then
 	local function GetLocalMaps()
 		local maps, nojazz = file.Find("maps/*.bsp", "GAME"), {}
 		for k, v in pairs(maps) do
-			--remove jazz maps from pool
-			local pref = string.Split(string.GetFileFromFilename(v), "_")[1]
-			if pref ~= "jazz" then table.insert(nojazz,string.StripExtension(v)) end
+			--filter jazz maps from pool
+			if not jazzmap(string.GetFileFromFilename(v)) then table.insert(nojazz,string.StripExtension(v)) end
 		end
 
 		return nojazz

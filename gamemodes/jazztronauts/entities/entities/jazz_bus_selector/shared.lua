@@ -26,14 +26,12 @@ local buttons = {
 function ENT:Initialize()
 
 	self:SetModel( self.Model )
+	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_NONE)
-	self:SetSolid(SOLID_VPHYSICS)
 
 	if SERVER then
 		self:SetUseType(SIMPLE_USE)
 	end
-
-	self:SetAngles( Angle(0,180,0) )
 
 	if CLIENT then
 
@@ -56,7 +54,17 @@ end
 function ENT:TryCallBus( id )
 	if id == nil then return false end
 
-	return mapcontrol.RollMapID(id)
+	--return mapcontrol.RollMapID(id)
+
+	local browser, selector = ents.FindByClass("jazz_hub_browser")[1], ents.FindByClass("jazz_hub_selector")[1]
+	if not IsValid(browser) or not IsValid(selector) then return false end
+
+	
+	selector:CancelAddon()
+	browser:SetOn(false)
+	selector:SelectDestination(tostring(id))
+
+	return true
 end
 
 function ENT:AppendNumber( num )
@@ -64,12 +72,7 @@ function ENT:AppendNumber( num )
 	local readout = self:GetReadout()
 	readout = readout .. tostring( num )
 
-	if #readout == 9 then
-		self:SetReadout( tostring(num) )
-		return
-	end
-
-	if #readout == 8 then
+	if #readout == 10 then
 
 		self:SetReadout(readout)
 		local success = self:TryCallBus( tonumber( readout ) )
@@ -79,6 +82,9 @@ function ENT:AppendNumber( num )
 
 		return false
 
+	elseif #readout > 10 then
+		self:SetReadout( tostring(num) )
+		return
 	else
 
 		self:SetReadout(readout)
@@ -86,6 +92,8 @@ function ENT:AppendNumber( num )
 	end
 
 end
+
+local failsafe = 0
 
 function ENT:ButtonPressed( button )
 
@@ -119,18 +127,28 @@ function ENT:ButtonPressed( button )
 		self:EmitSound( "jazztronauts/ticka_tacka_1.wav" )
 
 		local num = mapcontrol.GetRandomMapID()
+		if not num then
+			failsafe = failsafe + 1
+			if failsafe < 10 then self:ButtonPressed("RANDOM") end
+			return
+		end
 		local str = tostring( num )
+		while #str < 10 do
+			str = "0"..str
+		end
 
-		for i=1, 8 do
+		for i=1, 10 do
 
-			timer.Simple( .5 + i / 8, function()
+			timer.Simple( .5 + i / 10, function()
 
 				self:AppendNumber( tonumber( str[i] ) )
-				if i == 8 then self.locked = false end
+				if i == 10 then self.locked = false end
 
 			end )
 
 		end
+
+		failsafe = 0
 
 	end
 
@@ -162,7 +180,7 @@ surface.CreateFont( "JazzMapSelectKey", {
 
 surface.CreateFont( "JazzMapSelectMain", {
 	font	  = "KG Shake it Off Chunky",
-	size	  = 200,
+	size	  = 100,
 	weight	= 700,
 	antialias = true
 })
@@ -182,14 +200,14 @@ function ENT:DrawNumbers( canvas )
 
 	local str = self:GetReadout()
 
-	local x = w - 30
+	local x = w - 25
 	for i=#str, 1, -1 do
 
 		local hue = 240 + math.sin(i * 0.5 + CurTime()) * 30
 		local col = HSVToColor(hue, 0.85, 1)
 
-		draw.DrawText( tostring( str[i] ), "JazzMapSelectMain", x, 0, col, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
-		x = x - 62
+		draw.DrawText( tostring( str[i] ), "JazzMapSelectMain", x, -12, col, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
+		x = x - w / 10
 
 	end
 
@@ -243,7 +261,7 @@ function ENT:DrawControls( canvas )
 		for j=1, 4 do
 
 			--Shut up you're not my mom
-			if i==4 and j==1 then btw = w/2 end
+			if i==4 and j==2 then btw = w*2/3 end
 
 			local se = btx < x and x < btx + btw and bty < y and y < bty + bth
 			local btn = buttons[i][j]
@@ -299,13 +317,13 @@ function ENT:DrawTranslucent()
 	self.canvas:Draw()
 
 	angles = self.Entity:GetAngles()
-	pos = pos + Vector(0,0,15) - angles:Forward() * 12
+	pos = pos + Vector(0,0,13) - angles:Forward() * 12
 
 	self.canvas2:EnableDebug( false )
 	self.canvas2:SetPos( pos )
 	self.canvas2:SetAngles( angles )
-	self.canvas2:SetSize( 40, 10 )
-	self.canvas2:SetResolution( 500, 150 )
+	self.canvas2:SetSize( 40, 5 )
+	self.canvas2:SetResolution( 500, 75 )
 	self.canvas2:SetDrawFunc( self.DrawNumbers, self, self.canvas2 )
 	self.canvas2:Draw()
 
