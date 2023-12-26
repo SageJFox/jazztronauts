@@ -101,7 +101,7 @@ end
 
 -- Hook into when a player spawns _something_ so we can mark it and have it be worthless
 local function PlayerSpawnedSomething(ply, ent)
-	ent.JazzWorth = 0
+	if IsValid(ent) then ent.JazzWorth = 0 end
 end
 
 hook.Add("PlayerSpawnedEffect", "JazzMakeWorthless", function(ply, mdl, ent) PlayerSpawnedSomething(ply, ent) end )

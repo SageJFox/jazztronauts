@@ -132,6 +132,7 @@ end
 
 function SWEP:CreateBusMarker(pos, angle)
 	local marker = ents.Create("jazz_bus_marker")
+	if not IsValid(marker) then return nil end
 	marker:SetPos(pos)
 	marker:SetAngles(angle)
 	marker:Spawn()
@@ -139,6 +140,8 @@ function SWEP:CreateBusMarker(pos, angle)
 
 	return marker
 end
+
+local voted = nil
 
 -- Set the player up with either the marker they're aimed at or a brand new one
 function SWEP:CreateOrUpdateBusMarker()
@@ -150,7 +153,7 @@ function SWEP:CreateOrUpdateBusMarker()
 
 	-- If we weren't looking at an existing marker,
 	-- do a trace to where WE want to put it
-	if !IsValid(marker) then
+	if not IsValid(marker) then
 		local tr = util.TraceLine( {
 			start = pos,
 			endpos = pos + dir * 100000,
@@ -159,6 +162,13 @@ function SWEP:CreateOrUpdateBusMarker()
 		} )
 
 		marker = self:CreateBusMarker(tr.HitPos, tr.HitNormal:Angle())
+		if not IsValid(marker) and ents.GetEdictCount() >= 8064 then
+			if not voted then
+				voted = true
+				mapcontrol.voteToLeave(true)
+			end
+			return
+		end
 	end
 
 	self:SetBusMarker(marker)
@@ -200,13 +210,20 @@ function SWEP:StopPrimaryAttack()
 	end
 
 	self:SetBusMarker(nil)
+	if voted then
+		voted = nil 
+		mapcontrol.voteToLeave(false)
+	end
 end
 
 function SWEP:Cleanup()
 	if self.BeamHum then
 		self.BeamHum:Stop()
 	end
-
+	if voted then
+		voted = nil 
+		mapcontrol.voteToLeave(false)
+	end
 	self.IgnoreAttackForced = false
 end
 

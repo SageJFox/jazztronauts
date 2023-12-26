@@ -115,7 +115,7 @@ function ENT:Initialize()
 
 	if SERVER then
 		
-		self.RadioEnt:DeleteOnRemove(self.Radio)
+		if IsValid(self.RadioEnt) and IsValid(self.Radio) then self.RadioEnt:DeleteOnRemove(self.Radio) end
 
 		hook.Add("PlayerEnteredVehicle", self, function(self, ply, veh, role)
 			self:CheckLaunch()
@@ -218,6 +218,7 @@ function ENT:Leave()
 
 	hook.Add( "PlayerLeaveVehicle", "VoidEjection", function( ply )
 		timer.Create( "VoidEjectTimer", 0, 1, function() -- timer prevents crash
+			if not IsValid(self) then return end
 			local repcount = 0
 			local BehindBus = self:GetPos() + Vector(0, 0, 50) + BusAngle * -150
 			repeat
@@ -245,31 +246,35 @@ function ENT:AttachRadio(pos, ang)
 
 	-- Make a "fake" version of the radio, the "real" one can be stolen.
 	local ent = ents.Create("jazz_static_proxy")
-	ent:SetModel(self.RadioModel)
-	ent:SetPos(pos)
-	ent:SetAngles(ang)
-	ent:SetParent(self)
-	ent:Spawn()
-	ent:Activate()
-	self.Radio = ent
+	if IsValid(ent) then
+		ent:SetModel(self.RadioModel)
+		ent:SetPos(pos)
+		ent:SetAngles(ang)
+		ent:SetParent(self)
+		ent:Spawn()
+		ent:Activate()
+		self.Radio = ent
+	end
 
 	local radio_ent = ents.Create("prop_dynamic")
-	radio_ent:SetModel(self.RadioModel)
-	radio_ent:SetPos(pos)
-	radio_ent:SetAngles(ang)
-	radio_ent:SetParent(ent)
-	radio_ent:Spawn()
-	radio_ent:Activate()
-	radio_ent:SetNoDraw(true)
-	self.RadioEnt = radio_ent
+	if IsValid(radio_ent) then
+		radio_ent:SetModel(self.RadioModel)
+		radio_ent:SetPos(pos)
+		radio_ent:SetAngles(ang)
+		radio_ent:SetParent(ent)
+		radio_ent:Spawn()
+		radio_ent:Activate()
+		radio_ent:SetNoDraw(true)
+		self.RadioEnt = radio_ent
 
-	-- Attach a looping audiozone
-	self.RadioMusic = CreateSound(ent, self.RadioMusicName)
-	hook.Add("EntityRemoved", "JazzBusRadioCheck", function(removed)
-		if removed ~= radio_ent then return end
-		self.RadioMusic:Stop()
-		ent:Remove()
-	end)
+		-- Attach a looping audiozone
+		self.RadioMusic = CreateSound(ent, self.RadioMusicName)
+		hook.Add("EntityRemoved", "JazzBusRadioCheck", function(removed)
+			if removed ~= radio_ent then return end
+			self.RadioMusic:Stop()
+			ent:Remove()
+		end)
+	end
 end
 
 function ENT:AttachSeat(pos, ang)
@@ -277,21 +282,23 @@ function ENT:AttachSeat(pos, ang)
 	ang = self:LocalToWorldAngles(ang)
 
 	local ent = ents.Create("prop_vehicle_prisoner_pod")
-	ent:SetModel("models/nova/airboat_seat.mdl")
-	ent:SetKeyValue("vehiclescript","scripts/vehicles/prisoner_pod.txt")
-	ent:SetPos(pos)
-	ent:SetAngles(ang)
-	ent:SetParent(self)
-	ent:Spawn()
-	ent:Activate()
-	ent:SetNoDraw(true)
+	if IsValid(ent) then
+		ent:SetModel("models/nova/airboat_seat.mdl")
+		ent:SetKeyValue("vehiclescript","scripts/vehicles/prisoner_pod.txt")
+		ent:SetPos(pos)
+		ent:SetAngles(ang)
+		ent:SetParent(self)
+		ent:Spawn()
+		ent:Activate()
+		ent:SetNoDraw(true)
 
-	self.Seats = self.Seats or {}
-	table.insert(self.Seats, ent)
+		self.Seats = self.Seats or {}
+		table.insert(self.Seats, ent)
+	end
 end
 
 function ENT:GetNumOccupants()
-	if !self.Seats then return 0 end
+	if not self.Seats then return 0, 0 end
 
 	local count = 0
 	local total = 0
@@ -311,13 +318,18 @@ end
 -- This is so we can 'preroll' some shnazzy music that blasts into high gear right when it gets going
 function ENT:QueueTimedMusic()
 	local estHitTime = self.BusLeaveDelay
-	local dist = self:GetFront():Distance(self.ExitPortal:GetPos())
-	estHitTime = estHitTime + math.sqrt(2 * dist / self.BusLeaveAccel) -- d = 0.5at^2
+
+	if IsValid(self.ExitPortal) then
+		local dist = self:GetFront():Distance(self.ExitPortal:GetPos())
+		estHitTime = estHitTime + math.sqrt(2 * dist / self.BusLeaveAccel) -- d = 0.5at^2
+	else
+		self.BusLeaveAccel = 0 --don't move, we don't wanna end up outside of the map and despawn before we leave
+	end
 
 	local startTime = estHitTime - self.VoidMusicPreroll
 	self.ChangelevelTime = CurTime() + estHitTime + self.VoidMusicFadeEnd
 
-	self.RadioMusic:FadeOut(startTime)
+	if IsValid(self.RadioMusic) then self.RadioMusic:FadeOut(startTime) end
 
 	local bshard = ents.FindByClass("jazz_shard_black")[1]
 	local isCorrupted = IsValid(bshard) and bshard:GetStartSuckTime() > 0
@@ -420,7 +432,7 @@ function ENT:Think()
 
 			self.BrakeSound:FadeOut(0.2)
 
-			self.RadioMusic:Play()
+			if IsValid(self.RadioMusic) then self.RadioMusic:Play() end
 		end
 	end
 
@@ -461,6 +473,6 @@ function ENT:OnRemove()
 		if IsValid(v) then v:Remove() end
 	end
 
-	self.RadioMusic:Stop()
+	if IsValid(self.RadioMusic) then self.RadioMusic:Stop() end
 	if IsValid(self.Radio) then self.Radio:Remove() end
 end
