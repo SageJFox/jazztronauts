@@ -242,6 +242,12 @@ $Sequence "falling" {
 	addlayer head_yaw
 }
 
+$Sequence "flipshit" {
+	"cat_anims\flipshit.dmx"
+	fps 24
+	loop
+}
+
 /*$animation "ears_base" "cat_anims\ears_base.smd"
 $animation "ears_back_a" "cat_anims\ears_back.smd" subtract "ears_base" 0
 $animation "ears_up_a" "cat_anims\ears_up.smd" subtract "ears_base" 0
