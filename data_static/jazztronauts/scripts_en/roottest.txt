@@ -43,9 +43,9 @@ begin:
 	*txout*
 	
 	spawnnarrator()
-	spawnbartender()
+	spawncatbartender()
 	*setlocale narrator scene_bar*
-	*setroot cat_bar narrator setpos -0.620361 92.558594 32.417419;setang -90 90.504135 90.000000*
+	*setroot cat_bar narrator setpos -0.620361 92.558594 0;setang 0 -90.504135 0.000000*
 	*setroot player narrator setpos 62.731934 4.768555 0;setang 0 112.757095 0.000000*
 	*setcamroot narrator setpos -53.238037 -24.200439 72.834885;setang 3.407556 58.931564 0.000000 fov70*
 	*setanim cat_bar gesture_washing*
@@ -72,8 +72,8 @@ begin:
 			CRISS-CROSS
 		&dining:
 			Let's go to the dining room
-		###&exit1:
-		###	actually exit thanks
+		&exit1:
+			actually exit thanks
 
 exit1:
 	b
@@ -91,6 +91,38 @@ dining:
 dining2:
 	*setlocale narrator scene_sushibar*
 	Oh,% right,% we don't have a sushi bar.
+	player:
+		&launch:
+			launch a rocket
+		&exit1:
+			actually exit thanks
+
+launch:
+	*block setlocale narrator scene_diningroom-->setcamtarget cat_bar 0 0 32*
+	*setspeaker cat_bar*
+	3%.%.%.% %2%.%.%.% %1%.%.%.%*shake 10*
+	*tweenoffset cat_bar 10 -0.620361 920.558594 400;0 90.504135 0*Lift off!
+	&launch2###launch5
+
+launch2:
+	*block setoffset cat_bar 0 0 0;0 180 0-->setcamtarget 0 0 60*
+	I'm back
+	&launch3
+
+launch3:
+	*setcamtarget player*
+	*setspeaker player*
+	oh
+	&launch4
+
+launch4:
+	*setcamtarget*
+	lala
+	&launch5
+
+launch5:
+	*block setcamtarget-->setoffset cat_bar -0.620361 92.558594 0;setang 0 -90.504135 0-->setcamoffset setpos -53.238037 -24.200439 72.834885;setang 3.407556 58.931564 0*
+	I sure hope the camera target reset properly
 	&exit
 
 ###### Branch 1

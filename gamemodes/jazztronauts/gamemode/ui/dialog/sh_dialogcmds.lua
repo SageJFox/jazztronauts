@@ -1383,6 +1383,23 @@ dialog.RegisterFunc("setfov", function(d, fov)
 	view.fov = fov
 end)
 
+dialog.RegisterFunc("setcamtarget", function(d, target, ...)
+	--if it's blank, reset camera target
+	if target == nil or target == "nil" then 
+		view.target = nil
+		view.targetoffset = nil
+		return
+	end
+	local offset = table.concat({...}," ") or " "
+	--if we have an offset but no target, leave current target and set new offset
+	if tonumber(target) then
+		offset = target .. " " .. offset
+	else
+		view.target = target
+	end
+	if next({...}) ~= nil then view.targetoffset = Vector(offset) end
+end)
+
 dialog.RegisterFunc("punch", function(d)
 	LocalPlayer():ViewPunch(Angle(45, 0, 0))
 end )
@@ -1549,6 +1566,20 @@ hook.Add("CalcView", "JazzDialogView", function(ply, origin, angles, fov, znear,
 	if newpos and newang then
 		view.curpos = newpos
 		view.curang = newang
+	end
+
+	-- if we have a view target override, ignore everything else we just did for pitch/yaw and set it instead
+	if view.target then
+		local targetent = FindByName(view.target)
+		if IsValid(targetent) then
+			local targetpos, oldroll = Vector(targetent:GetPos()), view.curang.r or 0
+			if isvector(view.targetoffset) then targetpos:Add(view.targetoffset) end
+			targetpos:Sub(view.curpos)
+			targetpos:Normalize()
+			view.curang = targetpos:Angle()
+			--use our old roll
+			view.curang.r = oldroll
+		end
 	end
 
 	-- If view/angles overwritten, re-apply cam shake
