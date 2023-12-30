@@ -54,9 +54,9 @@ SINGER_MISCHIEF setskin cat_singer 3
 SINGER_HISS setskin cat_singer 8
 
 
-spawnnarrator() *spawn narrator dummy**setnpcid narrator npc_narrator*
-spawnnarratorroot(scene_locale) spawnnarrator()*sceneroot narrator**setlocale narrator scene_locale*
-newsceneroot(root_name,scene_locale) *sceneroot nil**spawn root_name dummy**setlocale root_name scene_locale**sceneroot root_name*
+spawnnarrator() *block spawn narrator dummy-->setnpcid narrator npc_narrator*
+spawnnarratorroot(scene_locale) *block spawn narrator dummy-->setnpcid narrator npc_narrator-->sceneroot narrator-->setlocale narrator scene_locale*
+newsceneroot(root_name,scene_locale) *block sceneroot nil-->spawn root_name dummy-->setlocale root_name scene_locale-->sceneroot root_name*
 
 # Old models, leaving them in for backwards compatibility
 spawnbartender() *spawn cat_bar models/andy/bartender/cat_bartender.mdl**setnpcid cat_bar npc_cat_bar**BAR_NEUTRAL**setanim cat_bar idle*
@@ -66,10 +66,10 @@ spawnsinger() *spawn cat_singer models/andy/singer/cat_singer.mdl**setnpcid cat_
 spawngang() spawncellist()spawnbartender()spawnpianist()spawnsinger()spawnnarrator()
 
 # New models, use these if making new scripts
-spawncatbartender() *spawn cat_bar models/andy/cats/cat_bartender.mdl**setnpcid cat_bar npc_cat_bar**BAR_NEUTRAL**setanim cat_bar idle*
-spawncatpianist() *spawn cat_piano models/andy/cats/cat_pianist.mdl**setnpcid cat_piano npc_cat_piano**PIANO_NEUTRAL**setanim cat_piano idle*
-spawncatcellist() *spawn cat_cello models/andy/cats/cat_cellist.mdl**setnpcid cat_cello npc_cat_cello**CELLO_NEUTRAL**setanim cat_cello idle*
-spawncatsinger() *spawn cat_singer models/andy/cats/cat_singer.mdl**setnpcid cat_singer npc_cat_sing**SINGER_NEUTRAL**setanim cat_singer idle*
+spawncatbartender() *block spawn cat_bar models/andy/cats/cat_bartender.mdl-->setnpcid cat_bar npc_cat_bar-->BAR_NEUTRAL-->setanim cat_bar idle*
+spawncatpianist() *block spawn cat_piano models/andy/cats/cat_pianist.mdl-->setnpcid cat_piano npc_cat_piano-->PIANO_NEUTRAL-->setanim cat_piano idle*
+spawncatcellist() *block spawn cat_cello models/andy/cats/cat_cellist.mdl-->setnpcid cat_cello npc_cat_cello-->CELLO_NEUTRAL-->setanim cat_cello idle*
+spawncatsinger() *block spawn cat_singer models/andy/cats/cat_singer.mdl-->setnpcid cat_singer npc_cat_sing-->SINGER_NEUTRAL-->setanim cat_singer idle*
 
 spawncats() spawncatcellist()spawncatbartender()spawncatpianist()spawncatsinger()spawnnarrator()
 spawncatsrooted(scene_locale) spawnnarratorroot(scene_locale)spawncatcellist()spawncatbartender()spawncatpianist()spawncatsinger()
@@ -77,11 +77,11 @@ spawncatsrooted(scene_locale) spawnnarratorroot(scene_locale)spawncatcellist()sp
 VOIDCAT_VOID setskin cat_void 0
 VOIDCAT_ASH setskin cat_void 1
 
-spawncatvoid() *spawn cat_void models/andy/cats/cat_all.mdl**setnpcid cat_void npc_cat_void**VOIDCAT_VOID**setanim cat_void idle*
-spawncatash() *spawn cat_void models/andy/cats/cat_all.mdl**setnpcid cat_void npc_cat_ash**VOIDCAT_ASH**setanim cat_void idle*
+spawncatvoid() *block spawn cat_void models/andy/cats/cat_all.mdl-->setnpcid cat_void npc_cat_void-->VOIDCAT_VOID-->setanim cat_void idle*
+spawncatash() *block spawn cat_void models/andy/cats/cat_all.mdl-->setnpcid cat_void npc_cat_ash-->VOIDCAT_ASH-->setanim cat_void idle*
 
 # commands
-narratewithview(subject) *block setspeaker narrator --> overrideportrait subject*
+narratewithview(subject) *block setspeaker narrator-->overrideportrait subject*
 narratesinger() narratewithview(cat_singer)
 
 # chat colors

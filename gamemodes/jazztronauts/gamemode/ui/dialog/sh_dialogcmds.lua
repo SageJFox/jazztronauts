@@ -226,9 +226,6 @@ end)
 
 --we want to run a series of commands concurrently. Not for plain text!
 dialog.RegisterFunc("block",function(d, ...)
-	--todo: would be nice if they could be on separate lines
-	--local cmds = string.Replace(table.concat({ ... }," "),"\t","")
-	--cmds = string.Split(cmds,"\n")
 	local cmds = string.Split(table.concat({ ... }," "),"-->")
 	for _, v in ipairs(cmds) do
 		local str = string.Trim(v)
@@ -237,7 +234,10 @@ dialog.RegisterFunc("block",function(d, ...)
 		local tab = string.Split(str," ")
 		if next(tab) ~= nil then
 			local name = table.remove(tab,1)
-			if name ~= "block" and g_funcs[name] then g_funcs[name](d,unpack(tab)) end
+			while name == "block" do
+				name = table.remove(tab,1)
+			end
+			if g_funcs[name] then g_funcs[name](d,unpack(tab)) end
 		end
 	end
 end)
@@ -314,7 +314,9 @@ local nononames = {
 	["player"] = true,
 	["nil"] = true,
 	["true"] = true,
-	["false"] = true
+	["false"] = true,
+	["BLOCKSTART"] = true,
+	["BLOCKEND"] = true
 }
 
 dialog.RegisterFunc("spawn", function(d, name, mdl, root)

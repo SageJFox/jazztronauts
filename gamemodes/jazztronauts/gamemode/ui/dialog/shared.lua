@@ -75,13 +75,121 @@ local function ChopRight(str, findstr)
 	return str:sub(0, pos - 1)
 end
 
+local macrolist = macrolist or {}
+
+local function LoadMacros(sources)
+	if next(macrolist) ~= nil then return end
+	local macros = sources["macros.txt"]
+	if macros == nil then ErrorNoHalt("Macros not loaded!\n") return end
+
+	for line in lineitr(macros) do
+		line = line:Trim()
+		if line:len() == 0 or line[1] == "#" then continue end
+
+		local x,y,z = line:gmatch("([%w_]+)%s-(%b())%s+(.+)")()
+		if not x then x,z = line:gmatch("([%w_]+)%s+(.+)")() end
+
+		local args = {}
+		for a in (y and y or ""):gmatch("[%w_]+") do table.insert( args, a ) end
+
+		local function use(iter)
+			local c = z
+			for i=1, #args do
+				c = c:gsub(args[i], iter and ( iter() or "") or "")
+			end
+			return c
+		end
+
+		table.insert( macrolist, 1, {
+			name = x,
+			use = use,
+			paren = y ~= nil,
+		})
+	end
+end
+
+-- looking for execution blocks
+-- these are defined by BLOCKSTART and BLOCKEND tags in the script
+-- they can be nested, though nested pairs must have signifiers!
+-- signifier can be any letter/number/underscore combo and should be unique per block, put in like an argument for a normal dialog command
+-- i.e. *BLOCKSTART xx_1* .. various commands .. *BLOCKEND xx_1*
+-- NO REGULAR TEXT CAN BE IN BLOCKS, *ONLY* DIALOG COMMANDS AND COMMENTS
+-- ALL COMMANDS IN BLOCKS *MUST* BE PROPERLY ENCLOSED IN ASTERISKS
+-- ALL BLOCKSTARTS NEED A BLOCKEND
+-- FAILURE TO ABIDE BY THESE RESTRICTIONS WILL cause this to do silly things and your script will certainly error out exdee.
+
+local function CompileBlockExec(datasrc)
+	if not isstring(datasrc) then ErrorNoHaltWithStack("Hey that wasn't the raw data for a script, that was a "..type(datasrc)..".") return datasrc end
+	--first, get comments out
+	local data = string.gsub(datasrc,"#+[%g%s]-\n","\n")
+	--get any macros in there done up
+	if table.IsEmpty(ScriptSources) then ErrorNoHaltWithStack("ScriptSources is empty, call this somewhere else!")
+	else
+		LoadMacros(ScriptSources)
+		--yeah, that's right, I copied this code from below
+		for _, macro in pairs(macrolist) do
+
+			if not macro.paren then
+				data = data:gsub(macro.name, macro.use)
+			else
+				data = data:gsub(macro.name .. "%s*(%b())", function( call )
+					return macro.use( call:gmatch("[%w_ ]+") )
+				end)
+			end
+
+		end
+	end
+	--now for processing
+	local patstart, patmeat, patend = "BLOCKSTART","%*%s*%*","BLOCKEND" --our pattern filters
+	local start, fin, signifier = string.find(data,patstart.."%s*([%w_]+)") --find our first start
+	if not start then start, fin = string.find(data,patstart) end --try finding a blank one
+	--local saveme = 0
+	while start do --and saveme < 10 do
+		--saveme = saveme + 1
+		--print("BLOCKSTART "..signifier.." found, processing...")-- ["..saveme.."]")
+		if signifier then start, fin =  string.find(data,patstart.."%s*"..signifier.."%*[%g%s]-"..patend.."%s*"..signifier)
+		else start, fin =  string.find(data,patstart.."%*[%g%s]-"..patend) end
+		--print(start,fin)
+		if start then
+			local scope = string.sub( data, start - 1, fin + 1 )
+			--print("SCOPE PRIOR:")
+			--print(scope)
+			if signifier then
+				scope = string.gsub(scope,patstart.."%s*"..signifier..patmeat,"block ") --start out our block with the block command 
+				scope = string.gsub(scope,patmeat,"-->")
+				scope = string.gsub(scope,"-->%s*"..patend.."%s*"..signifier,"") --its asterisk already got replaced, so it'll be -->BLOCKEND now
+			else
+				scope = string.gsub(scope,patstart..patmeat,"block ") --start out our block with the block command 
+				scope = string.gsub(scope,patmeat,"-->")
+				scope = string.gsub(scope,"-->%s*"..patend,"") --its asterisk already got replaced, so it'll be -->BLOCKEND now
+			end
+			--this probably isn't needed, but just to be on the safe side, let's do some cleanup
+			while string.find(scope,"block block") do
+				scope = string.Replace(scope,"block block","block")
+			end
+			scope = string.Replace(scope,"-->block ","-->")
+			--print("SCOPE POST:")
+			--print(scope)
+			--alright, we're done with our scope, slap it back in
+			data = string.sub( data, 1, start - 2 ) .. scope .. string.sub( data, fin + 2 )
+			--find the next one
+			start, fin, signifier = string.find(data,patstart.."%s*([%w_]+)")
+			if not start then start, fin = string.find(data,patstart) end
+		end
+	end
+	--done processing, put it in
+	return data
+end
+
+
 local function stripNonAscii(str)
 	return string.gsub(str, "[\192-\255][\128-\191]*", "")
 end
 
 local function ParseLine(script, line)
+
 	-- Chop off comments
-	line = ChopRight(line, "#")
+	--line = ChopRight(line, "#") --handled upstream now
 
 	-- Trim the fat
 	line = line:Trim()
@@ -347,9 +455,12 @@ function LoadScript(name, contents)
 		entries = {},
 		name = name,
 	}
+	
+	contents = CompileBlockExec(contents)
 
 	for line in lineitr(contents) do
 		line = PreProcessLine(line)
+
 		if line then ParseLine(script, line:sub(0,-DetermineLineEnd(line))) end
 	end
 
@@ -359,37 +470,9 @@ function LoadScript(name, contents)
 
 end
 
-
 function CompileMacros(sources)
-	local macros = sources["macros.txt"]
-	if macros == nil then ErrorNoHalt("Macros not loaded!\n") return end
-
-	local macrolist = {}
-
-	for line in lineitr(macros) do
-		line = line:Trim()
-		if line:len() == 0 or line[1] == "#" then continue end
-
-		local x,y,z = line:gmatch("([%w_]+)%s-(%b())%s+(.+)")()
-		if not x then x,z = line:gmatch("([%w_]+)%s+(.+)")() end
-
-		local args = {}
-		for a in (y and y or ""):gmatch("[%w_]+") do table.insert( args, a ) end
-
-		local function use(iter)
-			local c = z
-			for i=1, #args do
-				c = c:gsub(args[i], iter and ( iter() or "") or "")
-			end
-			return c
-		end
-
-		table.insert( macrolist, 1, {
-			name = x,
-			use = use,
-			paren = y ~= nil,
-		})
-	end
+	
+	LoadMacros(sources)
 
 	local function replace( str )
 		if str == nil then return str end
@@ -406,6 +489,7 @@ function CompileMacros(sources)
 		end
 		return str
 	end
+
 	PreProcessLine = replace
 
 	--[[local test_string = " wow, %%%% this is my test string, oncat(bob) calling macro mycoolmacro and complex_name(arg0,arg1,arg2)\n"
@@ -416,7 +500,7 @@ end
 
 function CompileScripts(sources)
 	-- 1. Compile macros
-	CompileMacros(sources)
+	--CompileMacros(sources) --handled upstream
 
 	-- 2. Compile scripts
 	local compiled = {}
@@ -436,7 +520,6 @@ function CompileScripts(sources)
 			end
 		end
 	end
-	
 	
 	return compiled
 end
@@ -478,12 +561,14 @@ function LoadScripts()
 		for _, override in ipairs( ents.FindByClass("jazz_sceneviewoverride") ) do
 			if IsValid(override) then
 				-- first, find the script we're working on
-				local scriptname =string.Explode(".txt$",override:GetScript(),true)[1]..".txt" --let the mapper put .txt on if they want, but don't require it
+				local scriptname = string.Explode(".txt$",override:GetScript(),true)[1]..".txt" --let the mapper put .txt on if they want, but don't require it
+				if not ScriptSources[scriptname] then Msg("No script named "..scriptname.." found.") continue end
 				local script = ScriptSources[scriptname]
 				print("Working on script: ",scriptname)
 
 				-- then find the start of the branch we want
 				local _,branchstart,_ = string.find(script,override:GetBranch()..":\n",0)
+				if not branchstart then Msg("No branch named "..override:GetBranch().." found in "..scriptname) continue end
 
 				--now find the command we want to change
 				local foundstart, foundend, branchnumber = branchstart, branchstart, override:GetBranchNumber()
@@ -498,8 +583,7 @@ function LoadScripts()
 						oldcommand = string.sub(script,foundstart,foundend)
 						branchnumber = branchnumber - 1
 						--check if the camera call we just found was actually inside of a comment, and skip it (by just going on our merry way)
-						local oldcommandpatternsafe = string.Replace(oldcommand,".","%.") --gotta escape these characters
-						oldcommandpatternsafe = string.Replace(oldcommand,"-","%-")
+						local oldcommandpatternsafe = string.PatternSafe(oldcommand)
 						if string.find(script,comment..oldcommandpatternsafe..endline,oldfoundend) then
 							branchnumber = branchnumber + 1
 						end
