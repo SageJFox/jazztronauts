@@ -34,7 +34,7 @@ votesToLeave = 0 --if we're too close to the edict limit to summon the bus, coun
 
 function voteToLeave(vote)
 	if ents.GetEdictCount() < 8064 then votesToLeave = 0 return end --we've dipped back below a dangerous edict level, no need for voting
-	local summoners = 0 --total number of bus summoners with player owners (not all player might have/be able to get summoners if we're near edict limit)
+	local summoners = 0 --total number of bus summoners with player owners (not all players might have/be able to get summoners if we're near edict limit)
 	for _, ent in ents.Iterator() do
 		if IsValid(ent) then
 			if ent:GetClass() == "jazz_bus_explore" then return end --we have a bus, that'll handle leaving

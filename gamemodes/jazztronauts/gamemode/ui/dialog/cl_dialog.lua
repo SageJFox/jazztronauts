@@ -503,10 +503,10 @@ surface.CreateFont( "JazzDialogLoading", {
 	outline = false,
 } )
 hook.Add("HUDPaint", "JazzDialogThrobber", function()
-	if !DialogQueued then return end
+	if not DialogQueued then return end
 
 	local nDots = math.floor(math.fmod(CurTime()*2, 3))
-	local str = "LOADING DIALOG"
+	local str = jazzloc.Localize("jazz.dialog.load")
 
 	surface.SetFont("JazzDialogLoading")
 	local w, h = surface.GetTextSize(str)
