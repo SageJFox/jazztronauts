@@ -139,19 +139,17 @@ local function CompileBlockExec(datasrc)
 
 		end
 	end
+	
 	--now for processing
 	local patstart, patmeat, patend = "BLOCKSTART","%*%s*%*","BLOCKEND" --our pattern filters
 	local start, fin, signifier = string.find(data,patstart.."%s*([%w_]+)") --find our first start
 	if not start then start, fin = string.find(data,patstart) end --try finding a blank one
-	--local saveme = 0
-	while start do --and saveme < 10 do
-		--saveme = saveme + 1
-		--print("BLOCKSTART "..signifier.." found, processing...")-- ["..saveme.."]")
+	while start do
+		--print("BLOCKSTART "..signifier.." found, processing...")
 		if signifier then start, fin =  string.find(data,patstart.."%s*"..signifier.."%*[%g%s]-"..patend.."%s*"..signifier)
 		else start, fin =  string.find(data,patstart.."%*[%g%s]-"..patend) end
-		--print(start,fin)
 		if start then
-			local scope = string.sub( data, start - 1, fin + 1 )
+			local scope = string.sub( data, start - 1, fin + 1 ) --grabs the asterisks on both sides, too
 			--print("SCOPE PRIOR:")
 			--print(scope)
 			if signifier then
@@ -163,13 +161,43 @@ local function CompileBlockExec(datasrc)
 				scope = string.gsub(scope,patmeat,"-->")
 				scope = string.gsub(scope,"-->%s*"..patend,"") --its asterisk already got replaced, so it'll be -->BLOCKEND now
 			end
+
 			--this probably isn't needed, but just to be on the safe side, let's do some cleanup
 			while string.find(scope,"block block") do
 				scope = string.Replace(scope,"block block","block")
 			end
-			scope = string.Replace(scope,"-->block ","-->")
+			scope = string.Replace(scope,"-->block","-->")
+
+			--a little more cleanup. This is to help shorten our string where we can
+			--todo maybe: this would technically affect any text inside of a *slam* command.
+				--I don't really think slams should be used in blocks,
+				--and I doubt anyone's gonna wanna slam "0.000" down anyway, but.
+			scope = string.gsub(scope,"%.0+%s+"," ") --remove trailing decimal zeros (space after)
+			scope = string.gsub(scope,"%.0+%-%->","-->") --remove trailing decimal zeros (block arrow after)
+			scope = string.gsub(scope,"%s*%-%->%s*","-->") --remove unneeded spaces from block arrow
+
 			--print("SCOPE POST:")
 			--print(scope)
+
+			--validation time baby
+			local invalid = false
+			
+			if string.find(scope,"[%s]*[%w]-:") or string.find(scope,"[%s]*&[%w]-[%s]") then --contains a branch, this ain't good
+				if signifier then ErrorNoHaltWithStack("Improperly formatted exec block "..signifier..", likely missed a BLOCKEND:\n"..string.sub( data, start - 1, fin + 1 ))
+				else ErrorNoHaltWithStack("Improperly formatted exec block, likely missed a BLOCKEND:\n"..string.sub( data, start - 1, fin + 1 )) end
+				invalid = true
+			elseif string.find(scope,"\n") then --everything should be on one line
+				if signifier then ErrorNoHaltWithStack("Improperly formatted exec block "..signifier..", likely contains plaintext:\n"..string.sub( data, start - 1, fin + 1 ))
+				else ErrorNoHaltWithStack("Improperly formatted exec block, likely contains plaintext:\n"..string.sub( data, start - 1, fin + 1 )) end
+				invalid = true
+			end
+
+			if invalid then
+				--reset our scope and change our tags so we don't hit this again.
+				scope = string.sub( data, start - 1, fin + 1 )
+				scope = string.gsub(scope,patstart,"BADSTART",1)
+				--scope = string.gsub(scope,patend,"BADEND",1) --this tends to cascade through the script if one's missed
+			end
 			--alright, we're done with our scope, slap it back in
 			data = string.sub( data, 1, start - 2 ) .. scope .. string.sub( data, fin + 2 )
 			--find the next one
