@@ -6,73 +6,73 @@ HIDE_MOUSE = true
 ADVANCE_KEYS = IN_USE, MOUSE_LEFT
 
 doorinspectlocked1:
-    It's locked.
-    
-    &exit
+	It's locked.
+	
+	&exit
 
 doorinspectlocked2:
-    The door doesn't budge when the handle is rattled.
+	The door doesn't budge when the handle is rattled.
 
-    &exit
+	&exit
 
 doorinspectlocked3:
-    It's locked. It's locked. It's locked.
-    
-    &exit
+	It's locked. It's locked. It's locked.
+	
+	&exit
 
 doorinspectlocked4:
-    You're not listening.
-    
-    &exit
+	You're not listening.
+	
+	&exit
 
 doorinspectlockedquestionable:
-    It's %%%%%%%%%%%%%%%%%%%%%%%. %%%%%%%%%%%%%%%%%%%%%%%. %%%%%%%%%%%%%%%%%%%%%%%. %%%%%%%%%%%%%%%%%%%%%%%locked?
-    
-    &exit
+	It's %%%%%%%%%%%%%%%%%%%%%%%. %%%%%%%%%%%%%%%%%%%%%%%. %%%%%%%%%%%%%%%%%%%%%%%. %%%%%%%%%%%%%%%%%%%%%%%locked?
+	
+	&exit
 
 oven1:
-    Don't really feel like cooking right now.
-    
-    &exit
+	Don't really feel like cooking right now.
+	
+	&exit
 
 ovenb:
-    The oven is crusted shut with carbon and a thick slime.
-    
-    &exit
+	The oven is crusted shut with carbon and a thick slime.
+	
+	&exit
 
 ovenc:
-    The handle crumbles beneath curious hands, which crumble in turn. 
-    
-    &ovenc2
+	The handle crumbles beneath curious hands, which crumble in turn. 
+	
+	&ovenc2
 
 ovenc2:
-    Pieced back together, glued with muck.
-    
-    &exit
+	Pieced back together, glued with muck.
+	
+	&exit
 
 
 
 bedroomentry:
-    You don't recall entering the bedroom door.
-    
-    &exit
+	You don't recall entering the bedroom door.
+	
+	&exit
 
 
 mattress1:
-    There's no way I'm touching that without gloves on.
-    
-    &exit
+	There's no way I'm touching that without gloves on.
+	
+	&exit
 
 mattress2:
-    Beneath the sheet, small lumps shiver.
-    &mattress2b
+	Beneath the sheet, small lumps shiver.
+	&mattress2b
 mattress2b:
-    A crawling beneath the fingernails.
-    &exit
+	A crawling beneath the fingernails.
+	&exit
 
 mattress3:
-    Heavy eyes and lungs that ache for the mold that will be your pillow.
-    &exit
+	Heavy eyes and lungs that ache for the mold that will be your pillow.
+	&exit
 
 
 bathroomdoor1a:
@@ -100,82 +100,82 @@ Cigarette ash and bleach coat the tongue.
 &exit
 
 bathroomdoor3a:
-    It's locked. Liquid leaks from beneath the door, the sucking cough of backed-up plumbing a putrid bark in the stillness.
-    &exit
+	It's locked. Liquid leaks from beneath the door, the sucking cough of backed-up plumbing a putrid bark in the stillness.
+	&exit
 
 
 
 painting1a:
-    An empty picture frame, its art long having disappeared.
-    &exit
+	An empty picture frame, its art long having disappeared.
+	&exit
 
 painting1b:
-    Time is unkind to the picture frame; In place of paint, only dust.
-    &exit
+	Time is unkind to the picture frame; In place of paint, only dust.
+	&exit
 
 painting1c:
-    Grime and scum, nothing more.
-    &exit
+	Grime and scum, nothing more.
+	&exit
 
 painting2a:
-    You see two lonely figures in a ramshackle boat drifting beneath the setting sun.
+	You see two lonely figures in a ramshackle boat drifting beneath the setting sun.
 
-    &exit
+	&exit
 
 painting2b:
-    The sun rises. It cuts a gash through the cool waters, narrowly missing the lonely boat. 
+	The sun rises. It cuts a gash through the cool waters, narrowly missing the lonely boat. 
 
-    &exit
+	&exit
 
 painting2c:
-    An eye peers from behind the cloud bank, malevolent and sour.
+	An eye peers from behind the cloud bank, malevolent and sour.
 
-    &exit
+	&exit
 
 painting3a:
-    An empty picture frame, the art long having disappeared.
-    &exit
+	An empty picture frame, the art long having disappeared.
+	&exit
 
 painting3b:
-    Time is unkind to the picture frame; In place of paint, only dust.
-    &exit
+	Time is unkind to the picture frame; In place of paint, only dust.
+	&exit
 
 painting3c:
-    Grime and scum, nothing more.
-    &exit    
+	Grime and scum, nothing more.
+	&exit
 
 closetinspect1:
-    Just an ordinary closet. Something is preventing it from being opened. . .
+	Just an ordinary closet. Something is preventing it from being opened. . .
 
-    &exit
+	&exit
 
 closetinspectb1:
-    There are tattered shirts and poorly darned pants. 
+	There are tattered shirts and poorly darned pants. 
 
-    &closetinspectb2
+	&closetinspectb2
 
 closetinspectb2:
-    Unwashed and musty. 
+	Unwashed and musty. 
 
-    &exit
+	&exit
 
 closetinspectc1:
-    Cloth that disintegrates beneath shaking fingers.
+	Cloth that disintegrates beneath shaking fingers.
 
-    &closetinspectc2
+	&closetinspectc2
 
 closetinspectc2:
-    Throat seizing as the motes of a shattered life are inhaled.
+	Throat seizing as the motes of a shattered life are inhaled.
 
-    &exit
+	&exit
 
 closetinspectafter1:
-    Maybe it's best to leave this alone, after all.
+	Maybe it's best to leave this alone, after all.
 
-    &exit
+	&exit
 
 youshouldntbehere:
-    
-    You shouldn't be here.
+	
+	You shouldn't be here.
 
 &exit

@@ -73,47 +73,53 @@ i3:
 	&exit
 
 turnin:
-	*hide*
-	*txout*
-	#*zsnap 0*
-	spawnnarratorroot(scene_booth_solo scene_booth)
-	spawncatpianist()
-	*setoffset cat_piano setpos 55.712593 -15.210693 0;setang 0.000 230.000 0.000*
-	#*setposang cat_piano setpos 119.712593 3120.789307 24;setang -90 140 0.000000*
-	*spawn metrocop_model models/police.mdl*
-	*setname metrocop_model Metrocop*
-	*bgmplay sound/jazztronauts/music/events/loveaffair.mp3 1 2.0*
-	#*setposang metrocop_model setpos 105.750031 2986.230957 0;setang -0.922405 84.788383 0.000000*
-	#*setposang player setpos 6.328891 2987.953613 0;setang 5.732626 21.565920 0.000000*
-	*setoffset metrocop_model setpos 41.750031 -149.769043 0;setang 0 84.788 0.000*
-	*setlook metrocop_model 0.922*
-	*setoffset player setpos -57.671108 -148.046387 0;setang 0 21.566 0.000*
-	*setlook player -5.733*
-	*setcamroot player setpos -169.379211 -99.344482 75.429131;setang 4.348 24.597 0.000* #### ESTABLISHING SHOT
-	#*setcam setpos -114.676605 2833.304443 75.460381;setang 4.348427 46.162735 0.000000* #### ESTABLISHING SHOT
-	*setanim metrocop_model busyidle2*
-	*txin*
-	*wait .5*
-	*show narrator*
+	*BLOCKSTART*
+		*hide*
+		*txout*
+		#*zsnap 0*
+		spawnnarratorroot(scene_booth_solo scene_booth)
+		spawncatpianist()
+		*setoffset cat_piano setpos 55.712593 -15.210693 0;setang 0.000 230.000 0.000*
+		#*setposang cat_piano setpos 119.712593 3120.789307 24;setang -90 140 0.000000*
+		*spawn metrocop_model models/police.mdl*
+		*setname metrocop_model Metrocop*
+		*bgmplay sound/jazztronauts/music/events/loveaffair.mp3 1 2.0*
+		#*setposang metrocop_model setpos 105.750031 2986.230957 0;setang -0.922405 84.788383 0.000000*
+		#*setposang player setpos 6.328891 2987.953613 0;setang 5.732626 21.565920 0.000000*
+		*setoffset metrocop_model setpos 41.750031 -149.769043 0;setang 0 84.788 0.000*
+		*setlook metrocop_model 0.922*
+		*setoffset player setpos -57.671108 -148.046387 0;setang 0 21.566 0.000*
+		*setlook player -5.733*
+		*setcamroot player setpos -169.379211 -99.344482 75.429131;setang 4.348 24.597 0.000* #### ESTABLISHING SHOT
+		#*setcam setpos -114.676605 2833.304443 75.460381;setang 4.348427 46.162735 0.000000* #### ESTABLISHING SHOT
+		*setanim metrocop_model busyidle2*
+		*txin*
+		*wait .5*
+		*show narrator*
+	*BLOCKEND*
 	> The Pianist is sitting in a booth with one of the metrocops you found.%%%
 	%.%.%.%The Pianist is looking around awkwardly.%%% 
 	She notices you and waves you over.
 	&t1
 	
 t1:
-	*setcamroot cat_piano setpos 95.318115 29.060913 49.167290;setang 1.473 178.186 0.000* ##### PIANO
-	#*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
-	*setspeaker cat_piano*
+	*BLOCKSTART*
+		*setcamroot cat_piano setpos 95.318115 29.060913 49.167290;setang 1.473 178.186 0.000* ##### PIANO
+		#*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
+		*setspeaker cat_piano*
+	*BLOCKEND*
 	Oh,% cool,%% you're back.%%%%
 	They made it before you did,%% we had a Chat.
 	&t2
 	
 t2:
-	*setcamroot player setpos -169.379211 -99.344482 75.429131;setang 4.348 24.597 0.000* #### ESTABLISHING SHOT
-	#*setcam setpos -114.676605 2833.304443 75.460381;setang 4.348427 46.162735 0.000000* #### ESTABLISHING SHOT
-	#*setposang metrocop_model setpos 105.750031 2986.230957 0;setang 4.667794 168.321960 0.000000*
-	*block setoffset metrocop_model setpos 41.750031 -149.769043 0;setang 0 168.322 0.000-->setlook metrocop_model -4.668*
-	*setspeaker narrator*
+	*BLOCKSTART*
+		*setcamroot player setpos -169.379211 -99.344482 75.429131;setang 4.348 24.597 0.000* #### ESTABLISHING SHOT
+		#*setcam setpos -114.676605 2833.304443 75.460381;setang 4.348427 46.162735 0.000000* #### ESTABLISHING SHOT
+		#*setposang metrocop_model setpos 105.750031 2986.230957 0;setang 4.667794 168.321960 0.000000*
+		*block setoffset metrocop_model setpos 41.750031 -149.769043 0;setang 0 168.322 0.000-->setlook metrocop_model -4.668*
+		*setspeaker narrator*
+	*BLOCKEND*
 	> The metrocop gives you a wave while the Pianist puts a briefcase
 	on the table.%%%%
 	*finish 5*
@@ -121,9 +127,11 @@ t2:
 	&t3
 	
 t3:
-	*setcamroot cat_piano setpos 95.318115 29.060913 49.167290;setang 1.473 178.186 0.000* ##### PIANO
-	#*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
-	*setspeaker cat_piano*
+	*BLOCKSTART*
+		*setcamroot cat_piano setpos 95.318115 29.060913 49.167290;setang 1.473 178.186 0.000* ##### PIANO
+		#*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
+		*setspeaker cat_piano*
+	*BLOCKEND*
 	A long time ago we had someone here who like.%%% 
 	Helped.%%%% The Singer,% with,%% their project?%%%
 	And they left.
@@ -144,26 +152,32 @@ t5:
 	&t6
 	
 t6:
-	*setcamroot metrocop_model setpos 73.783905 90.419434 63.779808;setang -0.000 -129.719 0.000* #### METROCOP
-	#*setcam setpos 15.191477 2912.617676 63.811058;setang 0 38.602680 0.000000* #### METROCOP
-	*setspeaker metrocop_model*
-	*vocalize jazztronauts/mc1que_perks.wav .8*
+	*BLOCKSTART*
+		*setcamroot metrocop_model setpos 73.783905 90.419434 63.779808;setang -0.000 -129.719 0.000* #### METROCOP
+		#*setcam setpos 15.191477 2912.617676 63.811058;setang 0 38.602680 0.000000* #### METROCOP
+		*setspeaker metrocop_model*
+		*vocalize jazztronauts/mc1que_perks.wav .8*
+	*BLOCKEND*
 	So,%% you getting the perks they promised you?
 	&t7
 	
 t7:
-	*setcamroot cat_piano setpos 95.318115 29.060913 49.167290;setang 1.473 178.186 0.000* ##### PIANO
-	#*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
-	*setspeaker cat_piano*
+	*BLOCKSTART*
+		*setcamroot cat_piano setpos 95.318115 29.060913 49.167290;setang 1.473 178.186 0.000* ##### PIANO
+		#*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
+		*setspeaker cat_piano*
+	*BLOCKEND*
 	Chill.%%%%
 	I added the dental.
 	&t8
 	
 t8:
-	*setcamroot metrocop_model setpos 127.496674 -132.077148 89.062515;setang 11.376 133.304 0.000* #### GANG
-	#*setcam setpos 7.626283 3141.380859 89.093765;setang 11.376108 -58.373978 0.000000* #### GANG
-	*setspeaker metrocop_model*
-	*vocalize jazztronauts/mc1que_career.wav .8*
+	*BLOCKSTART*
+		*setcamroot metrocop_model setpos 127.496674 -132.077148 89.062515;setang 11.376 133.304 0.000* #### GANG
+		#*setcam setpos 7.626283 3141.380859 89.093765;setang 11.376108 -58.373978 0.000000* #### GANG
+		*setspeaker metrocop_model*
+		*vocalize jazztronauts/mc1que_career.wav .8*
+	*BLOCKEND*
 	Yep,% this was definitely the best career choice I ever made.
 	&t8b
 	
@@ -180,110 +194,133 @@ t9:
 	&t10
 	
 t10:
-	*vocalize jazztronauts/mc1ans_bellyaching.wav .8*
-	*setspeaker metrocop_model*
+	*BLOCKSTART*
+		*vocalize jazztronauts/mc1ans_bellyaching.wav .8*
+		*setspeaker metrocop_model*
+	*BLOCKEND*
 	Quit yer' bellyaching.
 	&t11
 	
 t11:
-	*setspeaker cat_piano*
-	*setcamroot cat_piano setpos 95.318115 29.060913 49.167290;setang 1.473 178.186 0.000* ##### PIANO
-	#*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
+	*BLOCKSTART*
+		*setspeaker cat_piano*
+		*setcamroot cat_piano setpos 95.318115 29.060913 49.167290;setang 1.473 178.186 0.000* ##### PIANO
+		#*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
+	*BLOCKEND*
 	This was the worst idea I've ever had.
 	&t12
 	
 t12:
-	*setcamroot metrocop_model setpos 73.783905 90.419434 63.779808;setang -0.000 -129.719 0.000* #### METROCOP
-	#*setcam setpos 15.191477 2912.617676 63.811058;setang -0.389936 38.602680 0.000000* #### METROCOP
-	*setspeaker metrocop_model*
-	*vocalize jazztronauts/mc1que_yourwife.wav .8*
+	*BLOCKSTART*
+		*setcamroot metrocop_model setpos 73.783905 90.419434 63.779808;setang -0.000 -129.719 0.000* #### METROCOP
+		#*setcam setpos 15.191477 2912.617676 63.811058;setang -0.389936 38.602680 0.000000* #### METROCOP
+		*setspeaker metrocop_model*
+		*vocalize jazztronauts/mc1que_yourwife.wav .8*
+	*BLOCKEND*
 	Your wife doesn't like me,% does she?
 	&t13
 	
 t13:
-	*setspeaker cat_piano*
-	*PIANO_ANGRY*
+	*BLOCKSTART*
+		*setspeaker cat_piano*
+		*PIANO_ANGRY*
+	*BLOCKEND*
 	OKAY YOU KNOW WHA—
 	&t14
 	
 t14:
-	spawncatsinger()
-	##*setposang cat_singer setpos 100.028259 3020.481445 0;setang -90 4 0.000000*
-	#*setoffset cat_singer setpos 36.028259 -115.518555 0;setang 0.000 94.000 0.000*
-	#*setcamroot cat_singer setpos 126.797363 26.087006 86.652924;setang 18.297 -167.574 0.000*
-	##*setcam setpos 65.159882 3145.150391 86.652924;setang 18.297302 -73.573898 0.000000*
-	*block setoffset cat_singer setpos 36.028259 -115.518555 0;setang 0 94 0 --> setcamroot cat_singer setpos 126.797363 26.087006 86.652924;setang 18.297 -167.574 0*
-	*SINGER_MAD*
-	narratesinger()
+	*BLOCKSTART*
+		spawncatsinger()
+		#*setposang cat_singer setpos 100.028259 3020.481445 0;setang -90 4 0.000000*
+		*setoffset cat_singer setpos 36.028259 -115.518555 0;setang 0.000 94.000 0.000*
+		*setcamroot cat_singer setpos 126.797363 26.087006 86.652924;setang 18.297 -167.574 0.000*
+		#*setcam setpos 65.159882 3145.150391 86.652924;setang 18.297302 -73.573898 0.000000*
+		*SINGER_MAD*
+		narratesinger()
+	*BLOCKEND*
 	> The Singer comes skidding to a halt in front of the Metrocop! 
 	They put their arms out to shield them!
 	&t15
 	
 t15:
-	*setcamroot metrocop_model setpos 127.496674 -132.077148 89.062515;setang 11.376 133.304 0.000* #### GANG
-	#*setcam setpos 7.626283 3141.380859 89.093765;setang 11.376108 -58.373978 0.000000* #### GANG
-	*setspeaker narrator*
+	*BLOCKSTART*
+		*setcamroot metrocop_model setpos 127.496674 -132.077148 89.062515;setang 11.376 133.304 0.000* #### GANG
+		#*setcam setpos 7.626283 3141.380859 89.093765;setang 11.376108 -58.373978 0.000000* #### GANG
+		*setspeaker narrator*
+	*BLOCKEND*
 	> The Pianist wrangles her fury back into *PIANO_NEUTRAL*its box and shakes off the
 	tension in the air.
 	&t16
 	
 t16:
-	*setcamroot cat_piano setpos 95.318115 29.060913 49.167290;setang 1.473 178.186 0.000* ##### PIANO
-	#*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
-	*setspeaker cat_piano*
+	*BLOCKSTART*
+		*setcamroot cat_piano setpos 95.318115 29.060913 49.167290;setang 1.473 178.186 0.000* ##### PIANO
+		#*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
+		*setspeaker cat_piano*
+	*BLOCKEND*
 	Hey.%%%
 	Uh.%%%%
 	It's okay.
 	&t17
 	
 t17:
-	*setspeaker narrator*
-	*hide*
-	*setcamroot cat_singer setpos 42.523438 11.548309 58.737503;setang 16.647 -168.585 0.000* ##### SINGER
-	#*setcam setpos 85.541794 3062.095703 58.737503;setang 16.646872 -74.585396 0.000000* ##### SINGER
-	*SINGER_MAD*
-	*wait 1.5*
-	*setcamroot cat_piano setpos 95.318115 29.060913 49.167290;setang 1.473 178.186 0.000* ##### PIANO
-	#*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
-	*show cat_piano*
+	*BLOCKSTART*
+		*setspeaker narrator*
+		*hide*
+		*setcamroot cat_singer setpos 42.523438 11.548309 58.737503;setang 16.647 -168.585 0.000* ##### SINGER
+		#*setcam setpos 85.541794 3062.095703 58.737503;setang 16.646872 -74.585396 0.000000* ##### SINGER
+		*SINGER_MAD*
+		*wait 1.5*
+		*setcamroot cat_piano setpos 95.318115 29.060913 49.167290;setang 1.473 178.186 0.000* ##### PIANO
+		#*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
+		*show cat_piano*
+	*BLOCKEND*
 	No,% really.%% Uh.%%%% I.%%%%
 	I talked,%% to this guy?%%% And we found you a new assistant.%%%%
 	Paid and everything.% Even dental.
 	&t18
 	
 t18:
-	*setcamroot metrocop_model setpos 73.783905 90.419434 63.779808;setang -0.000 -129.719 0.000* #### METROCOP
-	#*setcam setpos 15.191477 2912.617676 63.811058;setang -0.389936 38.602680 0.000000* #### METROCOP
-	*setspeaker metrocop_model*
-	*vocalize jazztronauts/mc1que_everythingihoped.wav .8*
+	*BLOCKSTART*
+		*setcamroot metrocop_model setpos 73.783905 90.419434 63.779808;setang -0.000 -129.719 0.000* #### METROCOP
+		#*setcam setpos 15.191477 2912.617676 63.811058;setang -0.389936 38.602680 0.000000* #### METROCOP
+		*setspeaker metrocop_model*
+		*vocalize jazztronauts/mc1que_everythingihoped.wav .8*
+	*BLOCKEND*
 	This is everything I hoped it would be.
 	&t19
 	
 t19:
-	*setcamroot cat_singer setpos 42.523438 11.548309 58.737503;setang 16.647 -168.585 0.000* ##### SINGER
-	#*setcam setpos 85.541794 3062.095703 58.737503;setang 16.646872 -74.585396 0.000000* ##### SINGER
-	narratesinger()
-	*SINGER_HAPPY*
-	*setanim cat_singer gesture_clap 1 idle*
+	*BLOCKSTART*
+		*setcamroot cat_singer setpos 42.523438 11.548309 58.737503;setang 16.647 -168.585 0.000* ##### SINGER
+		#*setcam setpos 85.541794 3062.095703 58.737503;setang 16.646872 -74.585396 0.000000* ##### SINGER
+		narratesinger()
+		*SINGER_HAPPY*
+		*setanim cat_singer gesture_clap 1 idle*
+	*BLOCKEND*
 	> The Singer beams.%%%% They take out their tablet and tap out a message\: *setspeaker cat_singer*
 	“%%%THANK YOU SO MUCH IM SO PROUD OF YOU!!!”
 	&t20
 	
 t20:
-	*setcamroot cat_piano setpos 95.318115 29.060913 49.167290;setang 1.473 178.186 0.000* ##### PIANO
-	#*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
-	*setspeaker cat_piano*
-	*PIANO_FLUSTERED*
-	*setanim cat_piano gesture_shock 1.3 idle*
+	*BLOCKSTART*
+		*setcamroot cat_piano setpos 95.318115 29.060913 49.167290;setang 1.473 178.186 0.000* ##### PIANO
+		#*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
+		*setspeaker cat_piano*
+		*PIANO_FLUSTERED*
+		*setanim cat_piano gesture_shock 1.3 idle*
+	*BLOCKEND*
 	Uh,% well.%%% Yeah.%%%%
 	Sorry.%%
 	About the headcrab,% thing.
 	&t21
 	
 t21:
-	*setcamroot cat_singer setpos 254.498047 291.427551 132.024811;setang 10.897 -136.748 0.000*
-	#*setcam setpos -208.442261 3254.030518 132.024811;setang 10.896953 -42.747852 0.000000*
-	narratesinger()
+	*BLOCKSTART*
+		*setcamroot cat_singer setpos 254.498047 291.427551 132.024811;setang 10.897 -136.748 0.000*
+		#*setcam setpos -208.442261 3254.030518 132.024811;setang 10.896953 -42.747852 0.000000*
+		narratesinger()
+	*BLOCKEND*
 	> The Singer hugs the Pianist.%%%% She clearly has no idea how to deal with
 	this.
 	&t21b

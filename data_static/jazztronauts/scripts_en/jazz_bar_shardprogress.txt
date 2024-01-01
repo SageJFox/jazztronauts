@@ -1,82 +1,86 @@
 # Called once they've collected _A_ shard. Almost definitely will be on return from their first exploration
 begin1:
 	*setspeaker npc_cat_bar*
-    Good work! You've located some shards.
-    &begin1_2
+	Good work! You've located some shards.
+	&begin1_2
 
 begin1_2:
-    You'll see these glowing wizardly interdimensional sugar crystals
-    peppered all over maps everyone has made. 
-    &begin1_3
+	You'll see these glowing wizardly interdimensional sugar crystals
+	peppered all over maps everyone has made. 
+	&begin1_3
 
 begin1_3:
-    You can look at the Shard Tank in your home base to see how 
+	You can look at the Shard Tank in your home base to see how 
 	many you've collected! And how many more you need, too.
-    &begin1_5
+	&begin1_5
 
 begin1_4:
-    We've installed this big ol' tank to crush them to a pulp 
-    and harvest their juicy interior, but honestly, we haven't 
-    planned much more after that.
-    &begin1_5
+	We've installed this big ol' tank to crush them to a pulp 
+	and harvest their juicy interior, but honestly, we haven't 
+	planned much more after that.
+	&begin1_5
 
 begin1_5:
-    Keep it up.
-    *mark_seen*
-    &exit
+	Keep it up.
+	*mark_seen*
+	&exit
 
-# Called once they've collected 25% of their needed shards
+# Called once they've collected 25% of their needed shards 
 begin25:
 	*setspeaker npc_cat_piano*
-    Nice,%% you guys are going at a pretty good pace.
-    &begin25_2
+	Nice,%% you guys are going at a pretty good pace.
+	&begin25_2
 
 begin25_2:
-    Shard tank's already 1/4 full.
+	Shard tank's already 1/4 full.
 	Not bad, for a rookie.
-    *mark_seen*
-    &exit
+	*mark_seen*
+	&exit
 
 # 50% of needed shards
 begin50:
 	*setspeaker npc_cat_cello*
-    nice.%%%% hit the halfway mark on the shard tank,% huh?
-    &begin50_2
+	nice.%%%% hit the halfway mark on the shard tank,% huh?
+	&begin50_2
 
 begin50_2:
-    prouda ya
-    *mark_seen*
-    &exit
+	prouda ya
+	*mark_seen*
+	&exit
 
 # 75% of needed shards
 # This was a missing event from the game. Added a placeholder for now. -ptown2
 begin75:
 	*setspeaker npc_cat_bar*
-    Nice,%% we're at the third-quarter mark now!% huh?
-    &begin75_2
+	Nice,%% we're at the third-quarter mark now!% huh?
+	&begin75_2
 
 begin75_2:
-    A few more and we'll have this tank full.
-    *mark_seen*
-    &exit
+	A few more and we'll have this tank full.
+	*mark_seen*
+	&exit
 
 # 100% of needed shards. Probably should be a cutscene showing where to go now that they can finish the game
 begin100:
-	spawnnarrator()
-	narratewithview(npc_cat_sing)
-    > The Singer runs over to meet you!
-    &begin100_2
+	*BLOCKSTART*
+		spawnnarrator()
+		narratewithview(npc_cat_sing)
+	*BLOCKEND*
+	> The Singer runs over to meet you!
+	&begin100_2
 
 begin100_2:
-    > They can barely stand still, they keep pointing to the 
+	> They can barely stand still, they keep pointing to the 
 	shard tank, then the Bartender, then the shard tank again.
-    *mark_seen*
-    &exit
+	*mark_seen*
+	&exit
 	
 ##### HEY YA DID IT	
 completed_all_cats:
-	spawnnarrator()
-	*setspeaker npc_cat_bar*
+	*BLOCKSTART*
+		spawnnarrator()
+		*setspeaker npc_cat_bar*
+	*BLOCKEND*
 	Excuse me, *player*?
 	Do you have a minute?
 	&com1

@@ -7,21 +7,24 @@ SKIP_OPEN = true
 
 setup1:
 	## Scene setup
-	spawngang()
-	*setposang cat_bar -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
-	*setposang cat_cello -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
-	*setposang cat_piano -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
-	*setposang cat_singer -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
-	*show narrator 0.4*
-
+	*BLOCKSTART*
+		spawngang()
+		*setposang cat_bar -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
+		*setposang cat_cello -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
+		*setposang cat_piano -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
+		*setposang cat_singer -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
+		*show narrator 0.4*
+	*BLOCKEND*
 ###### START
 	> A stun baton seems to have fallen from a hole in the ceiling.
 	&begin1
 
 begin1:
-	*setspeaker cat_piano*
-	*PIANO_SMIRK*
-	*setanim cat_piano gesture_laugh 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_piano*
+		*PIANO_SMIRK*
+		*setanim cat_piano gesture_laugh 1 idle*
+	*BLOCKEND*
 	Nice job,% asshole.%% Can't believe you tripped over a corpse.%%*PIANO_NEUTRAL*
 	How many times have we had to step around dead bodies now?
 	&begin2
@@ -57,9 +60,11 @@ begin6:
 	&begin7
 
 begin7:
-	*setspeaker cat_bar*
-	*BAR_SURPRISE*
-	*CELLO_NEUTRAL* # reset
+	*BLOCKSTART*
+		*setspeaker cat_bar*
+		*BAR_SURPRISE*
+		*CELLO_NEUTRAL* # reset
+	*BLOCKEND*
 	Oh dear.%% *BAR_NEUTRAL*We'd best find a way down then.
 	&begin8
 

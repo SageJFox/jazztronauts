@@ -1,43 +1,49 @@
 SKIP_OPEN = true
 
 begin:
-	*txout*
-	spawnnarratorroot(scene_bar_solo scene_bar)
-	#*zsnap 0*
-	spawncatbartender()
-	spawncatcellist()
-	#*setposang cat_bar -2864.620361 3044.558594 32;setang -90 180 0*
-	*setoffset cat_bar setpos -92.558594 -0.620361 0;setang 0.000 0.000 0.000*
-	*setcamroot cat_bar setpos 287.247559 255.489746 71.334732;setang 3.869 -136.896 0.000 fov70* ######## ESTABLISHING SHOT
-	#*setcam setpos -2609.130859 2757.310791 95.365982;setang 3.869236 133.104462 0.000000 fov70* ######## ESTABLISHING SHOT
-	*setanim cat_bar gesture_washing*
-	#*setposang cat_cello setpos -2578.243896 2791.908447 0;setang -90 45 0.000000*
-	*setoffset cat_cello setpos 160.091553 285.756104 0;setang 0.000 225.000 0.000*
-	#*setposang player setpos -2911.472656 2960.678223 36;setang 14.517221 62.446011 0.000000*
-	*setoffset player setpos -8.678223 -47.472656 0;setang 14.517 152.446 0.000*
-	*setanim player sit*
-	*bgmplay sound/jazztronauts/music/events/bartender_song.mp3 1.0 2.0*
-	*txin*
-	*wait .15*
-	*show narrator*
+	*BLOCKSTART*
+		*txout*
+		spawnnarratorroot(scene_bar_solo scene_bar)
+		#*zsnap 0*
+		spawncatbartender()
+		spawncatcellist()
+		#*setposang cat_bar -2864.620361 3044.558594 32;setang -90 180 0*
+		*setoffset cat_bar setpos -92.558594 -0.620361 0;setang 0.000 0.000 0.000*
+		*setcamroot cat_bar setpos 287.247559 255.489746 71.334732;setang 3.869 -136.896 0.000 fov70* ######## ESTABLISHING SHOT
+		#*setcam setpos -2609.130859 2757.310791 95.365982;setang 3.869236 133.104462 0.000000 fov70* ######## ESTABLISHING SHOT
+		*setanim cat_bar gesture_washing*
+		#*setposang cat_cello setpos -2578.243896 2791.908447 0;setang -90 45 0.000000*
+		*setoffset cat_cello setpos 160.091553 285.756104 0;setang 0.000 225.000 0.000*
+		#*setposang player setpos -2911.472656 2960.678223 36;setang 14.517221 62.446011 0.000000*
+		*setoffset player setpos -8.678223 -47.472656 0;setang 14.517 152.446 0.000*
+		*setanim player sit*
+		*bgmplay sound/jazztronauts/music/events/bartender_song.mp3 1.0 2.0*
+		*txin*
+		*wait .15*
+		*show narrator*
+	*BLOCKEND*
 	> The Bar Samsara%.%.%.%%% 
 	You're chatting the twilight away with the Bartender.
 	&a2
 
 a2:
-	*setspeaker cat_bar*
-	*setcamroot player setpos 19.871948 -81.975586 38.551270;setang 1.949 80.142 -14.340*
-	#*setcam setpos -2825.425781 2948.380615 69.888466;setang 4.348406 143.379730 0.000000* ###### BAR AND PLAYER SANS CELLIST
-	*BAR_SURPRISE*
+	*BLOCKSTART*
+		*setspeaker cat_bar*
+		*setcamroot player setpos 19.871948 -81.975586 38.551270;setang 1.949 80.142 -14.340*
+		#*setcam setpos -2825.425781 2948.380615 69.888466;setang 4.348406 143.379730 0.000000* ###### BAR AND PLAYER SANS CELLIST
+		*BAR_SURPRISE*
+	*BLOCKEND*
 	—shockingly,% yes,%%*BAR_HAPPY* you CAN make a soup stock out of crystallized bone 
 	marrow.%%%*BAR_BLINK* The sheer richness%.%.%.%%%*BAR_NEUTRAL*I wish I could offer you a—
 	&a3
 
 a3:
-	*setspeaker narrator*
-	*setcamroot cat_cello setpos 442.580078 62.650024 90.510132;setang 8.554 -174.651 0.000*
-	#*setcam setpos -2935.495605 3060.559570 90.541382;setang 8.554376 -39.650562 0.000000*
-	*emitsound physics/wood/wood_panel_impact_hard1.wav 0.45*
+	*BLOCKSTART*
+		*setspeaker narrator*
+		*setcamroot cat_cello setpos 442.580078 62.650024 90.510132;setang 8.554 -174.651 0.000*
+		#*setcam setpos -2935.495605 3060.559570 90.541382;setang 8.554376 -39.650562 0.000000*
+		*emitsound physics/wood/wood_panel_impact_hard1.wav 0.45*
+	*BLOCKEND*
 	#> The Mewseum door is kicked open!%% Intruder alert!!%%%%*setcam setpos -2654.359619 2872.613281 45.377167;setang 4.667855 -47.210667 0.000000*
 	> The Mewseum door is kicked open!%% Intruder alert!!%%%%*setcamoffset setpos 110.888916 -3.244995 45.345917;setang 4.668 177.789 0.000*
 	%.%.%.%Oh,% it's just the Cellist.
@@ -53,32 +59,38 @@ leave:
 	&exit
 
 a4:
-	*setspeaker narrator*
-	#*setposang cat_cello setpos -2815.800049 2956.580811 37;setang -90 15 0.000000*
-	*setoffset cat_cello setpos -4.580811 48.199951 0;setang 0.000 195.000 0.000*
-	*setcamroot cat_bar setpos 242.256592 56.078369 7.384901;setang -4.756 -166.595 0.000*
-	#*setcam setpos -2808.541992 2802.302002 31.416151;setang -4.755620 103.405174 0.000000* 
-	*BAR_NEUTRAL*
-	*BAR_SURPRISE*
+	*BLOCKSTART*
+		*setspeaker narrator*
+		#*setposang cat_cello setpos -2815.800049 2956.580811 37;setang -90 15 0.000000*
+		*setoffset cat_cello setpos -4.580811 48.199951 0;setang 0.000 195.000 0.000*
+		*setcamroot cat_bar setpos 242.256592 56.078369 7.384901;setang -4.756 -166.595 0.000*
+		#*setcam setpos -2808.541992 2802.302002 31.416151;setang -4.755620 103.405174 0.000000* 
+		*BAR_NEUTRAL*
+		*BAR_SURPRISE*
+	*BLOCKEND*
 	> He staggers over to the bar and heaves himself down onto a stool.%%%%*BAR_HAPPY*
 	The Bartender smiles.
 	&a5
 
 a5:
-	*setspeaker cat_bar*
-	*setcamroot cat_bar setpos 61.530762 -6.652832 51.668259;setang 0.941 176.794 0.000* ###### BAR HEADSHOT
-	#*setcam setpos -2871.273193 2983.027832 75.699509;setang 0.941066 86.794304 0.000000* ###### BAR HEADSHOT
-	*BAR_NEUTRAL*
-	*setanim cat_bar gesture_dryhands 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_bar*
+		*setcamroot cat_bar setpos 61.530762 -6.652832 51.668259;setang 0.941 176.794 0.000* ###### BAR HEADSHOT
+		#*setcam setpos -2871.273193 2983.027832 75.699509;setang 0.941066 86.794304 0.000000* ###### BAR HEADSHOT
+		*BAR_NEUTRAL*
+		*setanim cat_bar gesture_dryhands 1 idle*
+	*BLOCKEND*
 	Welcome.%% Would you like something to dri—
 	&a6
 
 a6:
-	*setspeaker narrator*
-	*setcamroot player setpos 137.250366 -95.772217 85.015930;setang 21.618 148.085 -7.714* #### GROUP
-	#*setcam setpos -2755.242432 3053.066895 85.446762;setang 9.140029 -147.408585 0.000000* #### GROUP
-	*setanim cat_cello pianist_drunk_idle*
-	*shake 1*
+	*BLOCKSTART*
+		*setspeaker narrator*
+		*setcamroot player setpos 137.250366 -95.772217 85.015930;setang 21.618 148.085 -7.714* #### GROUP
+		#*setcam setpos -2755.242432 3053.066895 85.446762;setang 9.140029 -147.408585 0.000000* #### GROUP
+		*setanim cat_cello pianist_drunk_idle*
+		*shake 1*
+	*BLOCKEND*
 	> The Cellist slams a paw down on the counter,% his head cast 
 	dramatically towards the earth.%%%*setlook cat_cello 75* He snaps his head back and takes 
 	a drag off a%.%.%.%%% yep,%%% that's a vape he's holding.%%%% 
@@ -86,101 +98,123 @@ a6:
 	&a7
 
 a7:
-	*block setanim cat_cello pose_sit01 --> setlook cat_cello*
-	*setspeaker cat_cello*
-	*setcamroot cat_cello setpos 73.417725 -15.880371 35.075825;setang 10.950 167.220 0.000* ###### CELLO
-	#*setcam setpos -2819.462646 3031.606934 72.801796;setang 10.950210 -87.779800 0.000000* ###### CELLO
-	*CELLO_BLINK*
+	*BLOCKSTART*
+		*block setanim cat_cello pose_sit01 --> setlook cat_cello*
+		*setspeaker cat_cello*
+		*setcamroot cat_cello setpos 73.417725 -15.880371 35.075825;setang 10.950 167.220 0.000* ###### CELLO
+		#*setcam setpos -2819.462646 3031.606934 72.801796;setang 10.950210 -87.779800 0.000000* ###### CELLO
+		*CELLO_BLINK*
+	*BLOCKEND*
 	Bartender.%%%%%*CELLO_NEUTRAL* i have a powerful thirst.%% give me%.%.%.%%%*CELLO_GRIN*
  
 	%.%.%.%%a hot water on the rocks.
 	&a8
 
 a8:
-	*setspeaker cat_bar*
-	*setcamroot player setpos 137.250366 -95.772217 85.015930;setang 21.618 148.085 -7.714* #### GROUP
-	#*setcam setpos -2755.242432 3053.066895 85.446762;setang 9.140029 -147.408585 0.000000* #### GROUP
-	*BAR_HAPPY*
-	*setanim cat_bar gesture_agree 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_bar*
+		*setcamroot player setpos 137.250366 -95.772217 85.015930;setang 21.618 148.085 -7.714* #### GROUP
+		#*setcam setpos -2755.242432 3053.066895 85.446762;setang 9.140029 -147.408585 0.000000* #### GROUP
+		*BAR_HAPPY*
+		*setanim cat_bar gesture_agree 1 idle*
+	*BLOCKEND*
 	Ah,% of course!%%% Right away.
 	&a9
 
 a9:
-	*setspeaker narrator*
-	*setcamroot cat_bar setpos 241.308350 66.778809 20.555401;setang -3.850 -161.856 0.000*
-	#*setcam setpos -2797.841553 2803.250244 44.586651;setang -3.850489 108.143600 0.000000*
-	*BAR_NEUTRAL*
+	*BLOCKSTART*
+		*setspeaker narrator*
+		*setcamroot cat_bar setpos 241.308350 66.778809 20.555401;setang -3.850 -161.856 0.000*
+		#*setcam setpos -2797.841553 2803.250244 44.586651;setang -3.850489 108.143600 0.000000*
+		*BAR_NEUTRAL*
+	*BLOCKEND*
 	> The Bartender doesn't seem to show any sign of any opinion about 
 	being told to serve up a drink made entirely of hot water and ice. 
 	&a10
 
 a10:
-	*setspeaker narrator*
-	*BAR_NEUTRAL*
-	*setanim cat_bar gesture_washing 1.6 idle*
+	*BLOCKSTART*
+		*setspeaker narrator*
+		*BAR_NEUTRAL*
+		*setanim cat_bar gesture_washing 1.6 idle*
+	*BLOCKEND*
 	> Actually,% she's somehow decanting steaming tap water from a faucet 
 	into a normal drinking glass*setanim cat_bar gesture_dryhands 1 idle* full of ice that stubbornly refuses to melt.%%%% 
 	It's impressive.
 	&a11
 
 a11:
-	*setspeaker cat_bar*
-	*setcamroot player setpos 137.250366 -95.772217 85.015930;setang 21.618 148.085 -7.714* #### GROUP
-	#*setcam setpos -2755.242432 3053.066895 85.446762;setang 9.140029 -147.408585 0.000000* #### GROUP
-	*BAR_NEUTRAL*
-	*setanim cat_bar gesture_exchange 1.4 idle*
+	*BLOCKSTART*
+		*setspeaker cat_bar*
+		*setcamroot player setpos 137.250366 -95.772217 85.015930;setang 21.618 148.085 -7.714* #### GROUP
+		#*setcam setpos -2755.242432 3053.066895 85.446762;setang 9.140029 -147.408585 0.000000* #### GROUP
+		*BAR_NEUTRAL*
+		*setanim cat_bar gesture_exchange 1.4 idle*
+	*BLOCKEND*
 	Your hot water on the rocks,%% sir.
-	*spawn glass models/sunabouzu/shot_glass.mdl*
-	*setscale glass 2*
-	*setoffset glass setpos -38.634216 51.865730 0;setang -0.000 178.619 0.000*
-	*setbodygroup glass liquid 3*
+	*BLOCKSTART*
+		*spawn glass models/sunabouzu/shot_glass.mdl*
+		*setscale glass 2*
+		*setoffset glass setpos -38.634216 51.865730 0;setang -0.000 178.619 0.000*
+		*setbodygroup glass liquid 3*
+	*BLOCKEND*
 	&a12
 
 a12:
-	*setspeaker narrator*
-	*setcamroot cat_cello setpos 73.417725 -15.880371 35.075825;setang 10.950 167.220 0.000* ###### CELLO
-	#*setcam setpos -2819.462646 3031.606934 72.801796;setang 10.950210 -87.779800 0.000000* ###### CELLO
-	*CELLO_MAD*
-	*setanim cat_cello pose_sit01*
+	*BLOCKSTART*
+		*setspeaker narrator*
+		*setcamroot cat_cello setpos 73.417725 -15.880371 35.075825;setang 10.950 167.220 0.000* ###### CELLO
+		#*setcam setpos -2819.462646 3031.606934 72.801796;setang 10.950210 -87.779800 0.000000* ###### CELLO
+		*CELLO_MAD*
+		*setanim cat_cello pose_sit01*
+	*BLOCKEND*
 	> The Cellist stares at the glass of normal hot water with ice in it,%*setanim cat_cello pose_sit02* 
 	momentarily looking annoyed,%%%*setanim cat_cello pianist_drunk_idle* before*CELLO_GRIN* regaining*setanim cat_cello pose_sit02**setbodygroup glass liquid 0* his smug expression 
 	and chugging it in one go.
 	&a13
 
 a13:
-	*setspeaker cat_cello*
-	*setcamroot player setpos 137.250366 -95.772217 85.015930;setang 21.618 148.085 -7.714* #### GROUP
-	#*setcam setpos -2755.242432 3053.066895 85.446762;setang 9.140029 -147.408585 0.000000* #### GROUP
-	*setoffset glass setpos -38.634216 51.865730 2.565132;setang 5.940 26.572 -88.515*
-	*setanim cat_cello pose_sit01*
+	*BLOCKSTART*
+		*setspeaker cat_cello*
+		*setcamroot player setpos 137.250366 -95.772217 85.015930;setang 21.618 148.085 -7.714* #### GROUP
+		#*setcam setpos -2755.242432 3053.066895 85.446762;setang 9.140029 -147.408585 0.000000* #### GROUP
+		*setoffset glass setpos -38.634216 51.865730 2.565132;setang 5.940 26.572 -88.515*
+		*setanim cat_cello pose_sit01*
+	*BLOCKEND*
 	hm that's funny i remember ordering a hot water on the rocks and 
 	appear to have gotten a*setanim cat_cello pose_sit01* tepid water on the pebbles instead.%%%%*CELLO_MAD* 
 	i ain't leaving til you give me that real shit you got
 	&c1 ###look i'm lazy and i copied another event
 
 c1:
-	*setspeaker narrator*
-	*setcamroot cat_bar setpos 61.530762 -6.652832 51.668259;setang 0.941 176.794 0.000* ###### BAR HEADSHOT
-	#*setcam setpos -2871.273193 2983.027832 75.699509;setang 0.941066 86.794304 0.000000* ###### BAR HEADSHOT
-	*setanim cat_bar gesture_confused 1 idle*
+	*BLOCKSTART*
+		*setspeaker narrator*
+		*setcamroot cat_bar setpos 61.530762 -6.652832 51.668259;setang 0.941 176.794 0.000* ###### BAR HEADSHOT
+		#*setcam setpos -2871.273193 2983.027832 75.699509;setang 0.941066 86.794304 0.000000* ###### BAR HEADSHOT
+		*setanim cat_bar gesture_confused 1 idle*
+	*BLOCKEND*
 	> The Bartender cocks her head.%%%% 
 	%.%.%.%*BAR_SURPRISE*after*setanim cat_bar gesture_shock 1 idle* a few seconds of dead silence she gasps.
 	&c2
 
 c2:
-	*setspeaker cat_bar*
-	*BAR_BLINK*
-	*setanim cat_bar gesture_facepalm 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_bar*
+		*BAR_BLINK*
+		*setanim cat_bar gesture_facepalm 1 idle*
+	*BLOCKEND*
 	Ah,% of course!%%%*BAR_NEUTRAL* You meant to order it at a danger rating of Double Black 
 	Diamond.%%%%*setanim cat_bar gesture_confused 1 idle* I do warn you it may be beyond even your remarkable ability 
 	to tolerate. 
 	&c3
 
 c3:
-	*setspeaker cat_cello*
-	*setcamroot cat_cello setpos 73.417725 -15.880371 35.075825;setang 10.950 167.220 0.000* ###### CELLO
-	#*setcam setpos -2819.462646 3031.606934 72.801796;setang 10.950210 -87.779800 0.000000* ###### CELLO
-	*CELLO_MAD*
+	*BLOCKSTART*
+		*setspeaker cat_cello*
+		*setcamroot cat_cello setpos 73.417725 -15.880371 35.075825;setang 10.950 167.220 0.000* ###### CELLO
+		#*setcam setpos -2819.462646 3031.606934 72.801796;setang 10.950210 -87.779800 0.000000* ###### CELLO
+		*CELLO_MAD*
+	*BLOCKEND*
 	excuse me
 	&c4
 
@@ -195,12 +229,14 @@ c5:
 	&c6
 
 c6:
-	*setspeaker narrator*
-	*emitsound physics/metal/metal_sheet_impact_hard6.wav .75*
-	*shake 1*
-	*setcamroot cat_bar setpos 241.308350 66.778809 20.555401;setang -3.850 -161.856 0.000*
-	#*setcam setpos -2797.841553 2803.250244 44.586651;setang -3.850489 108.143600 0.000000*
-	*CELLO_NEUTRAL*
+	*BLOCKSTART*
+		*setspeaker narrator*
+		*emitsound physics/metal/metal_sheet_impact_hard6.wav .75*
+		*shake 1*
+		*setcamroot cat_bar setpos 241.308350 66.778809 20.555401;setang -3.850 -161.856 0.000*
+		#*setcam setpos -2797.841553 2803.250244 44.586651;setang -3.850489 108.143600 0.000000*
+		*CELLO_NEUTRAL*
+	*BLOCKEND*
 	> The Cellist is cut off by the sound of the Bartender slamming a pot 
 	of hot water onto the Bar's stove.%%%*BAR_HAPPY* 
 	&c6b
@@ -212,16 +248,20 @@ c6b:
 	&c7
 
 c7:
-	*setspeaker cat_bar*
-	*setcamroot cat_bar setpos 61.530762 -6.652832 51.668259;setang 0.941 176.794 0.000* ###### BAR HEADSHOT
-	#*setcam setpos -2871.273193 2983.027832 75.699509;setang 0.941066 86.794304 0.000000* ###### BAR HEADSHOT
+	*BLOCKSTART*
+		*setspeaker cat_bar*
+		*setcamroot cat_bar setpos 61.530762 -6.652832 51.668259;setang 0.941 176.794 0.000* ###### BAR HEADSHOT
+		#*setcam setpos -2871.273193 2983.027832 75.699509;setang 0.941066 86.794304 0.000000* ###### BAR HEADSHOT
+	*BLOCKEND*
 	This will be only a few seconds sir,% I hope you won't mind the wait.
 	&c8
 
 c8:
-	*setspeaker narrator*
-	*setcamroot cat_cello setpos 73.417725 -15.880371 35.075825;setang 10.950 167.220 0.000* ###### CELLO
-	#*setcam setpos -2819.462646 3031.606934 72.801796;setang 10.950210 -87.779800 0.000000* ###### CELLO
+	*BLOCKSTART*
+		*setspeaker narrator*
+		*setcamroot cat_cello setpos 73.417725 -15.880371 35.075825;setang 10.950 167.220 0.000* ###### CELLO
+		#*setcam setpos -2819.462646 3031.606934 72.801796;setang 10.950210 -87.779800 0.000000* ###### CELLO
+	*BLOCKEND*
 	> The Cellist stares at the seething pot of water with a poker face.%%%% 
 	It's the face of a man who is about to die on some hill,%% for something 
 	no one is sure of.
@@ -234,9 +274,11 @@ c9:
 	&c10
 
 c10:
-	*setcamroot player setpos 137.250366 -95.772217 85.015930;setang 21.618 148.085 -7.714* #### GROUP
-	#*setcam setpos -2755.242432 3053.066895 85.446762;setang 9.140029 -147.408585 0.000000* #### GROUP
-	*CELLO_MAD*
+	*BLOCKSTART*
+		*setcamroot player setpos 137.250366 -95.772217 85.015930;setang 21.618 148.085 -7.714* #### GROUP
+		#*setcam setpos -2755.242432 3053.066895 85.446762;setang 9.140029 -147.408585 0.000000* #### GROUP
+		*CELLO_MAD*
+	*BLOCKEND*
 	> Just putting your hand near it makes it feel so cold that it feels 
 	almost identical to being on fire.%%%% Or maybe more like that weird 
 	moment your feet feel cold right before you realize you drew your 
@@ -244,52 +286,64 @@ c10:
 	&c11
 
 c11:
-	*setspeaker cat_cello*
-	*setcamroot cat_cello setpos 73.417725 -15.880371 35.075825;setang 10.950 167.220 0.000* ###### CELLO
-	#*setcam setpos -2819.462646 3031.606934 72.801796;setang 10.950210 -87.779800 0.000000* ###### CELLO
+	*BLOCKSTART*
+		*setspeaker cat_cello*
+		*setcamroot cat_cello setpos 73.417725 -15.880371 35.075825;setang 10.950 167.220 0.000* ###### CELLO
+		#*setcam setpos -2819.462646 3031.606934 72.801796;setang 10.950210 -87.779800 0.000000* ###### CELLO
+	*BLOCKEND*
 	well played.
 	&c12
 
 c12:
-	*setspeaker narrator*
-	*setcamroot cat_bar setpos 241.308350 66.778809 20.555401;setang -3.850 -161.856 0.000*
-	#*setcam setpos -2797.841553 2803.250244 44.586651;setang -3.850489 108.143600 0.000000*
+	*BLOCKSTART*
+		*setspeaker narrator*
+		*setcamroot cat_bar setpos 241.308350 66.778809 20.555401;setang -3.850 -161.856 0.000*
+		#*setcam setpos -2797.841553 2803.250244 44.586651;setang -3.850489 108.143600 0.000000*
+	*BLOCKEND*
 	> The Cellist grips the glass with grim determination.%%%% 
 	You smell singed fur,% and hear a sound 
 	unsettlingly like bacon frying.
 	&c13
 
 c13:
-	*setspeaker cat_bar*
-	*setcamroot cat_bar setpos 61.530762 -6.652832 51.668259;setang 0.941 176.794 0.000* ###### BAR HEADSHOT
-	#*setcam setpos -2871.273193 2983.027832 75.699509;setang 0.941066 86.794304 0.000000* ###### BAR HEADSHOT
-	*BAR_SURPRISE*
-	*setanim cat_bar gesture_confused 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_bar*
+		*setcamroot cat_bar setpos 61.530762 -6.652832 51.668259;setang 0.941 176.794 0.000* ###### BAR HEADSHOT
+		#*setcam setpos -2871.273193 2983.027832 75.699509;setang 0.941066 86.794304 0.000000* ###### BAR HEADSHOT
+		*BAR_SURPRISE*
+		*setanim cat_bar gesture_confused 1 idle*
+	*BLOCKEND*
 	What are you%.%.%.%%?
 	&c14
 
 c14:
-	*setspeaker cat_cello*
-	*setcamroot cat_cello setpos 73.417725 -15.880371 35.075825;setang 10.950 167.220 0.000* ###### CELLO
-	#*setcam setpos -2819.462646 3031.606934 72.801796;setang 10.950210 -87.779800 0.000000* ###### CELLO
-	*CELLO_NEUTRAL*
+	*BLOCKSTART*
+		*setspeaker cat_cello*
+		*setcamroot cat_cello setpos 73.417725 -15.880371 35.075825;setang 10.950 167.220 0.000* ###### CELLO
+		#*setcam setpos -2819.462646 3031.606934 72.801796;setang 10.950210 -87.779800 0.000000* ###### CELLO
+		*CELLO_NEUTRAL*
+	*BLOCKEND*
 	a scar on the back is a swordsman's greatest shame.
 	&c15
 
 c15:
-	*setspeaker cat_bar*
-	*setcamroot cat_bar setpos 61.530762 -6.652832 51.668259;setang 0.941 176.794 0.000* ###### BAR HEADSHOT
-	#*setcam setpos -2871.273193 2983.027832 75.699509;setang 0.941066 86.794304 0.000000* ###### BAR HEADSHOT
-	*BAR_BLINK*
-	*setanim cat_bar gesture_agree 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_bar*
+		*setcamroot cat_bar setpos 61.530762 -6.652832 51.668259;setang 0.941 176.794 0.000* ###### BAR HEADSHOT
+		#*setcam setpos -2871.273193 2983.027832 75.699509;setang 0.941066 86.794304 0.000000* ###### BAR HEADSHOT
+		*BAR_BLINK*
+		*setanim cat_bar gesture_agree 1 idle*
+	*BLOCKEND*
 	Admirable.
 	&c16
 
 c16:
-	*setspeaker narrator*
-	*setcamroot cat_bar setpos 287.247559 255.489746 71.334732;setang 3.869 -136.896 0.000* ######## ESTABLISHING SHOT
-	#*setcam setpos -2609.130859 2757.310791 95.365982;setang 3.869236 133.104462 0.000000* ######## ESTABLISHING SHOT
-	*BAR_NEUTRAL*
+	*BLOCKSTART*
+		*setspeaker narrator*
+		*setcamroot cat_bar setpos 287.247559 255.489746 71.334732;setang 3.869 -136.896 0.000* ######## ESTABLISHING SHOT
+		#*setcam setpos -2609.130859 2757.310791 95.365982;setang 3.869236 133.104462 0.000000* ######## ESTABLISHING SHOT
+		*BAR_NEUTRAL*
+	*BLOCKEND*
 	#> The Cellist downs the drink in one gulp,%%%*setposang cat_cello setpos -2815.444336 2903.284912 0;setang -90 45 0.000000*%*setanim cat_cello pose_passedout**ignite cat_cello* immediately falls off the 
 	> The Cellist downs the drink in one gulp,*setbodygroup glass2 liquid 0*%%%*setoffset cat_cello setpos 48.715088 48.555664 0;setang 0.000 225.000 0.000*%*setanim cat_cello pose_passedout**ignite cat_cello* immediately falls off the 
 	chair, and bursts into flames.%%%*setanim cat_bar gesture_clap 1 idle* The Bartender is clapping.

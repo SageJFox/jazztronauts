@@ -6,16 +6,18 @@ CMD_DELAY = 0
 
 
 begin:
-	*txout*
-	spawncatvoid()
-	*setlocale cat_void scene_eclipse2*
-	#*setposang cat_void setpos -646.054871 551.478882 0;setang 0 100.217831 0.000000*
-	#*setcamroot cat_void*
-	#*setcam setpos -548.000671 552.746643 64.031250;setang 9.077443 -179.689178 0.000000*
-	*setcamroot cat_void setpos -16.146240 -96.723969 64.031250;setang 9.077 80.093 0.000*
-	*txin*
-	*show cat_void 0.5*
-	*bgmplay sound/jazztronauts/blackshard_hum.wav .35 10*
+	*BLOCKSTART*
+		*txout*
+		spawncatvoid()
+		*setlocale cat_void scene_eclipse2*
+		#*setposang cat_void setpos -646.054871 551.478882 0;setang 0 100.217831 0.000000*
+		#*setcamroot cat_void*
+		#*setcam setpos -548.000671 552.746643 64.031250;setang 9.077443 -179.689178 0.000000*
+		*setcamroot cat_void setpos -16.146240 -96.723969 64.031250;setang 9.077 80.093 0.000*
+		*txin*
+		*show cat_void 0.5*
+		*bgmplay sound/jazztronauts/blackshard_hum.wav .35 10*
+	*BLOCKEND*
 	You can't tell me anything new.
 	&a1
 	

@@ -1,8 +1,10 @@
 ###### the accept phase of this mission requires camera work
 
 accept:
-	spawnnarrator()
-	narratewithview(npc_cat_sing)
+	*BLOCKSTART*
+		spawnnarrator()
+		narratewithview(npc_cat_sing)
+	*BLOCKEND*
 	> The Singer waves you over and invites you to contemplate the water
 	with them for a little while.
 	&a1
@@ -46,8 +48,10 @@ a4:
 	
 	
 idle:
-	spawnnarrator()
-	narratewithview(npc_cat_sing)
+	*BLOCKSTART*
+		spawnnarrator()
+		narratewithview(npc_cat_sing)
+	*BLOCKEND*
 	> The Singer doesn't stir when you approach, but their tablet has been 
 	left in reach for you.
 	&idle2
@@ -70,8 +74,10 @@ i1:
 	&exit
 
 turnin:
-	spawnnarrator()
-	*setspeaker narrator*
+	*BLOCKSTART*
+		spawnnarrator()
+		*setspeaker narrator*
+	*BLOCKEND*
 	> You're a little unsure how to best wake the Singer, so you settle for 
 	hunkering down and lightly poking their paw. 
 	&turnin1

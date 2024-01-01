@@ -28,8 +28,10 @@ a2b:
 	&exit
 	
 idle:
-	spawnnarrator()
-	*setspeaker narrator*
+	*BLOCKSTART*
+		spawnnarrator()
+		*setspeaker narrator*
+	*BLOCKEND*
 	> The Pianist opens one eye and glares at you.
 	&i1
 

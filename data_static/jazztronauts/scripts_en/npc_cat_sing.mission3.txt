@@ -1,8 +1,10 @@
 ###### the accept phase of this mission requires camera work
 
 accept:
-	spawnnarrator()
-	*setspeaker narrator*
+	*BLOCKSTART*
+		spawnnarrator()
+		*setspeaker narrator*
+	*BLOCKEND*
 	> The Singer and Bartender are here...
 	there is a terracotta pot on the table.
 	&a1
@@ -63,8 +65,10 @@ a8:
 	
 	
 idle:
-	spawnnarrator()
-	narratewithview(npc_cat_sing)
+	*BLOCKSTART*
+		spawnnarrator()
+		narratewithview(npc_cat_sing)
+	*BLOCKEND*
 	> The Singer is clearly very busy, but they still smile and 
 	wave when you approach.
 	&idle2

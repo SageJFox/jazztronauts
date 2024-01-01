@@ -1,31 +1,35 @@
 SKIP_OPEN = true
 
 begin:
-	*txout*
-	#*zsnap 0*
-	spawnnarratorroot(scene_bar_solo scene_bar)
-	spawncatbartender()
-	#*setposang cat_bar setpos -2880.668457 2908.302490 0;setang -90 210 0*
-	#*setposang player setpos -2649.127686 2834.540283 0;setang 0.328832 157.771545 0*
-	*setoffset cat_bar setpos 43.697510 -16.668457 0;setang 0 30 0*
-	*block setoffset player setpos 117.459717 214.872314 0;setang 0 -112.228 0 --> setlook player -0.329*
-	*setcamroot player setpos -107.305420 78.176270 64.000000;setang 3.736 -16.825 0.000 fov70*
-	#*setcam setpos -2579.370361 2721.580811 64.031250;setang 3.736192 140.947372 0 fov70*
-	*bgmplay sound/jazztronauts/music/events/bartender_song.mp3 1.0 2.0*
-	*txin*
-	*wait .15*
-	*show narrator*
+	*BLOCKSTART*
+		*txout*
+		#*zsnap 0*
+		spawnnarratorroot(scene_bar_solo scene_bar)
+		spawncatbartender()
+		#*setposang cat_bar setpos -2880.668457 2908.302490 0;setang -90 210 0*
+		#*setposang player setpos -2649.127686 2834.540283 0;setang 0.328832 157.771545 0*
+		*setoffset cat_bar setpos 43.697510 -16.668457 0;setang 0 30 0*
+		*block setoffset player setpos 117.459717 214.872314 0;setang 0 -112.228 0 --> setlook player -0.329*
+		*setcamroot player setpos -107.305420 78.176270 64.000000;setang 3.736 -16.825 0.000 fov70*
+		#*setcam setpos -2579.370361 2721.580811 64.031250;setang 3.736192 140.947372 0 fov70*
+		*bgmplay sound/jazztronauts/music/events/bartender_song.mp3 1.0 2.0*
+		*txin*
+		*wait .15*
+		*show narrator*
+	*BLOCKEND*
 	> The Bar Samsara%.%.%.%%%
 	You see the Bartender packing supplies into a picnic basket.%% 
 	She beams when she catches sight of you.
 	&a2
 
 a2:
-	*setcamroot cat_bar setpos 108.855957 30.851563 37.002892;setang 3.736 -164.537 0*
-	#*setcam setpos -2799.522217 2829.456299 37.002892;setang 3.736205 135.463394 0*
-	*setspeaker cat_bar*
-	*BAR_SURPRISE*
-	*setanim cat_bar gesture_shock 1 idle*
+	*BLOCKSTART*
+		*setcamroot cat_bar setpos 108.855957 30.851563 37.002892;setang 3.736 -164.537 0*
+		#*setcam setpos -2799.522217 2829.456299 37.002892;setang 3.736205 135.463394 0*
+		*setspeaker cat_bar*
+		*BAR_SURPRISE*
+		*setanim cat_bar gesture_shock 1 idle*
+	*BLOCKEND*
 	Ah!% *player*!%%%%*BAR_HAPPY* 
 	I was going to come find you,% actually.%%%*BAR_NEUTRAL* We're going on a little field
 	trip to the hot spring,%%*setanim cat_bar gesture_confused 1 idle* would you care to join us?
@@ -41,7 +45,7 @@ a3:
 	the other players a heads-up that you'll be busy for a little while.)
 	player:
 		&a4: Yeah sure,% I'm down for free food.
-		&leave: I have some stuff to do,% but maybe later? *c 0*(exit)*c*
+		&leave: I have some stuff to do,% but% maybe later? *c 0*(exit)*c*
 
 a3single:
 	*setspeaker narrator*
@@ -49,13 +53,15 @@ a3single:
 	watch,% you can come back to it without penalty if you are in a hurry.)
 	player:
 		&a4: Yeah sure,% I'm down for free food.
-		&leave: I have some stuff to do,% but maybe later? *c 0*(exit)*c*
+		&leave: I have some stuff to do,% but% maybe later? *c 0*(exit)*c*
 
 ###EARLY EXIT
 
 leave:
-	*setspeaker cat_bar*
-	*setanim cat_bar gesture_agree 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_bar*
+		*setanim cat_bar gesture_agree 1 idle*
+	*BLOCKEND*
 	We can wait,%% don't fret.
 	&exit
 
@@ -66,27 +72,29 @@ a4:
 [FADE OUT/IN]
 
 a5:
-	*hide*
-	*txout*
-	*wait .1*
-	*setlocale narrator scene_beachshore*
-	spawncatcellist()
-	spawncatpianist()
-	spawncatsinger()
-	#*setposang cat_cello setpos -2189.791260 6927.904785 0;setang -90 30 0*
-	#*setposang cat_piano setpos -2069.482910 7009.310547 0;setang -90 30 0*
-	#*setposang cat_singer setpos -2205.779297 7010.829590  -6;setang -90 30 0*
-	#*setposang cat_bar setpos -2079.309082 6940.916992 11;setang -90 30 0*
-	#*setposang player setpos -2039.791626 7121.381348 11;setang 0 146.643875 0*
-	*setoffset cat_cello setpos 154.208740 -64.095215 0;setang 0 120 0*
-	*setoffset cat_piano setpos 274.517090 17.310547 0;setang 0 120 0*
-	*setoffset cat_singer setpos 138.220703 18.829590 0;setang 0 120 0*
-	*setoffset cat_bar setpos 264.690918 -51.083008 0;setang 0 120 0*
-	*setoffset player setpos 304.208374 129.381348 0;setang -0 146.644 0*
-	*setcamoffset setpos -170.278320 10.460693 84.339340;setang 12.947 -3.277 0*
-	#*setcam setpos -2003.229126 6788.221191 95.339340;setang 12.946715 116.723183 0*
-	*txin*
-	*show narrator*
+	*BLOCKSTART*
+		*hide*
+		*txout*
+		*wait .1*
+		*setlocale narrator scene_beachshore*
+		spawncatcellist()
+		spawncatpianist()
+		spawncatsinger()
+		#*setposang cat_cello setpos -2189.791260 6927.904785 0;setang -90 30 0*
+		#*setposang cat_piano setpos -2069.482910 7009.310547 0;setang -90 30 0*
+		#*setposang cat_singer setpos -2205.779297 7010.829590  -6;setang -90 30 0*
+		#*setposang cat_bar setpos -2079.309082 6940.916992 11;setang -90 30 0*
+		#*setposang player setpos -2039.791626 7121.381348 11;setang 0 146.643875 0*
+		*setoffset cat_cello setpos 154.208740 -64.095215 0;setang 0 120 0*
+		*setoffset cat_piano setpos 274.517090 17.310547 0;setang 0 120 0*
+		*setoffset cat_singer setpos 138.220703 18.829590 0;setang 0 120 0*
+		*setoffset cat_bar setpos 264.690918 -51.083008 0;setang 0 120 0*
+		*setoffset player setpos 304.208374 129.381348 0;setang -0 146.644 0*
+		*setcamoffset setpos -170.278320 10.460693 84.339340;setang 12.947 -3.277 0*
+		#*setcam setpos -2003.229126 6788.221191 95.339340;setang 12.946715 116.723183 0*
+		*txin*
+		*show narrator*
+	*BLOCKEND*
 	> You had to take a boat,%%% but the gang has finally arrived at a sandy
 	little nook in the mountains. 
 	&a6
@@ -96,76 +104,89 @@ a6:
 	&a6b
 	
 a6b:
-	*block setcamroot cat_singer setpos -55.168945 400.061646 75.986847;setang 8.634 -65.461 0 --> setoffset cat_cello setpos -127.215820 215.445313 0;setang 0 100 0*
-	#*setcamroot cat_singer setpos -55.168945 400.061646 75.986847;setang 8.634 -65.461 0*
-	##*setcam setpos -2524.658447 6763.020996 69.986847;setang 8.634292 54.538803 0*
-	##*setposang cat_cello setpos -2471.215820 7207.445313 -28;setang -90 10 0*
-	#*setoffset cat_cello setpos -127.215820 215.445313 0;setang 0 100 0*
+	*BLOCKSTART*
+		*setcamroot cat_singer setpos -55.168945 400.061646 75.986847;setang 8.634 -65.461 0*
+		#*setcam setpos -2524.658447 6763.020996 69.986847;setang 8.634292 54.538803 0*
+		#*setposang cat_cello setpos -2471.215820 7207.445313 -28;setang -90 10 0*
+		*setoffset cat_cello setpos -127.215820 215.445313 0;setang 0 100 0*
+	*BLOCKEND*
 	> The Cellist is the first to break from the group and head towards 
 	the pool.
 	&a7
 
 a7:
-	*setspeaker cat_cello*
-	*CELLO_GRIN*
-	*setanim cat_cello gesture_jab 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_cello*
+		*CELLO_GRIN*
+		*setanim cat_cello gesture_jab 1 idle*
+	*BLOCKEND*
 	hello again you shitty bubbly siren you.%%%% i'm gonna have the dopest 
 	nap in you and you cant do*setanim cat_cello gesture_laugh 1 idle* a goddamn thing because you're a 
 	geological feature and i am a powerful fae idiot
 	&a8
 
 a8:
-	*setcamoffset setpos 110.307617 13.015869 21.336082;setang -6.060 -156.821 0*
-	#*setcam setpos -2272.205322 7099.851074 15.336082;setang -6.059946 -36.821072 0*
-	*setspeaker cat_piano*
-	*PIANO_SMIRK*
-	*setanim cat_piano gesture_confused 1 idle*
+	*BLOCKSTART*
+		*setcamoffset setpos 110.307617 13.015869 21.336082;setang -6.060 -156.821 0*
+		#*setcam setpos -2272.205322 7099.851074 15.336082;setang -6.059946 -36.821072 0*
+		*setspeaker cat_piano*
+		*PIANO_SMIRK*
+		*setanim cat_piano gesture_confused 1 idle*
+	*BLOCKEND*
 	Incredible.%%% I've never seen anyone bully the ground so fiercely.
 	&a9
 
 a9:
-	narratesinger()
-	*setanim cat_singer gesture_clap 1 idle*
+	*BLOCKSTART*
+		narratesinger()
+		*setanim cat_singer gesture_clap 1 idle*
+	*BLOCKEND*
 	> The Singer claps,% and holds up their tablet\:%%%*SINGER_HAPPY* *setspeaker cat_singer*
 	"Yeah fuck him up Socrates!!!!!"
 	&a10
 
 a10:
-	*block setoffset cat_cello setpos -127.215820 215.445313 0;setang 0 -60 0 --> setcamroot cat_cello setpos 376.690430 122.397827 48.880489;setang 1.500 -166.986 0*
-	##*setposang cat_cello setpos -2471.215820 7207.445313 0;setang -90 210 0*
-	#*setoffset cat_cello setpos -127.215820 215.445313 0;setang 0 -60 0*
-	#*setcamroot cat_cello setpos 376.690430 122.397827 48.880489;setang 1.500 -166.986 0*
-	##*setcam setpos -2176.871094 6942.420898 20.880489;setang 1.500134 133.014374 0*
-	*setspeaker narrator*
-	*CELLO_MAD*
-	*setanim cat_cello gesture_anger 1.5 idle*
+	*BLOCKSTART*
+		#*setposang cat_cello setpos -2471.215820 7207.445313 0;setang -90 210 0*
+		*setoffset cat_cello setpos -127.215820 215.445313 0;setang 0 -60 0*
+		*setcamroot cat_cello setpos 376.690430 122.397827 48.880489;setang 1.500 -166.986 0*
+		#*setcam setpos -2176.871094 6942.420898 20.880489;setang 1.500134 133.014374 0*
+		*setspeaker narrator*
+		*CELLO_MAD*
+		*setanim cat_cello gesture_anger 1.5 idle*
+	*BLOCKEND*
 	> The Singer's comment appears to have steamed the Cellist's clams.
 	&a11
 
 a11:
-	*setspeaker cat_cello*
-	*setanim cat_cello gesture_jab 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_cello*
+		*setanim cat_cello gesture_jab 1 idle*
+	*BLOCKEND*
 	call me socrates one more goddamn time pipes%% c'mere% imma put you 
 	in an omni-headlock% you*setanim cat_cello gesture_anger 1.5 idle* treacherous little dingus%% i am clearly
 	diogenes in this headcanon
 	&a12
 
 a12:
-	##*setposang player setpos -2422.034180 6827.894043 10;setang 8.155142 101.221214 0*
-	#*setoffset player setpos -78.034180 -164.105957 0;setang 0 101.221 0*
-	#*setlook player -8.155*
-	#*setcamroot player setpos 130.379395 40.538208 43.378929;setang -8.935 -163.757 0*
-	##*setcam setpos -2487.168457 6947.892090 41.036049;setang -8.934914 -62.536053 0*
-	*block setoffset player -78.034180 -164.105957 0;0 101.221 0-->setlook player -8.155-->setcamroot player 130.379395 40.538208 43.378929;-8.935 -163.757 0*
-	*setspeaker narrator*
+	*BLOCKSTART*
+		#*setposang player setpos -2422.034180 6827.894043 10;setang 8.155142 101.221214 0*
+		*setoffset player setpos -78.034180 -164.105957 0;setang 0 101.221 0*
+		*setlook player -8.155*
+		*setcamroot player setpos 130.379395 40.538208 43.378929;setang -8.935 -163.757 0*
+		#*setcam setpos -2487.168457 6947.892090 41.036049;setang -8.934914 -62.536053 0*
+		*setspeaker narrator*
+	*BLOCKEND*
 	> The Cellist makes a big show of chasing the Singer around,%%% and they
 	seem to be enjoying it judging from all the general horseplay.
 	&a13
 
 a13:
-	narratewithview(cat_piano)
-	*PIANO_BLINK*
-	*setanim cat_piano gesture_facepalm 1 idle*
+	*BLOCKSTART*
+		narratewithview(cat_piano)
+		*PIANO_BLINK*
+		*setanim cat_piano gesture_facepalm 1 idle*
+	*BLOCKEND*
 	> The Pianist initially critiques their wrestling form,%%*PIANO_NEUTRAL* but clues 
 	into the joke eventually and settles down.
 	&a14
@@ -177,19 +198,20 @@ a14:
 	be her idea of relaxation??
 	&a15
 a15:
-	*setroot cat_cello nil*
-	*setroot cat_piano nil*
-	*setroot cat_singer nil*
-	*block setlocale narrator scene_beachpicnic --> setroot player narrator 317.940430 41.065430 0;0 -174.127 0 --> setlook player -5.280 --> setcamroot player 40.261963 -127.616699 43.554710;-8.935 111.591 0--> setroot cat_bar narrator -12.154053 -2.965820 0;0 90 0*
-	#*setlocale narrator scene_beachpicnic*
-	##*setposang player setpos -2434.059570 6825.065430 10;setang 5.280183 -174.127090 0*
-	#*setroot player narrator setpos 317.940430 41.065430 0;setang 5.280 -174.127 0*
-	##*setcam setpos -2487.168457 6947.892090 41.036049;setang -8.934914 -62.536053 0* #need to reposition the camera since the player rotates here
-	#*setcamroot player setpos 40.261963 -127.616699 43.554710;setang -8.935 111.591 0.000*
-	##*setposang cat_bar setpos -2764.154053 6781.034180 10;setang -90 0 0*
-	#*setroot cat_bar narrator setpos -12.154053 -2.965820 0;setang 0 90 0*
-	*setspeaker cat_bar*
-	*setanim cat_bar gesture_exchange 1 idle*
+	*BLOCKSTART*
+		*setroot cat_cello nil*
+		*setroot cat_piano nil*
+		*setroot cat_singer nil*
+		*setlocale narrator scene_beachpicnic*
+		#*setposang player setpos -2434.059570 6825.065430 10;setang 5.280183 -174.127090 0*
+		*setroot player narrator setpos 317.940430 41.065430 0;setang 5.280 -174.127 0*
+		#*setcam setpos -2487.168457 6947.892090 41.036049;setang -8.934914 -62.536053 0* #need to reposition the camera since the player rotates here
+		*setcamroot player setpos 40.261963 -127.616699 43.554710;setang -8.935 111.591 0.000*
+		#*setposang cat_bar setpos -2764.154053 6781.034180 10;setang -90 0 0*
+		*setroot cat_bar narrator setpos -12.154053 -2.965820 0;setang 0 90 0*
+		*setspeaker cat_bar*
+		*setanim cat_bar gesture_exchange 1 idle*
+	*BLOCKEND*
 	A moment,%% *player*?%%%%
 	I could use a helping paw in setting up the picnic spread.  
 	&a16
@@ -197,72 +219,87 @@ a15:
 [FADE OUT, IN]
 
 a16:
-	*hide*
-	*txout*
-	*wait .1*
-	*setcamroot cat_bar setpos 251.943848 6.535645 13.387096;setang -4.942 -171.702 0*
-	#*setcam setpos -2770.689697 7032.978027 23.387096;setang -4.941894 -81.702370 0*
-	#*setposang player setpos -2685.895508 6770.839355 10;setang 14.836672 166.112350 0*
-	*setoffset player setpos 66.104492 -13.160645 0;setang 0 166.112 0*
-	*setlook player -14.837*
-	*txin*
-	*show narrator*
-	*BAR_BLINK*
-	*setanim cat_bar pose_sit01_floor*
+	*BLOCKSTART*
+		*hide*
+		*txout*
+		*wait .1*
+		*setcamroot cat_bar setpos 251.943848 6.535645 13.387096;setang -4.942 -171.702 0*
+		#*setcam setpos -2770.689697 7032.978027 23.387096;setang -4.941894 -81.702370 0*
+		#*setposang player setpos -2685.895508 6770.839355 10;setang 14.836672 166.112350 0*
+		*setoffset player setpos 66.104492 -13.160645 0;setang 0 166.112 0*
+		*setlook player -14.837*
+		*txin*
+		*show narrator*
+		*BAR_BLINK*
+		*setanim cat_bar pose_sit01_floor*
+	*BLOCKEND*
 	> You're unpacking the basket with the Bartender.%%%% She's quietly 
 	flattening a blanket against the sand,% eyes closed in contentment.
 	&a17
 
 a17:
-	*setcamoffset setpos 88.349121 77.000488 21.732605;setang -1.801 -136.724 0* ###### PLAYER AND BAR
-	#*setcam setpos -2841.154541 6869.383301 31.732605;setang -1.800735 -46.723713 0* ###### PLAYER AND BAR
-	*setspeaker cat_bar*
+	*BLOCKSTART*
+		*setcamoffset setpos 88.349121 77.000488 21.732605;setang -1.801 -136.724 0* ###### PLAYER AND BAR
+		#*setcam setpos -2841.154541 6869.383301 31.732605;setang -1.800735 -46.723713 0* ###### PLAYER AND BAR
+		*setspeaker cat_bar*
+	*BLOCKEND*
 	You're a good person,%%%%*BAR_NEUTRAL* did you know that?
 	&a18
 
 a18:
-	*setcamoffset setpos 82.615234 -37.553711 18.915096;setang -3.078 155.022 0*
-	#*setcam setpos -2726.600342 6863.649414 28.915096;setang -3.078496 -114.977554 0* #### BAR
-	*setanim cat_bar gesture_agree 1 idle*
+	*BLOCKSTART*
+		*setcamoffset setpos 82.615234 -37.553711 18.915096;setang -3.078 155.022 0*
+		#*setcam setpos -2726.600342 6863.649414 28.915096;setang -3.078496 -114.977554 0* #### BAR
+		*setanim cat_bar gesture_agree 1 idle*
+	*BLOCKEND*
 	I could tell before,%% but I'm sure of it after seeing you watch the 
 	others horsing around on the beach.%%%%*BAR_BLINK* You*setanim cat_bar gesture_foldarms 1 idle* appear to be able to just,% 
 	slot into any scenario and take it for what it is.
 	&a19
 
 a19:
-	*BAR_HAPPY*
-	*setanim cat_bar gesture_agree 1 idle*
+	*BLOCKSTART*
+		*BAR_HAPPY*
+		*setanim cat_bar gesture_agree 1 idle*
+	*BLOCKEND*
 	I believe that's a trait that's not valued as highly as it ought to be.%%%*BAR_NEUTRAL* 
 	The ability to look at a stranger on their path,% be a little confused,%% 
 	but say 'let's see where this ends up.'
 	&a20
 
 a20:
-	*setcamoffset setpos 88.349121 77.000488 21.732605;setang -1.801 -136.724 0* ###### PLAYER AND BAR
-	#*setcam setpos -2841.154541 6869.383301 31.732605;setang -1.800735 -46.723713 0* ###### PLAYER AND BAR
-	*setanim cat_bar gesture_laugh 1 idle*
+	*BLOCKSTART*
+		*setcamoffset setpos 88.349121 77.000488 21.732605;setang -1.801 -136.724 0* ###### PLAYER AND BAR
+		#*setcam setpos -2841.154541 6869.383301 31.732605;setang -1.800735 -46.723713 0* ###### PLAYER AND BAR
+		*setanim cat_bar gesture_laugh 1 idle*
+	*BLOCKEND*
 	It enriches all parties involved,%%% even if it ends up badly.%%%%*BAR_BLINK* Sometimes
 	that's as warm as it sounds,%%%*BAR_NEUTRAL* and sometimes it's a very cold truth.%%%%*setanim cat_bar gesture_agree 1 idle* 
 	But it's worth it.
 	&a21
 
 a21:
-	#*setposang player setpos -2699.208984 6792.118652 3;setang 0 90.990601 0*
-	*block setoffset player setpos 52.791016 8.118652 0;setang -0 90.991 0 --> setlook player*
-	*remove cat_cello cat_piano cat_singer*
-	*setanim player sit_zen*
-	*bgmplay sound/jazztronauts/music/events/pariah.mp3 .75 4.0*
-	*setspeaker narrator*
-	*setcamoffset setpos -93.956543 -30.651123 22.335510;setang -0.257 -3.313 0* ##### EVANGELION
-	#*setcam setpos -2733.502930 6687.077637 32.335510;setang -0.256775 86.686752 0* ##### EVANGELION
-	*setanim cat_bar pose_sit01_floor*
+	*BLOCKSTART*
+		#*setposang player setpos -2699.208984 6792.118652 3;setang 0 90.990601 0*
+		*setoffset player setpos 52.791016 8.118652 0;setang -0 90.991 0*
+		*setlook player*
+		*remove cat_cello cat_piano cat_singer*
+		*setanim player sit_zen*
+		*bgmplay sound/jazztronauts/music/events/pariah.mp3 .75 4.0*
+		*setspeaker narrator*
+		*setcamoffset setpos -93.956543 -30.651123 22.335510;setang -0.257 -3.313 0* ##### EVANGELION
+		#*setcam setpos -2733.502930 6687.077637 32.335510;setang -0.256775 86.686752 0* ##### EVANGELION
+		*setanim cat_bar pose_sit01_floor*
+	*BLOCKEND*
 	> The Bartender sits down and stares at the pool.%%%%
 	You take a seat next to her.
 	&a22
 
 a22:
-	*setspeaker cat_bar*
-	*BAR_HAPPY*
+	*BLOCKSTART*
+		*setspeaker cat_bar*
+		*BAR_HAPPY*
+	*BLOCKEND*
 	Did you know that I'm the oldest of the gang?%%%%*BAR_BLINK* By a rather large 
 	margin,% too,%% it seems.
 	&a23
@@ -296,18 +333,22 @@ a26:
 	&a27
 
 a27:
-	*setcamoffset setpos 28.621582 80.796387 18.008850;setang -3.185 -91.319 0*
-	#*setcam setpos -2844.950439 6809.655762 28.008850;setang -3.184969 -1.318832 0*
-	*BAR_BLINK*
-	*setspeaker narrator*
+	*BLOCKSTART*
+		*setcamoffset setpos 28.621582 80.796387 18.008850;setang -3.185 -91.319 0*
+		#*setcam setpos -2844.950439 6809.655762 28.008850;setang -3.184969 -1.318832 0*
+		*BAR_BLINK*
+		*setspeaker narrator*
+	*BLOCKEND*
 	> You catch the Bartender staring warmly at the Pianist as she pauses 
 	to think.%%%%*BAR_NEUTRAL* A few seconds later she speaks again.
 	&a28
 
 a28:
-	*setcamoffset setpos -93.956543 -30.651123 22.335510;setang -0.257 -3.313 0* ##### EVANGELION
-	#*setcam setpos -2733.502930 6687.077637 32.335510;setang -0.256775 86.686752 0* ##### EVANGELION
-	*setspeaker cat_bar*
+	*BLOCKSTART*
+		*setcamoffset setpos -93.956543 -30.651123 22.335510;setang -0.257 -3.313 0* ##### EVANGELION
+		#*setcam setpos -2733.502930 6687.077637 32.335510;setang -0.256775 86.686752 0* ##### EVANGELION
+		*setspeaker cat_bar*
+	*BLOCKEND*
 	After enough time,% we found a second chance in the Samsara.%%%%*BAR_BLINK* It's my 
 	prison when I need it to be,%% and my greenhouse when I want it to be.%%%%*BAR_HAPPY* 
 	And I love every second of it.
@@ -334,22 +375,26 @@ a31:
 	&a32
 
 a32:
-	*spawn harpoon models/props_junk/harpoon002a.mdl*
-	#*setposang harpoon setpos -2720.753662 6796.527832 11;setang 19.255680 -93.131256 0*
-	*setoffset harpoon setpos 31.246338 12.527832 5.000000;setang 19.256 -93.131 0.000*
-	*setcamoffset setpos 153.720215 -67.754395 23.405151;setang 3.417 168.004 0*
-	#*setcam setpos -2696.399658 6934.754395 33.405151;setang 3.416752 -101.995712 0*
-	*BAR_SURPRISE*
-	*emitsound physics/metal/sawblade_stick2.wav .5*
-	*shake .5*
-	*setspeaker narrator*
+	*BLOCKSTART*
+		*spawn harpoon models/props_junk/harpoon002a.mdl*
+		#*setposang harpoon setpos -2720.753662 6796.527832 11;setang 19.255680 -93.131256 0*
+		*setoffset harpoon setpos 31.246338 12.527832 5.000000;setang 19.256 -93.131 0.000*
+		*setcamoffset setpos 153.720215 -67.754395 23.405151;setang 3.417 168.004 0*
+		#*setcam setpos -2696.399658 6934.754395 33.405151;setang 3.416752 -101.995712 0*
+		*BAR_SURPRISE*
+		*emitsound physics/metal/sawblade_stick2.wav .5*
+		*shake .5*
+		*setspeaker narrator*
+	*BLOCKEND*
 	> A harpoon lands between*BAR_NEUTRAL* you and the Bartender,% puncturing the 
 	blanket.%%% Hell of a throw.
 	&a33
 
 a33:
-	*setspeaker cat_bar*
-	*BAR_HAPPY*
+	*BLOCKSTART*
+		*setspeaker cat_bar*
+		*BAR_HAPPY*
+	*BLOCKEND*
 	Ah, it's about that time I see.%%%%*BAR_NEUTRAL* Can you help me de-escalate and get 
 	everyone ready for a meal?
 	&a34

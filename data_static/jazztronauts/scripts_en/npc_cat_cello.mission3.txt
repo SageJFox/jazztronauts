@@ -59,8 +59,10 @@ turnin:
 	here's your cut.%% now if you'll excuse me
 	&t1
 t1:
-	*finish 3*
-	*setspeaker narrator*
+	*BLOCKSTART*
+		*finish 3*
+		*setspeaker narrator*
+	*BLOCKEND*
 	> The Cellist pops the lid and huffs deeply.
 	&t2
 	

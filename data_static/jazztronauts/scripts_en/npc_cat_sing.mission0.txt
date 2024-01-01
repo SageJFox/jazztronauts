@@ -1,6 +1,8 @@
 accept:
-	spawnnarrator()
-	*setspeaker narrator*
+	*BLOCKSTART*
+		spawnnarrator()
+		*setspeaker narrator*
+	*BLOCKEND*
 	> Oh, it's the cat who spotted you in the first place and 
 	landed you in this.. job?? They were the Singer, you think.
 	&a1
@@ -47,8 +49,10 @@ a6:
 	
 	
 idle:
-	spawnnarrator()
-	narratewithview(npc_cat_sing)
+	*BLOCKSTART*
+		spawnnarrator()
+		narratewithview(npc_cat_sing)
+	*BLOCKEND*
 	> You find the Singer working away at something on their tablet with
 	and expression of intense concentration, but when they see you 
 	they beam with apparent delight. 
@@ -70,8 +74,10 @@ i1b:
 	&exit
 
 turnin:
-	spawnnarrator()
-	narratewithview(npc_cat_sing)
+	*BLOCKSTART*
+		spawnnarrator()
+		narratewithview(npc_cat_sing)
+	*BLOCKEND*
 	> The Singer jumps out of their seat and bounces in delight as you put 
 	the binders down in front of them. With a flourish, they present to you 
 	a wad of cash! $5000 in total. *finish 0*

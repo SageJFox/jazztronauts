@@ -1,8 +1,10 @@
 ﻿###### the accept phase of this mission requires camera work
 
 accept:
-	spawnnarrator()
-	narratewithview(npc_cat_sing)
+	*BLOCKSTART*
+		spawnnarrator()
+		narratewithview(npc_cat_sing)
+	*BLOCKEND*
 	> The Singer seems agitated, and the moment they spot you they 
 	hurry over. They pull at their ears, tail lashing, before 
 	grabbing their tablet and hammering away on your 
@@ -24,8 +26,10 @@ a2:
 	
 	
 idle:
-	spawnnarrator()
-	*setspeaker narrator*
+	*BLOCKSTART*
+		spawnnarrator()
+		*setspeaker narrator*
+	*BLOCKEND*
 	> You find the Singer slumped over the bar, passed out.
 	The Bartender gives you a nod when you approach.
 	&i1
@@ -44,8 +48,10 @@ i2:
 	&exit
 
 turnin:
-	spawnnarrator()
-	narratewithview(npc_cat_sing)
+	*BLOCKSTART*
+		spawnnarrator()
+		narratewithview(npc_cat_sing)
+	*BLOCKEND*
 	> The Singer looks incredibly relieved. You help them wheel the 
 	radiators into the Mewseum and set up alongside the NPCs, 
 	who do not react in any way to the surge of warmth in the 

@@ -1,8 +1,10 @@
 ###### singer and pianist are sitting together
 
 accept:
-	spawnnarrator()
-	narratewithview(npc_cat_sing)
+	*BLOCKSTART*
+		spawnnarrator()
+		narratewithview(npc_cat_sing)
+	*BLOCKEND*
 	> The Singer waves you over as usual and the Pianist cracks open an 
 	eye to look you up and down before returning to her meditation. 
 	&accept1
@@ -41,8 +43,10 @@ a3:
 	
 	
 idle:
-	spawnnarrator()
-	*setspeaker narrator*
+	*BLOCKSTART*
+		spawnnarrator()
+		*setspeaker narrator*
+	*BLOCKEND*
 	> When you approach the Singer, the Pianist raises a paw.
 	&i1
 	
@@ -73,34 +77,36 @@ i4:
 	&exit
 
 turnin:
-	*hide*
-	*txout*
-	spawnnarratorroot(scene_mewseumlab scene_museumlab)
-	spawncatsinger()
-	#*setposang cat_singer setpos 3093.010498 7924.259277 0;setang -90 165 0.000000*
-	*setoffset cat_singer setpos -106.989502 -11.740723 0;setang 0.000 255.000 0.000*
-	*spawn combine01 models/Combine_Soldier.mdl*
-	*spawn combine02 models/Combine_Super_Soldier.mdl*
-	*spawn police01 models/Police.mdl*
-	#*setposang combine01 setpos 2946.030518 7790.783691 0;setang 0.807915 89.579773 0.000000*
-	#*setposang combine02 setpos 2868.164551 7791.400391 0;setang 0.754675 89.420059 0.000000*
-	#*setposang police01 setpos 3038.337646 7789.621094 0;setang 0.861156 89.366821 0.000000*
-	*setoffset combine01 setpos -253.969482 -145.216309 0;setang 0.808 89.580 0.000*
-	*setoffset combine02 setpos -331.835449 -144.599609 0;setang 0.755 89.420 0.000*
-	*setoffset police01 setpos -161.662354 -146.378906 0;setang 0.861 89.367 0.000*
-	*setname combine01 Combine*
-	*setanim combine01 Idle1*
-	*setanim combine02 Idle1*
-	*setanim police01 batonidle1*
-	#*setposang player setpos 3114.431641 7682.222656 0;setang 0 113.644180 0.000000*
-	*setoffset player setpos -85.568359 -253.777344 0;setang -0.000 113.644 0.000*
-	*setcamroot cat_singer setpos 434.233887 -31.153198 60.524956;setang 3.656 176.345 0.000*
-	#*setcam setpos 2950.531006 7512.884277 60.556206;setang 3.656331 71.344948 0.000000*
-	*txin*
-	*show narrator*
-	*SINGER_HAPPY*
-	*setanim cat_singer gesture_laugh 1 idle*
-	narratesinger()
+	*BLOCKSTART*
+		*hide*
+		*txout*
+		spawnnarratorroot(scene_mewseumlab scene_museumlab)
+		spawncatsinger()
+		#*setposang cat_singer setpos 3093.010498 7924.259277 0;setang -90 165 0.000000*
+		*setoffset cat_singer setpos -106.989502 -11.740723 0;setang 0.000 255.000 0.000*
+		*spawn combine01 models/Combine_Soldier.mdl*
+		*spawn combine02 models/Combine_Super_Soldier.mdl*
+		*spawn police01 models/Police.mdl*
+		#*setposang combine01 setpos 2946.030518 7790.783691 0;setang 0.807915 89.579773 0.000000*
+		#*setposang combine02 setpos 2868.164551 7791.400391 0;setang 0.754675 89.420059 0.000000*
+		#*setposang police01 setpos 3038.337646 7789.621094 0;setang 0.861156 89.366821 0.000000*
+		*setoffset combine01 setpos -253.969482 -145.216309 0;setang 0.808 89.580 0.000*
+		*setoffset combine02 setpos -331.835449 -144.599609 0;setang 0.755 89.420 0.000*
+		*setoffset police01 setpos -161.662354 -146.378906 0;setang 0.861 89.367 0.000*
+		*setname combine01 Combine*
+		*setanim combine01 Idle1*
+		*setanim combine02 Idle1*
+		*setanim police01 batonidle1*
+		#*setposang player setpos 3114.431641 7682.222656 0;setang 0 113.644180 0.000000*
+		*setoffset player setpos -85.568359 -253.777344 0;setang -0.000 113.644 0.000*
+		*setcamroot cat_singer setpos 434.233887 -31.153198 60.524956;setang 3.656 176.345 0.000*
+		#*setcam setpos 2950.531006 7512.884277 60.556206;setang 3.656331 71.344948 0.000000*
+		*txin*
+		*show narrator*
+		*SINGER_HAPPY*
+		*setanim cat_singer gesture_laugh 1 idle*
+		narratesinger()
+	*BLOCKEND*
 	> When the Singer sees you,% they light up with joy.%%%*SINGER_NEUTRAL* They're nearly 
 	vibrating with how fast they're bouncing.%%*block setoffset player -181.717041 -5.753906 0;0 -11.834 0-->setcamoffset 97.083008 6.862305 31.411472;-0.816 -154.124 0*%% After handing over your pay of #*setposang player 3018.282959 7930.246094 0;0 -11.833597 0**setcam 3074.511963 7828.708008 31.442722;-0.815863 100.875572 0*
 	30k,%% they take the radios inside the Mewseum and gesture for 
@@ -108,10 +114,12 @@ turnin:
 	&t1
 	
 t1:
-	*setcamoffset setpos -70.313477 -224.251465 69.175201;setang 5.786 37.833 0.000*
-	#*setcam setpos 2894.598633 8050.217285 69.206451;setang 5.785895 -67.167480 0.000000*
-	*SINGER_HAPPY*
-	*setanim cat_singer gesture_clap 1 idle*
+	*BLOCKSTART*
+		*setcamoffset setpos -70.313477 -224.251465 69.175201;setang 5.786 37.833 0.000*
+		#*setcam setpos 2894.598633 8050.217285 69.206451;setang 5.785895 -67.167480 0.000000*
+		*SINGER_HAPPY*
+		*setanim cat_singer gesture_clap 1 idle*
+	*BLOCKEND*
 	> The Singer claps and goes around to each of the NPCs.%%%%*SINGER_NEUTRAL* 
 	They seem to be checking in with them somehow,%% but it's hard 
 	to tell exactly what they're doing.%%% When they're satisfied,% 
@@ -126,50 +134,59 @@ t2:
 	&t3
 	
 t3:
-	#*setcam setpos 3092.538330 7733.784668 9.837635;setang -10.345832 121.861244 0.000000*
-	*setcamoffset setpos 184.106445 48.842407 9.806385;setang -10.346 -133.139 0.000*
-	*emitsound jazztronauts/music/que_chevere_radio_loop.wav 1 1*
-	*shake 4*
-	*setspeaker narrator*
+	*BLOCKSTART*
+		#*setcam setpos 3092.538330 7733.784668 9.837635;setang -10.345832 121.861244 0.000000*
+		*setcamoffset setpos 184.106445 48.842407 9.806385;setang -10.346 -133.139 0.000*
+		*emitsound jazztronauts/music/que_chevere_radio_loop.wav 1 1*
+		*shake 4*
+		*setspeaker narrator*
+	*BLOCKEND*
 	> A song blasts out of the wall of radios!%%%% 
 	%.%.%.%there seems to be no visible effect on any of the NPCs.
 	&t4
 	
 t4:
-	*setcamoffset setpos 89.294922 -8.063721 35.166275;setang 0.249 -168.863 0.000*
-	#*setcam setpos 3062.110596 7840.094238 35.197525;setang 0.248931 86.137184 0.000000*
-	*SINGER_DEPRESSED*
-	*setanim cat_singer gesture_sigh 1 idle*
+	*BLOCKSTART*
+		*setcamoffset setpos 89.294922 -8.063721 35.166275;setang 0.249 -168.863 0.000*
+		#*setcam setpos 3062.110596 7840.094238 35.197525;setang 0.248931 86.137184 0.000000*
+		*SINGER_DEPRESSED*
+		*setanim cat_singer gesture_sigh 1 idle*
+	*BLOCKEND*
 	> The Singer's shoulders slump.%%%% 
 	> They turn away and start to open a door.
 	&t5
 	
 t5:
-	*setcamroot combine01 setpos 117.932617 -54.456055 56.911415;setang -3.459 151.697 -0.384*
-	#*setcam setpos 3001.355225 7909.104980 55.273945;setang -4.169990 -118.748055 0.000000*
-	*setspeaker combine01*
+	*BLOCKSTART*
+		*setcamroot combine01 setpos 117.932617 -54.456055 56.911415;setang -3.459 151.697 -0.384*
+		#*setcam setpos 3001.355225 7909.104980 55.273945;setang -4.169990 -118.748055 0.000000*
+		*setspeaker combine01*
+	*BLOCKEND*
 	Hey,% can you turn that down?%%% I have a headache.
 	&t6
 	
 t6:
-	narratesinger()
-	*SINGER_FLUSTERED*
+	*BLOCKSTART*
+		narratesinger()
+		*SINGER_FLUSTERED*
+	*BLOCKEND*
 	> The Singer nearly drops their tablet in shock,%%*setcamroot narrator setpos 377.167969 -1039.709961 884.149780;setang 38.901 119.501 0.000* and immediately turns #*setcam setpos 3577.167969 6896.290039 884.149780;setang 38.901165 119.500954 0.000000*
 	off the radios.*stopsound*%%%% They apologize to the NPC who spoke,%% 
 	and you both hurry out of the Mewseum.
 	&t7
 	
 t7:
-	#*remove combine01 combine02 police01*
-	#*setlocale narrator scene_mewseumentrance scene_museumentrance*
-	##*setposang cat_singer setpos 373 71 0;setang -90 315 0*
-	##*setposang player setpos 410 121 0;setang 0 210 0*
-	#*setoffset cat_singer setpos 21 -65 0;setang 0 45 0*
-	#*setoffset player setpos 58 -15 0;setang 0 -150 0*
-	#*setcamroot cat_singer setpos 36.769562 84.852798 79.968750;setang 20.223 -93.360 0.000*
-	##*setcam setpos 339 157 80;setang 20.2231 311.64 0*
-	*block remove combine01 combine02 police01-->setlocale narrator scene_mewseumentrance scene_museumentrance-->setoffset cat_singer 21 -65 0;0 45 0-->setoffset player 58 -15 0;0 -150 0-->setcamroot cat_singer 36.769562 84.852798 79.968750;20.223 -93.360 0*
-	*SINGER_CRY*
+	*BLOCKSTART*
+		*remove combine01 combine02 police01*
+		*setlocale narrator scene_mewseumentrance scene_museumentrance*
+		#*setposang cat_singer setpos 373 71 0;setang -90 315 0*
+		#*setposang player setpos 410 121 0;setang 0 210 0*
+		*setoffset cat_singer setpos 21 -65 0;setang 0 45 0*
+		*setoffset player setpos 58 -15 0;setang 0 -150 0*
+		*setcamroot cat_singer setpos 36.769562 84.852798 79.968750;setang 20.223 -93.360 0.000*
+		#*setcam setpos 339 157 80;setang 20.2231 311.64 0*
+		*SINGER_CRY*
+	*BLOCKEND*
 	> The Singer is actually crying with joy.%%%%
 	&t8
 	

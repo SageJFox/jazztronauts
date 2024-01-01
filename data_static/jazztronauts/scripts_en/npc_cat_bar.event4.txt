@@ -5,53 +5,55 @@ begin:
 ###All the cats are sat in the water room. Singer between Pianist 
 ###and Cellist, Bartender sat in front of them, closest to player
 
-	*txout*
-	spawncatsrooted(scene_pond)
+	*BLOCKSTART*
+		*txout*
+		spawncatsrooted(scene_pond)
 
-	#We'll be leaving the original values in as comments, so any adjustments that might need to be made in the future can be worked with more easily.
-	#*setposang cat_singer setpos -2094.381348 519.835144 -64;setang -90 90 0.000000*
-	#*setposang cat_cello setpos -2118.969971 573.165955 -64;setang -90 105.0 0.00000*
-	#*setposang cat_piano setpos -2115.982422 464.703918 -64;setang -90 75 0.000000*
-	#*setposang cat_bar setpos -2184.213867 516.635986 -64;setang -90 90 0.000000*
-	#*setposang player setpos -1908.471802 464.384277 -64;setang 9.193229 172.696442 0.000000*
-	#We currently have a system in place to help convert these original, hardcoded values. Any *setposang*, *tweenposang*, *setcam*, or *tweencam* command used
-	#on a prop/view with a root defined will print the converted relative command to console. So to convert a script, you simply need to define the roots,
-	#run through all options on the script, and copy/paste these converted lines into place.
+		#We'll be leaving the original values in as comments, so any adjustments that might need to be made in the future can be worked with more easily.
+		#*setposang cat_singer setpos -2094.381348 519.835144 -64;setang -90 90 0.000000*
+		#*setposang cat_cello setpos -2118.969971 573.165955 -64;setang -90 105.0 0.00000*
+		#*setposang cat_piano setpos -2115.982422 464.703918 -64;setang -90 75 0.000000*
+		#*setposang cat_bar setpos -2184.213867 516.635986 -64;setang -90 90 0.000000*
+		#*setposang player setpos -1908.471802 464.384277 -64;setang 9.193229 172.696442 0.000000*
+		#We currently have a system in place to help convert these original, hardcoded values. Any *setposang*, *tweenposang*, *setcam*, or *tweencam* command used
+		#on a prop/view with a root defined will print the converted relative command to console. So to convert a script, you simply need to define the roots,
+		#run through all options on the script, and copy/paste these converted lines into place.
 
-	#when converting, it's important to disable ground checking adjustments, as those won't get reflected in the generated script.
-	#*zsnap 0*
+		#when converting, it's important to disable ground checking adjustments, as those won't get reflected in the generated script.
+		#*zsnap 0*
 
-	#Setoffset is our setposang equivalent
-	*setoffset cat_singer setpos 81.618652 7.835144 0.000000;setang 0.000 180.000 0.000*
-	*setoffset cat_cello setpos 57.030029 61.165955 0.000000;setang 0.000 -165.000 0.000*
-	*setoffset cat_piano setpos 60.017578 -47.296082 0.000000;setang 0.000 165.000 0.000*
-	*setoffset cat_bar setpos -8.213867 4.635986 0.000000;setang 0.000 180.000 0.000*
-	*setoffset player setpos 267.528198 -47.615723 0.000000;setang 0 172.696 0.000*
-	*setlook player -9.193*
+		#Setoffset is our setposang equivalent
+		*setoffset cat_singer setpos 81.618652 7.835144 0.000000;setang 0.000 180.000 0.000*
+		*setoffset cat_cello setpos 57.030029 61.165955 0.000000;setang 0.000 -165.000 0.000*
+		*setoffset cat_piano setpos 60.017578 -47.296082 0.000000;setang 0.000 165.000 0.000*
+		*setoffset cat_bar setpos -8.213867 4.635986 0.000000;setang 0.000 180.000 0.000*
+		*setoffset player setpos 267.528198 -47.615723 0.000000;setang 0 172.696 0.000*
+		*setlook player -9.193*
 
-	*setanim cat_bar pose_sit01_floor*
-	*setanim cat_piano pose_sit01_floor*
-	*setanim cat_cello pose_sit01_floor*
-	*setanim cat_singer pose_sit01_floor*
-	*PIANO_BLINK*
-	*SINGER_BLINK*
-	*BAR_BLINK*
-	*CELLO_BLINK*
+		*setanim cat_bar pose_sit01_floor*
+		*setanim cat_piano pose_sit01_floor*
+		*setanim cat_cello pose_sit01_floor*
+		*setanim cat_singer pose_sit01_floor*
+		*PIANO_BLINK*
+		*SINGER_BLINK*
+		*BAR_BLINK*
+		*CELLO_BLINK*
 
-	#This initial setcamroot is used to get the data from the setcam/tweencam commands to be transferred properly. In later scripts, it'll be "filled in" rather than having
-	#the command commented out and placed a second time after the inital setcam
-	#Also note that we're using the player/cats as the camera root, rather than the scene. This is so that adjustments to their height made by our ground checking get
-	#reflected in the camera positioning, too. Especially important for closeups!
-	#*setcamroot cat_bar*
-	#*setcam setpos -2478.000977 372.681641 16.944340;setang 7.223375 22.772840 0.000000 fov70*
+		#This initial setcamroot is used to get the data from the setcam/tweencam commands to be transferred properly. In later scripts, it'll be "filled in" rather than having
+		#the command commented out and placed a second time after the inital setcam
+		#Also note that we're using the player/cats as the camera root, rather than the scene. This is so that adjustments to their height made by our ground checking get
+		#reflected in the camera positioning, too. Especially important for closeups!
+		#*setcamroot cat_bar*
+		#*setcam setpos -2478.000977 372.681641 16.944340;setang 7.223375 22.772840 0.000000 fov70*
+		*setcamroot cat_bar setpos 293.787109 143.954376 80.944336;setang 7.223 -157.227 0.000 fov70*
+
+		*bgmplay sound/jazztronauts/music/events/pariah.mp3 .75 2.0*
+		*txin*
+		*wait .15*
+		*show cat_bar*
+	*BLOCKEND*
 	#*tweencam 40 setpos -2690.671875 283.400543 46.178429;setang 7.223375 22.772840 0.000000*
-	*setcamroot cat_bar setpos 293.787109 143.954376 80.944336;setang 7.223 -157.227 0.000 fov70*
 	*tweencamoffset 40 setpos 506.458008 233.235504 110.178429;setang 7.223 -157.227 0.000*
-
-	*bgmplay sound/jazztronauts/music/events/pariah.mp3 .75 2.0*
-	*txin*
-	*wait .15*
-	*show cat_bar*
 	Alright.%%% Now,% breathe in.%%%% One,%% two,%% three,%% four.
 	&a2
 
@@ -85,21 +87,25 @@ leave:
 
 ### DINGUS ANSWER
 dingus:
-	#*setcamroot cat_piano*
-	#*setcam setpos -2204.526367 467.057617 -27.270088;setang 0.408657 16.597002 0.000000*
-	*setcamroot cat_piano setpos 86.136230 20.643372 36.729912;setang 0.409 -148.403 0.000*
-	*setspeaker cat_piano*
-	*PIANO_NEUTRAL*
+	*BLOCKSTART*
+		#*setcamroot cat_piano*
+		#*setcam setpos -2204.526367 467.057617 -27.270088;setang 0.408657 16.597002 0.000000*
+		*setcamroot cat_piano setpos 86.136230 20.643372 36.729912;setang 0.409 -148.403 0.000*
+		*setspeaker cat_piano*
+		*PIANO_NEUTRAL*
+	*BLOCKEND*
 	If you start humming I will punch you in the face.%%%%*PIANO_BLINK* 
 	This is our quiet time.
 	&dingus2
 
 dingus2:
-	#*setcamroot cat_bar*
-	#*setcam setpos -2227.285889 381.638916 -31.860832;setang 1.207254 43.802742 0.000000*
-	*setcamroot cat_bar setpos 43.072021 134.997070 32.139168;setang 1.207 -136.197 0.000*
-	*setspeaker cat_bar*
-	*BAR_PISSED*
+	*BLOCKSTART*
+		#*setcamroot cat_bar*
+		#*setcam setpos -2227.285889 381.638916 -31.860832;setang 1.207254 43.802742 0.000000*
+		*setcamroot cat_bar setpos 43.072021 134.997070 32.139168;setang 1.207 -136.197 0.000*
+		*setspeaker cat_bar*
+		*BAR_PISSED*
+	*BLOCKEND*
 	%.%.%.%It's not necessary,%% no.%%%*BAR_BLINK* Neither are threats of violence,% Pianist.
 	player:
 		&a5: Sure.
@@ -108,13 +114,15 @@ dingus2:
 
 ###MAIN THROUGHLINE
 a5:
-	#*setposang player setpos -2192.571045 467.875122 -64;setang -3.690856 178.553116 0.000000*
-	*block setoffset player setpos -16.571045 -44.124878 0.000000;setang -3.691 178.553 0.000 --> setlook player*
-	*setanim player sit_zen*
-	*setspeaker narrator*
-	#*setcam setpos -2323.443359 388.313568 16.408169;setang 13.239491 32.089962 0.000000*
-	*setcamoffset setpos 139.229492 128.322449 80.408173;setang 13.239 -147.910 0.000*
-	*BAR_HAPPY*
+	*BLOCKSTART*
+		#*setposang player setpos -2192.571045 467.875122 -64;setang -3.690856 178.553116 0.000000*
+		*block setoffset player setpos -16.571045 -44.124878 0.000000;setang -3.691 178.553 0.000 --> setlook player*
+		*setanim player sit_zen*
+		*setspeaker narrator*
+		#*setcam setpos -2323.443359 388.313568 16.408169;setang 13.239491 32.089962 0.000000*
+		*setcamoffset setpos 139.229492 128.322449 80.408173;setang 13.239 -147.910 0.000*
+		*BAR_HAPPY*
+	*BLOCKEND*
 	> The Bartender smiles,%% and you sit down beside her. 
 	&a6
 
@@ -129,12 +137,13 @@ a7:
 	&a8
 
 a8:
-	#*setcam setpos -2360.776611 1260.713745 -109.530563;setang -2.093598 -65.551727 0.000000*
-	#*tweencam 30 setpos -2520.542969 1188.078979 -109.530563;setang -2.040358 -65.551727 0.000000*
-	*setcamoffset setpos 176.562744 -744.077698 -45.530563;setang -2.094 114.448 0.000*
-	*tweencamoffset 30 setpos 336.329102 -671.442932 -45.530563;setang -2.040 114.448 0.000*
-
-	*BAR_BLINK*
+	*BLOCKSTART*
+		#*setcam setpos -2360.776611 1260.713745 -109.530563;setang -2.093598 -65.551727 0.000000*
+		#*tweencam 30 setpos -2520.542969 1188.078979 -109.530563;setang -2.040358 -65.551727 0.000000*
+		*setcamoffset setpos 176.562744 -744.077698 -45.530563;setang -2.094 114.448 0.000*
+		*tweencamoffset 30 setpos 336.329102 -671.442932 -45.530563;setang -2.040 114.448 0.000*
+		*BAR_BLINK*
+	*BLOCKEND*
 	Sit up straight,% and put your hands on your knees.%%%% Focus on the 
 	points where your body makes contact with the surface beneath you. 
 	&a9
@@ -146,11 +155,13 @@ a9:
 	&a10
 
 a10:
-	#*setcamroot cat_cello*
-	#*setcam setpos -2161.344238 520.817505 -24.739239;setang 0.408679 25.541904 0.000000*
-	*setcamroot cat_cello setpos 54.479248 39.597534 39.260761;setang 0.409 -169.458 0.000*
-	*setspeaker cat_cello*
-	*CELLO_NEUTRAL*
+	*BLOCKSTART*
+		#*setcamroot cat_cello*
+		#*setcam setpos -2161.344238 520.817505 -24.739239;setang 0.408679 25.541904 0.000000*
+		*setcamroot cat_cello setpos 54.479248 39.597534 39.260761;setang 0.409 -169.458 0.000*
+		*setspeaker cat_cello*
+		*CELLO_NEUTRAL*
+	*BLOCKEND*
 	also make sure you keep breathing too or else youll go kinda blue 
 	and start making wheezing noises and that throws everyone else off 
 	their rhythm*CELLO_BLINK*
@@ -162,12 +173,14 @@ a11:
 	&a12
 
 a12:
-	#*setcamroot cat_bar*
-	#*setcam setpos -2318.219482 575.459900 -2.380165;setang 9.299764 -22.959793 0.000000*
-	#*tweencam 30 setpos -2972.309326 853.024719 113.971649;setang 9.299764 -23.013035 0.000000*
-	*setcamroot cat_bar setpos 134.005615 -58.823914 61.619835;setang 9.300 157.040 0.000*
-	*tweencamoffset 30 setpos 788.095459 -336.388672 177.971649;setang 9.300 156.987 0.000*
-	*setspeaker cat_bar*
+	*BLOCKSTART*
+		#*setcamroot cat_bar*
+		#*setcam setpos -2318.219482 575.459900 -2.380165;setang 9.299764 -22.959793 0.000000*
+		#*tweencam 30 setpos -2972.309326 853.024719 113.971649;setang 9.299764 -23.013035 0.000000*
+		*setcamroot cat_bar setpos 134.005615 -58.823914 61.619835;setang 9.300 157.040 0.000*
+		*tweencamoffset 30 setpos 788.095459 -336.388672 177.971649;setang 9.300 156.987 0.000*
+		*setspeaker cat_bar*
+	*BLOCKEND*
 	Now just keep up that breathing rhythm.
 	&a13
 
@@ -188,77 +201,89 @@ a15:
 ##passed out cold on the floor, but everyone else is standing]
 
 a16:
-	*hide*
-	*txout*
-	*wait 2*
-	*bgmplay sound/jazztronauts/music/events/loveaffair.mp3 .75 2.0*
-	#*setposang cat_singer setpos -2094.381348 519.835144 -64;setang -90 90 0.000000*
-	#*setposang cat_cello setpos -2118.969971 573.165955 -64;setang -90 105.00 0000*
-	#*setposang cat_piano setpos -2115.982422 464.703918 -64;setang -90 75 0.000000*
-	#*setposang cat_bar setpos -2184.213867 516.635986 -64;setang -90 -90 0.000000*
-	#*setposang player setpos -2192.571045 467.875122 -64;setang 12.174686 32.835201 0.000000*
-	*setoffset cat_singer setpos 81.618652 7.835144 0.000000;setang 0.000 180.000 0.000*
-	*setoffset cat_cello setpos 57.030029 61.165955 0.000000;setang 0.000 -165.000 0.000*
-	*setoffset cat_piano setpos 60.017578 -47.296082 0.000000;setang 0.000 165.000 0.000*
-	*setoffset cat_bar setpos -8.213867 4.635986 0.000000;setang 0.000 0.000 0.000*
-	*setoffset player setpos -16.571045 -44.124878 0.000000;setang 0 32.835 0.000*
-	*setlook player -12.175*
-	*setanim cat_piano idle*
-	*setanim cat_singer idle*
-	*setanim cat_bar idle*
-	*BAR_NEUTRAL*
-	*PIANO_NEUTRAL*
-	*SINGER_NEUTRAL*
-	*setanim player idle_all_01*
-	*setanim cat_cello pose_passedout*
-	#*setcam setpos -2092.409912 652.855896 43.299713;setang 25.058817 -109.785210 0.000000*
-	*setcamoffset setpos 91.803955 136.219910 107.299713;setang 25.059 -109.785 0.000*
-	*txin*
-	*show*
-	*BAR_HAPPY*
-	*setanim cat_bar gesture_clap 1 idle*
+	*BLOCKSTART*
+		*hide*
+		*txout*
+		*wait 2*
+		*bgmplay sound/jazztronauts/music/events/loveaffair.mp3 .75 2.0*
+		#*setposang cat_singer setpos -2094.381348 519.835144 -64;setang -90 90 0.000000*
+		#*setposang cat_cello setpos -2118.969971 573.165955 -64;setang -90 105.00 0000*
+		#*setposang cat_piano setpos -2115.982422 464.703918 -64;setang -90 75 0.000000*
+		#*setposang cat_bar setpos -2184.213867 516.635986 -64;setang -90 -90 0.000000*
+		#*setposang player setpos -2192.571045 467.875122 -64;setang 12.174686 32.835201 0.000000*
+		*setoffset cat_singer setpos 81.618652 7.835144 0.000000;setang 0.000 180.000 0.000*
+		*setoffset cat_cello setpos 57.030029 61.165955 0.000000;setang 0.000 -165.000 0.000*
+		*setoffset cat_piano setpos 60.017578 -47.296082 0.000000;setang 0.000 165.000 0.000*
+		*setoffset cat_bar setpos -8.213867 4.635986 0.000000;setang 0.000 0.000 0.000*
+		*setoffset player setpos -16.571045 -44.124878 0.000000;setang 0 32.835 0.000*
+		*setlook player -12.175*
+		*setanim cat_piano idle*
+		*setanim cat_singer idle*
+		*setanim cat_bar idle*
+		*BAR_NEUTRAL*
+		*PIANO_NEUTRAL*
+		*SINGER_NEUTRAL*
+		*setanim player idle_all_01*
+		*setanim cat_cello pose_passedout*
+		#*setcam setpos -2092.409912 652.855896 43.299713;setang 25.058817 -109.785210 0.000000*
+		*setcamoffset setpos 91.803955 136.219910 107.299713;setang 25.059 -109.785 0.000*
+		*txin*
+		*show*
+		*BAR_HAPPY*
+		*setanim cat_bar gesture_clap 1 idle*
+	*BLOCKEND*
 	That was an excellent session,%%% everyone!
 	&a17
 
 a17:
-	#*setcam setpos -2129.073486 558.672058 -26.355873;setang -4.063434 -110.530540 0.000000*
-	*setcamoffset setpos 55.140381 42.036072 37.644127;setang -4.063 -110.531 0.000*
-	*setanim cat_bar gesture_agree 1 idle*
+	*BLOCKSTART*
+		#*setcam setpos -2129.073486 558.672058 -26.355873;setang -4.063434 -110.530540 0.000000*
+		*setcamoffset setpos 55.140381 42.036072 37.644127;setang -4.063 -110.531 0.000*
+		*setanim cat_bar gesture_agree 1 idle*
+	*BLOCKEND*
 	Pianist,%%*BAR_NEUTRAL* I noticed you broke your record before needing to do some
 	pushups.%%%%*setanim cat_bar gesture_clap 1 idle* Congratulations!% I'm very proud.
 	&a18
 
 a18:
-	*setspeaker cat_piano*
-	*PIANO_FLUSTERED*
-	*setanim cat_piano gesture_embarass 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_piano*
+		*PIANO_FLUSTERED*
+		*setanim cat_piano gesture_embarass 1 idle*
+	*BLOCKEND*
 	Thanks,%% boss.
 	&a19
 
 a19:
-	*PIANO_NEUTRAL*
-	*BAR_NEUTRAL*
-	*setanim cat_bar gesture_anger 1 idle*
-	*setspeaker narrator*
-	#*setcamroot cat_cello*
-	#*setcam setpos -2199.189209 570.780457 -10.404617;setang 34.375881 -11.131420 0.000000*
-	*setcamroot cat_cello setpos 78.103271 -18.458130 53.595383;setang 34.376 153.869 0.000*
+	*BLOCKSTART*
+		*PIANO_NEUTRAL*
+		*BAR_NEUTRAL*
+		*setanim cat_bar gesture_anger 1 idle*
+		*setspeaker narrator*
+		#*setcamroot cat_cello*
+		#*setcam setpos -2199.189209 570.780457 -10.404617;setang 34.375881 -11.131420 0.000000*
+		*setcamroot cat_cello setpos 78.103271 -18.458130 53.595383;setang 34.376 153.869 0.000*
+	*BLOCKEND*
 	> The Bartender nudges the Cellist with her foot.%%% 
 	He lets out a loud and kinda gross snore.
 	&a20
 
 a20:
-	#*setcamroot cat_bar*
-	#*setcam setpos -2107.698486 545.623291 -10.404617;setang 5.573047 -143.060379 0.000000*
-	*setcamroot cat_bar setpos 76.515381 28.987305 53.595383;setang 5.573 -143.060 0.000*
-	*setspeaker cat_bar*
-	*setanim cat_bar gesture_shrug 1 idle*
+	*BLOCKSTART*
+		#*setcamroot cat_bar*
+		#*setcam setpos -2107.698486 545.623291 -10.404617;setang 5.573047 -143.060379 0.000000*
+		*setcamroot cat_bar setpos 76.515381 28.987305 53.595383;setang 5.573 -143.060 0.000*
+		*setspeaker cat_bar*
+		*setanim cat_bar gesture_shrug 1 idle*
+	*BLOCKEND*
 	Well,% at least he was able to relax this time.
 	&a21
 
 a21:
-	*BAR_HAPPY*
-	*setanim cat_bar gesture_agree 1 idle*
+	*BLOCKSTART*
+		*BAR_HAPPY*
+		*setanim cat_bar gesture_agree 1 idle*
+	*BLOCKEND*
 	Thank you for joining us,%%% *player*.%%% 
 	It was lovely to spend a while relaxing in your company.*mark_seen*
 	&exit

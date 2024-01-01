@@ -2,47 +2,53 @@ SKIP_OPEN = true
 
 begin:
 	# Scene setup
-	*txout*
-	spawncatsrooted(scene_gameroom)
-	#*zsnap 0*
-	#*setposang player setpos -1492.517822 2994.995850 0;setang 0 87.726311 0.000000*
-	#*setposang cat_bar -1456.906494 3002.029785 0;setang -90 15 0.000000*
-	#*setposang cat_cello -1550.800171 3010.119873 0;setang -90 345 0.000000*
-	#*setposang cat_piano -1413.009766 3020.624512 0;setang -90 60 0.000000*
-	#*setposang cat_singer -1470.034180 3146.505859 0;setang -90 180 0.000000*
-	*setoffset player setpos -20.517822 -77.004150 0;setang -0.000 87.726 0.000*
-	*setoffset cat_bar setpos 15.093506 -69.970215 0;setang 0.000 105.000 0.000*
-	*setoffset cat_cello setpos -78.800171 -61.880127 0;setang 0.000 75.000 0.000*
-	*setoffset cat_piano setpos 58.990234 -51.375488 0;setang 0.000 150.000 0.000*
-	*setoffset cat_singer setpos 1.965820 74.505859 0;setang 0.000 -90.000 0.000*
-	*bgmplay sound/jazztronauts/music/events/loveaffair.mp3 1.0 2.0*
-	*wait .1*
-	*setcamroot player setpos 72.250000 51.867188 49.034027;setang 2.379 -156.118 0.000 fov70*
-	#*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000 fov70*
+	*BLOCKSTART*
+		*txout*
+		spawncatsrooted(scene_gameroom)
+		#*zsnap 0*
+		#*setposang player setpos -1492.517822 2994.995850 0;setang 0 87.726311 0.000000*
+		#*setposang cat_bar -1456.906494 3002.029785 0;setang -90 15 0.000000*
+		#*setposang cat_cello -1550.800171 3010.119873 0;setang -90 345 0.000000*
+		#*setposang cat_piano -1413.009766 3020.624512 0;setang -90 60 0.000000*
+		#*setposang cat_singer -1470.034180 3146.505859 0;setang -90 180 0.000000*
+		*setoffset player setpos -20.517822 -77.004150 0;setang -0.000 87.726 0.000*
+		*setoffset cat_bar setpos 15.093506 -69.970215 0;setang 0.000 105.000 0.000*
+		*setoffset cat_cello setpos -78.800171 -61.880127 0;setang 0.000 75.000 0.000*
+		*setoffset cat_piano setpos 58.990234 -51.375488 0;setang 0.000 150.000 0.000*
+		*setoffset cat_singer setpos 1.965820 74.505859 0;setang 0.000 -90.000 0.000*
+		*bgmplay sound/jazztronauts/music/events/loveaffair.mp3 1.0 2.0*
+		*wait .1*
+		*setcamroot player setpos 72.250000 51.867188 49.034027;setang 2.379 -156.118 0.000 fov70*
+		#*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000 fov70*
 
 
 
-###### START
-	*txin*
-	*show cat_cello*
-	*CELLO_GRIN*
-	*setanim cat_cello gesture_exchange 1 idle*
+	###### START
+		*txin*
+		*show cat_cello*
+		*CELLO_GRIN*
+		*setanim cat_cello gesture_exchange 1 idle*
+	*BLOCKEND*
 	c'mon lady luck% you pebble in the eye of 
 	a dying crawdad%% give me the good shit
 	&begin2
 begin2:
-	*setspeaker cat_piano*
-	*setanim cat_piano gesture_confused 1 idle*
-	*setcamroot cat_piano setpos 147.983643 -91.339355 86.646301;setang 8.891 150.624 0.000*
-	#*setcam setpos -1495.497559 3173.718506 86.646301;setang 8.891073 -59.375931 0.000000*
+	*BLOCKSTART*
+		*setspeaker cat_piano*
+		*setanim cat_piano gesture_confused 1 idle*
+		*setcamroot cat_piano setpos 147.983643 -91.339355 86.646301;setang 8.891 150.624 0.000*
+		#*setcam setpos -1495.497559 3173.718506 86.646301;setang 8.891073 -59.375931 0.000000*
+	*BLOCKEND*
 	Well.%%%% That's a new one.
 	&begin3
 begin3:
-	*setspeaker cat_cello*
-	*CELLO_NEUTRAL*
-	*setcamroot cat_cello setpos 122.235352 -39.812012 56.487091;setang 7.241 147.893 0.000*
-	#*setcam setpos -1480.707764 3117.885986 56.487091;setang 7.240627 -137.106567 0.000000*
-	*setanim cat_cello gesture_disagree 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_cello*
+		*CELLO_NEUTRAL*
+		*setcamroot cat_cello setpos 122.235352 -39.812012 56.487091;setang 7.241 147.893 0.000*
+		#*setcam setpos -1480.707764 3117.885986 56.487091;setang 7.240627 -137.106567 0.000000*
+		*setanim cat_cello gesture_disagree 1 idle*
+	*BLOCKEND*
 	ok no see,% brown-nosing the gods don't work. 
 	%%%%%overtly insulting them gets your shit slapped.	
 	&begin4
@@ -57,10 +63,12 @@ begin4:
 
 ###### Branch 1
 resp1a:
-	*setspeaker cat_piano*
-	*setanim cat_piano gesture_shrug 1 idle*
-	*setcamroot cat_piano setpos 114.542725 -29.222656 54.382309;setang -2.023 169.098 0.000*
-	#*setcam setpos -1497.595215 3103.203369 54.382309;setang -2.023108 -40.901863 0.000000*
+	*BLOCKSTART*
+		*setspeaker cat_piano*
+		*setanim cat_piano gesture_shrug 1 idle*
+		*setcamroot cat_piano setpos 114.542725 -29.222656 54.382309;setang -2.023 169.098 0.000*
+		#*setcam setpos -1497.595215 3103.203369 54.382309;setang -2.023108 -40.901863 0.000000*
+	*BLOCKEND*
 	Yeah they're right.% Zeus would throw you into nerd prison 
 	with his dad,% or marry you off to his brother,% or turn
 	into a swarm of bees and fuck a goat.
@@ -74,130 +82,160 @@ resp1b:
 	&resp1c
 
 resp1c:
-	*setspeaker cat_cello*
-	*setcamroot player setpos 72.250000 51.867188 49.034027;setang 2.379 -156.118 0.000*
-	#*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
-	*setanim cat_cello gesture_laugh 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_cello*
+		*setcamroot player setpos 72.250000 51.867188 49.034027;setang 2.379 -156.118 0.000*
+		#*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
+		*setanim cat_cello gesture_laugh 1 idle*
+	*BLOCKEND*
 	listen%%%% all i'm gonna say is that ambrosia is a hell of a drug
 	&resp1d
 
 resp1d:
-	*setspeaker cat_bar*
-	*setcamroot cat_bar setpos 119.437500 -40.911255 63.884083;setang 4.685 175.978 0.000*
-	#*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
-	*setanim cat_bar gesture_disagree 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_bar*
+		*setcamroot cat_bar setpos 119.437500 -40.911255 63.884083;setang 4.685 175.978 0.000*
+		#*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
+		*setanim cat_bar gesture_disagree 1 idle*
+	*BLOCKEND*
 	There's a reason I don't carry it anymore.
 	&resp1e
 
 resp1e:
-	*setspeaker cat_cello*
-	*CELLO_MAD*
-	*setanim cat_cello gesture_jab 1 idle*
-	#goddamn% cowardly%*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000* lion ass%% prohibitionist%%*setanim cat_cello gesture_sigh 1 idle* 
+	*BLOCKSTART*
+		*setspeaker cat_cello*
+		*CELLO_MAD*
+		*setanim cat_cello gesture_jab 1 idle*
+		#goddamn% cowardly%*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000* lion ass%% prohibitionist%%*setanim cat_cello gesture_sigh 1 idle*
+	*BLOCKEND*
 	goddamn% cowardly%*setcamroot player setpos 72.250000 51.867188 49.034027;setang 2.379 -156.118 0.000* lion ass%% prohibitionist%%*setanim cat_cello gesture_sigh 1 idle* 
 	i've still got to shit in your linen closet one of these days for that
 	&resp1f
 	
 resp1f:
-	*setspeaker cat_piano*
-	*setanim cat_piano gesture_anger 2 idle*
+	*BLOCKSTART*
+		*setspeaker cat_piano*
+		*setanim cat_piano gesture_anger 2 idle*
+	*BLOCKEND*
 	Shuddup.% Cards're coming.
 	*CELLO_NEUTRAL*
 	&merge1a
 
 ###### Branch 2
 resp2a:
-	*setspeaker cat_bar*
-	*BAR_SURPRISE*
-	*setanim cat_bar gesture_shock 1 idle*
-	*setcamroot cat_bar setpos 119.437500 -40.911255 63.884083;setang 4.685 175.978 0.000*
-	#*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
+	*BLOCKSTART*
+		*setspeaker cat_bar*
+		*BAR_SURPRISE*
+		*setanim cat_bar gesture_shock 1 idle*
+		*setcamroot cat_bar setpos 119.437500 -40.911255 63.884083;setang 4.685 175.978 0.000*
+		#*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
+	*BLOCKEND*
 	Oh dear.% Agreeing with the Cellist?%%*BAR_NEUTRAL*%*setanim cat_bar gesture_confused 1 idle* 
 	Have you developed a fever?
 	&resp2b
 
 resp2b:
-	*setspeaker cat_cello*
-	*setcamroot player setpos 72.250000 51.867188 49.034027;setang 2.379 -156.118 0.000*
-	#*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
-	*setanim cat_cello gesture_jab 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_cello*
+		*setcamroot player setpos 72.250000 51.867188 49.034027;setang 2.379 -156.118 0.000*
+		#*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
+		*setanim cat_cello gesture_jab 1 idle*
+	*BLOCKEND*
 	only fever they're getting is% fuckin,% truth-bola.%% 
 	t-bola.% no cure known% they're screwed.%%%%%*setanim cat_cello gesture_confused 1 idle* 
 	symptoms are waking the fuck up,% sheeple
 	&resp2c
 
 resp2c:
-	*setspeaker cat_piano*
-	*setcamroot cat_piano setpos 147.983643 -91.339355 86.646301;setang 8.891 150.624 0.000*
-	#*setcam setpos -1495.497559 3173.718506 86.646301;setang 8.891073 -59.375931 0.000000*
-	*setanim cat_piano gesture_laugh 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_piano*
+		*setcamroot cat_piano setpos 147.983643 -91.339355 86.646301;setang 8.891 150.624 0.000*
+		#*setcam setpos -1495.497559 3173.718506 86.646301;setang 8.891073 -59.375931 0.000000*
+		*setanim cat_piano gesture_laugh 1 idle*
+	*BLOCKEND*
 	Thanks,% Banksy.
 	&resp2d
 	
 resp2d:
-	*setspeaker cat_cello*
-	*CELLO_MAD*
-	*setanim cat_cello gesture_anger 2 idle*
+	*BLOCKSTART*
+		*setspeaker cat_cello*
+		*CELLO_MAD*
+		*setanim cat_cello gesture_anger 2 idle*
+	*BLOCKEND*
 	WE AGREED YOU WOULDN'T SAY THAT PIECE OF 
 	SHIT'S NAME IN HERE AGAIN
 	&resp2e
 	
 resp2e:
-	*setspeaker cat_piano*
-	*setanim cat_piano gesture_clap 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_piano*
+		*setanim cat_piano gesture_clap 1 idle*
+	*BLOCKEND*
 	Thanksy
 	&resp2f
 	
 resp2f:
-	*setspeaker cat_cello*
-	*setanim cat_cello gesture_anger 2 idle*
-	*setcamroot player setpos 72.250000 51.867188 49.034027;setang 2.379 -156.118 0.000*
-	#*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
+	*BLOCKSTART*
+		*setspeaker cat_cello*
+		*setanim cat_cello gesture_anger 2 idle*
+		*setcamroot player setpos 72.250000 51.867188 49.034027;setang 2.379 -156.118 0.000*
+		#*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
+	*BLOCKEND*
 	biTCH
 	&resp2g
 	
 resp2g:
-	*setcamroot cat_bar setpos 119.437500 -40.911255 63.884083;setang 4.685 175.978 0.000*
-	#*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
-	*setspeaker cat_bar*
-	*setanim cat_bar gesture_sigh 1 idle*
+	*BLOCKSTART*
+		*setcamroot cat_bar setpos 119.437500 -40.911255 63.884083;setang 4.685 175.978 0.000*
+		#*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
+		*setspeaker cat_bar*
+		*setanim cat_bar gesture_sigh 1 idle*
+	*BLOCKEND*
 	Settle down you two,%%% Singer wants to deal.
 	&resp2h
 	
 resp2h:
-	*hide*
-	*setcamroot cat_bar setpos 119.437500 -40.911255 63.884083;setang 4.685 175.978 0.000*
-	#*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
-	*wait .6*
-	*setcamroot cat_singer setpos 65.376221 73.771118 50.612041;setang 1.331 -117.597 0.000*
-	#*setcam setpos -1396.263062 3081.129639 50.612041;setang 1.330953 152.403229 0.000000*
-	*show cat_cello*
-	*CELLO_NEUTRAL*
+	*BLOCKSTART*
+		*hide*
+		*setcamroot cat_bar setpos 119.437500 -40.911255 63.884083;setang 4.685 175.978 0.000*
+		#*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
+		*wait .6*
+		*setcamroot cat_singer setpos 65.376221 73.771118 50.612041;setang 1.331 -117.597 0.000*
+		#*setcam setpos -1396.263062 3081.129639 50.612041;setang 1.330953 152.403229 0.000000*
+		*show cat_cello*
+		*CELLO_NEUTRAL*
+	*BLOCKEND*
 	.%.%.%sorry.%% go ahead pipes,% do your thing.	
 	&merge1a
 
 ###### Branch 3
 resp3a:
-	*setspeaker cat_piano*
-	*setanim cat_piano gesture_agree 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_piano*
+		*setanim cat_piano gesture_agree 1 idle*
+	*BLOCKEND*
 	I don't blame you.%%% 
 	We'll be out in a little while.
 	&exit
 
 ###### Merge point
-merge1a:	
-	*hide*
-	*txout*
-	*show narrator*
+merge1a:
+	*BLOCKSTART*
+		*hide*
+		*txout*
+		*show narrator*
+	*BLOCKEND*
 	> A Few Rounds Later%.%.%.
 	&merge1b
 
 merge1b:
-	#*hide .1*
-	*setcamroot cat_singer setpos -5.506348 -94.521362 87.040466;setang 18.527 54.581 0.000*
-	#*setcam setpos -1564.555542 3152.012207 87.040466;setang 18.527466 -35.418659 0.000000*
-	*txin .2*
-	#*show .1*
+	*BLOCKSTART*
+		#*hide .1*
+		*setcamroot cat_singer setpos -5.506348 -94.521362 87.040466;setang 18.527 54.581 0.000*
+		#*setcam setpos -1564.555542 3152.012207 87.040466;setang 18.527466 -35.418659 0.000000*
+		*txin .2*
+		#*show .1*
+	*BLOCKEND*
 	%%> Apparently,%%% the cats play some sort of strange variant of 
 	blackjack called 'flavor blasted blackjack.' 
 	&merge1c
@@ -207,49 +245,61 @@ merge1c:
 	nobody's bothered explaining to you.
 	&merge1d
 merge1d:
-	*setspeaker cat_cello*
-	*setcamroot player setpos 72.250000 51.867188 49.034027;setang 2.379 -156.118 0.000*
-	#*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
-	*setanim cat_cello gesture_laugh 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_cello*
+		*setcamroot player setpos 72.250000 51.867188 49.034027;setang 2.379 -156.118 0.000*
+		#*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
+		*setanim cat_cello gesture_laugh 1 idle*
+	*BLOCKEND*
 	goddamn%% i'm a strategic genius.%*setanim cat_cello gesture_exchange 1.4 idle* call me scipio africanus cause 
 	i'mma ride elephants over the alps of this game and 
 	steal all your lunch money
 	&merge1e
 merge1e:
-	*setspeaker cat_piano*
-	*setanim cat_piano gesture_confused 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_piano*
+		*setanim cat_piano gesture_confused 1 idle*
+	*BLOCKEND*
 	I know you're getting warfare history wrong to try 
 	and make me mad.%%*setanim cat_piano gesture_disagree 1 idle* It doesn't work anymore.
 	&merge1f
 	
 merge1f:
-	*setspeaker cat_cello*
-	*CELLO_MAD*
-	*setanim cat_cello gesture_confused 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_cello*
+		*CELLO_MAD*
+		*setanim cat_cello gesture_confused 1 idle*
+	*BLOCKEND*
 	shit.%%%*setanim cat_cello gesture_shrug 1 idle**CELLO_NEUTRAL* alright well then call me dock ellis% because 
 	i'm playing a perfect *setcamroot player setpos 180.631592 -125.262329 99.880249;setang 26.460 137.776 0.000*game *CELLO_GRIN*in spite of #*setcam setpos -1360.187134 3170.514893 99.880249;setang 26.460207 -134.498184 0.000000*
 	the fact that all these cards look like Richard Nixon
 	&merge1g
 	
 merge1g:
-	*setspeaker cat_bar*
-	*BAR_SURPRISE*
-	*setanim cat_bar gesture_shock 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_bar*
+		*BAR_SURPRISE*
+		*setanim cat_bar gesture_shock 1 idle*
+	*BLOCKEND*
 	Your ability to appear perfectly lucid during a state 
 	of psychedelic dissociation will never cease to impress%%%*BAR_NEUTRAL* or terrify me.
 	&merge1h
 	
 merge1h:
-	narratesinger()
-	*SINGER_MAD*
-	*setanim cat_singer gesture_anger 1 idle*
+	*BLOCKSTART*
+		narratesinger()
+		*SINGER_MAD*
+		*setanim cat_singer gesture_anger 1 idle*
+	*BLOCKEND*
 	> The Singer taps the table twice.
 	&merge1i
 	
 merge1i:
-	*setspeaker cat_bar*
-	*BAR_SURPRISE*
-	*SINGER_NEUTRAL*
+	*BLOCKSTART*
+		*setspeaker cat_bar*
+		*BAR_SURPRISE*
+		*SINGER_NEUTRAL*
+	*BLOCKEND*
 	Ah,% right.%%%%*BAR_NEUTRAL* I think it was your turn,% *player*.
 	&decision2
 	
@@ -264,10 +314,12 @@ decision2:
 		
 ###### Branch 4
 resp4a:
-	narratesinger()
-	*setcamroot cat_singer setpos 47.155029 5.521240 45.000000;setang 1.917 -179.941 0.000*
-	#*setcam setpos -1464.512939 3099.350830 45;setang 1.916579 90.059235 0.000000*
-	*setanim cat_singer gesture_exchange 1.5 idle*
+	*BLOCKSTART*
+		narratesinger()
+		*setcamroot cat_singer setpos 47.155029 5.521240 45.000000;setang 1.917 -179.941 0.000*
+		#*setcam setpos -1464.512939 3099.350830 45;setang 1.916579 90.059235 0.000000*
+		*setanim cat_singer gesture_exchange 1.5 idle*
+	*BLOCKEND*
 	> The Singer flicks a card your way.% 
 	You flip it over.
 	&resp4b
@@ -278,42 +330,52 @@ resp4b:
 	&resp4c
 	
 resp4c:
-	*setspeaker cat_cello*
-	*setcamroot cat_singer setpos -5.506348 -94.521362 87.040466;setang 18.527 54.581 0.000*
-	#*setcam setpos -1564.555542 3152.012207 87.040466;setang 18.527466 -35.418659 0.000000*
-	*setanim cat_cello gesture_laugh .85 idle*
+	*BLOCKSTART*
+		*setspeaker cat_cello*
+		*setcamroot cat_singer setpos -5.506348 -94.521362 87.040466;setang 18.527 54.581 0.000*
+		#*setcam setpos -1564.555542 3152.012207 87.040466;setang 18.527466 -35.418659 0.000000*
+		*setanim cat_cello gesture_laugh .85 idle*
+	*BLOCKEND*
 	l%m%a%o
 	&resp4d
 	
 resp4d:
-	*setspeaker cat_piano*
-	*setanim cat_piano gesture_facepalm 1 idle*
-	*PIANO_BLINK*
+	*BLOCKSTART*
+		*setspeaker cat_piano*
+		*setanim cat_piano gesture_facepalm 1 idle*
+		*PIANO_BLINK*
+	*BLOCKEND*
 	We might as well just% dump our chips at this rate.*PIANO_NEUTRAL*
 	&resp4e
 	
 resp4e:
-	*setspeaker cat_cello*
-	*CELLO_MAD*
-	*setanim cat_cello gesture_shrug 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_cello*
+		*CELLO_MAD*
+		*setanim cat_cello gesture_shrug 1 idle*
+	*BLOCKEND*
 	oh like any of this money means a damn thing you whiny baby%%%*CELLO_NEUTRAL* 
 	you're just mad we got decks you can't count cards on anymore
 	&resp4f
 	
 resp4f:
-	*setspeaker cat_piano*
-	*PIANO_ANGRY*
-	*setcamroot cat_piano setpos 147.983643 -91.339355 86.646301;setang 8.891 150.624 0.000*
-	#*setcam setpos -1495.497559 3173.718506 86.646301;setang 8.891073 -59.375931 0.000000*
-	*setanim cat_piano gesture_anger 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_piano*
+		*PIANO_ANGRY*
+		*setcamroot cat_piano setpos 147.983643 -91.339355 86.646301;setang 8.891 150.624 0.000*
+		#*setcam setpos -1495.497559 3173.718506 86.646301;setang 8.891073 -59.375931 0.000000*
+		*setanim cat_piano gesture_anger 1 idle*
+	*BLOCKEND*
 	Because you were all jealous of me being better at it!%*PIANO_NEUTRAL*%%% 
 	Next you're going to ban me from remembering how probability works!
 	&resp4g
 
 resp4g:
-	*setspeaker cat_bar*
-	*setanim cat_bar gesture_sigh 1 idle*
-	*BAR_BLINK*
+	*BLOCKSTART*
+		*setspeaker cat_bar*
+		*setanim cat_bar gesture_sigh 1 idle*
+		*BAR_BLINK*
+	*BLOCKEND*
 	Clearly,%% that's no impediment to success.*BAR_NEUTRAL*
 	&resp4h
 	
@@ -329,11 +391,13 @@ resp4i:
 	
 ###### BRANCH 5
 resp5a:
-	*setspeaker cat_cello*
-	*CELLO_MAD*
-	*setcamroot player setpos 72.250000 51.867188 49.034027;setang 2.379 -156.118 0.000*
-	#*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
-	*setanim cat_cello gesture_disagree 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_cello*
+		*CELLO_MAD*
+		*setcamroot player setpos 72.250000 51.867188 49.034027;setang 2.379 -156.118 0.000*
+		#*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
+		*setanim cat_cello gesture_disagree 1 idle*
+	*BLOCKEND*
 	coward.%%%*CELLO_NEUTRAL* double down% fuck me up socrates
 	&resp5b
 	
@@ -348,66 +412,82 @@ resp5c:
 	&resp5d
 	
 resp5d:
-	*setspeaker cat_cello*
-	*CELLO_MAD*
-	*setanim cat_cello gesture_anger 2 idle*
+	*BLOCKSTART*
+		*setspeaker cat_cello*
+		*CELLO_MAD*
+		*setanim cat_cello gesture_anger 2 idle*
+	*BLOCKEND*
 	FUCK
 	&resp5e
 	
 resp5e:
-	*PIANO_SMIRK*
-	*setspeaker cat_piano*
-	*setcamroot cat_singer setpos -24.009033 109.847046 99.880249;setang 26.460 -44.498 0.000*
-	#*setcam setpos -1360.187134 3170.514893 99.880249;setang 26.460207 -134.498184 0.000000*
-	*setanim cat_piano gesture_laugh 1 idle*
+	*BLOCKSTART*
+		*PIANO_SMIRK*
+		*setspeaker cat_piano*
+		*setcamroot cat_singer setpos -24.009033 109.847046 99.880249;setang 26.460 -44.498 0.000*
+		#*setcam setpos -1360.187134 3170.514893 99.880249;setang 26.460207 -134.498184 0.000000*
+		*setanim cat_piano gesture_laugh 1 idle*
+	*BLOCKEND*
 	Haaaaaaaa%%%% eat it,% shitlord!
 	&resp5f
 	
 resp5f:
-	*setspeaker cat_cello*
-	*setanim cat_cello gesture_disagree 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_cello*
+		*setanim cat_cello gesture_disagree 1 idle*
+	*BLOCKEND*
 	this means% literally nothing
 	&resp5g
 	
 resp5g:
-	*setspeaker cat_piano*
-	*setanim cat_piano gesture_jab 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_piano*
+		*setanim cat_piano gesture_jab 1 idle*
+	*BLOCKEND*
 	Means you suck ass at blackjack.
 	&resp5h
 	
 resp5h:
-	*setspeaker cat_bar*
-	*BAR_HAPPY*
-	*setanim cat_bar gesture_confused 1 idle*
-	*setcamroot cat_piano setpos 84.244873 -75.331665 63.884083;setang 4.685 130.978 0.000*
-	#*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
+	*BLOCKSTART*
+		*setspeaker cat_bar*
+		*BAR_HAPPY*
+		*setanim cat_bar gesture_confused 1 idle*
+		*setcamroot cat_piano setpos 84.244873 -75.331665 63.884083;setang 4.685 130.978 0.000*
+		#*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
+	*BLOCKEND*
 	It does,% I'm sad to say.%%%%*BAR_NEUTRAL* We didn't even see the second card,% 
 	why did you double down at 15?
 	&resp5i
 	
 resp5i:
-	*setspeaker cat_cello*
-	*CELLO_GRIN*
-	*setcamroot cat_bar setpos 145.960938 -32.381958 45.466812;setang -2.769 165.064 0.000*
-	#*setcam setpos -1463.405396 3151.398438 45.466812;setang -2.768539 -89.936363 0.000000*
-	*setanim cat_cello gesture_laugh 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_cello*
+		*CELLO_GRIN*
+		*setcamroot cat_bar setpos 145.960938 -32.381958 45.466812;setang -2.769 165.064 0.000*
+		#*setcam setpos -1463.405396 3151.398438 45.466812;setang -2.768539 -89.936363 0.000000*
+		*setanim cat_cello gesture_laugh 1 idle*
+	*BLOCKEND*
 	it's cute that you still ask me why I do anything
 	&resp5j
 	
 resp5j:
-	*setspeaker cat_bar*
-	*BAR_BLINK*
-	*setanim cat_bar gesture_shrug 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_bar*
+		*BAR_BLINK*
+		*setanim cat_bar gesture_shrug 1 idle*
+	*BLOCKEND*
 	Futility itself,% I know.%%*BAR_NEUTRAL* Old habits die hard.
 	&merge2a
 	
 ###### BRANCH 6
 resp6a:
-	*setspeaker cat_bar*
-	*BAR_NEUTRAL*
-	*setcamroot cat_piano setpos 84.244873 -75.331665 63.884083;setang 4.685 130.978 0.000*
-	#*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
-	*setanim cat_bar gesture_confused 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_bar*
+		*BAR_NEUTRAL*
+		*setcamroot cat_piano setpos 84.244873 -75.331665 63.884083;setang 4.685 130.978 0.000*
+		#*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
+		*setanim cat_bar gesture_confused 1 idle*
+	*BLOCKEND*
 	Hit your limit?%%%% It's rare to have anyone else with self-control at this table.%%%% 
 	Take care,% and stop by the bar sometime.
 	&exit
@@ -415,52 +495,64 @@ resp6a:
 ###### MERGE 2
 
 merge2a:
-	*hide*
-	*txout*
-	*wait .15*
-	*show narrator*
+	*BLOCKSTART*
+		*hide*
+		*txout*
+		*wait .15*
+		*show narrator*
+	*BLOCKEND*
 	> More time passes%.%.%.
 	&merge2b
 	
 merge2b:
-	*hide*
-	*setcamroot cat_singer -18.221436 148.540894 181.018219;setang 40.542 -63.762 0.000*
-	#*setcam setpos -1321.493286 3164.727295 181.018219;setang 40.542229 -153.761688 0.000000*
-	*txin*
-	*wait .15*
-	*show*
+	*BLOCKSTART*
+		*hide*
+		*setcamroot cat_singer -18.221436 148.540894 181.018219;setang 40.542 -63.762 0.000*
+		#*setcam setpos -1321.493286 3164.727295 181.018219;setang 40.542229 -153.761688 0.000000*
+		*txin*
+		*wait .15*
+		*show*
+	*BLOCKEND*
 	> The Bartender has a gigantic mountain of chips.%%% 
 	Everyone else has none.
 	&merge2c
 	
 merge2c:
-	*CELLO_MAD*
-	*setanim cat_cello gesture_sigh 1 idle*
-	*setspeaker cat_cello*
+	*BLOCKSTART*
+		*CELLO_MAD*
+		*setanim cat_cello gesture_sigh 1 idle*
+		*setspeaker cat_cello*
+	*BLOCKEND*
 	EVERY% GOD% DAMN% TIME%
 	&merge2d
 	
 merge2d:
-	*PIANO_NEUTRAL*
-	*setanim cat_piano gesture_confused 1 idle*
-	*setspeaker cat_piano*
+	*BLOCKSTART*
+		*PIANO_NEUTRAL*
+		*setanim cat_piano gesture_confused 1 idle*
+		*setspeaker cat_piano*
+	*BLOCKEND*
 	I don't know what you expected.%%% 
 	There's not a lot of people that can pull one over her.%%*setanim cat_piano gesture_shrug 1 idle* 
 	Well,% living people at least.
 	&merge2e
 	
 merge2e:
-	*setspeaker cat_cello*
-	*CELLO_NEUTRAL*
-	*setcamroot player setpos 72.250000 51.867188 49.034027;setang 2.379 -156.118 0.000*
-	#*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
-	*setanim cat_cello gesture_clap 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_cello*
+		*CELLO_NEUTRAL*
+		*setcamroot player setpos 72.250000 51.867188 49.034027;setang 2.379 -156.118 0.000*
+		#*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
+		*setanim cat_cello gesture_clap 1 idle*
+	*BLOCKEND*
 	yeah i bet lincoln could fuck her up in chess or something
 	&merge2f
 	
 merge2f:
-	*setspeaker cat_bar*
-	*setanim cat_bar gesture_foldarms 1 idle*
+	*BLOCKSTART*
+		*setspeaker cat_bar*
+		*setanim cat_bar gesture_foldarms 1 idle*
+	*BLOCKEND*
 	#*setcamroot cat_singer*
 	#That's likelier than you think.%*setcam setpos -1360.187134 3170.514893 99.880249;setang 26.460207 -134.498184 0.000000* Chess and I don't get along.%% 
 	That's likelier than you think.%*setcamroot cat_singer setpos -24.009033 109.847046 99.880249;setang 26.460 -44.498 0.00* Chess and I don't get along.%% 
@@ -473,18 +565,22 @@ merge2g:
 	&merge2h
 	
 merge2h:
-	*setspeaker cat_cello*
-	*setanim cat_cello gesture_facepalm 1 idle*
-	*CELLO_BLINK*
+	*BLOCKSTART*
+		*setspeaker cat_cello*
+		*setanim cat_cello gesture_facepalm 1 idle*
+		*CELLO_BLINK*
+	*BLOCKEND*
 	please.%%%%*CELLO_MAD* do not do this to me.% if i have to hear you talk 
 	about the deepest lore of Go *slam one*% *slam more*% *slam time*%% i am going to 
 	have another aneurysm
 	&merge2i
 	
 merge2i:
-	narratewithview(cat_bar)
-	*BAR_HAPPY*
-	*setanim cat_bar gesture_laugh 1 idle*
+	*BLOCKSTART*
+		narratewithview(cat_bar)
+		*BAR_HAPPY*
+		*setanim cat_bar gesture_laugh 1 idle*
+	*BLOCKEND*
 	> The Bartender laughs.
 	&merge2j
 	
