@@ -1,3 +1,18 @@
+//ensures our bones don't get optimized out
+$bonemerge	"rig_cat:j_head"
+$bonemerge	"rig_cat:j_l_wrist"
+$bonemerge	"rig_cat:j_r_wrist"
+$bonemerge	"rig_cat:j_l_foot"
+$bonemerge	"rig_cat:j_r_foot"
+$bonemerge	"rig_cat:j_tail_05"
+
+$Sequence "ref" {
+	"cat_start.dmx"
+	fps 24
+	loop
+	addlayer head_yaw
+}
+
 $Sequence "idle" {
 	"cat_anims\idle.smd"
 	activity "ACT_IDLE" -1
