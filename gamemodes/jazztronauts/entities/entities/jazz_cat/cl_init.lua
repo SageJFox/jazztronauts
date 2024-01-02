@@ -11,12 +11,16 @@ ENT.HeadLookRange = math.cos(math.rad(80))
 ENT.HeadLookExtra = math.cos(math.rad(81))
 ENT.HeadLooking = false
 ENT.LastChatFadeUpdate = 0
+ENT.UpsideDown = false
 
 ENT.ChatFade = 0
 ENT.AttentionMarker = Material("materials/ui/jazztronauts/yes.png", "smooth")
 ENT.QuestionMarker = Material("materials/ui/jazztronauts/question.png", "smooth")
 ENT.ChatMarker = Material("materials/ui/jazztronauts/catchat.png", "smooth")
 ENT.StoreMarker = Material("materials/ui/jazztronauts/catcoin.png", "smooth")
+
+local SF_NOHEADTRACK = 1
+local SF_PHYSICSLUL = 2
 
 function ENT:Initialize()
 	self:SetupChatTables()
@@ -35,6 +39,9 @@ function ENT:Initialize()
 	worldmarker.Update(self, markerpos)
 
 	worldmarker.SetEnabled(false)
+	timer.Simple(0,function()
+		if IsValid(self) and self:GetSequence() == self:LookupSequence("pose_hangingout") then self.UpsideDown = true end
+	end)
 end
 
 function ENT:OnMouseClicked(ply, key)
@@ -117,7 +124,7 @@ function ENT:UpdateWorldMarker()
 end
 
 function ENT:UpdateHeadFollow()
-
+	
 	local bone = self:LookupBone(self.HeadLookBone)
 	if not bone then return end
 
@@ -131,7 +138,7 @@ function ENT:UpdateHeadFollow()
 	if withinRange then
 		local lookAng = (mat:GetTranslation() - LocalPlayer():EyePos()):Angle()
 		lookAng:RotateAroundAxis(lookAng:Up(), 90)
-		lookAng:RotateAroundAxis(lookAng:Right(), 90)
+		lookAng:RotateAroundAxis(lookAng:Right(), (self.UpsideDown and -90 or 90))
 
 		 --compare to HeadLookExtra if we're currently looking at player, to prevent things like idle breathing repeatedly putting us into/out of range in edge cases
 		self.HeadLooking = mat:GetRight():Dot(lookAng:Right()) > (self.HeadLooking and self.HeadLookExtra or self.HeadLookRange)
@@ -176,7 +183,7 @@ function ENT:Draw()
 
 	self:DrawShadow(true)
 
-	if self.NoFollowPlayer then
+	if self.NoFollowPlayer or self:HasSpawnFlags(SF_NOHEADTRACK) then
 		self:DrawModel()
 	else
 		self:DrawModelFollow()

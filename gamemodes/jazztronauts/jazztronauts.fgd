@@ -131,6 +131,11 @@
 
 	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
 	DefaultAnim(string) : "Idle Animation" : : "Overrides the default idle animation"
+	spawnflags(flags) =
+	[
+		1 : "Disable Head Tracking"   : 0
+		2 : "Enable Physics (lul)"    : 0
+	]
 ]
 
 @PointClass base(Targetname, Angles) studioprop("models/props_combine/combine_interface001.mdl") = jazz_bus_selector : "Custom Workshop ID Loader" []

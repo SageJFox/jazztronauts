@@ -174,7 +174,10 @@ local function CompileBlockExec(datasrc)
 				--and I doubt anyone's gonna wanna slam "0.000" down anyway, but.
 			scope = string.gsub(scope,"%.0+%s+"," ") --remove trailing decimal zeros (space after)
 			scope = string.gsub(scope,"%.0+%-%->","-->") --remove trailing decimal zeros (block arrow after)
+			scope = string.gsub(scope,"%.0+%*","*") --remove trailing decimal zeros (asterisk after)
 			scope = string.gsub(scope,"%s*%-%->%s*","-->") --remove unneeded spaces from block arrow
+			scope = string.gsub(scope,"%s*setpos%s*"," ") --remove setpos and setang
+			scope = string.gsub(scope,"%s*setang%s*"," ") --(Honestly, go fuck yourself if you're using these as prop names. Who are you, the Riddler?)
 
 			--print("SCOPE POST:")
 			--print(scope)

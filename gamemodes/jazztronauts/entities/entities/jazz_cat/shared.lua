@@ -79,6 +79,16 @@ function ENT:AdjustBounds()
 		return mins, maxs
 	end
 
+	--squish and stretch if we're napping
+	adjustments["pose_napping"] = function(mins, maxs)
+		mins.x = mins.x * 0.5
+		--maxs.x = maxs.x * 3.5
+		mins.y = mins.y * 1.75
+		--maxs.y = maxs.y * 1.125
+		maxs.z = maxs.z * 0.25
+		return mins, maxs
+	end
+
 	--squish and stretch if we're relaxed
 	adjustments["pose_relax"] = function(mins, maxs)
 		mins.x = mins.x * 0.625

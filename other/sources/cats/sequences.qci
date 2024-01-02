@@ -248,6 +248,14 @@ $Sequence "flipshit" {
 	loop
 }
 
+//note on export. SFM's weird about the root bone, so open the dmx, find "0.5 0.5 0.5 -0.5" and replace it with "0.0 0.0 0.5 -0.5"
+$Sequence "pose_napping" {
+	"cat_anims\pose_napping.dmx"
+	fps 24
+	loop
+	addlayer head_yaw
+}
+
 /*$animation "ears_base" "cat_anims\ears_base.smd"
 $animation "ears_back_a" "cat_anims\ears_back.smd" subtract "ears_base" 0
 $animation "ears_up_a" "cat_anims\ears_up.smd" subtract "ears_base" 0

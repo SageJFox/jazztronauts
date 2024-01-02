@@ -7,6 +7,10 @@ include("sh_chatmenu.lua")
 
 util.AddNetworkString("JazzRequestChatStart")
 
+local SF_NOHEADTRACK = 1
+local SF_PHYSICSLUL = 2
+
+
 local outputs =
 {
 	"OnPicked",
@@ -22,7 +26,7 @@ local updateCollision = function(self)
 	maxs:Rotate(self:GetAngles())
 	self:PhysicsInitBox(mins, maxs)
 
-	self:SetMoveType(MOVETYPE_NONE)
+	self:SetMoveType(self:HasSpawnFlags(SF_PHYSICSLUL) and MOVETYPE_VPHYSICS or MOVETYPE_NONE)
 	self:SetSolid(SOLID_BBOX)
 end
 
