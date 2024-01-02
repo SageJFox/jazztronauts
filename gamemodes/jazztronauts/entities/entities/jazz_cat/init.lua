@@ -7,6 +7,8 @@ include("sh_chatmenu.lua")
 
 util.AddNetworkString("JazzRequestChatStart")
 
+ENT.Multiplier = 1
+
 local SF_NOHEADTRACK = 1
 local SF_PHYSICSLUL = 2
 
@@ -67,6 +69,10 @@ function ENT:KeyValue( key, value )
 	if key == "skin" then
 		self:SetSkin(tonumber(value))
 	end
+
+	if key == "multiplier" then
+		self.Multiplier = tonumber(value) or 1
+	end
 end
 
 
@@ -117,10 +123,13 @@ hook.Add("InitPostEntity", "JazzPlaceSingleCat", function()
 	-- Sort into distinct lists based on each cat id
 	for _, v in pairs(cats) do
 		NPCS[v.NPCID] = NPCS[v.NPCID] or {}
-		table.insert(NPCS[v.NPCID], v)
+		local count = v.Multiplier or 1
+		for i = 1, count do
+			table.insert(NPCS[v.NPCID], v)
+		end
 	end
 
-	-- Select a random only to keep, destroy the rest
+	-- Select a random one to keep, destroy the rest
 	for id, npcs in pairs(NPCS) do
 		local survivor = table.Random(npcs)
 

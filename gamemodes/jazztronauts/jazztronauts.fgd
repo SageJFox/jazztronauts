@@ -131,6 +131,8 @@
 
 	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
 	DefaultAnim(string) : "Idle Animation" : : "Overrides the default idle animation"
+	multiplier(integer) : "Chance Multiplier" : 1 : "How many chances this spawn has to be picked. Higher values are more likely."
+	
 	spawnflags(flags) =
 	[
 		1 : "Disable Head Tracking"   : 0
