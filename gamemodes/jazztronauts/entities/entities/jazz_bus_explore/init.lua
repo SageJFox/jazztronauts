@@ -329,7 +329,7 @@ function ENT:QueueTimedMusic()
 	local startTime = estHitTime - self.VoidMusicPreroll
 	self.ChangelevelTime = CurTime() + estHitTime + self.VoidMusicFadeEnd
 
-	if IsValid(self.RadioMusic) then self.RadioMusic:FadeOut(startTime) end
+	if self.RadioMusic then self.RadioMusic:FadeOut(startTime) end
 
 	local bshard = ents.FindByClass("jazz_shard_black")[1]
 	local isCorrupted = IsValid(bshard) and bshard:GetStartSuckTime() > 0
@@ -432,7 +432,7 @@ function ENT:Think()
 
 			self.BrakeSound:FadeOut(0.2)
 
-			if IsValid(self.RadioMusic) then self.RadioMusic:Play() end
+			if self.RadioMusic then self.RadioMusic:Play() end
 		end
 	end
 
@@ -473,6 +473,6 @@ function ENT:OnRemove()
 		if IsValid(v) then v:Remove() end
 	end
 
-	if IsValid(self.RadioMusic) then self.RadioMusic:Stop() end
+	if self.RadioMusic then self.RadioMusic:Stop() end
 	if IsValid(self.Radio) then self.Radio:Remove() end
 end
