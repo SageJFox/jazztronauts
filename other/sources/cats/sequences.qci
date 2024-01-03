@@ -1,3 +1,5 @@
+$illumposition 0 0 4
+
 //ensures our bones don't get optimized out
 $bonemerge	"rig_cat:j_head"
 $bonemerge	"rig_cat:j_l_wrist"
