@@ -18,6 +18,10 @@ if SERVER then
 		self:PhysicsInit(SOLID_VPHYSICS)
 		self:SetMoveType(MOVETYPE_NONE)
 
+		if IsValid(phys) then
+			phys:EnableMotion(false)
+		end
+
 		self:SetSequence(self:LookupSequence("Fill_Tank"))
 
 		self:SetCollectedShards(progress.GetMapShardCount())

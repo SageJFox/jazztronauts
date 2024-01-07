@@ -73,7 +73,7 @@ function YieldPer( x, ... )
 	if g_task ~= nil then
 		g_task.count = g_task.count + 1
 		if (g_task.count-1) % x > g_task.count % x then
-			local inf = debug.getinfo( 2 )
+			local inf = debug.getinfo( 2, "l" )
 			g_task.currentline = inf.currentline
 			return coroutine.yield( ... )
 		end
@@ -84,7 +84,7 @@ end
 function Yield( ... )
 
 	if g_task ~= nil then
-		local inf = debug.getinfo( 2 )
+		local inf = debug.getinfo( 2, "l" )
 		g_task.currentline = inf.currentline
 		return coroutine.yield( ... )
 	end
@@ -94,7 +94,7 @@ end
 function Sleep( seconds, ... )
 
 	if g_task ~= nil then
-		local inf = debug.getinfo( 2 )
+		local inf = debug.getinfo( 2, "l" )
 		g_task.currentline = inf.currentline
 		g_task.sleep = SysTime() + seconds
 		return coroutine.yield( ... )
@@ -110,7 +110,7 @@ function Await( other, ... )
 		for _, w in pairs(other.waiters) do
 			if w == g_task then ErrorNoHalt("Already waiting on task") return end
 		end
-		local inf = debug.getinfo( 2 )
+		local inf = debug.getinfo( 2, "l" )
 		g_task.currentline = inf.currentline
 		g_task.sleep = SysTime() + 999999 --basically forever ok?
 		g_task.waitcount = ( g_task.waitcount or 0 ) + 1

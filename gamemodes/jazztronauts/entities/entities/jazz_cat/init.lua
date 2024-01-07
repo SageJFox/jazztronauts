@@ -23,13 +23,11 @@ local updateCollision = function(self)
 	-- The cats don't actually have a physics model so just make a box around em
 	local mins, maxs = self:AdjustBounds()
 
-	self:SetCollisionBounds(mins, maxs)
-	mins:Rotate(self:GetAngles())
-	maxs:Rotate(self:GetAngles())
-	self:PhysicsInitBox(mins, maxs)
+	self:PhysicsInitBox(mins, maxs, "watermelon")
 
-	self:SetMoveType(self:HasSpawnFlags(SF_PHYSICSLUL) and MOVETYPE_VPHYSICS or MOVETYPE_NONE)
-	self:SetSolid(SOLID_BBOX)
+	if not self:HasSpawnFlags(SF_PHYSICSLUL) then 
+		self:SetMoveType(MOVETYPE_NONE)
+	end
 end
 
 function ENT:Initialize()
@@ -44,7 +42,12 @@ function ENT:Initialize()
 
 	local phys = self:GetPhysicsObject()
 	if IsValid(phys) then
-		phys:EnableMotion(false)
+		phys:SetMass(69)
+		if not self:HasSpawnFlags(SF_PHYSICSLUL) then
+			phys:EnableMotion(false)
+		else
+			phys:Wake()
+		end
 	end
 
 	self:SetNPCID(self.NPCID)

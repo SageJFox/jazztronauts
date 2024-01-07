@@ -139,6 +139,23 @@ local function CompileBlockExec(datasrc)
 
 		end
 	end
+
+	--[[local oldcount = #data--]]
+	--a little cleanup. This is to help shorten our string where we can
+	--todo maybe: this would technically affect any text as well.
+	--I doubt anyone's gonna wanna say "0.000" or "   setpos   ", but.
+	data = string.gsub(data,"%.0+%s+"," ") --remove trailing decimal zeros (space after)
+	data = string.gsub(data,"%.0+%*","*") --remove trailing decimal zeros (asterisk after)
+	data = string.gsub(data,"%.0+%-%->","-->") --remove trailing decimal zeros (block arrow after)
+	data = string.gsub(data,"%s*%-%->%s*","-->") --remove unneeded spaces from block arrow
+	data = string.gsub(data,"%s*setpos%s*"," ") --remove setpos and setang
+	data = string.gsub(data,"%s*setang%s*"," ") --(Honestly, go fuck yourself if you're using these as prop names. Who are you, the Riddler?)
+
+	--[[local newcount = #data
+	if newcount < 100 then print("New data:\n",data) end
+	local percent = oldcount ~= 0 and newcount * 100 / oldcount or 99999
+	local goodcolor, badcolor = Color(64,255,64,255), Color(255,64,64,255)
+	MsgC("Compressing script data: "..tostring(newcount).."/"..tostring(oldcount),percent < 100 and goodcolor or badcolor,"\t("..string.sub(percent,1,5).."%)\n")--]]
 	
 	--now for processing
 	local patstart, patmeat, patend = "BLOCKSTART","%*%s*%*","BLOCKEND" --our pattern filters
@@ -168,16 +185,6 @@ local function CompileBlockExec(datasrc)
 			end
 			scope = string.Replace(scope,"-->block","-->")
 
-			--a little more cleanup. This is to help shorten our string where we can
-			--todo maybe: this would technically affect any text inside of a *slam* command.
-				--I don't really think slams should be used in blocks,
-				--and I doubt anyone's gonna wanna slam "0.000" down anyway, but.
-			scope = string.gsub(scope,"%.0+%s+"," ") --remove trailing decimal zeros (space after)
-			scope = string.gsub(scope,"%.0+%-%->","-->") --remove trailing decimal zeros (block arrow after)
-			scope = string.gsub(scope,"%.0+%*","*") --remove trailing decimal zeros (asterisk after)
-			scope = string.gsub(scope,"%s*%-%->%s*","-->") --remove unneeded spaces from block arrow
-			scope = string.gsub(scope,"%s*setpos%s*"," ") --remove setpos and setang
-			scope = string.gsub(scope,"%s*setang%s*"," ") --(Honestly, go fuck yourself if you're using these as prop names. Who are you, the Riddler?)
 
 			--print("SCOPE POST:")
 			--print(scope)

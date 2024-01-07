@@ -1,3 +1,4 @@
+HIDE_MOUSE = true
 
 begin:
 	Hi, I have no idle scripts%%
