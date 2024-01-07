@@ -51,6 +51,7 @@ b2:
 		*setcamroot cat_singer setpos 43.415771 54.674316 41.160172;setang 7.223 -115.248 0.000* ###### SINGER ONLY
 		#*setcam setpos -2858.146484 2807.789307 41.191422;setang 7.223329 -15.247751 0.000000* ###### SINGER ONLY
 		*SINGER_FLUSTERED*
+		*setlook cat_singer -50*
 	*BLOCKEND*
 	> They seem very interested in the floor suddenly.
 	player:
@@ -60,6 +61,7 @@ b2:
 				*setoffset player setpos 51.542480 -79.505615 0.000000;setang -0.000 50.000 0.000*
 				*setlook player -5*
 				*setcamroot player setpos 149.772949 -37.619263 45.063198;setang -0.124 137.089 0.000*
+				*setlook cat_singer*
 				#*setcam setpos -2852.954102 2775.367432 45.094448;setang -0.123793 97.088692 0.000000*
 			*BLOCKEND*
 			If you don't want me to see it,% that's cool.%%%
@@ -70,6 +72,7 @@ b2:
 				*setoffset player setpos 51.542480 -79.505615 0.000000;setang -0.000 50.000 0.000*
 				*setlook player -5*
 				*setcamroot player setpos 149.772949 -37.619263 45.063198;setang -0.124 137.089 0.000*
+				*setlook cat_singer*
 				#*setcam setpos -2852.954102 2775.367432 45.094448;setang -0.123793 97.088692 0.000000*
 			*BLOCKEND*
 			Oh shit was that a brontosaurus? 
@@ -80,6 +83,7 @@ b2:
 				*setoffset player setpos 51.542480 -79.505615 0.000000;setang -0.000 50.000 0.000*
 				*setlook player -5*
 				*setcamroot player setpos 149.772949 -37.619263 45.063198;setang -0.124 137.089 0.000*
+				*setlook cat_singer*
 				#*setcam setpos -2852.954102 2775.367432 45.094448;setang -0.123793 97.088692 0.000000*
 			*BLOCKEND*
 			It's okay,%% I'm not gonna give you shit or anything.
@@ -219,8 +223,7 @@ r3a5:
 		narratesinger()
 	*BLOCKEND*
 	> The Singer stares off into the distance for a moment 
-	and then*setanim cat_singer gesture_disagree 2 idle* visibly snaps themselves*SINGER_HAPPY* out of it*setcamroot cat_singer setpos 43.415771 54.674316 41.160172;setang 7.223 -115.248 0.000* #*setcam setpos -2858.146484 2807.789307 41.191422;setang 7.223329 -15.247751 0.000000* ###### SINGER ONLY 
-	to smile at you.
+	and then*setanim cat_singer gesture_disagree 2 idle* visibly snaps themselves*SINGER_HAPPY* out of it*setcamroot cat_singer 43.415771 54.674316 41.160172;7.223 -115.248 0* to smile at you. #*setcam setpos -2858.146484 2807.789307 41.191422;setang 7.223329 -15.247751 0.000000* ###### SINGER ONLY
 	&r3a5b
 	
 r3a5b:
@@ -269,10 +272,14 @@ end:
 		*zsnap 64 LAYER_ABOVE*	#BIG TODO - get locale entities going for this instead!
 		*setlayer cat_singer LAYER_ABOVE*
 		#*setposang cat_singer setpos -2740.499756 3096.201172 180;setang -90 90 0.000000*
-		*setoffset cat_singer setpos -144.201172 123.500244 0;setang 0.000 -90.000 0.000*
-		*setcamroot cat_singer setpos -171.638428 -1.216797 31.555511;setang 16.966 20.516 0.000*
+		#*setoffset cat_singer setpos -144.201172 123.500244 0;setang 0.000 -90.000 0.000*
+		#*setcamroot cat_singer setpos -171.638428 -1.216797 31.555511;setang 16.966 20.516 0.000*
 		#*setcam setpos -2568.861328 3097.417969 211.555511;setang 16.966259 -159.484085 0.000000*
-		*setanim cat_singer pose_passedout*
+		#*setanim cat_singer pose_passedout*
+		*setoffset cat_singer setpos -144.201172 123.500244 0;setang 0 105 0*
+		*setcamroot cat_singer setpos 166.104980 -43.248047 30.839844;setang 16.966 -174.484 0.000*
+		#*setcam setpos -2568.861328 3097.417969 211.555511;setang 16.966259 -159.484085 0.000000*
+		*setanim cat_singer pose_napping*
 		*SINGER_BLINK*
 		*setspeaker narrator*
 	*BLOCKEND*

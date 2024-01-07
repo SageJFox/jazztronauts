@@ -42,7 +42,7 @@ r1a1:
 ###### BRANCH 2	
 r2a1:
 	*BLOCKSTART*
-		*setspeaker cat_piano*
+		narratewithview(cat_piano)
 		*setanim cat_piano gesture_laugh 1 idle*
 		*PIANO_SMIRK*
 	*BLOCKEND*
@@ -52,6 +52,7 @@ r2a1:
 	
 r2a2:
 	*BLOCKSTART*
+		*setspeaker cat_piano*
 		*PIANO_SMIRK*
 		*setanim cat_piano gesture_agree 1 idle*
 	*BLOCKEND*

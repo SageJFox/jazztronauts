@@ -158,8 +158,8 @@ r3a1:
 		*setanim cat_piano gesture_clap 1 idle*
 	*BLOCKEND*
 	> The Pianist and Bartender clap their hands together.*PIANO_FLUSTERED* 
-	The Pianist looks*setanim cat_piano gesture_embarass 1 idle* embarrassed and
-	seems to be pretending she did that to kill a bug.%%%
+	The Pianist looks*setanim cat_piano gesture_embarass 1 idle* embarrassed and seems to be pretending 
+	she did that to kill a bug.%%%
 	You let her think it worked.
 	&r3a2
 	
@@ -341,7 +341,10 @@ r3a18:
 		narratewithview(cat_piano)
 	*BLOCKEND*
 	> As soon as the song is over the Pianist hurls the recorder
-	across the room and storms out!
+	across the room and storms out!*BLOCKSTART*
+		*setspeaker narrator*
+		*remove cat_piano*
+	*BLOCKEND*
 	
 	player:
 		&m1:
@@ -387,8 +390,7 @@ m3:
 		*setanim cat_cello gesture_jab 2.5 idle*
 	*BLOCKEND*
 	oh of course %you% liked it%%% you're a supportive friend%% which means as 
-	much as having your first*setanim cat_cello gesture_sigh 1 idle* ever crayon scribble hung 
-	up on the fridge
+	much as having your first*setanim cat_cello gesture_sigh 1 idle* ever crayon scribble hung up on the fridge
 	&m4
 	
 m4:
