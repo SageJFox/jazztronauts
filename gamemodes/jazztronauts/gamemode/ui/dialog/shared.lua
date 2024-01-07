@@ -227,7 +227,7 @@ end
 local function ParseLine(script, line)
 
 	-- Chop off comments
-	--line = ChopRight(line, "#") --handled upstream now
+	if game.SinglePlayer() then line = ChopRight(line, "#") end --handled upstream now, except in singleplayer
 
 	-- Trim the fat
 	line = line:Trim()
@@ -538,7 +538,7 @@ end
 
 function CompileScripts(sources)
 	-- 1. Compile macros
-	--CompileMacros(sources) --handled upstream
+	if game.SinglePlayer() then CompileMacros(sources) end --handled upstream, except in singleplayer
 
 	-- 2. Compile scripts
 	local compiled = {}
@@ -597,7 +597,7 @@ function LoadScripts()
 
 		-- Get camera overrides and apply them here
 		for _, override in ipairs( ents.FindByClass("jazz_sceneviewoverride") ) do
-			if IsValid(override) then
+			if IsValid(override) and not game.SinglePlayer() then
 				-- first, find the script we're working on
 				local scriptname = string.Explode(".txt$",override:GetScript(),true)[1]..".txt" --let the mapper put .txt on if they want, but don't require it
 				if not ScriptSources[scriptname] then Msg("No script named "..scriptname.." found.") continue end
