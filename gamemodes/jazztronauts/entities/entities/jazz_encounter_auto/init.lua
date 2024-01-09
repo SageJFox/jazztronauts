@@ -1,9 +1,12 @@
 ENT.Type = "point"
 
-local outputs = { "OnMapSpawn" }
+local outputs = { "OnEncounter1", "OnEncounter2", "OnEncounter3", "OnMapSpawn" }
+outputs[0] = "OnNoEncounter"
 
 function ENT:Initialize()
-	self:TriggerOutput("OnMapSpawn", self, mapcontrol.GetNextEncounter())
+	local encounter = mapcontrol.GetNextEncounter() or 0
+	self:TriggerOutput("OnMapSpawn", self, encounter)
+	self:TriggerOutput(outputs[encounter] or "OnNoEncounter", self)
 end
 
 function ENT:KeyValue(key, value)

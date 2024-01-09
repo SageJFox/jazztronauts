@@ -274,7 +274,11 @@
 @PointClass iconsprite("editor/logic_auto.vmt") = jazz_encounter_auto : "Fires outputs when a map spawns, depending on the current state of the encounter cat."
 [
 	// Outputs
-	output OnMapSpawn(integer) : "Fired when map spawns, with the value being which cat encounter to show. 1 is first, 2 is second, 0 is none."
+	// output OnMapSpawn(integer) : "Fired when map spawns, with the value being which cat encounter to show. 1 is first, 2 is second, 3 is third, 0 is none." //legacy
+	output OnNoEncounter(void) : "Fired when map spawns and there is no cat encounter to show."
+	output OnEncounter1(void) : "Fired when map spawns and there is the first cat encounter to show."
+	output OnEncounter2(void) : "Fired when map spawns and there is the second cat encounter to show."
+	output OnEncounter3(void) : "Fired when map spawns and there is the third cat encounter to show."
 ]
 
 @PointClass base(Targetname, Angles) studioprop() = mediaplayer_tv : "Plays media"
