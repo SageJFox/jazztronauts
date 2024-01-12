@@ -9,7 +9,7 @@ VertexlitGeneric
 	{
 		PlayerWeaponColor
 		{
-			resultVar	$color
+			resultVar	$color2
 		}
 	}
 }

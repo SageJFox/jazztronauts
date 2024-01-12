@@ -90,6 +90,14 @@ function SWEP:SwitchWeaponThink()
 		self:PrimaryAttack()
 		print("force attack")
 		self.IgnoreAttackForced = true
+		timer.Simple(0,function()
+			if not IsValid(self) then return end
+			local owner = self:GetOwner()
+			if not IsValid(owner) or not owner:Alive() or (owner:InVehicle() and not owner:GetAllowWeaponsInVehicle()) then
+				self.BeamHum:Stop()
+				self.BeamHum = nil
+			end
+		end)
 	end
 
 end

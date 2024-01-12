@@ -334,3 +334,9 @@ end
 
 function SWEP:Reload() return false end
 function SWEP:CanSecondaryAttack() return false end
+
+function SWEP:GetPlayerColor()
+	local owner = self:GetOwner()
+	if not IsValid(owner) then return nil end
+	return owner:GetPlayerColor()
+end

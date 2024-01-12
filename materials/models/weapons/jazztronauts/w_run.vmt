@@ -13,9 +13,9 @@ VertexlitGeneric
 	
 	Proxies
 	{
-		PlayerWeaponColor
+		PlayerColor
 		{
-			resultVar	$color
+			resultVar	$color2
 		}
 	}
 }

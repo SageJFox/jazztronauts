@@ -373,12 +373,14 @@ end
 local lasermat = Material("effects/laser1.vmt")
 function SWEP:DrawHUD()
 
+	local owner = self:GetOwner()
+	if IsValid(owner) and owner:InVehicle() and not owner:GetAllowWeaponsInVehicle() then return end
+
 	cam.Start3D()
 	cam.IgnoreZ(true)
 
 	local b,e = pcall(function()
 
-		local owner = self:GetOwner()
 		local viewmodel = owner:GetViewModel(0)
 		local hands = LocalPlayer():GetHands()
 		local atpos = nil
