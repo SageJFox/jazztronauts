@@ -1,16 +1,28 @@
 
 // Spook Scapes
 
-"apartment_inside_01"
+"jazzapartment_inside_01"
 {
 	"dsp"	"1"
 
 	"playlooping"
 	{
-		"volume"	"1"
-		"soundlevel" "SNDLVL_70dB"
+		"volume"	"1.0"
+		"soundlevel"	"SNDLVL_70dB"
 		"pitch"		"100"
 		"wave"		"krio/apartment_ambienceloop1.wav"
 	}
+}
 
+"jazzapartment_inside_02"
+{
+	"dsp"	"1"
+
+	"playlooping"
+	{
+		"volume"	"1.0"
+		"soundlevel"	"SNDLVL_70dB"
+		"pitch"		"95"
+		"wave"		"krio/apartment_ambienceloop1.wav"
+	}
 }

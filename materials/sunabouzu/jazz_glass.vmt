@@ -4,7 +4,7 @@
 	"$surfaceprop" "Glass"
 	"%keywords" "jazz"
 	"$envmap" "env_cubemap"
-	"$envmaptint" "[.33 .18 .2]"
+	"$envmaptint" "[1 .54 .6]"
 	"$envmapcontrast"	.25
 	"$envmapsaturation" 1
 	"$additive" 1

@@ -13,12 +13,16 @@ if __name__ == "__main__":
 
     ZipDirectory = pathlib.Path(zip_folder)
     paths = ZipDirectory.rglob("*")
+    firstline = True
 
     for path in list(paths):
         if path.is_file():
+            if not firstline:
+                f.write("\n")
             f.write(str(path.relative_to(zip_folder)).replace("\\", "/"))
             f.write("\n")
             f.write(str(path.resolve()))
+            firstline = False
     
     print("all done")
     f.close()
