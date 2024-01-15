@@ -1,0 +1,5 @@
+"VertexlitGeneric"
+{
+	"$basetexture"	"models/props_bar/jazz_guide"
+	"$nocull"		"1"
+}

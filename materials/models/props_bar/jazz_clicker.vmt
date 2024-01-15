@@ -1,0 +1,9 @@
+"VertexlitGeneric"
+{
+	"$basetexture"			"models/props_bar/jazz_clicker"
+	"$envmap"				"env_cubemap"
+	"$basealphaenvmapmask"	"1"
+	"$envmaptint"			"[.75 .75 .75]"
+	"$envmapcontrast"		"0.25"
+	"$envmapsaturation"		"0.75"
+}
