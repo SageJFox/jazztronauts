@@ -446,10 +446,10 @@ a24:
 
 a25:
 	*setanim cat_bar gesture_sweep 1 idle*
-	You've also been provided with some car keys that act as a beacon 
+	You've also been provided with a special key fob that acts as a beacon 
 	for the trolley's dimensional navigating systems.%%*setanim cat_bar gesture_agree 1 idle* If enough players 
-	target the same spot with them,% it will break into the map from that 
-	spot.%%%*setanim cat_bar gesture_confused 1 idle* I suggest you take care to not stand in its way.
+	target the same spot with them,% it will break into the map from that spot.%%%*setanim cat_bar gesture_confused 1 idle* 
+	I suggest you take care to not stand in its way.
 	&a26
 
 a26:
@@ -468,9 +468,9 @@ a27:
 	*BLOCKEND*
 	#*tweencam 40 setpos 1128.569458 535.177490 59.747105;setang -4.835499 155.988861 0.00000*
 	*tweencamoffset 40 setpos 40.569458 23.177490 59.747105;setang -4.835 155.989 0.000*
-	A little past the depot is the camp you'll be living in,% and the 
-	machine that lets you find new worlds to break into.%%%*setanim cat_piano gesture_disagree 1 idle* Don't worry, 
-	it's pretty simple to operate.
+	A little past the depot is the camp you'll be living in,% 
+	and the machine that lets you find new worlds to break into.%%%*setanim cat_piano gesture_disagree 1 idle* 
+	Don't worry, it's pretty simple to operate.
 	&a28
 
 a28:
@@ -496,6 +496,7 @@ a29:
 
 a30:
 	*BLOCKSTART*
+		*setspeaker cat_bar*
 		*setcamroot cat_bar setpos 68.150635 27.331055 43.865177;setang 6.398 -158.254 0.000* ###### BAR
 		#*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
 		*setanim cat_bar gesture_laugh 1 idle*

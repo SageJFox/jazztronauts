@@ -260,6 +260,7 @@ function CreatePlayerProxy()
 	local ent = ManagedCSEnt("dialog_player_proxy", LocalPlayer():GetModel())
 	ent:SetPos(LocalPlayer():GetPos())
 	ent:SetAngles(LocalPlayer():GetAngles())
+	ent:SetupBones()
 	ent:SetNoDraw(false)
 	ent:SetSkin(LocalPlayer():GetSkin())
 	for bodygroup = 0, #LocalPlayer():GetBodyGroups() do
@@ -702,6 +703,7 @@ local function SceneRootToWorld(name, set)
 	if set then
 		prop:SetPos(tab.pos)
 		prop:SetAngles(tab.ang)
+		prop:SetupBones()
 		--update children
 		for k, v in pairs(sceneRoots) do
 			if v == prop then
@@ -786,6 +788,7 @@ dialog.RegisterFunc("setposang", function(d, name, ...)
 	if posang.ang then
 		prop:SetAngles(posang.ang)
 	end
+	prop:SetupBones()
 	WorldToSceneRoot(name,true)
 	if sceneRoots[prop] and RUN_CONVERSION then
 		if string.find(name,"cat_") then
@@ -882,6 +885,7 @@ net.Receive("dialog_returnlocale", function(len, ply)
 	if IsValid(ent) then
 		ent:SetPos(sceneLocales[locale.."pos"])
 		ent:SetAngles(sceneLocales[locale.."ang"])
+		ent:SetupBones()
 		WorldToSceneRoot(name,true)
 	end
 
@@ -913,6 +917,7 @@ dialog.RegisterFunc("setlocale", function(d, name, ...)
 		if IsValid(ent) then
 			ent:SetPos(sceneLocales[localetest[gotone].."pos"])
 			ent:SetAngles(sceneLocales[localetest[gotone].."ang"])
+			ent:SetupBones()
 			WorldToSceneRoot(name,true)
 		end
 	end
@@ -1624,6 +1629,7 @@ hook.Add("Think", "JazzTickClientsideAnims", function()
 			if newpos and newang then
 				v:SetPos(newpos)
 				v:SetAngles(newang)
+				v:SetupBones()
 				
 				--update children
 				for key, val in pairs(sceneRoots) do

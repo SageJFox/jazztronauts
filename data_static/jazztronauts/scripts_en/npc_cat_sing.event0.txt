@@ -67,7 +67,7 @@ b5:
 	narratesinger()
 	> A pause,% followed by an apparent r*SINGER_FLUSTERED*ealization*setanim cat_singer gesture_shock 1 idle* that this doesn't 
 	ex*SINGER_NEUTRAL*plain anything\:
-	*setspeaker cat_singer*“%*setanim cat_singer gesture_exchange 1.3 idle*%%This is where I archive a copy of everything you steal for us!!!”
+	%*setanim cat_singer gesture_exchange 1.3 idle*%%*setspeaker cat_singer*“This is where I archive a copy of everything you steal for us!!!”
 	player:
 		&r1a1:
 			*setcamroot player setpos 102.132935 10.673828 59.541412;setang -4.090 173.864 0.000*
@@ -117,8 +117,8 @@ r2a2:
 		*SINGER_HAPPY*
 		*setanim cat_singer gesture_laugh 1 idle*
 	*BLOCKEND*
-	> The Singer bounces in place and adds to the last message\: *setspeaker cat_singer*
-	“%%It made her so happy!!!%%%%
+	> The Singer bounces in place and adds to the last message\: 
+	%%*setspeaker cat_singer*“It made her so happy!!!%%%%
 	The others will never*setanim cat_singer gesture_shrug 1 idle* admit it and don't you dare tell them*SINGER_NEUTRAL* I told you
 	but they like it too”
 	&r2a3
@@ -225,7 +225,7 @@ m4:
 		#*setcam setpos 3965.816895 6339.972168 64.046211;setang -0.363447 7.983169 0.000000 fov70*
 		*setanim cat_singer gesture_laugh 1 idle*
 	*BLOCKEND*
-	> The Singer beams at you.*SINGER_HAPPY* *setspeaker cat_singer*“%%Aren't they amazing???” narratesinger()
+	> The Singer beams at you.*SINGER_HAPPY* %%“Aren't they amazing???” 
 	they ask via tablet,%% as you watch one of the NPCs fall 
 	over and continue trying to execute their walk cycle.
 	&m5

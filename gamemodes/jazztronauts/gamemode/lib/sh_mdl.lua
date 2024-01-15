@@ -446,9 +446,9 @@ end
 
 local function LoadMDL( mdl_path, fast )
 
-	print("LOADING MDL: " .. tostring(mdl_path))
+	--print("LOADING MDL: " .. tostring(mdl_path))
 	
-	local t0 = SysTime()
+	--local t0 = SysTime()
 
 	local base = mdl_path:sub(1, -4)
 	local yield_rate = fast and 1000 or 200
@@ -483,7 +483,7 @@ local function LoadMDL( mdl_path, fast )
 
 	f_mdl:Close()
 
-	print("FINISHED LOADING MDL: " .. tostring(mdl_path) .. " (" .. (SysTime() - t0) * 1000 .. " ms)")
+	--print("FINISHED LOADING MDL: " .. tostring(mdl_path) .. " (" .. (SysTime() - t0) * 1000 .. " ms)")
 
 	return {
 		header = header,
@@ -494,9 +494,9 @@ end
 
 local function LoadVTX( mdl_path, fast )
 
-	print("LOADING VTX: " .. tostring(mdl_path))
+	--print("LOADING VTX: " .. tostring(mdl_path))
 
-	local t0 = SysTime()
+	--local t0 = SysTime()
 
 	local yield_rate = fast and 500 or 100
 	local base = mdl_path:sub(1, -4)
@@ -504,11 +504,11 @@ local function LoadVTX( mdl_path, fast )
 	local f_vtx = file.Open( base .. "dx90.vtx", "rb", "GAME" )
 	if not f_vtx then return nil end
 
-	print("***MDL VERSION***: " .. __mdl_version)
+	--print("***MDL VERSION***: " .. __mdl_version)
 
 	init_fast_read(f_vtx)
 	local header = vtx_header()
-	print("FINISHED LOADING VTX: " .. tostring(mdl_path) .. " (" .. (SysTime() - t0) * 1000 .. " ms)")
+	--print("FINISHED LOADING VTX: " .. tostring(mdl_path) .. " (" .. (SysTime() - t0) * 1000 .. " ms)")
 	finish_fast_read(f_vtx)
 
 	return {
@@ -520,7 +520,7 @@ end
 
 local function LoadVVD( mdl_path, fast )
 
-	print("LOADING VVD: " .. tostring(mdl_path))
+	--print("LOADING VVD: " .. tostring(mdl_path))
 
 	local t0 = SysTime()
 
@@ -531,11 +531,11 @@ local function LoadVVD( mdl_path, fast )
 	local f_vvd = file.Open( base .. "vvd", "rb", "GAME" )
 	if not f_vvd then ErrorNoHalt("VVD NOT FOUND: " .. tostring(mdl_path)) return nil end
 
-	local t1 = SysTime()
+	--local t1 = SysTime()
 
 	init_fast_read(f_vvd)
 
-	print("---Read took : " .. (SysTime() - t1) * 1000 .. "ms " .. m_size .. " bytes")
+	--print("---Read took : " .. (SysTime() - t1) * 1000 .. "ms " .. m_size .. " bytes")
 
 	local header = {
 		id = int32(),
@@ -549,15 +549,15 @@ local function LoadVVD( mdl_path, fast )
 		tangentDataStart = int32(),
 	}
 
-	PrintTable(header)
+	--PrintTable(header)
 
 	local fixups = {}
 	local vertices = {}
 	local tangents = {}
 
-	print("LOAD " .. header.numLODVertices[1] .. " verts...")
+	--print("LOAD " .. header.numLODVertices[1] .. " verts...")
 
-	local t1 = SysTime()
+	--local t1 = SysTime()
 
 	seek_data(header.vertexDataStart)
 	for i=1, header.numLODVertices[1] do
@@ -567,11 +567,11 @@ local function LoadVVD( mdl_path, fast )
 
 	end
 
-	print("---Verts took : " .. (SysTime() - t1) * 1000 .. "ms")
+	--print("---Verts took : " .. (SysTime() - t1) * 1000 .. "ms")
 
-	print("LOAD " .. header.numLODVertices[1] .. " tangents...")
+	--print("LOAD " .. header.numLODVertices[1] .. " tangents...")
 
-	local t1 = SysTime()
+	--local t1 = SysTime()
 
 	seek_data(header.tangentDataStart)
 	for i=1, header.numLODVertices[1] do
@@ -581,7 +581,7 @@ local function LoadVVD( mdl_path, fast )
 
 	end
 
-	print("---Tangents took : " .. (SysTime() - t1) * 1000 .. "ms")
+	--print("---Tangents took : " .. (SysTime() - t1) * 1000 .. "ms")
 
 	if header.numFixups > 0 then
 
@@ -613,7 +613,7 @@ local function LoadVVD( mdl_path, fast )
 
 	finish_fast_read(f_vvd)
 
-	print("FINISHED LOADING VVD: " .. tostring(mdl_path) .. " (" .. (SysTime() - t0) * 1000 .. " ms)")
+	--print("FINISHED LOADING VVD: " .. tostring(mdl_path) .. " (" .. (SysTime() - t0) * 1000 .. " ms)")
 
 	return {
 		header = header,
@@ -901,9 +901,9 @@ function MakeExpandedModel( model, material, fast )
 
 end
 
-if CLIENT then
+--[[if CLIENT then
 	local vvd, vtx, mdl = LoadModel( "models/props_sharkbay/boat_hull_v2.mdl" )
-end
+end--]]
 
 --[[local ent = MakeExpandedModel( "models/props_vehicles/truck001a.mdl"  )
 

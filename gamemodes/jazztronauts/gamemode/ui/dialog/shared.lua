@@ -121,7 +121,7 @@ end
 local function CompileBlockExec(datasrc)
 	if not isstring(datasrc) then ErrorNoHaltWithStack("Hey that wasn't the raw data for a script, that was a "..type(datasrc)..".") return datasrc end
 	--first, get comments out
-	local data = string.gsub(datasrc,"#+[%g%s]-\n","\n")
+	local data = string.gsub(datasrc,"#+[^\n]*\n","\n")
 	--get any macros in there done up
 	if table.IsEmpty(ScriptSources) then ErrorNoHaltWithStack("ScriptSources is empty, call this somewhere else!")
 	else
@@ -148,7 +148,7 @@ local function CompileBlockExec(datasrc)
 	data = string.gsub(data,"%.0+%*","*") --remove trailing decimal zeros (asterisk after)
 	data = string.gsub(data,"%.0+%-%->","-->") --remove trailing decimal zeros (block arrow after)
 	data = string.gsub(data,"%s*%-%->%s*","-->") --remove unneeded spaces from block arrow
-	data = string.gsub(data,"%s*setpos%s*"," ") --remove setpos and setang
+	data = string.gsub(data,"%s*setpos%s+"," ") --remove setpos and setang
 	data = string.gsub(data,"%s*setang%s*"," ") --(Honestly, go fuck yourself if you're using these as prop names. Who are you, the Riddler?)
 
 	--[[local newcount = #data
@@ -605,8 +605,8 @@ function LoadScripts()
 				print("Working on script: ",scriptname)
 
 				-- then find the start of the branch we want
-				local _,branchstart,_ = string.find(script,override:GetBranch()..":\n",0)
-				if not branchstart then Msg("No branch named "..override:GetBranch().." found in "..scriptname) continue end
+				local _,branchstart,_ = string.find(script,string.Trim(string.PatternSafe(override:GetBranch()))..":[\t ]*\r?\n",0)
+				if not branchstart then Msg("No branch named \""..override:GetBranch().."\" found in "..scriptname.."\n") continue end
 
 				--now find the command we want to change
 				local foundstart, foundend, branchnumber = branchstart, branchstart, override:GetBranchNumber()
@@ -614,7 +614,7 @@ function LoadScripts()
 				if branchnumber > 0 then
 					local pattern = "[%w]*cam[%w]* [%w%d%-%.%ssetpos]+ [%d%-%.]+ [%d%-%.]+%s*;[setang]*%s*[%d%-%.]+ [%d%-%.]+ [%d%-%.]+" --attempting to find various camera setting commands
 					if override:GetFOV() ~= 0 then pattern = pattern .. "[ ]*[fov%d%-%.]*" end -- add FOV to the mix if we're replacing it
-					local comment, endline, oldcommand = "#[%g%s]*", "[%g%s]*\n", ""
+					local comment, endline, oldcommand = "#[%g%s]*", "[%g%s]*\r?\n", ""
 					while branchnumber > 0 do
 						local oldfoundend = foundend
 						foundstart,foundend,_ = string.find(script,pattern,foundend)
@@ -635,7 +635,7 @@ function LoadScripts()
 
 				-- we don't want to find a specific command, we just want this at the end of this branch
 				elseif branchnumber < 0 then
-					foundend,_,_ = string.find(script,"[\t ]*[%w]-:\n",branchstart)
+					foundend,_,_ = string.find(script,"[\t ]*[%w]-:\r?\n",branchstart)
 					script = string.Left(script,foundend - 1).. "*" .. override:GetCommand() .. "*\n" .. string.sub(script,foundend + 1)
 
 				-- we don't want to find a specific command, we just want this at the start of this branch

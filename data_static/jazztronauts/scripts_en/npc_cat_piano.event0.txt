@@ -30,7 +30,7 @@ begin:
 b1:
 	*setspeaker cat_piano*
 	#—All I'm saying is*setanim cat_piano gesture_shrug 1 idle*,% we'd pro*setcamroot cat_piano**setcam setpos -2781.879395 3055.809082 68.602539;setang -1.149190 -150.279190 0.500000*bably get more customers through here if 
-	—All I'm saying is*setanim cat_piano gesture_shrug 1 idle*,% we'd pro*setcamroot cat_piano setpos 96.067871 -128.392090 31.602539;setang -1.149 119.721 0.500*bably get more customers through here if 
+	—All I'm saying is*setanim cat_piano gesture_shrug 1 idle*,% we'd pro*setcamroot cat_piano 96.067871 -128.39209 31.602539;-1.149 119.721 0.5*bably get more customers through here if 
 	there was a place to cut loose.%% Don't*setanim cat_piano gesture_disagree 1 idle* get me wrong 
 	I love the aesthetic we have but it's so%.%.%.%
 	&b2
@@ -40,8 +40,8 @@ b2:
 		*spawn sereneroot dummy*
 		*setlocale sereneroot scene_pond scene_diningroom_far scene_diningroom*
 		*setcamroot sereneroot setpos 1229.871582 -192.401825 285.469360;setang 14.656 159.629 0.000 fov70*
+		#*setcam setpos -946.128357 319.598175 221.469360;setang 14.655734 159.629013 0.000000 fov70*
 	*BLOCKEND*
-	#*setcam setpos -946.128357 319.598175 221.469360;setang 14.655734 159.629013 0.000000 fov70*
 	.%.%.%Serene.
 	&b3
 	
