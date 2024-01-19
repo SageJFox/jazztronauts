@@ -254,6 +254,7 @@ DialogCallbacks.Paint = function(_dialog)
 
 	--moving this before the overrides because we don't want them to affect the chatbox
 	local chatbg = (IsValid(speaker) and not speaker.IsDummy and chatboxMat) or chatboxNarrateMat
+	local chatbgsvg = (IsValid(speaker) and not speaker.IsDummy and "data_static/jazztronauts/ui/chatbox.svg.txt") or "data_static/jazztronauts/ui/chatbox_narrate.svg.txt"
 
 	speaker = _dialog.speakeroverride or speaker
 	speakername = _dialog.speakernameoverride or speakername
@@ -269,7 +270,8 @@ DialogCallbacks.Paint = function(_dialog)
 
 	surface.SetMaterial(chatbg)
 	surface.SetDrawColor( 255, 255, 255, 255 )
-	surface.DrawTexturedRectUV( x - w/2, y - h/2, w, h, localspeaker and 1 or 0, 0, localspeaker and 0 or 1, 1)
+	--surface.DrawTexturedRectUV( x - w/2, y - h/2, w, h, localspeaker and 1 or 0, 0, localspeaker and 0 or 1, 1)
+	SVG.DrawSVG(chatbgsvg,x - w/2,y - h/2,localspeaker and w * -1 or w,h,open >= 1)
 
 	local left = x - w/2 + NameTextX
 	local top = y - h/2 + NameTextY
