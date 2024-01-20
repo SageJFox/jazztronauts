@@ -254,7 +254,7 @@ DialogCallbacks.Paint = function(_dialog)
 
 	--moving this before the overrides because we don't want them to affect the chatbox
 	local chatbg = (IsValid(speaker) and not speaker.IsDummy and chatboxMat) or chatboxNarrateMat
-	local chatbgsvg = (IsValid(speaker) and not speaker.IsDummy and "data_static/jazztronauts/ui/chatbox.svg.txt") or "data_static/jazztronauts/ui/chatbox_narrate.svg.txt"
+	local chatbgsvg = (IsValid(speaker) and not speaker.IsDummy and "data_static/jazztronauts/ui/chatbox.svg") or "data_static/jazztronauts/ui/chatbox_narrate.svg"
 
 	speaker = _dialog.speakeroverride or speaker
 	speakername = _dialog.speakernameoverride or speakername

@@ -64,18 +64,27 @@ local function BezierCubic(p0,p1,p2,p3,iterations)
 		p1 = p0[2]
 		p0 = p0[1]
 	end
+
 	--validize me, cap'n!
 	if not ((istable(p0) or isvector(p0)) and 
 			(istable(p1) or isvector(p1)) and 
 			(istable(p2) or isvector(p2)) and 
-			(istable(p3) or isvector(p3)) and 
-			isnumber(iter)) then return {} end
-	--if we have zero iterations, we're just drawing a straight line from p0 to p3 anyway
-	if iter <= 0 then return {} end
-
+			(istable(p3) or isvector(p3))) then return {} end
+	
 	--optimization for drawing: if our control points are the same as our inital points, it's a straight segment that doesn't need any points between it
 	if p0.x == p1.x and p0.y == p1.y and p2.x == p3.x and p2.y == p3.y then return {} end
 	--todo maybe: could also check if the four points are colinear and in order (i.e. the normalized vectors of p1-p0 == p3-p2 == p3-p0)
+
+	--adjust our iterations based on our size if we weren't given a specific value
+	if iter == nil or string.find(iter,"auto") then
+		local x1,y1 = p0.x, p0.y
+		local x2,y2 = p3.x, p3.y
+		--an estimation. Roughly one segment per 6 pixels of diagonal length
+		iter = math.floor(math.sqrt(math.pow(x2 - x1,2) + math.pow(y2 - y1,2)) / 6)
+	end
+
+	--if we have zero iterations, we're just drawing a straight line from p0 to p3 anyway
+	if not isnumber(iter) or iter <= 0 then return {} end
 
 	local tab = {}
 
@@ -92,8 +101,16 @@ local function BezierCubic(p0,p1,p2,p3,iterations)
 	return tab
 end
 
-local function processd(d,iterations)
+local function processd(d,x,y,w,h,width,height,iterations)
+
 	local tab = getVertices(d)
+
+	--translate points as desired
+	for _, v in ipairs(tab) do
+		v.x = x + v.x / width * w - math.min(0,w)
+		v.y = y + v.y / height * h - math.min(0,h)
+	end
+
 	local vertices = {}
 	--C/c processing - assumes one M command, followed by one C command, and assumes ending Z command
 	for var = 1, (#tab - 1) / 3 do
@@ -102,10 +119,14 @@ local function processd(d,iterations)
 		--note that we remove the first three points (the fourth point is used again in the next loop)
 		table.Add(vertices,BezierCubic(table.remove(tab,1),table.remove(tab,1),table.remove(tab,1),tab[1],iterations))
 	end
+
+	--if we're flipping (once), make our table clockwise again
+	if (w < 0) ~= (h < 0) then vertices = table.Reverse(vertices) end
+
 	return vertices
 end
 
---debug stuff. Set DEBUG to 1 to see shapes drawn partially transparent, and 2 to see vertices drawn. Both are drawn in the pattern shown below
+--debug stuff. Set DEBUG to 1 to see shapes drawn partially transparent, and 2 to see vertices drawn, 3 for both. Both are drawn in the pattern shown below
 local DEBUG = 0
 local debugalpha = 100
 local debugcol = {
@@ -161,7 +182,7 @@ function DrawSVG(svg,x,y,w,h,cache,iterations)
 		for i = 1, #cached do
 			surface.SetDrawColor(cachefill[i])
 			surface.DrawPoly(cached[i])
-			if DEBUG == 2 then
+			if DEBUG >= 2 then
 				local process = 1
 				for _, v in ipairs(cached[i]) do
 					surface.SetDrawColor(debugcol[process % #debugcol + 1])
@@ -174,7 +195,7 @@ function DrawSVG(svg,x,y,w,h,cache,iterations)
 		--attempt to open the first argument as a file, otherwise, assume it's the raw SVG data
 		local svgname = svg
 		local svg = file.Read(svg,"GAME") or svg
-		local iterations = iterations or 16
+		local iterations = iterations or "auto"
 
 		--pull out the SVG's width/height values
 		local _,_,width = string.find(svg,SVGwidth)
@@ -199,7 +220,7 @@ function DrawSVG(svg,x,y,w,h,cache,iterations)
 			local _,ender,d = string.find(svg,SVGd,start)
 			if not ender then break end --we've hit the end of the file
 			
-			if DEBUG == 1 then
+			if DEBUG == 1 or DEBUG == 3 then
 			--debug one: draw in bright, partially transparent colors to make sure paths are doing what they're expected to be doing
 				local col = debugcol[debugprocess % #debugcol + 1]
 				surface.SetDrawColor(col)
@@ -213,18 +234,14 @@ function DrawSVG(svg,x,y,w,h,cache,iterations)
 			end
 
 			draw.NoTexture()
-			--converting curve data to DrawPoly vertices, translating to the desired x/y and scaling to the desired width/height
-			local tab = processd(d,iterations)
-			for _, v in ipairs(tab) do
-				v.x = x + v.x / width * w - math.min(0,w)
-				v.y = y + v.y / height * h - math.min(0,h)
-			end
-			if (w < 0) ~= (h < 0) then tab = table.Reverse(tab) end --if we're flipping (once), make our table clockwise again
+			--translating to the desired x/y, scaling to the desired width/height, and converting curve data to DrawPoly vertices
+			local tab = processd(d,x,y,w,h,width,height,iterations)
+
 			surface.DrawPoly(tab)
 			if cache then cached[process] = table.Copy(tab) end
 
 			--debug two: draw vertices
-			if DEBUG == 2 then
+			if DEBUG >= 2 then
 				for _, v in ipairs(tab) do
 					surface.SetDrawColor(debugcol[debugprocess % #debugcol + 1])
 					surface.DrawRect(v.x - 2, v.y - 2,4,4)
