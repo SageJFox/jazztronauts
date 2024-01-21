@@ -120,7 +120,7 @@ net.Receive("jazz_propvom_effect", function(len, ply)
 	local model = net.ReadString()
 	local type = net.ReadString()
 
-	if type == "brush" then
+	if type == "brush" or type == "displacement" then
 		AddVomitBrush(model, pos)
 	else
 		AddVomitProp(model, pos)
