@@ -192,6 +192,7 @@ function DrawSVG(svg,x,y,w,h,cache,iterations)
 			end
 		end
 	else
+		if not isstring(svg) then return end
 		--attempt to open the first argument as a file, otherwise, assume it's the raw SVG data
 		local svgname = svg
 		local svg = file.Read(svg,"GAME") or svg
