@@ -2,7 +2,11 @@
 -- Handles text rendering, option selection, and scene selection.
 
 local chatboxMat = Material("materials/ui/chatbox.png")
+local chatboxSVG = "data_static/jazztronauts/ui/chatbox.svg"
 local chatboxNarrateMat = Material("materials/ui/chatbox_narrate.png")
+local chatboxNarrateSVG = Material("materials/ui/chatbox_narrate.png")
+
+local useSVG = CreateClientConVar("jazz_usesvg","1",true,false,"Draw Jazztronauts chat boxes using SVG files. Set to 0 to use old png files.",0,1)
 
 local catSounds =
 {
@@ -253,8 +257,12 @@ DialogCallbacks.Paint = function(_dialog)
 	local speaker, speakername, localspeaker = GetCurrentSpeaker()
 
 	--moving this before the overrides because we don't want them to affect the chatbox
-	local chatbg = (IsValid(speaker) and not speaker.IsDummy and chatboxMat) or chatboxNarrateMat
-	local chatbgsvg = (IsValid(speaker) and not speaker.IsDummy and "data_static/jazztronauts/ui/chatbox.svg") or "data_static/jazztronauts/ui/chatbox_narrate.svg"
+	local chatbg = chatboxNarrateMat
+	local chatbgsvg = chatboxNarrateSVG
+	if IsValid(speaker) and not speaker.IsDummy then 
+		chatbg = chatboxMat
+		chatbgsvg = chatboxSVG
+	end
 
 	speaker = _dialog.speakeroverride or speaker
 	speakername = _dialog.speakernameoverride or speakername
@@ -268,10 +276,20 @@ DialogCallbacks.Paint = function(_dialog)
 	local x = ScrW() / 2 + BGOffX * (localspeaker and -1 or 1)
 	local y = ScrH() - h/2 - BGOffY
 
-	surface.SetMaterial(chatbg)
-	surface.SetDrawColor( 255, 255, 255, 255 )
-	--surface.DrawTexturedRectUV( x - w/2, y - h/2, w, h, localspeaker and 1 or 0, 0, localspeaker and 0 or 1, 1)
-	SVG.DrawSVG(chatbgsvg,x - w/2,y - h/2,localspeaker and w * -1 or w,h,open >= 1)
+	-- Render whoever's talking
+	if localspeaker then
+		RenderEntityCutIn(speaker, ScrW() - CatW, ScrH() - CatH * math.EaseInOut(_dialog.open, 0, 1), CatW, CatH)
+	else
+		RenderEntityCutIn(speaker, 0, ScrH() - CatH * math.EaseInOut(_dialog.open, 0, 1), CatW, CatH)
+	end
+
+	if useSVG:GetBool() then
+		SVG.DrawSVG(chatbgsvg,x - w/2,y - h/2,localspeaker and w * -1 or w,h,open >= 1)
+	else
+		surface.SetMaterial(chatbg)
+		surface.SetDrawColor( 255, 255, 255, 255 )
+		surface.DrawTexturedRectUV( x - w/2, y - h/2, w, h, localspeaker and 1 or 0, 0, localspeaker and 0 or 1, 1)
+	end
 
 	local left = x - w/2 + NameTextX
 	local top = y - h/2 + NameTextY
@@ -316,12 +334,6 @@ DialogCallbacks.Paint = function(_dialog)
 		_dialog.textpanel:SetCursor("hand")
 	end
 
-	-- Render whoever's talking
-	if localspeaker then
-		RenderEntityCutIn(speaker, ScrW() - CatW, ScrH() - CatH * math.EaseInOut(_dialog.open, 0, 1), CatW, CatH)
-	else
-		RenderEntityCutIn(speaker, 0, ScrH() - CatH * math.EaseInOut(_dialog.open, 0, 1), CatW, CatH)
-	end
 end
 
 -- Called when the dialog presents the user with a list of branching options
