@@ -4,7 +4,7 @@
 local chatboxMat = Material("materials/ui/chatbox.png")
 local chatboxSVG = "data_static/jazztronauts/ui/chatbox.svg"
 local chatboxNarrateMat = Material("materials/ui/chatbox_narrate.png")
-local chatboxNarrateSVG = Material("materials/ui/chatbox_narrate.png")
+local chatboxNarrateSVG = "data_static/jazztronauts/ui/chatbox_narrate.svg"
 
 local useSVG = CreateClientConVar("jazz_usesvg","1",true,false,"Draw Jazztronauts chat boxes using SVG files. Set to 0 to use old png files.",0,1)
 
