@@ -21,6 +21,7 @@ if SERVER then
 		if IsValid(phys) then
 			phys:EnableMotion(false)
 		end
+		self:PhysicsInitShadow(false,false)
 
 		self:SetSequence(self:LookupSequence("Fill_Tank"))
 
