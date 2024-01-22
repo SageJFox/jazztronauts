@@ -22,8 +22,10 @@ local outputs =
 local updateCollision = function(self)
 	-- The cats don't actually have a physics model so just make a box around em
 	local mins, maxs = self:AdjustBounds()
-
 	self:PhysicsInitBox(mins, maxs, "watermelon")
+	mins:Rotate(self:GetAngles())
+	maxs:Rotate(self:GetAngles())
+	self:SetCollisionBounds(mins,maxs)
 
 	if not self:HasSpawnFlags(SF_PHYSICSLUL) then 
 		self:SetMoveType(MOVETYPE_NONE)
