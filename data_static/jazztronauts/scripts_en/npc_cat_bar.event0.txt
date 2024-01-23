@@ -1,5 +1,22 @@
 SKIP_OPEN = true
 
+#CAMERA SHOTS
+#MACRO SHOT1 setcam setpos -2917.238037 2928.200439 72.834885;setang 3.407556 58.931564 0.000000 ##bar and player
+#MACRO SHOT2 setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000 ##bartender close up
+#MACRO SHOT3 setcam setpos -2672.070801 2965.057861 66.930687;setang 3.939932 176.591919 0.000000 ##bar profile
+#MACRO SHOT4 setcam setpos -2995.739502 2744.655029 24.768372;setang -8.039047 67.822502 0.000000 fov70 ##bar establish shot
+##shot5 - player shot setpos -2881.998047 3002.636719 71.382820;setang 1.064988 -54.895622 0.000000
+MACRO SHOT1 setcamroot cat_bar setpos 115.890869 -53.639160 40.417466;setang 3.408 148.428 0.000 ##bar and player
+MACRO SHOT2 setcamroot cat_bar setpos 54.813477 4.117920 42.767632;setang 2.449 179.999 0.000 ##bartender close up
+MACRO SHOT3 setcamroot player setpos -42.898926 -123.696045 66.899437;setang 3.940 63.835 0.000 ##bar profile
+MACRO SHOT4 setcamroot cat_bar setpos 298.738770 -133.751953 -7.649047;setang -8.039 157.319 0.000 fov70 ##bar establish shot
+
+#ANIMATIONS
+MACRO SWEEP SWEEP(cat_bar)
+MACRO FOLDARMS FOLDARMS(cat_bar)
+MACRO DRYHANDS DRYHANDS(cat_bar)
+MACRO JAB JAB(cat_bar)
+
 begin:
 	# Scene setup
 	*BLOCKSTART*
@@ -15,22 +32,11 @@ begin:
 		#*setposang player setpos -2802.731934 2956.768555 0;setang 0 112.757095 0.000000*
 		*setoffset player setpos -4.768555 61.268066 0;setang -0.000 -157.243 0.000*
 
-		#camera shots
-			##Shot 1- bar and player setpos -2917.238037 2928.200439 72.834885;setang 3.407556 58.931564 0.000000
-			##shot 2 - bartender close up setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000
-			##shot3 - bar profile setpos -2672.070801 2965.057861 66.930687;setang 3.939932 176.591919 0.000000
-			##shot4 - bar establish shot setpos -2995.739502 2744.655029 24.768372;setang -8.039047 67.822502 0.000000
-			##shot5 - player shot setpos -2881.998047 3002.636719 71.382820;setang 1.064988 -54.895622 0.000000
-
 		*bgmplay sound/jazztronauts/music/events/bartender_song.mp3 1.0 2.0*
-		#*setcamroot cat_bar*
-		#*setcam setpos -2995.739502 2744.655029 24.768372;setang -8.039047 67.822502 0.000000 fov70*
-		*setcamroot cat_bar setpos 298.738770 -133.751953 -7.649047;setang -8.039 157.319 0.000 fov70*
+		*SHOT4*
 		*txin*
 		*wait .5*
-		#*setcam setpos -2917.238037 2928.200439 72.834885;setang 3.407556 58.931564 0.000000*
-		*setcamoffset setpos 115.890869 -53.639160 40.417466;setang 3.408 148.428 0.000*
-
+		*SHOT1*
 
 		*wait .25*
 		*show cat_bar 1.0*		# Set the proxy model to be the current speaker (bottom left dialog corner)
@@ -54,18 +60,15 @@ resp1a:
 		*setspeaker cat_bar*
 		*BAR_PISSED*
 	*BLOCKEND*
-	%%*BAR_NEUTRAL*No, that was not our handiwork.%
-	*setcamroot player setpos -42.898926 -123.696045 66.899437;setang 3.940 63.835 0.000*	#*setcamroot player**setcam setpos -2672.070801 2965.057861 66.930687;setang 3.939932 176.591919 0.000000*
+	%%*BAR_NEUTRAL*No, that was not our handiwork.%*SHOT3*
 	The camp and the wash room next to it are %%*BAR_SURPRISE*new additions.%%%*BAR_NEUTRAL* 
 	The last group before you,% actually.%%*BAR_HAPPY* Lovely bunch.
 	&resp1b
 
 resp1b:
 	*setspeaker cat_bar*
-	#*setcamroot cat_bar*
-	#Certainly raised a few*setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000* eyebrows, %though.%% It's not often you see a—*BAR_SURPRISE*%%%%
-	Certainly raised a few*setcamroot cat_bar setpos 54.813477 4.117920 42.767632;setang 2.449 179.999 0.000* eyebrows, %though.%% It's not often you see a—*BAR_SURPRISE*%%%%
-	Well.*BAR_NEUTRAL*%%% Hm.*BAR_PISSED*%%%%*BAR_NEUTRAL**setanim cat_bar gesture_dryhands 1.0 idle* I'm not sure this is my story to tell,% honestly.%%
+	Certainly raised a few*SHOT2* eyebrows, %though.%% It's not often you see a—*BAR_SURPRISE*%%%%
+	Well.*BAR_NEUTRAL*%%% Hm.*BAR_PISSED*%%%%*BAR_NEUTRAL**DRYHANDS* I'm not sure this is my story to tell,% honestly.%%
 	Forgive me,% I try not to gossip about my patrons.
 	player:
 		&resp1c:
@@ -78,21 +81,19 @@ resp1b:
 resp1c:
 	*BLOCKSTART*
 		*setspeaker cat_bar*
-		#*setcam setpos -2917.238037 2928.200439 72.834885;setang 3.407556 58.931564 0.000000*
-		*setcamroot cat_bar setpos 115.890869 -53.639160 40.417466;setang 3.408 148.428 0.000*
+		*SHOT1*
 		*BAR_PISSED*
 	*BLOCKEND*
-	Like*setanim cat_bar gesture_sweep 1.0 idle* I said, not my story to tell.%*BAR_NEUTRAL*
+	Like*SWEEP* I said, not my story to tell.%*BAR_NEUTRAL*
 	It's not anything particularly scandalous,% just a silly thing 
 	that I'd feel rather %%*BAR_HAPPY*catty%%*BAR_NEUTRAL* talking about behind their backs.
 	&resp1d
 
 resp1d:
 	*BLOCKSTART*
-		#*setcam setpos -2672.070801 2965.057861 66.930687;setang 3.939932 176.591919 0.000000*
-		*setcamroot player setpos -42.898926 -123.696045 66.899437;setang 3.940 63.835 0.000*
+		*SHOT3*
 		*BAR_HAPPY*
-		*setanim cat_bar gesture_foldarms 1.0 idle*
+		*FOLDARMS*
 	*BLOCKEND*
 	Honestly,% I don't think I've ever met such a cheery,% energetic bunch.
 	They %clearly loved just spending time with each other%.%.%.
@@ -114,31 +115,29 @@ resp2a:
 	&resp2b
 
 resp2b:
-	#*setcam setpos -2672.070801 2965.057861 66.930687;setang 3.939932 176.591919 0.000000*
-	*setcamroot player setpos -42.898926 -123.696045 66.899437;setang 3.940 63.835 0.000*
-	Sorry to say,*BAR_NEUTRAL*%*setanim cat_bar gesture_dryhands 1.0 idle* that was not our work.%%% In fact it wasn't any %ONE's%% work.%
+	*SHOT3*
+	Sorry to say,*BAR_NEUTRAL*%*DRYHANDS* that was not our work.%%% In fact it wasn't any %ONE's%% work.%
 	That has been a %very% long project.
 	&resp2c
 
 resp2c:
-	*BAR_PISSED**setanim cat_bar gesture_sweep 1.0 idle*
+	*BAR_PISSED**SWEEP*
 	Back before we had it,%% we had to manually drive up and down 
 	Voidway 66 trying to find a place to salvage,% hoping any 
 	given wormhole would be worthwhile.
 	&resp2d
 
 resp2d:
-	#*setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000*
-	*setcamroot cat_bar setpos 54.813477 4.117920 42.767632;setang 2.449 179.999 0.000*
-	It was not optimal,*setanim cat_bar gesture_foldarms 1.0 idle*% to say the least.%%*BAR_HAPPY* Eventually a guest 
+	*SHOT2*
+	It was not optimal,*FOLDARMS*% to say the least.%%*BAR_HAPPY* Eventually a guest 
 	had the idea to make a compass that pointed to the closest dimensional 
 	breach.%%%%*BAR_NEUTRAL* I think a piece of it is still in that machine somewhere.
 	&resp2e
 	
 resp2e:
 	Then another guest wired some gizmo they had to it,%
-	and then*setanim cat_bar gesture_sweep 1.0 idle* another,%% and another,%% a little bit at a time%
-	until we were left with that hulking mass out there.%%*setcamroot cat_bar setpos 115.890869 -53.639160 40.417466;setang 3.408 148.428 0.000*#*setcam setpos -2917.238037 2928.200439 72.834885;setang 3.407556 58.931564 0.000000*
+	and then*SWEEP* another,%% and another,%% a little bit at a time%
+	until we were left with that hulking mass out there.%%*SHOT1*
 	To be honest,%*BAR_SURPRISE* I would not know how to repair it if we needed to.
 	&resp2f
 
@@ -150,10 +149,9 @@ resp2f:
 resp3a:
 	*BLOCKSTART*
 		*setspeaker cat_bar*
-		#*setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000*
-		*setcamroot cat_bar setpos 54.813477 4.117920 42.767632;setang 2.449 179.999 0.000*
+		*SHOT2*
 		*BAR_HAPPY*
-		*setanim cat_bar gesture_sweep 1.0 idle*
+		*SWEEP*
 	*BLOCKEND*
 	Of course it is.%%% Please,% take as much time as you need,% 
 	and let me know when you'd like a new drink.
@@ -163,10 +161,9 @@ resp3a:
 merge1a:
 	*BLOCKSTART*
 		*setspeaker cat_bar*
-		#*setcam setpos -2995.739502 2744.655029 24.768372;setang -8.039047 67.822502 0.000000*
-		*setcamroot cat_bar setpos 298.738770 -133.751953 -7.649047;setang -8.039 157.319 0.000*
+		*SHOT4*
 		*BAR_NEUTRAL*
-		*setanim cat_bar gesture_sweep 1.0 idle*
+		*SWEEP*
 	*BLOCKEND*
 	In any event,%% it's come a long way from the empty room that it once was.%%
 	I'll admit,% hearing laughter and commotion coming from 
@@ -175,24 +172,22 @@ merge1a:
 
 merge1b:
 	*BLOCKSTART*
-		#*setcam setpos -2917.238037 2928.200439 72.834885;setang 3.407556 58.931564 0.000000*
-		*setcamroot cat_bar setpos 115.890869 -53.639160 40.417466;setang 3.408 148.428 0.000*
+		*SHOT1*
 		*BAR_HAPPY*
-		*setanim cat_bar gesture_foldarms 1.0 idle*
+		*FOLDARMS*
 	*BLOCKEND*
 	Perhaps it is the nature of my profession,% who can say?
 	&merge1c
 
 merge1c:
 	*BAR_NEUTRAL*I hope you will be comfortable here during your stay.%%
-	Please,%*setanim cat_bar gesture_sweep 1.0 idle* don't hesitate to let me know if you need anything.
+	Please,%*SWEEP* don't hesitate to let me know if you need anything.
 	%%*BAR_SURPRISE*Ah, one other*BAR_NEUTRAL* thing.%.%.
 	&merge1d
 
 merge1d:
-	#*setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000*
-	*setcamroot cat_bar setpos 54.813477 4.117920 42.767632;setang 2.449 179.999 0.000*
-	This isn't required of you,%*setanim cat_bar gesture_jab 1.0 idle* but can I ask you to spend some time 
+	*SHOT2*
+	This isn't required of you,%*JAB* but can I ask you to spend some time 
 	with the rest of my peers?%%%*BAR_HAPPY* They won't admit it,% but they do 
 	enjoy the company%.%.%.*BAR_NEUTRAL* and exposure to different worldviews 
 	couldn't hurt them either.

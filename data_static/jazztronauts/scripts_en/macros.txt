@@ -53,6 +53,12 @@ SINGER_MAD setskin cat_singer 2
 SINGER_MISCHIEF setskin cat_singer 3
 SINGER_HISS setskin cat_singer 8
 
+#Animations
+MACRO SWEEP(cat) setanim cat gesture_sweep 1.0 idle
+MACRO FOLDARMS(cat) setanim cat gesture_foldarms 1.0 idle
+MACRO DRYHANDS(cat) setanim cat gesture_dryhands 1.0 idle
+MACRO JAB(cat) setanim cat gesture_jab 1.0 idle
+
 
 spawnnarrator() *block spawn narrator dummy-->setnpcid narrator npc_narrator*
 spawnnarratorroot(scene_locale) *block spawn narrator dummy-->setnpcid narrator npc_narrator-->sceneroot narrator-->setlocale narrator scene_locale*

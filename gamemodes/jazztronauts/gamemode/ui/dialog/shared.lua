@@ -78,16 +78,26 @@ end
 local macrolist = macrolist or {}
 
 local function LoadMacros(sources)
-	if next(macrolist) ~= nil then return end
-	local macros = sources["macros.txt"]
+	local localmac = isstring(sources) --global macros are passed our table of scripts, while local macros are a single script
+	if not localmac and next(macrolist) ~= nil then return end
+	local macros = localmac and sources or sources["macros.txt"]
 	if macros == nil then ErrorNoHalt("Macros not loaded!\n") return end
 
+	local pattern1, pattern2 = "([%w_]+)%s-(%b())%s+(.+)", "([%w_]+)%s+(.+)"
+	if localmac then
+		pattern1 = "MACRO%s+"..pattern1
+		pattern2 = "MACRO%s+"..pattern2
+	end
+	local localmacros = {}
 	for line in lineitr(macros) do
 		line = line:Trim()
+		--local macros, defined by starting a line with MACRO before any branches are started
+		if localmac and not string.find(line,"^MACRO%s*") then continue end
+		if localmac and string.find(line,"^[%a%d]+:%s*") then break end
 		if line:len() == 0 or line[1] == "#" then continue end
 
-		local x,y,z = line:gmatch("([%w_]+)%s-(%b())%s+(.+)")()
-		if not x then x,z = line:gmatch("([%w_]+)%s+(.+)")() end
+		local x,y,z = line:gmatch(pattern1)()
+		if not x then x,z = line:gmatch(pattern2)() end
 
 		local args = {}
 		for a in (y and y or ""):gmatch("[%w_]+") do table.insert( args, a ) end
@@ -100,12 +110,13 @@ local function LoadMacros(sources)
 			return c
 		end
 
-		table.insert( macrolist, 1, {
+		table.insert( localmac and localmacros or macrolist, 1, {
 			name = x,
 			use = use,
 			paren = y ~= nil,
 		})
 	end
+	if localmac then return localmacros end
 end
 
 -- looking for execution blocks
@@ -123,20 +134,18 @@ local function CompileBlockExec(datasrc)
 	--first, get comments out
 	local data = string.gsub(datasrc,"#+[^\n]*\n","\n")
 	--get any macros in there done up
-	if table.IsEmpty(ScriptSources) then ErrorNoHaltWithStack("ScriptSources is empty, call this somewhere else!")
-	else
-		LoadMacros(ScriptSources)
-		--yeah, that's right, I copied this code from below
-		for _, macro in pairs(macrolist) do
+	LoadMacros(ScriptSources)
+	local macros = LoadMacros(data)
+	table.Add(macros,macrolist)
+	--yeah, that's right, I copied this code from below
+	for _, macro in pairs(macros) do
 
-			if not macro.paren then
-				data = data:gsub(macro.name, macro.use)
-			else
-				data = data:gsub(macro.name .. "%s*(%b())", function( call )
-					return macro.use( call:gmatch("[%w_ ]+") )
-				end)
-			end
-
+		if not macro.paren then
+			data = data:gsub(macro.name, macro.use)
+		else
+			data = data:gsub(macro.name .. "%s*(%b())", function( call )
+				return macro.use( call:gmatch("[%w_ ]+") )
+			end)
 		end
 	end
 
