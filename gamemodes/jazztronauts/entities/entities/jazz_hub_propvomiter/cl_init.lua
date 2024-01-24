@@ -1,6 +1,6 @@
 JazzVomitProps = JazzVomitProps or {}
 
-local Lifetime = 5
+local Lifetime = CreateClientConVar("jazz_propvomiter_proplifetime","5",true,false,"How long vomited props live, in seconds.",2,10)
 local FadeBegin = 2
 local PipeRadius = 40
 
@@ -30,7 +30,7 @@ local function getPropSize(ent)
 	local min, max = IsValid(phys) and phys:GetAABB()
 
 	if not min or not max then
-		min, max = ent:GetModelBounds()
+		min, max = ent:GetModelRenderBounds()
 	end
 
 	return max - min
@@ -92,7 +92,7 @@ local function AddVomitProp(model, pos)
 	ent:GetPhysicsObject():SetVelocity(Vector(0, 0, math.Rand(-1000, -100)))
 	ent:GetPhysicsObject():AddAngleVelocity(VectorRand() * 1000)
 
-	ent.RemoveAt = UnPredictedCurTime() + Lifetime
+	ent.RemoveAt = UnPredictedCurTime() + Lifetime:GetFloat()
 	table.insert(JazzVomitProps, entObj)
 	//SafeRemoveEntityDelayed(ent, 10)
 
@@ -107,6 +107,7 @@ local brushModels = {
 local function AddVomitBrush(material, pos)
 	local model = table.Random(brushModels)
 	local ent = AddVomitProp(model, pos)
+	if not IsValid(ent) then return end
 	local matname, mat = brush.GetBrushMaterial(material)
 
 	ent:SetMaterial(matname)
@@ -115,7 +116,13 @@ end
 
 hook.Add("Think", "TickVomitProps", TickVomitProps)
 
+local processed = 0
+local percentage = CreateClientConVar("jazz_propvomiter_percent","100",true,false,"Set the percentage of props that should appear from the prop vomiter. Lower percentages are easier on your system, but you won't see every prop.",0,100)
+
 net.Receive("jazz_propvom_effect", function(len, ply)
+	processed = processed + percentage:GetFloat()
+	if processed < 100 then return end
+	processed = processed - 100
 	local pos = net.ReadVector()
 	local model = net.ReadString()
 	local type = net.ReadString()
