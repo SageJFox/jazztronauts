@@ -35,7 +35,7 @@ a1:
 		*setcamroot cat_singer setpos 124.808350 92.931641 59.931953;setang 14.517 -141.977 0.000* ##### GROUP
 		#*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
 		*setspeaker cat_piano*
-		*setanim cat_piano gesture_shrug 1 idle*
+		*SHRUG(cat_piano)*
 		*PIANO_SMIRK*
 	*BLOCKEND*
 	Gee.%%% I wonder if someone in this room is excited for trash night.
@@ -57,7 +57,7 @@ a3:
 		*setspeaker cat_piano*
 		*PIANO_NEUTRAL*
 	*BLOCKEND*
-	I know you are.%*setanim cat_piano gesture_facepalm 1 idle*%%% That's why I said it with that tone of voice.%%%*setanim cat_piano gesture_disagree 1 idle* 
+	I know you are.%*FACEPALM(cat_piano)*%%% That's why I said it with that tone of voice.%%%*DISAGREE(cat_piano)* 
 	I wasn't actually aski—
 	&a4b
 
@@ -69,7 +69,7 @@ a4b:
 		#*setposang cat_bar setpos -2021.996704 2994.898438 0;setang -90 260 0.000000*
 		*setoffset cat_bar setpos -37.767822 80.577637 0;setang 0.000 -40.000 0.000*
 		*setspeaker narrator*
-		*setanim cat_piano gesture_shock 1 idle*
+		*SHOCK(cat_piano)*
 	*BLOCKEND*
 	> The VCR makes a loud ka-CHUNK sound.%%*PIANO_FLUSTERED*
 	&a4
@@ -81,7 +81,7 @@ a4:
 		*setcamroot cat_bar setpos 105.697266 -29.944824 44.383396;setang 3.177 176.575 0.000* ####### PLAYER AND BAR
 		#*setcam setpos -1923.104980 2947.054443 44.383396;setang 3.177165 166.574677 0.000000* ####### PLAYER AND BAR
 		*BAR_HAPPY*
-		*setanim cat_bar gesture_clap 1 idle*
+		*CLAP(cat_bar)*
 	*BLOCKEND*
 	Ah,%% there we go.%%%% Fully rewound!%%*BAR_NEUTRAL* Let's see what this tape has on it.
 	&a5
@@ -92,7 +92,7 @@ a5:
 		#*setcam setpos -1965.221069 2973.723145 66.755920;setang 13.665466 -79.118851 0.000000* ###### CELLO AND PIANO
 		*setspeaker cat_cello*
 		*CELLO_GRIN*
-		*setanim cat_cello gesture_sweep 1 idle*
+		*SWEEP(cat_cello)*
 	*BLOCKEND*
 	personally i hope some brave hero is about to instruct my sorry ass 
 	on proper stone-cutting technique or some shit
@@ -102,7 +102,7 @@ a6:
 	*BLOCKSTART*
 		*CELLO_NEUTRAL*
 		*setspeaker cat_piano*
-		*setanim cat_piano gesture_agree 1 idle*
+		*AGREE(cat_piano)*
 	*BLOCKEND*
 	We should be so lucky.
 	&a7
@@ -111,7 +111,7 @@ a7:
 	*BLOCKSTART*
 		*setspeaker cat_cello*
 		*CELLO_MAD*
-		*setanim cat_cello gesture_shrug 1 idle*
+		*SHRUG(cat_cello)*
 	*BLOCKEND*
 	listen so long as it isn't yet another mother fucking tae bo tape 
 	i'll be happy
@@ -147,7 +147,7 @@ a10:
 a11:
 	*BLOCKSTART*
 		*PIANO_SMIRK*
-		*setanim cat_piano gesture_agree 1 idle*
+		*AGREE(cat_piano)*
 		*setspeaker cat_piano*
 	*BLOCKEND*
 	Holy shit.
@@ -156,7 +156,7 @@ a11:
 a12:
 	*BLOCKSTART*
 		narratesinger()
-		*setanim cat_singer gesture_confused 1 idle*
+		*CONFUSED(cat_singer)*
 	*BLOCKEND*
 	> The Singer cocks their head,%% still excited.
 	&a13
@@ -165,7 +165,7 @@ a13:
 	*BLOCKSTART*
 		*setspeaker cat_bar*
 		*BAR_BLINK*
-		*setanim cat_bar gesture_foldarms 1 idle*
+		*FOLDARMS(cat_bar)*
 	*BLOCKEND*
 	This will be interesting,%%%% if nothing else.
 	player:
@@ -190,7 +190,7 @@ branch1:
 	*BLOCKSTART*
 		*setcamroot cat_cello setpos 43.608887 40.149414 50.755920;setang 13.665 -145.119 0.000* ###### CELLO AND PIANO
 		#*setcam setpos -1965.221069 2973.723145 66.755920;setang 13.665466 -79.118851 0.000000* ###### CELLO AND PIANO
-		*setanim cat_piano gesture_agree 1 idle*
+		*AGREE(cat_piano)*
 		*setspeaker cat_piano*
 	*BLOCKEND*
 	Yeah this is pretty rare.%%%% 
@@ -199,7 +199,7 @@ branch1:
 
 b1a:
 	*BLOCKSTART*
-		*setanim cat_cello gesture_disagree 1 idle*
+		*DISAGREE(cat_cello)*
 		*setspeaker cat_cello*
 	*BLOCKEND*
 	nevermind that it might be a movie where everyone is a hundred percent 
@@ -212,7 +212,7 @@ branch2:
 	*BLOCKSTART*
 		*setcamroot cat_bar setpos 105.697266 -29.944824 44.383396;setang 3.177 176.575 0.000* ####### PLAYER AND BAR
 		#*setcam setpos -1923.104980 2947.054443 44.383396;setang 3.177165 166.574677 0.000000* ####### PLAYER AND BAR
-		*setanim cat_bar gesture_foldarms 1 idle*
+		*FOLDARMS(cat_bar)*
 		*setspeaker cat_bar*
 	*BLOCKEND*
 	Ahh,%% I suppose you mean Lifeforce. I confess to feeling
@@ -237,7 +237,7 @@ branch3:
 	*BLOCKSTART*
 		*setcamroot cat_singer setpos 124.808350 92.931641 59.931953;setang 14.517 -141.977 0.000* ##### GROUP
 		#*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
-		*setanim cat_piano gesture_agree 1 idle*
+		*AGREE(cat_piano)*
 		*setspeaker cat_piano*
 	*BLOCKEND*
 	Yeah that's probably smarter than staying here.%%% You should leave 
@@ -266,11 +266,11 @@ c2:
 		#*setcam setpos -1965.221069 2973.723145 66.755920;setang 13.665466 -79.118851 0.000000* ###### CELLO AND PIANO
 		*setspeaker cat_cello*
 		*CELLO_MAD*
-		*setanim cat_cello gesture_jab 1 idle*
+		*JAB(cat_cello)*
 	*BLOCKEND*
 	fucks sake are we sure this is a cannon films movie cause by now in 
-	most of these someone's*setanim cat_cello gesture_shrug 1 idle* gained ten pounds from all the bullets they've 
-	been filled with,%%%*setanim cat_cello gesture_confused 1 idle* who put on Ingmar Bergman Presents\: The PGA Tour
+	most of these someone's*SHRUG(cat_cello)* gained ten pounds from all the bullets they've 
+	been filled with,%%%*CONFUSED(cat_cello)* who put on Ingmar Bergman Presents\: The PGA Tour
 	&c3
 
 c3:
@@ -386,7 +386,7 @@ c11:
 	*BLOCKSTART*
 		*setcamroot cat_bar setpos 105.697266 -29.944824 44.383396;setang 3.177 176.575 0.000* ####### PLAYER AND BAR
 		#*setcam setpos -1923.104980 2947.054443 44.383396;setang 3.177165 166.574677 0.000000* ####### PLAYER AND BAR
-		*setanim cat_bar gesture_foldarms 1 idle*
+		*FOLDARMS(cat_bar)*
 		*BAR_BLINK*
 		*setspeaker cat_bar*
 	*BLOCKEND*
@@ -409,7 +409,7 @@ c13:
 		#*setcam setpos -1951.250977 2965.822510 63.048851;setang 9.619200 -127.993073 0.000000* ##### SINGER AND PIANO
 		*setspeaker cat_piano*
 		*PIANO_ANGRY*
-		*setanim cat_piano gesture_jab 1 idle*
+		*JAB(cat_piano)*
 	*BLOCKEND*
 	Man c'mon I know*PIANO_NEUTRAL* where he's going with this but that thing ain't gonna—
 	&c14
@@ -439,8 +439,8 @@ c16:
 		*PIANO_ANGRY*
 		*setanim cat_piano gesture_anger 2.2 idle*
 	*BLOCKEND*
-	Oh come the fuck on,% there's no*setanim cat_piano gesture_disagree 1 idle* way that this guy could puncture the 
-	steel of a police car chassis,%%*setanim cat_piano gesture_confused 1 idle* right?%%% 
+	Oh come the fuck on,% there's no*DISAGREE(cat_piano)* way that this guy could puncture the 
+	steel of a police car chassis,%%*CONFUSED(cat_piano)* right?%%% 
 	Back me up here,% Singer.
 	&c17
 
@@ -481,7 +481,7 @@ c19:
 		#*setcam setpos -1923.104980 2947.054443 44.383396;setang 3.177165 166.574677 0.000000* ####### PLAYER AND BAR
 		*setspeaker cat_bar*
 	*BLOCKEND*
-	Well now.% I'm sure this is all this movie had.%%%%*setanim cat_bar gesture_confused 1 idle* Rather*BAR_HAPPY* good though,% 
+	Well now.% I'm sure this is all this movie had.%%%%*CONFUSED(cat_bar)* Rather*BAR_HAPPY* good though,% 
 	wouldn't you agree?
 	&c20
 
@@ -490,7 +490,7 @@ c20:
 		*setcamroot cat_singer setpos 41.496704 13.972168 47.048851;setang 9.619 -147.993 0.000* ##### SINGER AND PIANO
 		#*setcam setpos -1951.250977 2965.822510 63.048851;setang 9.619200 -127.993073 0.000000* ##### SINGER AND PIANO
 		*setspeaker cat_piano*
-		*setanim cat_piano gesture_agree 1 idle*
+		*AGREE(cat_piano)*
 	*BLOCKEND*
 	Yeah I got into it at the end. 
 	&c21
@@ -509,7 +509,7 @@ c22:
 		*setcamroot cat_cello setpos 43.608887 40.149414 50.755920;setang 13.665 -145.119 0.000* ###### CELLO AND PIANO
 		#*setcam setpos -1965.221069 2973.723145 66.755920;setang 13.665466 -79.118851 0.000000* ###### CELLO AND PIANO
 		*CELLO_GRIN*
-		*setanim cat_cello gesture_agree 1 idle*
+		*AGREE(cat_cello)*
 		*setspeaker cat_cello*
 	*BLOCKEND*
 	yeah i'm pretty sure that's how that works
@@ -529,10 +529,10 @@ c24:
 c25:
 	*BLOCKSTART*
 		*PIANO_NEUTRAL*
-		*setanim cat_piano gesture_shock 1 idle*
+		*SHOCK(cat_piano)*
 		*setspeaker cat_piano*
 	*BLOCKEND*
-	Damn,% that's a hardcore ninja dude.%%%*setanim cat_piano gesture_agree 1 idle* Respect.%%%% 
+	Damn,% that's a hardcore ninja dude.%%%*AGREE(cat_piano)* Respect.%%%% 
 	Never enough blood for him.
 	&c27
 
@@ -540,7 +540,7 @@ c27:
 	*BLOCKSTART*
 		*setspeaker cat_cello*
 		*CELLO_NEUTRAL*
-		*setanim cat_cello gesture_exchange 1 idle*
+		*EXCHANGE(cat_cello)*
 	*BLOCKEND*
 	yo holy shit what if they made a movie where it was like a bloodthirsty 
 	ninja but fuckin get this what if*CELLO_GRIN* it was dracula and dracula's a ninja now

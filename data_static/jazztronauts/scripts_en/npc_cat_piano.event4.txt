@@ -81,14 +81,14 @@ r1a1:
 		#*setcam setpos -2843.300537 2950.044189 76.034767;setang 4.703950 131.373810 0.000000*
 		*setspeaker narrator*
 	*BLOCKEND*
-	> The Pianist appears to have fallen asleep,% judging by the snoring.%%%*setanim cat_bar gesture_agree 1 idle* 
+	> The Pianist appears to have fallen asleep,% judging by the snoring.%%%*AGREE(cat_bar)* 
 	The Bartender gives you a firm nod.
 	&r1a2
 	
 r1a2:
 	*BLOCKSTART*
 		*setspeaker cat_bar*
-		*setanim cat_bar gesture_confused 1 idle*
+		*CONFUSED(cat_bar)*
 	*BLOCKEND*
 	Don't worry,% I'll make sure she's taken care of.
 	&r1a3
@@ -99,9 +99,9 @@ r1a3:
 		#*setcam setpos -2864.188965 2990.200684 71.303146;setang 0.211823 89.746773 0.000000*
 		*setspeaker cat_bar*
 		*BAR_HAPPY*
-		*setanim cat_bar gesture_agree 1 idle*
+		*AGREE(cat_bar)*
 	*BLOCKEND*
-	The Pianist likes you,% you know.%%%*BAR_NEUTRAL* That's rather rare.%%%%*setanim cat_bar gesture_exchange 1 idle*
+	The Pianist likes you,% you know.%%%*BAR_NEUTRAL* That's rather rare.%%%%*EXCHANGE(cat_bar)*
 	Thank you for being her friend,% *player*.
 	*mark_seen*
 	&exit
@@ -183,11 +183,8 @@ r3a5:
 	&r3a6
 	
 r3a6:
-	*BLOCKSTART*
-		*setspeaker cat_piano*
-		*player*.%%%*setanim cat_piano pianist_drunk_to_player .75*
-	*BLOCKEND*
-	You're good at like.%%%%
+	*setspeaker cat_piano*
+	*player*.%%%*setanim cat_piano pianist_drunk_to_player .75*You're good at like.%%%%
 	Doin' shit on impulse.%%
 	How do?%%%%%
 	player:
@@ -228,7 +225,7 @@ m2:
 		#*setcam setpos -2843.300537 2950.044189 76.034767;setang 4.703950 131.373810 0.000000*
 		*setspeaker narrator*
 	*BLOCKEND*
-	> The Bartender walks over to the Pianist,%%%*setanim cat_bar gesture_exchange 1 idle* and pats her on the head.
+	> The Bartender walks over to the Pianist,%%%*EXCHANGE(cat_bar)* and pats her on the head.
 	&m3
 	
 m3:
@@ -245,7 +242,7 @@ m4:
 		*BAR_PISSED*
 		*setspeaker narrator*
 	*BLOCKEND*
-	> The Bartender sizes you up for a while,%%*BAR_BLINK*%*setanim cat_bar gesture_sigh 1 idle* then sighs.
+	> The Bartender sizes you up for a while,%%*BAR_BLINK*%*SIGH(cat_bar)* then sighs.
 	&m5
 	
 m5:
@@ -254,10 +251,10 @@ m5:
 		#*setcam setpos -2864.188965 2990.200684 71.303146;setang 0.211823 89.746773 0.000000*
 		*setspeaker cat_bar*
 		*BAR_NEUTRAL*
-		*setanim cat_bar gesture_disagree 1 idle*
+		*DISAGREE(cat_bar)*
 	*BLOCKEND*
 	The Pianist can't play anymore.%%% Not like she used to.%%%% 
-	Once she was capable of*setanim cat_bar gesture_foldarms 1 idle* the*BAR_BLINK* most delightful improvisations on 
+	Once she was capable of*FOLDARMS(cat_bar)* the*BAR_BLINK* most delightful improvisations on 
 	the piano,% i*BAR_NEUTRAL*t was a marvel to watch.
 	condition:
 		&m6:
@@ -267,12 +264,12 @@ m5:
 	
 m6:
 	But shortly after the last group like*BAR_BLINK* yours left us,% she just%.%.%.%%%
-	lost that*BAR_NEUTRAL* ability.%%%*setanim cat_bar gesture_disagree 1 idle* It's been very distressing for her.
+	lost that*BAR_NEUTRAL* ability.%%%*DISAGREE(cat_bar)* It's been very distressing for her.
 	&m7
 		
 m6single:
 	But shortly after the last group*BAR_BLINK* left us,% she just%.%.%.%%%
-	lost that*BAR_NEUTRAL* ability.%%%*setanim cat_bar gesture_disagree 1 idle* It's been very distressing for her.
+	lost that*BAR_NEUTRAL* ability.%%%*DISAGREE(cat_bar)* It's been very distressing for her.
 	&m7
 	
 m7:
@@ -281,7 +278,7 @@ m7:
 		#*setcam setpos -2843.300537 2950.044189 76.034767;setang 4.703950 131.373810 0.000000*
 		*setspeaker cat_bar*
 		*BAR_BLINK*
-		*setanim cat_bar gesture_agree 1 idle*
+		*AGREE(cat_bar)*
 	*BLOCKEND*
 	Thank you for being her friend.%%%*BAR_NEUTRAL* You've brought her more comfort in
 	a short time than I've been able to for years.%%%%%*BAR_HAPPY* I have no words for how
@@ -292,7 +289,7 @@ m8:
 	*BLOCKSTART*
 		*setspeaker cat_bar*
 		*BAR_NEUTRAL*
-		*setanim cat_bar gesture_agree 1 idle*
+		*AGREE(cat_bar)*
 	*BLOCKEND*
 	Don't worry,% I'll make sure she's taken care of.
 	*mark_seen*

@@ -28,11 +28,11 @@ a2:
 		#*setcam setpos -2799.522217 2829.456299 37.002892;setang 3.736205 135.463394 0*
 		*setspeaker cat_bar*
 		*BAR_SURPRISE*
-		*setanim cat_bar gesture_shock 1 idle*
+		*SHOCK(cat_bar)*
 	*BLOCKEND*
 	Ah!% *player*!%%%%*BAR_HAPPY* 
 	I was going to come find you,% actually.%%%*BAR_NEUTRAL* We're going on a little field
-	trip to the hot spring,%%*setanim cat_bar gesture_confused 1 idle* would you care to join us?
+	trip to the hot spring,%%*CONFUSED(cat_bar)* would you care to join us?
 	condition:
 		&a3:
 			return multiplayer()
@@ -60,7 +60,7 @@ a3single:
 leave:
 	*BLOCKSTART*
 		*setspeaker cat_bar*
-		*setanim cat_bar gesture_agree 1 idle*
+		*AGREE(cat_bar)*
 	*BLOCKEND*
 	We can wait,%% don't fret.
 	&exit
@@ -118,10 +118,10 @@ a7:
 	*BLOCKSTART*
 		*setspeaker cat_cello*
 		*CELLO_GRIN*
-		*setanim cat_cello gesture_jab 1 idle*
+		*JAB(cat_cello)*
 	*BLOCKEND*
 	hello again you shitty bubbly siren you.%%%% i'm gonna have the dopest 
-	nap in you and you cant do*setanim cat_cello gesture_laugh 1 idle* a goddamn thing because you're a 
+	nap in you and you cant do*LAUGH(cat_cello)* a goddamn thing because you're a 
 	geological feature and i am a powerful fae idiot
 	&a8
 
@@ -131,7 +131,7 @@ a8:
 		#*setcam setpos -2272.205322 7099.851074 15.336082;setang -6.059946 -36.821072 0*
 		*setspeaker cat_piano*
 		*PIANO_SMIRK*
-		*setanim cat_piano gesture_confused 1 idle*
+		*CONFUSED(cat_piano)*
 	*BLOCKEND*
 	Incredible.%%% I've never seen anyone bully the ground so fiercely.
 	&a9
@@ -139,7 +139,7 @@ a8:
 a9:
 	*BLOCKSTART*
 		narratesinger()
-		*setanim cat_singer gesture_clap 1 idle*
+		*CLAP(cat_singer)*
 	*BLOCKEND*
 	> The Singer claps,% and holds up their tablet\:%%%*SINGER_HAPPY* *setspeaker cat_singer*
 	"Yeah fuck him up Socrates!!!!!"
@@ -161,7 +161,7 @@ a10:
 a11:
 	*BLOCKSTART*
 		*setspeaker cat_cello*
-		*setanim cat_cello gesture_jab 1 idle*
+		*JAB(cat_cello)*
 	*BLOCKEND*
 	call me socrates one more goddamn time pipes%% c'mere% imma put you 
 	in an omni-headlock% you*setanim cat_cello gesture_anger 1.5 idle* treacherous little dingus%% i am clearly
@@ -185,7 +185,7 @@ a13:
 	*BLOCKSTART*
 		narratewithview(cat_piano)
 		*PIANO_BLINK*
-		*setanim cat_piano gesture_facepalm 1 idle*
+		*FACEPALM(cat_piano)*
 	*BLOCKEND*
 	> The Pianist initially critiques their wrestling form,%%*PIANO_NEUTRAL* but clues 
 	into the joke eventually and settles down.
@@ -210,7 +210,7 @@ a15:
 		#*setposang cat_bar setpos -2764.154053 6781.034180 10;setang -90 0 0*
 		*setroot cat_bar narrator setpos -12.154053 -2.965820 0;setang 0 90 0*
 		*setspeaker cat_bar*
-		*setanim cat_bar gesture_exchange 1 idle*
+		*EXCHANGE(cat_bar)*
 	*BLOCKEND*
 	A moment,%% *player*?%%%%
 	I could use a helping paw in setting up the picnic spread.  
@@ -250,17 +250,17 @@ a18:
 	*BLOCKSTART*
 		*setcamoffset setpos 82.615234 -37.553711 18.915096;setang -3.078 155.022 0*
 		#*setcam setpos -2726.600342 6863.649414 28.915096;setang -3.078496 -114.977554 0* #### BAR
-		*setanim cat_bar gesture_agree 1 idle*
+		*AGREE(cat_bar)*
 	*BLOCKEND*
 	I could tell before,%% but I'm sure of it after seeing you watch the 
-	others horsing around on the beach.%%%%*BAR_BLINK* You*setanim cat_bar gesture_foldarms 1 idle* appear to be able to just,% 
+	others horsing around on the beach.%%%%*BAR_BLINK* You*FOLDARMS(cat_bar)* appear to be able to just,% 
 	slot into any scenario and take it for what it is.
 	&a19
 
 a19:
 	*BLOCKSTART*
 		*BAR_HAPPY*
-		*setanim cat_bar gesture_agree 1 idle*
+		*AGREE(cat_bar)*
 	*BLOCKEND*
 	I believe that's a trait that's not valued as highly as it ought to be.%%%*BAR_NEUTRAL* 
 	The ability to look at a stranger on their path,% be a little confused,%% 
@@ -271,10 +271,10 @@ a20:
 	*BLOCKSTART*
 		*setcamoffset setpos 88.349121 77.000488 21.732605;setang -1.801 -136.724 0* ###### PLAYER AND BAR
 		#*setcam setpos -2841.154541 6869.383301 31.732605;setang -1.800735 -46.723713 0* ###### PLAYER AND BAR
-		*setanim cat_bar gesture_laugh 1 idle*
+		*LAUGH(cat_bar)*
 	*BLOCKEND*
 	It enriches all parties involved,%%% even if it ends up badly.%%%%*BAR_BLINK* Sometimes
-	that's as warm as it sounds,%%%*BAR_NEUTRAL* and sometimes it's a very cold truth.%%%%*setanim cat_bar gesture_agree 1 idle* 
+	that's as warm as it sounds,%%%*BAR_NEUTRAL* and sometimes it's a very cold truth.%%%%*AGREE(cat_bar)* 
 	But it's worth it.
 	&a21
 

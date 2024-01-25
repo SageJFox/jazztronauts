@@ -31,20 +31,20 @@ b1:
 		#*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*
 		*setspeaker cat_piano*
 		*PIANO_NEUTRAL*
-		*setanim cat_piano gesture_jab 1 idle*
+		*JAB(cat_piano)*
 	*BLOCKEND*
 	You.%%%%
 	
-	I've been*setanim cat_piano gesture_agree 1 idle* waiting for you to show up.%% C'mere,% and lower your voice.
+	I've been*AGREE(cat_piano)* waiting for you to show up.%% C'mere,% and lower your voice.
 	&b2
 	
 b2:
 	*BLOCKSTART*
 		*PIANO_NEUTRAL*
-		*setanim cat_piano gesture_laugh 1 idle*
+		*LAUGH(cat_piano)*
 	*BLOCKEND*
 	Listen,% *player*.%%% We've been through a lot together.%% 
-	We've bonded over the acquisition of suspended-animation takeout.%%*setcamoffset setpos 40.825195 7.121765 55.836754;setang 10.644 -171.802 -0.175*%*setanim cat_piano gesture_agree 1 idle*#*setcam setpos -1153.211426 490.722992 -8.163246;setang 10.643499 -147.581436 -0.175000*
+	We've bonded over the acquisition of suspended-animation takeout.%%*setcamoffset setpos 40.825195 7.121765 55.836754;setang 10.644 -171.802 -0.175*%*AGREE(cat_piano)*#*setcam setpos -1153.211426 490.722992 -8.163246;setang 10.643499 -147.581436 -0.175000*
 	And I just decided that means we're friends now.
 	&b3
 	
@@ -53,20 +53,20 @@ b3:
 		*setcamroot cat_piano setpos 80.290100 7.467896 61.609421;setang 8.585 173.265 0.000*
 		#*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*
 		*PIANO_SMIRK*
-		*setanim cat_piano gesture_foldarms 1 idle*
+		*FOLDARMS(cat_piano)*
 	*BLOCKEND*
 	I know, it's a lot to take in,% remember to breathe.%%
 	My trust is not lightly bestowed,% but I think you've earned it.%%
-	But*setanim cat_piano gesture_disagree 1 idle* we should not forget our origins.
+	But*DISAGREE(cat_piano)* we should not forget our origins.
 	&b4
 	
 b4:
 	*BLOCKSTART*
 		*PIANO_NEUTRAL*
-		*setanim cat_piano gesture_sweep 1 idle*
+		*SWEEP(cat_piano)*
 	*BLOCKEND*
 	So,% we're gonna cement this friendship in an aptly symbolic and
-	appropriate way\:%%%%*setanim cat_piano gesture_laugh 1 idle*
+	appropriate way\:%%%%*LAUGH(cat_piano)*
 	W*PIANO_SMIRK*hich is a very fancy and roundabout way of me telling you that we're 
 	gonna steal more shit for me.
 	player:
@@ -93,10 +93,10 @@ r1a1:
 		#*setcam setpos -788.870239 600.943054 23.847630;setang 5.117703 -166.131042 0.000000*
 		*setspeaker cat_piano*
 		*PIANO_NEUTRAL*
-		*setanim cat_piano gesture_sigh 1 idle*
+		*SIGH(cat_piano)*
 	*BLOCKEND*
 	Well,% piss.%%% I hadn't really planned for that,% but.%%
-	I respect your autonomy,% pal.%% Go be 'rel*setanim cat_piano gesture_shrug 1 idle*iable' or whatever 
+	I respect your autonomy,% pal.%% Go be 'rel*SHRUG(cat_piano)*iable' or whatever 
 	boring thing you have in mind instead,% if that's what you really want to do.*mark_seen*
 	&exit
 
@@ -107,10 +107,10 @@ r2a1:
 		#*setcam setpos -1153.211426 490.722992 -10.163246;setang 10.643499 -147.581436 -0.175000*
 		*setspeaker narrator*
 		*PIANO_NEUTRAL*
-		*setanim cat_piano gesture_confused 1 idle*
+		*CONFUSED(cat_piano)*
 	*BLOCKEND*
 	> The Pianist stares at you,% head tilted to one side.%%% 
-	You can almost see the wheels turning in her*setanim cat_piano gesture_disagree 1 idle* head before she
+	You can almost see the wheels turning in her*DISAGREE(cat_piano)* head before she
 	shakes*PIANO_SMIRK* it and grins.
 	&r2a2
 
@@ -119,11 +119,11 @@ r2a2:
 		*setspeaker cat_piano*
 		*setcamroot player setpos -291.752136 -8.628052 87.847626;setang 5.118 -0.213 0.000*
 		#*setcam setpos -788.870239 600.943054 23.847630;setang 5.117703 -166.131042 0.000000*
-		*setanim cat_piano gesture_disagree 1 idle*
+		*DISAGREE(cat_piano)*
 	*BLOCKEND*
 	We don't have that kind of relationship,% buddy.%%*PIANO_NEUTRAL*
 	Our relationship is based on a different kind of give and take.%*setcamroot cat_piano setpos 80.290100 7.467896 61.609421;setang 8.585 173.265 0.000*#*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*
-	The kind where*setanim cat_piano gesture_jab 1 idle* you take shit from other people and give it to me.
+	The kind where*JAB(cat_piano)* you take shit from other people and give it to me.
 	player:
 		&r1a1:
 			*setcamroot player setpos 209.309814 -32.514404 68.809135;setang 6.336 150.110 0.000*
@@ -143,7 +143,7 @@ r3a1:
 		*setcamroot player setpos -291.752136 -8.628052 87.847626;setang 5.118 -0.213 0.000*
 		#*setcam setpos -788.870239 600.943054 23.847630;setang 5.117703 -166.131042 0.000000*
 		*PIANO_SMIRK*
-		*setanim cat_piano gesture_clap 1 idle*
+		*CLAP(cat_piano)*
 	*BLOCKEND*
 	> The Pianist claps her hands together and beams,% 
 	tail lashing in excitement.
@@ -154,7 +154,7 @@ r3a2:
 		*setcamroot cat_piano setpos 80.290100 7.467896 61.609421;setang 8.585 173.265 0.000*
 		#*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*
 		*setspeaker cat_piano*
-		*setanim cat_piano gesture_laugh 1 idle*
+		*LAUGH(cat_piano)*
 	*BLOCKEND*
 	Hell fucking yeah you do.
 	&r3a3
@@ -162,11 +162,11 @@ r3a2:
 r3a3:
 	*BLOCKSTART*
 		*PIANO_NEUTRAL*
-		*setanim cat_piano gesture_sweep 1 idle*
+		*SWEEP(cat_piano)*
 	*BLOCKEND*
 	I'm gonna lift the package myself,% I just need you to be my lookout.%%
-	And our mark is a*setanim cat_piano gesture_shrug 1 idle* fucking moron with no spatial awareness to speak of.%%%
-	It's an easy job.%*setanim cat_piano gesture_agree 1 idle* C'mon let's move.
+	And our mark is a*SHRUG(cat_piano)* fucking moron with no spatial awareness to speak of.%%%
+	It's an easy job.%*AGREE(cat_piano)* C'mon let's move.
 	&m1
 
 m1:
@@ -202,7 +202,7 @@ m1:
 	
 m2:
 	*BLOCKSTART*
-		*setanim cat_piano gesture_jab 1 idle*
+		*JAB(cat_piano)*
 		*setcamroot cat_piano setpos 103.689941 33.762695 21.781422;setang -1.518 -149.806 0.000*
 		#*setcam setpos -2862.619141 3833.609863 21.781422;setang -1.518007 84.334892 0.000000*
 	*BLOCKEND*
@@ -219,23 +219,23 @@ m4:
 	*BLOCKSTART*
 		*setspeaker cat_piano*
 		*PIANO_NEUTRAL*
-		*setanim cat_piano gesture_agree 1 idle*
+		*AGREE(cat_piano)*
 	*BLOCKEND*
 	Okay.%% Here's the deal.%%%
 	In,% out.% Ten seconds,% tops.%%%%
 	
-	I*setanim cat_piano gesture_jab 1 idle*'m after that.%%*setcamroot good_shit setpos -45.315918 -45.731445 26.149071;setang 19.086 41.498 0.000*#*setcamroot good_shit**setcam setpos -2834.555664 4210.392090 58.149071;setang 19.085867 116.498489 0.000000*
+	I*JAB(cat_piano)*'m after that.%%*setcamroot good_shit setpos -45.315918 -45.731445 26.149071;setang 19.086 41.498 0.000*#*setcamroot good_shit**setcam setpos -2834.555664 4210.392090 58.149071;setang 19.085867 116.498489 0.000000*
 	&m5
 
 m5:
 	*BLOCKSTART*
 		*PIANO_SMIRK*
-		*setanim cat_piano gesture_disagree 1 idle*
+		*DISAGREE(cat_piano)*
 	*BLOCKEND*
 	I know how this motherfucker works.%%*setcamroot cat_piano setpos 54.016357 2.427734 51.301437;setang 8.395 -159.330 0.000* All those high concept,% #*setcamroot cat_piano**setcam setpos -2858.916504 3892.224121 51.301437;setang 8.394613 74.811508 0.000000*
 	probably explosive materials?%%%%
 	
-	T*setanim cat_piano gesture_confused 1 idle*hat's the soft shit.
+	T*CONFUSED(cat_piano)*hat's the soft shit.
 	&m6
 	
 m6:
@@ -254,10 +254,10 @@ m7:
 		#*setcam setpos -2862.619141 3833.609863 21.781422;setang -1.518007 84.334892 0.000000*
 		*setspeaker cat_piano*
 		*PIANO_NEUTRAL*
-		*setanim cat_piano gesture_foldarms 1 idle*
+		*FOLDARMS(cat_piano)*
 	*BLOCKEND*
 	I don't wanna be able to think for a week and I want to make really 
-	stupid life choices.%%*setanim cat_piano gesture_jab 1 idle* You just watch for him twitching.
+	stupid life choices.%%*JAB(cat_piano)* You just watch for him twitching.
 	player:
 		&m8: Why don't you just ask h—
 		&m8: This is a really bad id—
@@ -307,7 +307,7 @@ m10:
 		*setspeaker narrator*
 		*PIANO_ANGRY*
 		*tweenoffset cat_piano .55 setpos 0.847168 99.968750 0;setang 0 255 0*
-		*setanim cat_piano gesture_shock 1 idle*
+		*SHOCK(cat_piano)*
 		*setanim player seq_wave_smg1 1 cidle_passive*
 	*BLOCKEND*
 	> The Cellist starts to stir and you frantically signal for*PIANO_NEUTRAL* your 
@@ -331,12 +331,12 @@ m11:
 		*wait .25*
 		*show cat_piano*
 		*PIANO_SMIRK*
-		*setanim cat_piano gesture_laugh 1 idle*
+		*LAUGH(cat_piano)*
 	*BLOCKEND*
 	We fucking did it.%% We have scored,% the Good Shit.%%%*setcamroot cat_piano setpos 80.290100 7.467896 61.609421;setang 8.585 173.265 0.000*#*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*
-	He knows that*setanim cat_piano gesture_shrug 1 idle* I know he hides the hard stuff,% so of course he 
+	He knows that*SHRUG(cat_piano)* I know he hides the hard stuff,% so of course he 
 	left it out in the open as something obvious and innocuous.%%%% 
-	Cellist*setanim cat_piano gesture_confused 1 idle* is smarter than he looks,% you know.
+	Cellist*CONFUSED(cat_piano)* is smarter than he looks,% you know.
 	&m12
 	
 m12:
@@ -388,11 +388,11 @@ m17:
 		#*setcam setpos -1215.927002 386.680145 -10;setang 23.451723 54.179680 0.000000*
 		*setspeaker cat_cello*
 		*CELLO_GRIN*
-		*setanim cat_cello gesture_shrug 1 idle*
+		*SHRUG(cat_cello)*
 	*BLOCKEND*
 	fucking knew that'd work%%%%
 	she always assumes i have the capacity for mind games and 
-	psyches herself out into doing something predictable.%%%%*setanim cat_cello gesture_agree 1 idle*
+	psyches herself out into doing something predictable.%%%%*AGREE(cat_cello)*
 	thanks for enabling her.
 	&m18
 	
@@ -403,18 +403,18 @@ m18:
 		*setspeaker cat_cello*
 		*CELLO_NEUTRAL*
 	*BLOCKEND*
-	oh,%% it's probably worth noting she didn't*setanim cat_cello gesture_disagree 1 idle* actually get my Good Shit%%%%
+	oh,%% it's probably worth noting she didn't*DISAGREE(cat_cello)* actually get my Good Shit%%%%
 	you'd be able to tell if she did by the constant screaming
 	&m19
 	
 m19:
 	*BLOCKSTART*
 		*setspeaker cat_cello*
-		*setanim cat_cello gesture_shrug 1 idle*
+		*SHRUG(cat_cello)*
 		*CELLO_GRIN*
 	*BLOCKEND*
 	i just rolled a blunt full of aromatherapy stuff i stole from bed bath and 
-	beyond%%%*setcamroot cat_piano setpos -59.053833 -62.032654 87.725632;setang 23.452 29.959 0.000* it seems to be working.*CELLO_NEUTRAL*%%*setanim cat_cello gesture_confused 1 idle* now maybe she'll sleep for more than #*setcam setpos -1215.927002 386.680145 23.725632;setang 23.451723 54.179680 0.000000*
+	beyond%%%*setcamroot cat_piano setpos -59.053833 -62.032654 87.725632;setang 23.452 29.959 0.000* it seems to be working.*CELLO_NEUTRAL*%%*CONFUSED(cat_cello)* now maybe she'll sleep for more than #*setcam setpos -1215.927002 386.680145 23.725632;setang 23.451723 54.179680 0.000000*
 	an hour and wake up chill and give us all some 
 	peace and quiet for a day or two.
 	&m20
@@ -422,7 +422,7 @@ m19:
 m20:
 	*BLOCKSTART*
 		*setspeaker narrator*
-		*setanim cat_cello gesture_agree 1 idle*
+		*AGREE(cat_cello)*
 	*BLOCKEND*
 	> The Cellist nods to himself,% cleary satisfied,%% and leaves.
 	&m21

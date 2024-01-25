@@ -30,17 +30,17 @@ b1:
 	*BLOCKSTART*
 		*setspeaker cat_cello*
 		*CELLO_GRIN*
-		*setanim cat_cello gesture_agree 1 idle*
+		*AGREE(cat_cello)*
 		*setcamoffset setpos 69.595825 -38.121582 49.682854;setang 4.215 119.109 0.000*
 		#*setcam setpos -1464.040039 2978.969971 49.714104;setang 4.215045 -69.891418 0.000000*
 	*BLOCKEND*
 	in summary, when Meat Loaf sings about %%'that'%% in I Would Do Anything 
-	For Love (But I Won't Do That)—%%%*setanim cat_cello gesture_sweep 1 idle* 
+	For Love (But I Won't Do That)—%%%*SWEEP(cat_cello)* 
 	&b1b
 	
 b1b:
 	—it should be readily apparent that he's referring to a set of statements 
-	that amount to being a callous or unfaithful lover,%*CELLO_MAD* you fool.%%%%*setanim cat_cello gesture_disagree 1 idle*
+	that amount to being a callous or unfaithful lover,%*CELLO_MAD* you fool.%%%%*DISAGREE(cat_cello)*
 	you imbecile.%%% you great ambulatory chode.
 	&b2
 	
@@ -82,7 +82,7 @@ b3:
 b4:
 	*BLOCKSTART*
 		*setspeaker cat_piano*
-		*setanim cat_piano gesture_disagree 1 idle*
+		*DISAGREE(cat_piano)*
 	*BLOCKEND*
 	No need to thank me I'll be sure to petition Congress for 
 	a posthumous Medal of Honor,%%*PIANO_NEUTRAL*
@@ -135,7 +135,7 @@ r1a1:
 		*setlook player -5.972*
 		*setspeaker cat_cello*
 		*CELLO_GRIN*
-		*setanim cat_cello gesture_confused 1 idle*
+		*CONFUSED(cat_cello)*
 	*BLOCKEND*
 	did anyone ever tell you that michelangelo's 
 	david is made of garbage
@@ -148,7 +148,7 @@ mikeyboy:
 		#*setcam setpos -1380.977783 2895.147705 71.170029;setang 1.340097 173.352905 0.000000*
 		*wait 1*
 		*show .1*
-		*setanim cat_cello gesture_agree 1 idle*
+		*AGREE(cat_cello)*
 		*CELLO_NEUTRAL*
 		*setcamroot cat_cello setpos 75.916870 -2.151855 58.913067;setang 6.442 -170.845 0.000* ###### CELLO HEADSHOT
 		#*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
@@ -164,7 +164,7 @@ r1a2:
 	#%.%.%.%assuming you did you just saw that i'm right.%% assuming not,%%%*setcamroot cat_cello**setcam setpos -1397.268188 3009.426758 56.634251;setang 3.842376 -118.766037 0.000000* 
 	%.%.%.%assuming you did you just saw that i'm right.%% assuming not,%%%*setcamroot cat_cello setpos 8.410522 -78.648926 56.603001;setang 3.842 70.234 0.000* 
 	the statue that damn near half the planet considers one of 
-	the pinnacles*setanim cat_cello gesture_laugh 1 idle* of an art form was made of a big-ass chunk of flawed 
+	the pinnacles*LAUGH(cat_cello)* of an art form was made of a big-ass chunk of flawed 
 	marble that was just sorta laying around outside because it was shitty
 	&r1a3
 	
@@ -173,7 +173,7 @@ r1a3:
 		*setcamroot cat_cello setpos 75.916870 -2.151855 58.913067;setang 6.442 -170.845 0.000* ###### CELLO HEADSHOT
 		#*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
 		*CELLO_GRIN*
-		*setanim cat_cello gesture_shrug 1 idle*
+		*SHRUG(cat_cello)*
 	*BLOCKEND*
 	there's something profound to say in there somewhere 
 	but i am too inebriated to bother trying.
@@ -184,10 +184,10 @@ r1a4:
 		*setcamroot player setpos -160.142822 324.028320 156.254333;setang 16.726 -61.280 0.000*
 		#*setcam setpos -1615.278809 3269.499023 156.285583;setang 16.726448 -68.347870 0.000000*
 		*CELLO_NEUTRAL*
-		*setanim cat_cello gesture_agree 1 idle*
+		*AGREE(cat_cello)*
 	*BLOCKEND*
 	michelangelo did way more interesting things than a jumbo size statue 
-	of a dude with big hands and a wee bepis though,%*setcamoffset -54.570068 128.118896 57.558647;13.053 -54.785 0*%*setanim cat_cello gesture_sweep 1 idle* like that time he #*setcam setpos -1534.614624 3062.087891 57.589897;setang 13.052918 -61.852760 0.000000*
+	of a dude with big hands and a wee bepis though,%*setcamoffset -54.570068 128.118896 57.558647;13.053 -54.785 0*%*SWEEP(cat_cello)* like that time he #*setcam setpos -1534.614624 3062.087891 57.589897;setang 13.052918 -61.852760 0.000000*
 	painted a picture of a critic burning in hell so 
 	sick it became a world-renowned tourist attraction
 	player:
@@ -215,14 +215,14 @@ owntheplayer:
 		#*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
 		*setspeaker narrator*
 		*CELLO_GRIN*
-		*setanim cat_cello gesture_foldarms 1 idle*
+		*FOLDARMS(cat_cello)*
 	*BLOCKEND*
 	> The Cellist looks smug.
 	&own1
 	
 own1:
 	*BLOCKSTART*
-		*setanim cat_cello gesture_laugh 1 idle*
+		*LAUGH(cat_cello)*
 		*setspeaker cat_cello*
 	*BLOCKEND*
 	haha you were just picking one of those options*CELLO_NEUTRAL* at 
@@ -233,7 +233,7 @@ own2:
 	*BLOCKSTART*
 		*setcamroot cat_cello setpos -25.755005 -21.411377 43.079720;setang -7.604 25.618 0.000*
 		#*setcam setpos -1372.477295 2947.549072 43.110970;setang -7.604194 -163.381622 0.000000*
-		*setanim cat_cello gesture_shrug 1 idle*
+		*SHRUG(cat_cello)*
 	*BLOCKEND*
 	or maybe you took an art history course one semester and were too 
 	busy doing rails of white lightning in the janitor's closet to 
@@ -244,7 +244,7 @@ own2:
 ###### ACTUAL ANSWER
 actualanswer:
 	*BLOCKSTART*
-		*setanim cat_cello gesture_shock 1 idle*
+		*SHOCK(cat_cello)*
 		*CELLO_NEUTRAL*
 		*setspeaker narrator*
 		*setcamroot cat_cello setpos 75.916870 -2.151855 58.913067;setang 6.442 -170.845 0.000* ###### CELLO HEADSHOT
@@ -255,17 +255,17 @@ actualanswer:
 	
 actual1:
 	*BLOCKSTART*
-		*setanim cat_cello gesture_confused 1 idle*
+		*CONFUSED(cat_cello)*
 		*setspeaker cat_cello*
 	*BLOCKEND*
 	either you're an art history geek,%% surprisingly versed in 
-	bullshit-fu,%% or lucky,%%%*setanim cat_cello gesture_agree 1 idle* but yeah
+	bullshit-fu,%% or lucky,%%%*AGREE(cat_cello)* but yeah
 	&m1
 	
 ###### YEAH FAIR ENOUGH DUDE
 fairenough:
 	*BLOCKSTART*
-		*setanim cat_cello gesture_sigh 1 idle*
+		*SIGH(cat_cello)*
 		*CELLO_NEUTRAL*
 		*setspeaker cat_cello*
 		*setcamroot cat_cello setpos 75.916870 -2.151855 58.913067;setang 6.442 -170.845 0.000* ###### CELLO HEADSHOT
@@ -278,7 +278,7 @@ fairenough:
 	
 fair1:
 	*BLOCKSTART*
-		*setanim cat_cello gesture_laugh 1 idle*
+		*LAUGH(cat_cello)*
 		*CELLO_GRIN*
 	*BLOCKEND*
 	said the gigantic hypocritical asshole of course%%%
@@ -296,15 +296,15 @@ m1:
 		*setanim cat_cello gesture_sweep .5 idle*
 	*BLOCKEND*
 	so anyone who's so much as seen a single meme knows what the big 
-	important paintings on the ceiling of the sistine chapel look like right,%%%*setanim cat_cello gesture_disagree 1 idle* 
+	important paintings on the ceiling of the sistine chapel look like right,%%%*DISAGREE(cat_cello)* 
 	but it takes a certain kind of dork to remember the other thing 
 	michelangelo did in there
 	&m2
 	
 m2:
-	*setanim cat_cello gesture_clap 1 idle*
+	*CLAP(cat_cello)*
 	big ol portrait of the end times with ya boy Jesus up top conducting the 
-	show with a torso built like a goddamn tree trunk,%%*setcamoffset 41.073364 17.928711 50.102936;6.611 -176.738 0* like*setanim cat_cello gesture_shrug 1 idle* homeboy skipped #*setcam setpos -1444.636963 2919.147705 50.134186;setang 6.610850 -5.737509 0.000000*
+	show with a torso built like a goddamn tree trunk,%%*setcamoffset 41.073364 17.928711 50.102936;6.611 -176.738 0* like*SHRUG(cat_cello)* homeboy skipped #*setcam setpos -1444.636963 2919.147705 50.134186;setang 6.610850 -5.737509 0.000000*
 	both arm and leg day and just did crunches 24/7 after 
 	blasting off into space on the 40th day
 	&m3
@@ -313,7 +313,7 @@ m3:
 	*BLOCKSTART*
 		*setcamroot player setpos -144.562622 97.069336 105.680618;setang 14.224 -32.264 0.000*
 		#*setcam setpos -1627.743774 3042.347656 105.711868;setang 14.224164 -39.332272 0.000000*
-		*setanim cat_cello gesture_sweep 1 idle*
+		*SWEEP(cat_cello)*
 	*BLOCKEND*
 	now it is entirely possible to go on a big ol diatribe about the 
 	composition and the use*setanim cat_cello gesture_foldarms .8 idle* of color and the narratives created by 
@@ -323,7 +323,7 @@ m3:
 	
 m4:
 	*BLOCKSTART*
-		*setanim cat_cello gesture_disagree 1 idle*
+		*DISAGREE(cat_cello)*
 		*setcamroot cat_cello setpos 75.916870 -2.151855 58.913067;setang 6.442 -170.845 0.000* ###### CELLO HEADSHOT
 		#*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
 	*BLOCKEND*
@@ -332,7 +332,7 @@ m4:
 	&m5
 	
 m5:
-	*setanim cat_cello gesture_agree 1 idle*
+	*AGREE(cat_cello)*
 	and is way less funny than talking about all the people who got 
 	super mad that mike drew a bunch of butts on a church wall%%%%%*setcamroot player 194.534912 82.088135 83.628769;5.812 -154.024 0*#*setcam setpos -1293.066528 2985.755127 83.660019;setang 5.812237 -161.092316 0.000000*
 	&m5b
@@ -348,11 +348,11 @@ m6:
 		*setspeaker cat_cello*
 		*setcamroot player setpos -43.936890 93.878662 33.040119;setang -3.079 -56.009 0.000* ###### CELLO AND PLAYER
 		#*setcam setpos -1528.275269 3026.799561 33.071369;setang -3.078806 -63.077377 0.000000* ###### CELLO AND PLAYER
-		*setanim cat_cello gesture_sweep 1 idle*
+		*SWEEP(cat_cello)*
 	*BLOCKEND*
-	see this dude biagio da cesena,%% the emcee for the pope*setanim cat_cello gesture_agree 1 idle* *c ASIDECOLOR*(which may be 
+	see this dude biagio da cesena,%% the emcee for the pope*AGREE(cat_cello)* *c ASIDECOLOR*(which may be 
 	the best job title to ever put on your resume)*c*,%%% saw that mike painted
-	everybody's immortal souls as naked*CELLO_MAD* people and got*setanim cat_cello gesture_shrug 1 idle* 
+	everybody's immortal souls as naked*CELLO_MAD* people and got*SHRUG(cat_cello)* 
 	his jorts in a twist over it
 	&m7
 	
@@ -360,7 +360,7 @@ m7:
 	*BLOCKSTART*
 		*setcamroot cat_cello setpos 75.916870 -2.151855 58.913067;setang 6.442 -170.845 0.000* ###### CELLO HEADSHOT
 		#*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
-		*setanim cat_cello gesture_sweep 1 idle*
+		*SWEEP(cat_cello)*
 	*BLOCKEND*
 	said it was the sort of thing that belonged in bathhouses and 
 	taverns rather than a church,%%%*CELLO_NEUTRAL* which reads like a 
@@ -370,10 +370,10 @@ m7:
 m8:
 	*BLOCKSTART*
 		*CELLO_GRIN*
-		*setanim cat_cello gesture_laugh 1 idle*
+		*LAUGH(cat_cello)*
 	*BLOCKEND*
 	in reponse mike painted him in as the pagan judge of the dead,%% 
-	gave him donkey ears to show he was a dumb jackass,%%%*setanim cat_cello gesture_clap 1 idle* and 
+	gave him donkey ears to show he was a dumb jackass,%%%*CLAP(cat_cello)* and 
 	graciously covered his nudity with a snake chewing on his dick
 	player:
 		&r3a1:
@@ -396,7 +396,7 @@ r3a1:
 		*setcamroot player setpos -43.936890 93.878662 33.040119;setang -3.079 -56.009 0.000* ###### CELLO AND PLAYER
 		#*setcam setpos -1528.275269 3026.799561 33.071369;setang -3.078806 -63.077377 0.000000* ###### CELLO AND PLAYER
 		*setspeaker cat_cello*
-		*setanim cat_cello gesture_agree 1 idle*
+		*AGREE(cat_cello)*
 	*BLOCKEND*
 	hell yeah it does.
 	player:
@@ -417,10 +417,10 @@ r4a1:
 		*setcamroot cat_cello setpos 75.916870 -2.151855 58.913067;setang 6.442 -170.845 0.000* ###### CELLO HEADSHOT
 		#*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
 		*setspeaker cat_cello*
-		*setanim cat_cello gesture_shrug 1 idle*
+		*SHRUG(cat_cello)*
 	*BLOCKEND*
 	well biggie bitched at the pope about it%% but the pope roasted*CELLO_GRIN* 
-	his nuts by saying he didn't have the jurisdiction*setanim cat_cello gesture_laugh 1 idle* 
+	his nuts by saying he didn't have the jurisdiction*LAUGH(cat_cello)* 
 	to bail souls out of hell so he'd have to 
 	stay there in the painting
 	&r4a2
@@ -428,7 +428,7 @@ r4a1:
 r4a2:
 	*BLOCKSTART*
 		*CELLO_MAD*
-		*setanim cat_cello gesture_disagree 1 idle*
+		*DISAGREE(cat_cello)*
 	*BLOCKEND*
 	they painted clothes on everybody after mike 
 	bit it though because they were cowards
@@ -442,7 +442,7 @@ r5a1:
 		#*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
 		*CELLO_NEUTRAL*
 		*setspeaker cat_cello*
-		*setanim cat_cello gesture_sweep 1 idle*
+		*SWEEP(cat_cello)*
 	*BLOCKEND*
 	well you need to understand that for a very long period of time 
 	european art had a strict divide between the concept of 'nude' 
@@ -463,7 +463,7 @@ r5a2:
 	&r5a3
 	
 r5a3:
-	*setanim cat_cello gesture_shrug 1 idle*
+	*SHRUG(cat_cello)*
 	it thus was seen as a terrible horrible no good very bad thing that had 
 	nothing to do with the fact that it was usually done as a direct critique 
 	of contemporary art and society,%%*setcamroot cat_cello setpos 41.073364 17.928711 50.102936;setang 6.611 -176.738 0.000*%*CELLO_GRIN* or that it gave a lot of people #*setcamroot cat_cello**setcam setpos -1444.636963 2919.147705 50.134186;setang 6.610850 -5.737509 0.000000*
@@ -477,7 +477,7 @@ n1:
 		#*setcam setpos -1528.275269 3026.799561 33.071369;setang -3.078806 -63.077377 0.000000* ###### CELLO AND PLAYER
 		*CELLO_NEUTRAL*
 		*setspeaker cat_cello*
-		*setanim cat_cello gesture_laugh 1 idle*
+		*LAUGH(cat_cello)*
 	*BLOCKEND*
 	art is always most interesting when it's basically just extremely elaborate
 	high concept trolling is what im getting at.%%%%*setanim cat_cello gesture_agree .75 idle* the french mastered that shit.%%%
@@ -488,7 +488,7 @@ n1:
 n2:
 	*BLOCKSTART*
 		*CELLO_GRIN*
-		*setanim cat_cello gesture_confused 1 idle*
+		*CONFUSED(cat_cello)*
 	*BLOCKEND*
 	the more elaborate and uptight and demanding a creative form is the 
 	more fun it is when someone uses those rules to make a gigantic 
@@ -508,15 +508,15 @@ n3:
 n4:
 	*BLOCKSTART*
 		*setspeaker cat_cello*
-		*setanim cat_cello gesture_laugh 1 idle*
+		*LAUGH(cat_cello)*
 	*BLOCKEND*
 	i suppose i've trapped you in a corner and rambled at you about stupid 
-	shit long enough.%%%*setanim cat_cello gesture_agree 1 idle* you can knock off if you'd like.
+	shit long enough.%%%*AGREE(cat_cello)* you can knock off if you'd like.
 	&n5
 	
 n5:
 	*BLOCKSTART*
-		*setanim cat_cello gesture_shrug 1 idle*
+		*SHRUG(cat_cello)*
 		*setcamroot cat_cello setpos 75.916870 -2.151855 58.913067;setang 6.442 -170.845 0.000* ###### CELLO HEADSHOT
 		#*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
 	*BLOCKEND*

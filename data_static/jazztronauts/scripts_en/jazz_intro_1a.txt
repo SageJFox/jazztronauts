@@ -37,7 +37,7 @@ begin3:
 		*setcam setpos -4621.874512 -296.848511 1561.714600;setang 1.014253 106.313759 0.000000*
 	*BLOCKEND*
 	Dunno what you expected,% it's pretty dead around here at this point.%%
-	*PIANO_SMIRK*The last place we looked?*setanim cat_piano gesture_foldarms 1 idle*% Could barely even call that a map.
+	*PIANO_SMIRK*The last place we looked?*FOLDARMS(cat_piano)*% Could barely even call that a map.
 	&begin4
 
 begin4:
@@ -46,7 +46,7 @@ begin4:
 		*tweencam .75 setpos -4599.150879 -306.177002 1561.454712;setang 4.308485 45.520340 0.000000*
 		*CELLO_MAD*
 	*BLOCKEND*
-	dont you fuckin*setanim cat_cello gesture_jab 1 idle* dare blaspheme dm_juicyasszone.bsp%%%*CELLO_NEUTRAL*%
+	dont you fuckin*JAB(cat_cello)* dare blaspheme dm_juicyasszone.bsp%%%*CELLO_NEUTRAL*%
 	it had a vision
 	&begin5
 
@@ -74,7 +74,7 @@ begin7:
 	*BLOCKSTART*
 		narratesinger()
 		*BAR_NEUTRAL*
-		*setanim cat_singer gesture_embarass 1 idle*
+		*EMBARASS(cat_singer)*
 		*SINGER_HAPPY*
 	*BLOCKEND*
 	> The cat bashfully looks down and starts fidgeting.
@@ -87,7 +87,7 @@ begin8:
 		*setanim cat_singer singer_survey 0.7 idle*
 		*setcam setpos -4673.240723 -489.003113 1565.306396;setang 4.847563 49.533478 0.000000*
 		*PIANO_NEUTRAL*
-		*setanim cat_piano gesture_foldarms 1 idle*
+		*FOLDARMS(cat_piano)*
 	*BLOCKEND*
 	Tch.%% I can't believe we're doing grunt work.
 	&begin9
@@ -97,7 +97,7 @@ begin9:
 		*setspeaker cat_cello*
 		*CELLO_MAD*
 		*setcam setpos -4585.696289 -314.744690 1560.782227;setang 0.714805 54.894096 0.000000*
-		*setanim cat_cello gesture_shrug 1 idle*
+		*SHRUG(cat_cello)*
 		*setposang cat_singer setpos -4510.350098 -597.766235 1518.031250;setang -90.592359 -76.098587 0.000000* # not visible after cam change
 	*BLOCKEND*
 	yea this is peasant shit%%
@@ -110,25 +110,25 @@ begin10:
 		*setcam setpos -4618.435059 -439.372253 1552.954712;setang 2.212179 -56.899910 0.000000*
 		*BAR_NEUTRAL*
 	*BLOCKEND*
-	Well, as I recall,*setanim cat_bar gesture_jab 1 idle* you were the one so very insistent on making
+	Well, as I recall,*JAB(cat_bar)* you were the one so very insistent on making
 	our last guests leave.
 	&begin11
 
 begin11:
 	*BLOCKSTART*
 		*setspeaker cat_cello*
-		*setanim cat_cello gesture_disagree 1 idle*
+		*DISAGREE(cat_cello)*
 		*setcam setpos -4585.696289 -314.744690 1560.782227;setang 0.714805 54.894096 0.000000*
 	*BLOCKEND*
 	oh% sure% im the bad guy here%%
-	not the one who threatened to% and *setanim cat_cello gesture_sweep 1 idle*i quote%
+	not the one who threatened to% and *SWEEP(cat_cello)*i quote%
 	'floss their teeth with their spines'
 	&begin12
 
 begin12:
 	*BLOCKSTART*
 		*setspeaker cat_piano*
-		*setanim cat_piano gesture_shrug 1 idle*
+		*SHRUG(cat_piano)*
 		*tweencam .4 setpos -4551.619629 -322.983948 1559.385132;setang 2.451759 127.067406 0.000000*
 	*BLOCKEND*
 	They'd have been useful for once.
@@ -140,7 +140,7 @@ begin13:
 		*BAR_NEUTRAL*
 		*setcam setpos -4791.147461 -371.753510 1557.132446;setang -3.537738 3.532947 0.000000*
 	*BLOCKEND*
-	Oh come now, *setanim cat_bar gesture_sweep 1 idle*they were perfectly fine.%%
+	Oh come now, *SWEEP(cat_bar)*they were perfectly fine.%%
 	Besides we got a bargain on them, didn't we?%%
 	Take five,% get one free!
 	&begin14
@@ -157,7 +157,7 @@ begin15:
 		*setspeaker cat_cello*
 		*setcam setpos -4655.412109 -358.058563 1577.959839;setang 11.136559 59.174294 0.000000*
 	*BLOCKEND*
-	you *setanim cat_cello gesture_jab 1 idle*two can brood about your hangups later%
+	you *JAB(cat_cello)*two can brood about your hangups later%
 	pipes over there found a way forward
 	&begin16
 
@@ -166,7 +166,7 @@ begin16:
 		*setspeaker cat_piano*
 		*PIANO_ANGRY*
 	*BLOCKEND*
-	Oh, sure,%*setanim cat_piano gesture_anger 1 idle* just remove yourself from the equation!%%*PIANO_FLUSTERED**setanim cat_piano gesture_sigh 1 idle*
+	Oh, sure,%*ANGER(cat_piano)* just remove yourself from the equation!%%*PIANO_FLUSTERED**SIGH(cat_piano)*
 	%.%.%.%*PIANO_NEUTRAL*Fine,%*CELLO_NEUTRAL*% let's go.
 	&begin17
 

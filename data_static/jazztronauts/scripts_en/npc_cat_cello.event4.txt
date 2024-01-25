@@ -76,8 +76,7 @@ a3:
 		narratesinger()
 	*BLOCKEND*
 	> You can only see part of the Singer's tablet from where you're 
-	sitting,%% but even the little bit you can see has a lot of cursing 
-	on it.%%%%%*setanim cat_singer gesture_anger 1.7 idle* 
+	sitting,%% but even the little bit you can see has a lot of cursing on it.%%%%%*setanim cat_singer gesture_anger 1.7 idle* 
 	Like,%*setanim cat_cello gesture_shock 1.4 idle* a LOT of cursing.
 	&a4
 
@@ -87,19 +86,19 @@ a4:
 		#*setcam setpos -2810.136963 2743.730713 17.970165;setang -9.600546 108.446877 0.000000*
 		*setspeaker cat_cello*
 		*CELLO_BLINK*
-		*setanim cat_cello gesture_facepalm 1 idle*
+		*FACEPALM(cat_cello)*
 	*BLOCKEND*
 	yeah look i know you know about the kleiner% and i get that you're 
 	mad about this% but*CELLO_NEUTRAL* we have so many of the things already you've said 
-	yourself we had to hook them up to the prop snatchers to%%*setanim cat_cello gesture_disagree 1 idle* “give them
+	yourself we had to hook them up to the prop snatchers to%%*DISAGREE(cat_cello)* “give them
 	something to do”
 	&a5
 
 a5:
-	*setanim cat_cello gesture_shrug 1 idle*
+	*SHRUG(cat_cello)*
 	i realize and acknowledge that my method of stealing its knowledge 
 	was a little unorthodox% but what would you have me do,%%*setanim cat_cello gesture_confused 1.2 idle* decompile
-	the thing?%%% chop off its head and steal its quickening?%%%%*setanim cat_cello gesture_disagree 1 idle* it wasn't 
+	the thing?%%% chop off its head and steal its quickening?%%%%*DISAGREE(cat_cello)* it wasn't 
 	any crueler than half the shit we've seen trolley-hopping
 	&a6
 
@@ -111,7 +110,7 @@ a6:
 		*setanim cat_singer gesture_anger 2 idle*
 	*BLOCKEND*
 	> The Singer's impassioned flailing lets you see more of the tablet 
-	this time.%%%%*setanim cat_singer gesture_shock 1 idle* They seem to be viscerally horrified by the way the 
+	this time.%%%%*SHOCK(cat_singer)* They seem to be viscerally horrified by the way the 
 	Kleiner was irrevocably destroyed,%%*setanim cat_singer gesture_anger 2 idle* and going on a screed about how 
 	afraid it must have been*CELLO_MAD* when it realized what was happening.
 	&a7
@@ -148,10 +147,10 @@ a9:
 		*SINGER_FLUSTERED*
 		*setanim cat_cello gesture_anger 2 idle*
 	*BLOCKEND*
-	they're just robots. shitty dime-store robots that have all the 
-	awareness of a furby.%%%*setanim cat_cello gesture_clap .5 idle* they.%% are.%% not.%% real.%%%%% they're never going to 
-	BE*setanim cat_cello gesture_disagree 1,6 idle* real.%%%% all you are doing is projecting feelings onto simulacra 
-	dumber than a chatbot,%% do you get it?%%%%*setanim cat_cello gesture_anger 2 idle* THEY AREN'T FUCKING REAL.
+	they're just robots. shitty dime-store robots that have all the awareness 
+	of a furby.%%%*setanim cat_cello gesture_clap .5 idle* they.%% are.%% not.%% real.%%%%% they're never going to BE*setanim cat_cello gesture_disagree 1,6 idle* real.%%%% 
+	all you are doing is projecting feelings onto simulacra dumber than a 
+	chatbot,%% do you get it?%%%%*setanim cat_cello gesture_anger 2 idle* THEY AREN'T FUCKING REAL.
 	&a10
 
 a10:
@@ -162,7 +161,7 @@ a10:
 		*setanim cat_cello gesture_facepalm 1.5 idle*
 	*BLOCKEND*
 	a koala with irreparable brain damage has more self-awareness than 
-	those things do.%%%%*setanim cat_cello gesture_shrug 1 idle* they don't CARE about you working so hard to keep 
+	those things do.%%%%*SHRUG(cat_cello)* they don't CARE about you working so hard to keep 
 	them warm and fed and making sure they have nice cozy pillows to 
 	sleep on because they can't*setanim cat_cello gesture_anger 2 idle* fucking FEEL
 	&a11
@@ -215,7 +214,7 @@ a15:
 		*setanim cat_cello gesture_shock 1.4 idle*
 	*BLOCKEND*
 	%%%.%.%.%pipes no i—%%%*CELLO_MAD*%*setcamoffset setpos -167.536621 -374.956665 2.898863;setang -4.969 62.804 0.000*#*setcam setpos -3261.866699 2754.966064 2.898863;setang -4.968647 23.803549 0.000000* 
-	i didn't mean—%%%%%*setanim cat_cello gesture_embarass 1 idle* 
+	i didn't mean—%%%%%*EMBARASS(cat_cello)* 
 	you don't—
 	&a16
 
@@ -244,7 +243,7 @@ b1:
 		*setanim player idle_all_02*
 		*remove boothroot*
 		*setspeaker narrator*
-		*setanim cat_singer gesture_disagree 1 idle*
+		*DISAGREE(cat_singer)*
 	*BLOCKEND*
 	> You start after the Cellist,%% only to be stopped by the Singer*setanim cat_singer singer_crawl 1 idle* 
 	practically tackling you from behind to hold you back.
@@ -272,7 +271,7 @@ c1:
 		*remove boothroot*
 		narratesinger()
 		*SINGER_FLUSTERED*
-		*setanim cat_singer gesture_agree 1 idle*
+		*AGREE(cat_singer)*
 	*BLOCKEND*
 	> The Singer nods even as they fight back tears. %%%%
 	*setspeaker cat_singer*“Thank you, but I'm fine.%% 
@@ -282,19 +281,19 @@ c1:
 a17:
 	*BLOCKSTART*
 		*SINGER_DEPRESSED*
-		*setanim cat_singer gesture_sigh 1 idle*
+		*SIGH(cat_singer)*
 		*setspeaker cat_singer*
 	*BLOCKEND*
 	> “The Cellist can have bad days but this is something new and I'm 
 	worried about him???%%%%*SINGER_NEUTRAL* We need to give him some time to cool down 
-	before we go after him.%%%*setanim cat_singer gesture_exchange 1 idle*%*SINGER_HAPPY* I'll be okay!!%% It was unexpected but you saw
+	before we go after him.%%%*EXCHANGE(cat_singer)*%*SINGER_HAPPY* I'll be okay!!%% It was unexpected but you saw
 	his face,%*SINGER_NEUTRAL* he knows he crossed the line.”
 	&a18
 
 a18:
 	*BLOCKSTART*
 		*SINGER_MISCHIEF*
-		*setanim cat_singer gesture_laugh 1 idle*
+		*LAUGH(cat_singer)*
 	*BLOCKEND*
 	> “I'll sit that paranoid motherfucker down once he's had some time 
 	to breathe and then we'll have a talk about healthy ways to 

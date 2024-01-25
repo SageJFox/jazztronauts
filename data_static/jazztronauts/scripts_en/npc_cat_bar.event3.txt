@@ -78,7 +78,7 @@ a5:
 		*setcamroot cat_bar setpos 61.530762 -6.652832 51.668259;setang 0.941 176.794 0.000* ###### BAR HEADSHOT
 		#*setcam setpos -2871.273193 2983.027832 75.699509;setang 0.941066 86.794304 0.000000* ###### BAR HEADSHOT
 		*BAR_NEUTRAL*
-		*setanim cat_bar gesture_dryhands 1 idle*
+		*DRYHANDS(cat_bar)*
 	*BLOCKEND*
 	Welcome.%% Would you like something to dri—
 	&a6
@@ -116,7 +116,7 @@ a8:
 		*setcamroot player setpos 137.250366 -95.772217 85.015930;setang 21.618 148.085 -7.714* #### GROUP
 		#*setcam setpos -2755.242432 3053.066895 85.446762;setang 9.140029 -147.408585 0.000000* #### GROUP
 		*BAR_HAPPY*
-		*setanim cat_bar gesture_agree 1 idle*
+		*AGREE(cat_bar)*
 	*BLOCKEND*
 	Ah,% of course!%%% Right away.
 	&a9
@@ -139,7 +139,7 @@ a10:
 		*setanim cat_bar gesture_washing 1.6 idle*
 	*BLOCKEND*
 	> Actually,% she's somehow decanting steaming tap water from a faucet 
-	into a normal drinking glass*setanim cat_bar gesture_dryhands 1 idle* full of ice that stubbornly refuses to melt.%%%% 
+	into a normal drinking glass*DRYHANDS(cat_bar)* full of ice that stubbornly refuses to melt.%%%% 
 	It's impressive.
 	&a11
 
@@ -191,20 +191,20 @@ c1:
 		*setspeaker narrator*
 		*setcamroot cat_bar setpos 61.530762 -6.652832 51.668259;setang 0.941 176.794 0.000* ###### BAR HEADSHOT
 		#*setcam setpos -2871.273193 2983.027832 75.699509;setang 0.941066 86.794304 0.000000* ###### BAR HEADSHOT
-		*setanim cat_bar gesture_confused 1 idle*
+		*CONFUSED(cat_bar)*
 	*BLOCKEND*
 	> The Bartender cocks her head.%%%% 
-	%.%.%.%*BAR_SURPRISE*after*setanim cat_bar gesture_shock 1 idle* a few seconds of dead silence she gasps.
+	%.%.%.%*BAR_SURPRISE*after*SHOCK(cat_bar)* a few seconds of dead silence she gasps.
 	&c2
 
 c2:
 	*BLOCKSTART*
 		*setspeaker cat_bar*
 		*BAR_BLINK*
-		*setanim cat_bar gesture_facepalm 1 idle*
+		*FACEPALM(cat_bar)*
 	*BLOCKEND*
 	Ah,% of course!%%%*BAR_NEUTRAL* You meant to order it at a danger rating of Double Black 
-	Diamond.%%%%*setanim cat_bar gesture_confused 1 idle* I do warn you it may be beyond even your remarkable ability 
+	Diamond.%%%%*CONFUSED(cat_bar)* I do warn you it may be beyond even your remarkable ability 
 	to tolerate. 
 	&c3
 
@@ -311,7 +311,7 @@ c13:
 		*setcamroot cat_bar setpos 61.530762 -6.652832 51.668259;setang 0.941 176.794 0.000* ###### BAR HEADSHOT
 		#*setcam setpos -2871.273193 2983.027832 75.699509;setang 0.941066 86.794304 0.000000* ###### BAR HEADSHOT
 		*BAR_SURPRISE*
-		*setanim cat_bar gesture_confused 1 idle*
+		*CONFUSED(cat_bar)*
 	*BLOCKEND*
 	What are you%.%.%.%%?
 	&c14
@@ -332,7 +332,7 @@ c15:
 		*setcamroot cat_bar setpos 61.530762 -6.652832 51.668259;setang 0.941 176.794 0.000* ###### BAR HEADSHOT
 		#*setcam setpos -2871.273193 2983.027832 75.699509;setang 0.941066 86.794304 0.000000* ###### BAR HEADSHOT
 		*BAR_BLINK*
-		*setanim cat_bar gesture_agree 1 idle*
+		*AGREE(cat_bar)*
 	*BLOCKEND*
 	Admirable.
 	&c16
@@ -346,7 +346,7 @@ c16:
 	*BLOCKEND*
 	#> The Cellist downs the drink in one gulp,%%%*setposang cat_cello setpos -2815.444336 2903.284912 0;setang -90 45 0.000000*%*setanim cat_cello pose_passedout**ignite cat_cello* immediately falls off the 
 	> The Cellist downs the drink in one gulp,*setbodygroup glass2 liquid 0*%%%*setoffset cat_cello setpos 48.715088 48.555664 0;setang 0.000 225.000 0.000*%*setanim cat_cello pose_passedout**ignite cat_cello* immediately falls off the 
-	chair, and bursts into flames.%%%*setanim cat_bar gesture_clap 1 idle* The Bartender is clapping.
+	chair, and bursts into flames.%%%*CLAP(cat_bar)* The Bartender is clapping.
 	&c16b
 
 c16b:

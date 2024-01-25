@@ -53,11 +53,23 @@ SINGER_MAD setskin cat_singer 2
 SINGER_MISCHIEF setskin cat_singer 3
 SINGER_HISS setskin cat_singer 8
 
-#Animations
-MACRO SWEEP(cat) setanim cat gesture_sweep 1.0 idle
-MACRO FOLDARMS(cat) setanim cat gesture_foldarms 1.0 idle
-MACRO DRYHANDS(cat) setanim cat gesture_dryhands 1.0 idle
-MACRO JAB(cat) setanim cat gesture_jab 1.0 idle
+# gesture shorthands (don't include asterisks so local macros can more nicely use them)
+AGREE(cat) setanim cat gesture_agree 1 idle
+ANGER(cat) setanim cat gesture_anger 1 idle
+CLAP(cat) setanim cat gesture_clap 1 idle
+CONFUSED(cat) setanim cat gesture_confused 1 idle
+DISAGREE(cat) setanim cat gesture_disagree 1 idle
+DRYHANDS(cat) setanim cat gesture_dryhands 1 idle
+EMBARASS(cat) setanim cat gesture_embarass 1 idle
+EXCHANGE(cat) setanim cat gesture_exchange 1 idle
+FACEPALM(cat) setanim cat gesture_facepalm 1 idle
+FOLDARMS(cat) setanim cat gesture_foldarms 1 idle
+JAB(cat) setanim cat gesture_jab 1 idle
+LAUGH(cat) setanim cat gesture_laugh 1 idle
+SHOCK(cat) setanim cat gesture_shock 1 idle
+SHRUG(cat) setanim cat gesture_shrug 1 idle
+SIGH(cat) setanim cat gesture_sigh 1 idle 
+SWEEP(cat) setanim cat gesture_sweep 1 idle
 
 
 spawnnarrator() *block spawn narrator dummy-->setnpcid narrator npc_narrator*

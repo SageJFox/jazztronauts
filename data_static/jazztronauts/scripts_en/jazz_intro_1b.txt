@@ -23,7 +23,7 @@ begin1:
 	*BLOCKSTART*
 		*setspeaker cat_piano*
 		*PIANO_SMIRK*
-		*setanim cat_piano gesture_laugh 1 idle*
+		*LAUGH(cat_piano)*
 	*BLOCKEND*
 	Nice job,% asshole.%% Can't believe you tripped over a corpse.%%*PIANO_NEUTRAL*
 	How many times have we had to step around dead bodies now?

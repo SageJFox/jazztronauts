@@ -244,7 +244,7 @@ t3:
 		#*setcam setpos 6986.671387 -191.368927 3644.737549;setang -13.753159 13.206947 0.000000*
 		*setanim cat_piano gesture_shock 1.6 idle*
 	*BLOCKEND*
-	BOSS IT'S TIME TO GO THAT THING IS BEING WEIRD AND I*setanim cat_piano gesture_disagree 1 idle* 
+	BOSS IT'S TIME TO GO THAT THING IS BEING WEIRD AND I*DISAGREE(cat_piano)* 
 	DIDN'T HAVE TIME TO GRAB THE FLAMETHROWER.
 	&t4
 
@@ -454,7 +454,7 @@ t16:
 		*CELLO_NEUTRAL*
 	*BLOCKEND*
 	i for one am blameless and go to the grave without—%%*CELLO_MAD*
-	Okay*setanim cat_cello gesture_facepalm 1 idle* y'know what,% Real Talk,%% I've been a goddamned moron,% 
+	Okay*FACEPALM(cat_cello)* y'know what,% Real Talk,%% I've been a goddamned moron,% 
 	and I hope you can forgive me for being such a shitty friend.
 	&t17
 
@@ -518,8 +518,8 @@ t21:
 	*BLOCKSTART*
 		*CELLO_MAD*
 		*setspeaker cat_cello*
-		*setanim cat_void gesture_exchange 1 idle*
-		*setanim cat_cello gesture_disagree 1 idle*
+		*EXCHANGE(cat_void)*
+		*DISAGREE(cat_cello)*
 	*BLOCKEND*
 	oh my god fuck you now is not the time for—
 	&t22
@@ -545,7 +545,7 @@ t22:
 		*setcam setpos -8167.002930 2335.509033 -6803.162598;setang 0.621752 -115.030540 0.000000*
 		*wait 3*
 		*show cat_cello*
-		*setanim cat_cello gesture_confused 1 idle*
+		*CONFUSED(cat_cello)*
 	*BLOCKEND*
 	what
 	&t23
@@ -562,7 +562,7 @@ t23:
 
 t24:
 	*BLOCKSTART*
-		*setanim cat_bar gesture_shock 1 idle*
+		*SHOCK(cat_bar)*
 		*setspeaker cat_bar*
 		*BAR_SURPRISE*
 	*BLOCKEND*
@@ -610,7 +610,7 @@ t25:
 t26:
 	*BLOCKSTART*
 		*BAR_HAPPY*
-		*setanim cat_bar gesture_clap 1 idle*
+		*CLAP(cat_bar)*
 	*BLOCKEND*
 	Well,% that was existentially horrifying and I'd 
 	like to not think about it for a few hours,% so I 
@@ -624,7 +624,7 @@ t27:
 		*BAR_NEUTRAL*
 		*PIANO_SMIRK*
 		*setspeaker cat_piano*
-		*setanim cat_piano gesture_laugh 1 idle*
+		*LAUGH(cat_piano)*
 	*BLOCKEND*
 	It's not often something scares the shit out of me,%% so,%%% yes a 
 	"thank fuck we're alive" party sounds ideal. 
@@ -638,7 +638,7 @@ t29:
 		*setspeaker cat_cello*
 		*setcamroot cat_cello*
 		*setcam setpos 1771.005737 526.512756 -1850.544189;setang -4.382786 -155.031708 0.000000*
-		*setanim cat_cello gesture_confused 1 idle*
+		*CONFUSED(cat_cello)*
 	*BLOCKEND*
 	sorry did you say something i was too busy attempting to erase 
 	the memory of that sudden caress from the reaper's bony fingers 
@@ -762,7 +762,7 @@ t40:
 		*setposang player setpos 283.669067 579.761719 -1896;setang 0.568216 67.521133 0.000000*
 		*setspeaker cat_bar*
 		*setcam setpos 405.847565 552.598999 -1816.320557;setang 9.246651 137.255585 0.000000*
-		*setanim cat_bar gesture_confused 1 idle*
+		*CONFUSED(cat_bar)*
 	*BLOCKEND*
 	Are you okay,%% *player*? 
 	That was a close call back there.
@@ -779,7 +779,7 @@ r1:
 		*setcam setpos 327.828461 628.367981 -1827.825073;setang -1.135153 90.351120 0.000000*
 		*setspeaker cat_bar*
 		*BAR_BLINK*
-		*setanim cat_bar gesture_foldarms 1 idle*
+		*FOLDARMS(cat_bar)*
 	*BLOCKEND*
 	I understand.%% Neither can I.
 	&r1a
@@ -824,7 +824,7 @@ r2:
 		*setcam setpos 327.828461 628.367981 -1827.825073;setang -1.135153 90.351120 0.000000*
 		*setspeaker cat_bar*
 		*BAR_NEUTRAL*
-		*setanim cat_bar gesture_agree 1 idle*
+		*AGREE(cat_bar)*
 	*BLOCKEND*
 	Oh my,% yes.%%% Every day.%% Look around you. 
 	&r2a
@@ -833,56 +833,56 @@ r2:
 r2a:
 	*BLOCKSTART*
 		*BAR_HAPPY*
-		*setanim cat_bar gesture_agree 1 idle*
+		*AGREE(cat_bar)*
 	*BLOCKEND*
 	The Bar Samsara is my opus.%%% I had no true purpose before we built this 
-	place around a forgotten tool in the Voidway.%%%%*setanim cat_bar gesture_agree 1 idle* 
+	place around a forgotten tool in the Voidway.%%%%*AGREE(cat_bar)* 
 	It has honestly changed my life.
 	&r2b
 
 r2b:
 	*BAR_NEUTRAL*
-	We poured our hearts into this place.*setanim cat_bar gesture_agree 1 idle* 
+	We poured our hearts into this place.*AGREE(cat_bar)* 
 	I do every time I step behind this bar. 
 	&r2c
 
 r2c:
 	*BLOCKSTART*
 		*BAR_BLINK*
-		*setanim cat_bar gesture_foldarms 1 idle*
+		*FOLDARMS(cat_bar)*
 	*BLOCKEND*
 	I often wonder whether I am already in a rut,%% 
 	and simply haven't noticed yet.%%%%*BAR_NEUTRAL*
 	&r2c1
 	
 r2c1:
-	If these days of quiet*setanim cat_bar gesture_shrug 1 idle* contentment will be a thing I resent in time for 
+	If these days of quiet*SHRUG(cat_bar)* contentment will be a thing I resent in time for 
 	'robbing' me of time spent working on some other project.
 	&r2d
 
 r2d:
 	*BLOCKSTART*
 		*BAR_HAPPY*
-		*setanim cat_bar gesture_clap 1 idle*
+		*CLAP(cat_bar)*
 	*BLOCKEND*
 	But so long as you are working toward happiness,% no time is wasted. 
 	&r2e
 
 r2e:
 	*BAR_NEUTRAL*
-	And I am happy. %%%%%*setanim cat_bar gesture_disagree 1 idle*
+	And I am happy. %%%%%*DISAGREE(cat_bar)*
 	Not all the time,% I have bad days like anyone. 
 	&r2f
 
 r2f:
-	*setanim cat_bar gesture_confused 1 idle*
+	*CONFUSED(cat_bar)*
 	But the satisfaction in a display arranged just so? 
 	&r2g
 
 r2g:
 	*BLOCKSTART*
 		*BAR_HAPPY*
-		*setanim cat_bar gesture_laugh 1 idle*
+		*LAUGH(cat_bar)*
 	*BLOCKEND*
 	That,% for me,%% for now,%%%*BAR_NEUTRAL* is happiness.%%%%% 
 	And should that change,% I shall seek a different engagement.
@@ -899,17 +899,17 @@ r3:
 		*setcam setpos 327.828461 628.367981 -1827.825073;setang -1.135153 90.351120 0.000000*
 		*setspeaker cat_bar*
 		*BAR_SURPRISE*
-		*setanim cat_bar gesture_shock 1 idle*
+		*SHOCK(cat_bar)*
 		*wait .35*
 		*BAR_BLINK*
-		*setanim cat_bar gesture_disagree 1 idle*
+		*DISAGREE(cat_bar)*
 	*BLOCKEND*
 	A host who does not ensure the welfare*BAR_NEUTRAL* of her honoured guests 
 	is a poor one indeed.
 	&r3a
 
 r3a:
-	*setanim cat_bar gesture_shrug 1 idle*
+	*SHRUG(cat_bar)*
 	More than that,% we'd have been awful friends if we just sat 
 	on our paws and stayed home.
 	&r3b
@@ -917,7 +917,7 @@ r3a:
 r3b:
 	*BLOCKSTART*
 		*BAR_BLINK*
-		*setanim cat_bar gesture_foldarms 1 idle*
+		*FOLDARMS(cat_bar)*
 	*BLOCKEND*
 	We were united in determination to get you out of there,%*BAR_NEUTRAL* 
 	and so, we did.
@@ -940,7 +940,7 @@ t41:
 		*setposang cat_piano setpos 517.119995 530.757996 -1896;setang -90 45 0.000000*
 		*PIANO_FLUSTERED*
 		*setspeaker cat_piano*
-		*setanim cat_piano gesture_embarass 1 idle*
+		*EMBARASS(cat_piano)*
 	*BLOCKEND*
 	Hey,% we were talking and we want to do something to 
 	show our appreciation*PIANO_NEUTRAL* for everything you've done.%%% 
@@ -951,7 +951,7 @@ t42:
 	*BLOCKSTART*
 		*setspeaker cat_cello*
 		*CELLO_NEUTRAL*
-		*setanim cat_cello gesture_shrug 1 idle*
+		*SHRUG(cat_cello)*
 	*BLOCKEND*
 	yeah everyone's got their own path to walk and you're welcome to hang 
 	as long as you want but uh%%%%

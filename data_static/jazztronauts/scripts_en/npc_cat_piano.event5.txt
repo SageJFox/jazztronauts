@@ -32,7 +32,7 @@ b1:
 r1a1:
 	*BLOCKSTART*
 		*setspeaker cat_piano*
-		*setanim cat_piano gesture_shock 1 idle*
+		*SHOCK(cat_piano)*
 		*PIANO_FLUSTERED*
 	*BLOCKEND*
 	Oh!%%%% Sure.*PIANO_NEUTRAL*%%
@@ -43,10 +43,10 @@ r1a1:
 r2a1:
 	*BLOCKSTART*
 		narratewithview(cat_piano)
-		*setanim cat_piano gesture_laugh 1 idle*
+		*LAUGH(cat_piano)*
 		*PIANO_SMIRK*
 	*BLOCKEND*
-	> She laughs,%%% then taps h*PIANO_NEUTRAL*er*setanim cat_piano gesture_confused 1 idle* chin as if she's weighing up your
+	> She laughs,%%% then taps h*PIANO_NEUTRAL*er*CONFUSED(cat_piano)* chin as if she's weighing up your
 	demands for a moment.
 	&r2a2
 	
@@ -54,17 +54,17 @@ r2a2:
 	*BLOCKSTART*
 		*setspeaker cat_piano*
 		*PIANO_SMIRK*
-		*setanim cat_piano gesture_agree 1 idle*
+		*AGREE(cat_piano)*
 	*BLOCKEND*
 	Yeah,% I can work with those terms and conditions.%% 
-	He*setanim cat_piano gesture_foldarms 1 idle*ll,% I'll bake the things myself.
+	He*FOLDARMS(cat_piano)*ll,% I'll bake the things myself.
 	&r2a3
 	
 r2a3:
 	*PIANO_NEUTRAL*
-	Wait.%%%%%*setanim cat_piano gesture_disagree 1 idle*% No.%%%
+	Wait.%%%%%*DISAGREE(cat_piano)*% No.%%%
 	I can't bake and I'm banned from operating the oven anyway.%%%
-	I'll throw in the drink of your choice instead.%*setanim cat_piano gesture_confused 1 idle*
+	I'll throw in the drink of your choice instead.%*CONFUSED(cat_piano)*
 	So, are you in?
 	player:
 		&r1a1: Actually, this is a bad time. I'll be back later. *c 0*(Exit)*c*
@@ -76,7 +76,7 @@ r3a1:
 	*BLOCKSTART*
 		*setspeaker cat_piano*
 		*PIANO_SMIRK*
-		*setanim cat_piano gesture_agree 1 idle*
+		*AGREE(cat_piano)*
 	*BLOCKEND*
 	Thanks.%%%%*PIANO_NEUTRAL* 
 	Follow me.%% 
@@ -114,7 +114,7 @@ m2:
 	*PIANO_NEUTRAL*
 	> The Pianist sits on the edge of the plinth and 
 	kicks her legs back and forth.%%% 
-	After a good fifteen seconds*setanim cat_piano gesture_shrug 1 idle* she gets up and shrugs.
+	After a good fifteen seconds*SHRUG(cat_piano)* she gets up and shrugs.
 	&m3
 	
 m3:
@@ -123,9 +123,9 @@ m3:
 		#*setcam setpos -4002.618896 4989.136230 104.928711;setang 5.855218 129.602081 0.000000*
 		*setspeaker cat_piano*
 		*bgmplay sound/jazztronauts/music/events/pariah.mp3 .75 10.0*
-		*setanim cat_piano gesture_foldarms 1 idle*
+		*FOLDARMS(cat_piano)*
 	*BLOCKEND*
-	So.%%%%%%*setanim cat_piano gesture_confused 1 idle*
+	So.%%%%%%*CONFUSED(cat_piano)*
 	What do you think?%%%
 	I made this place myself.
 	player:
@@ -151,21 +151,21 @@ r4a2:
 		*setcamroot cat_piano setpos 67.431152 2.263428 56.928711;setang 5.855 -174.398 0.000*
 		#*setcam setpos -4002.618896 4989.136230 104.928711;setang 5.855218 129.602081 0.000000*	
 		*PIANO_NEUTRAL*
-		*setanim cat_piano gesture_disagree 1 idle*
+		*DISAGREE(cat_piano)*
 		*setspeaker cat_piano*
 	*BLOCKEND*
-	What?% No.%%% It's a piano.%%%%*setanim cat_piano gesture_foldarms 1 idle*
-	I mean,% it's fucking terrible,%% been meaning to steal a better one.*setanim cat_piano gesture_sweep 1 idle*%%%%
+	What?% No.%%% It's a piano.%%%%*FOLDARMS(cat_piano)*
+	I mean,% it's fucking terrible,%% been meaning to steal a better one.*SWEEP(cat_piano)*%%%%
 	######make pianist gesture in a direction that has real piano. maybe camera hold on it.
 	&r4a3
 	
 r4a3:
 	*BLOCKSTART*
 		*PIANO_FLUSTERED*
-		*setanim cat_piano gesture_embarass 1 idle*
+		*EMBARASS(cat_piano)*
 	*BLOCKEND*
 	But I thought I got the shape mostly right!%%%
-	God.%%*PIANO_NEUTRAL* Fuck.%%%*setanim cat_piano gesture_confused 1 idle*
+	God.%%*PIANO_NEUTRAL* Fuck.%%%*CONFUSED(cat_piano)*
 	What do you think of the rest?
 	player:
 		&r5a1: It's uh. It's. Uh. Yeah.
@@ -178,10 +178,10 @@ r5a1:
 		#*setcam setpos -4219.586914 4691.958496 315.842529;setang 35.616386 49.262882 0.000000*
 		narratewithview(cat_piano)
 		*PIANO_FLUSTERED*
-		*setanim cat_piano gesture_sigh 1 idle*
+		*SIGH(cat_piano)*
 	*BLOCKEND*
 	> She crumples.%%%*PIANO_ANGRY* Anger, frustration, and despair*PIANO_SMIRK* flash over her face 
-	before*PIANO_FLUSTERED* s*setanim cat_piano gesture_facepalm 1 idle*he buries it in her paws.
+	before*PIANO_FLUSTERED* s*FACEPALM(cat_piano)*he buries it in her paws.
 	&r5a2
 	
 r5a2:
@@ -191,16 +191,16 @@ r5a2:
 		#*setcam setpos -3758.718018 4813.087891 85.153534;setang 1.329798 147.011353 0.000000*
 		#*tweencam 20 setpos -3679.145508 4710.735840 229.348297;setang 15.970865 137.224289 0.000000*
 		*setspeaker cat_piano*
-		*setanim cat_piano gesture_disagree 1 idle*
+		*DISAGREE(cat_piano)*
 	*BLOCKEND*
 	It's awful.%%%%%%
-	You can say it,%*setanim cat_piano gesture_sigh 1 idle* I know it is.
+	You can say it,%*SIGH(cat_piano)* I know it is.
 	&r5a3
 	
 r5a3:
-	*setanim cat_piano gesture_anger 1 idle*
+	*ANGER(cat_piano)*
 	I do this every time.%%% I try and learn some new skill because I can't do
-	the one thing I'm*setanim cat_piano gesture_facepalm 1 idle* actually good at anymore,% and because I'm not 
+	the one thing I'm*FACEPALM(cat_piano)* actually good at anymore,% and because I'm not 
 	immediately Great at it I give up.
 	&r5a4
 	
@@ -209,17 +209,17 @@ r5a4:
 		*setcamroot cat_piano setpos 67.431152 2.263428 56.928711;setang 5.855 -174.398 0.000*
 		#*setcam setpos -4002.618896 4989.136230 104.928711;setang 5.855218 129.602081 0.000000*	
 		*PIANO_NEUTRAL*
-		*setanim cat_piano gesture_shrug 1 idle*
+		*SHRUG(cat_piano)*
 	*BLOCKEND*
 	I guess I keep hoping there's a stack overflow level with self-loathing
-	and the next time I try something I'll find*setanim cat_piano gesture_confused 1 idle* the limiter's off and I can
+	and the next time I try something I'll find*CONFUSED(cat_piano)* the limiter's off and I can
 	relax and create again.
 	&r5a5
 	
 r5a5:
-	*setanim cat_piano gesture_sweep 1 idle*
+	*SWEEP(cat_piano)*
 	This was the first thing I tried.%% After it happened.%%%%*PIANO_FLUSTERED* 
-	I don't know if the Bartender told you or not,% but ages ago something%.%.%.%%*setanim cat_piano gesture_shrug 1 idle*
+	I don't know if the Bartender told you or not,% but ages ago something%.%.%.%%*SHRUG(cat_piano)*
 	Snapped.%%% I can't play the piano anymore.
 	&r5a6
 	
@@ -228,10 +228,10 @@ r5a6:
 		*setcamoffset setpos -392.590332 392.908447 15.790897;setang -8.908 -47.199 0.000*
 		#*setcam setpos -3936.000000 5588.957031 63.790897;setang -8.908334 -103.198875 0.000000*
 		*PIANO_NEUTRAL*
-		*setanim cat_piano gesture_sigh 1 idle*
+		*SIGH(cat_piano)*
 	*BLOCKEND*
 	So I tried to make my own space where I could practice without feeling 
-	like I was letting everyone down.%%%*setanim cat_piano gesture_facepalm 1 idle* 
+	like I was letting everyone down.%%%*FACEPALM(cat_piano)* 
 	What use is a jazz pianist who can't improvise?
 	&r5a7
 	
@@ -240,17 +240,17 @@ r5a7:
 		*setcamoffset setpos 140.772949 -11.895752 11.856041;setang -17.986 176.507 0.000*
 		#*setcam setpos -3973.344727 4920.415039 59.856041;setang -17.985775 120.506638 0.000000*
 		*PIANO_ANGRY*
-		*setanim cat_piano gesture_anger 1 idle*
+		*ANGER(cat_piano)*
 	*BLOCKEND*
-	It didn't fucking work.%%%%%%*PIANO_FLUSTERED* Sc*setanim cat_piano gesture_disagree 1 idle*avenging made it worse.%% We went to so many
-	places that were about as well*setanim cat_piano gesture_shrug 1 idle* put together as the Cellist's suit*PIANO_NEUTRAL*
+	It didn't fucking work.%%%%%%*PIANO_FLUSTERED* Sc*DISAGREE(cat_piano)*avenging made it worse.%% We went to so many
+	places that were about as well*SHRUG(cat_piano)* put together as the Cellist's suit*PIANO_NEUTRAL*
 	and I wanted to burn them to the ground.
 	&r5a8
 	
 r5a8:
 	*BLOCKSTART*
 		*PIANO_SMIRK*
-		*setanim cat_piano gesture_sweep 1 idle*
+		*SWEEP(cat_piano)*
 	*BLOCKEND*
 	I don't understand how people can make stuff like this—%%%%*setcamoffset setpos 414.472656 -68.395752 96.492828;setang -5.448 170.384 0.000*%%%%%%#*setcam setpos -3867.134521 4661.913574 144.492828;setang -5.447792 114.383842 0.000000*
 	&r5a9
@@ -273,10 +273,10 @@ r5a10:
 		*setcamoffset setpos 207.724121 160.850342 19.395508;setang -4.143 -109.756 0.000*
 		#*setcam setpos -3792.693115 4961.508301 67.395508;setang -4.143464 -165.756363 0.000000*
 		*setspeaker cat_piano*
-		*setanim cat_piano gesture_disagree 1 idle*
+		*DISAGREE(cat_piano)*
 	*BLOCKEND*
 	I don't even know why I wanted to show you this.%%%%*PIANO_NEUTRAL*
-	This is what*setanim cat_piano gesture_sweep 1 idle* happens when I don't plan shit.%%%%%%%*PIANO_FLUSTERED*
+	This is what*SWEEP(cat_piano)* happens when I don't plan shit.%%%%%%%*PIANO_FLUSTERED*
 	It's worthless.
 	player:
 		&n1:
@@ -303,7 +303,7 @@ n1:
 		*setcamroot cat_piano setpos -136.078613 131.132568 47.757370;setang 11.855 -24.380 0.000*
 		#*setcam setpos -3963.776123 5319.008789 125.757370;setang 11.855209 -114.379578 0.000000*
 		*setspeaker cat_piano*
-		*setanim cat_piano gesture_disagree 1 idle*
+		*DISAGREE(cat_piano)*
 	*BLOCKEND*
 	Bringing you here was a mistake.%*PIANO_NEUTRAL*
 	I'm sorry I wasted your time.
@@ -379,7 +379,7 @@ n6b:
 n7:
 	*setspeaker cat_piano*
 	*player*%.%.%.%%%
-	T*setanim cat_piano gesture_confused 1 idle*h*PIANO_BLINK*ank you for being my friend.*PIANO_RELIEF*
+	T*CONFUSED(cat_piano)*h*PIANO_BLINK*ank you for being my friend.*PIANO_RELIEF*
 	player:
 		&pianistconclude:
 			*setcamroot player setpos 350.148926 -95.491211 111.486618;setang 14.883 167.872 -0.158*

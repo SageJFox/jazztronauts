@@ -47,7 +47,7 @@ b1b:
 	*setcamroot player setpos 83.023193 -47.926636 53.465935;setang 0.445 154.747 0.000*
 	#*setcam setpos -2871.305176 2776.962646 53.465935;setang 0.445232 129.688690 0.000000*
 	> They're clearly excited about something,% and don't notice the
-	hula dolls in their path.%%%%%*setanim cat_singer gesture_shock 1 idle*
+	hula dolls in their path.%%%%%*SHOCK(cat_singer)*
 	You*SINGER_FLUSTERED* call out,% but it's too late!
 	&b2
 	
@@ -293,7 +293,7 @@ m7:
 		*setcamoffset setpos 55.826843 13.774902 41.100342;setang 0.568 -165.265 0.000*
 		#*setcam setpos 64.067345 3107.399170 65.100342;setang 0.568299 14.735083 0.000000*
 		*SINGER_HAPPY*
-		*setanim cat_singer gesture_anger 1 idle*
+		*ANGER(cat_singer)*
 	*BLOCKEND*
 	> “It utterly overwhelmed me with how incredible it was.%%*SINGER_NEUTRAL* 
 	I'd lost my words before,% but only for a little while.%%%*setanim cat_singer gesture_confused .8 idle* 
@@ -307,23 +307,23 @@ m8:
 		*SINGER_BLINK*
 		*setanim cat_singer gesture_disagree 1.3 idle*
 	*BLOCKEND*
-	> “But I didn't.%%%%%%%*setcamoffset setpos 55.826843 13.774902 41.100342;setang 0.568 -165.265 0* And that was okay!!!*SINGER_HAPPY*%*setanim cat_singer gesture_confused 1 idle*%% Everyone was so understanding,%%%*setcamoffset setpos 60.597218 288.721191 40.179871;setang 0.302 -90.409 0*#*setcam setpos 64.067345 3107.399170 65.100342;setang 0.568299 14.735083 0.000000**setcam setpos 59.296944 2832.452881 64.179871;setang 0.302028 89.590530 0.000000* 
+	> “But I didn't.%%%%%%%*setcamoffset setpos 55.826843 13.774902 41.100342;setang 0.568 -165.265 0* And that was okay!!!*SINGER_HAPPY*%*CONFUSED(cat_singer)*%% Everyone was so understanding,%%%*setcamoffset setpos 60.597218 288.721191 40.179871;setang 0.302 -90.409 0*#*setcam setpos 64.067345 3107.399170 65.100342;setang 0.568299 14.735083 0.000000**setcam setpos 59.296944 2832.452881 64.179871;setang 0.302028 89.590530 0.000000* 
 	even if we didn't perform after that%.%.%.%%*SINGER_DEPRESSED* 
 	&m8b
 
 m8b:
-	*setanim cat_singer gesture_sigh 1 idle*
+	*SIGH(cat_singer)*
 	> “I felt bad sometimes.%%% Like a burden.%%%%*SINGER_NEUTRAL*%%%*setcamoffset setpos 55.826843 13.774902 41.100342;setang 0.568 -165.265 0.000*#*setcam setpos 64.067345 3107.399170 65.100342;setang 0.568299 14.735083 0.000000* 
-	Bartender told me to cut*SINGER_HAPPY* that*setanim cat_singer gesture_embarass 1 idle* shit out pretty fast when she found out!”*SINGER_NEUTRAL*
+	Bartender told me to cut*SINGER_HAPPY* that*EMBARASS(cat_singer)* shit out pretty fast when she found out!”*SINGER_NEUTRAL*
 	&m9
 	
 m9:
 	*BLOCKSTART*
 		*SINGER_HAPPY*
-		*setanim cat_singer gesture_laugh 1 idle*
+		*LAUGH(cat_singer)*
 	*BLOCKEND*
 	> “I've always seen beauty and potential in things the rest didn't,%%*SINGER_NEUTRAL* 
-	and I knew*setanim cat_singer gesture_shrug 1 idle* that made me kind of weird.%%%*setcamoffset setpos 54.563522 -109.123291 69.212181;setang 16.860 90.331 0.000* But*SINGER_BLINK* I don't*setanim cat_singer gesture_disagree 1 idle* mind,% #*setcam setpos 65.330673 3230.297363 93.212181;setang 16.859674 -89.668564 0.000000*
+	and I knew*SHRUG(cat_singer)* that made me kind of weird.%%%*setcamoffset setpos 54.563522 -109.123291 69.212181;setang 16.860 90.331 0.000* But*SINGER_BLINK* I don't*DISAGREE(cat_singer)* mind,% #*setcam setpos 65.330673 3230.297363 93.212181;setang 16.859674 -89.668564 0.000000*
 	because it means I*SINGER_HAPPY* see all the good in people too!!!”
 	&m10
 	
@@ -354,7 +354,7 @@ m12:
 		*setcamoffset setpos 55.826843 13.774902 41.100342;setang 0.568 -165.265 0.000*
 		#*setcam setpos 64.067345 3107.399170 65.100342;setang 0.568299 14.735083 0.000000*
 		*setspeaker cat_singer*
-		*setanim cat_singer gesture_agree 1 idle*
+		*AGREE(cat_singer)*
 	*BLOCKEND*
 	> “Come with me.%%% I don't have words for how much this means to me.% 
 	But I can show you another way,%% I think.”

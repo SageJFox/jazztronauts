@@ -230,7 +230,7 @@ a16:
 		*txin*
 		*show*
 		*BAR_HAPPY*
-		*setanim cat_bar gesture_clap 1 idle*
+		*CLAP(cat_bar)*
 	*BLOCKEND*
 	That was an excellent session,%%% everyone!
 	&a17
@@ -239,17 +239,17 @@ a17:
 	*BLOCKSTART*
 		#*setcam setpos -2129.073486 558.672058 -26.355873;setang -4.063434 -110.530540 0.000000*
 		*setcamoffset setpos 55.140381 42.036072 37.644127;setang -4.063 -110.531 0.000*
-		*setanim cat_bar gesture_agree 1 idle*
+		*AGREE(cat_bar)*
 	*BLOCKEND*
 	Pianist,%%*BAR_NEUTRAL* I noticed you broke your record before needing to do some
-	pushups.%%%%*setanim cat_bar gesture_clap 1 idle* Congratulations!% I'm very proud.
+	pushups.%%%%*CLAP(cat_bar)* Congratulations!% I'm very proud.
 	&a18
 
 a18:
 	*BLOCKSTART*
 		*setspeaker cat_piano*
 		*PIANO_FLUSTERED*
-		*setanim cat_piano gesture_embarass 1 idle*
+		*EMBARASS(cat_piano)*
 	*BLOCKEND*
 	Thanks,%% boss.
 	&a19
@@ -258,7 +258,7 @@ a19:
 	*BLOCKSTART*
 		*PIANO_NEUTRAL*
 		*BAR_NEUTRAL*
-		*setanim cat_bar gesture_anger 1 idle*
+		*ANGER(cat_bar)*
 		*setspeaker narrator*
 		#*setcamroot cat_cello*
 		#*setcam setpos -2199.189209 570.780457 -10.404617;setang 34.375881 -11.131420 0.000000*
@@ -274,7 +274,7 @@ a20:
 		#*setcam setpos -2107.698486 545.623291 -10.404617;setang 5.573047 -143.060379 0.000000*
 		*setcamroot cat_bar setpos 76.515381 28.987305 53.595383;setang 5.573 -143.060 0.000*
 		*setspeaker cat_bar*
-		*setanim cat_bar gesture_shrug 1 idle*
+		*SHRUG(cat_bar)*
 	*BLOCKEND*
 	Well,% at least he was able to relax this time.
 	&a21
@@ -282,7 +282,7 @@ a20:
 a21:
 	*BLOCKSTART*
 		*BAR_HAPPY*
-		*setanim cat_bar gesture_agree 1 idle*
+		*AGREE(cat_bar)*
 	*BLOCKEND*
 	Thank you for joining us,%%% *player*.%%% 
 	It was lovely to spend a while relaxing in your company.*mark_seen*

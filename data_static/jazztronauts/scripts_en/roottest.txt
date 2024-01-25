@@ -139,7 +139,7 @@ resp1a:
 resp1b:
 	*setspeaker cat_bar*
 	Certainly raised a few*setcamoffset setpos 4.020508 37.783691 75.185051;setang 2.449231 90.502884 0.000000* eyebrows, %though.%% It's not often you see a-*BAR_SURPRISE*%%%%
-	Well.*BAR_NEUTRAL*%%% Hm.*BAR_PISSED*%%%%*BAR_NEUTRAL**setanim cat_bar gesture_dryhands* I'm not sure this is my story to tell,% honestly.%%
+	Well.*BAR_NEUTRAL*%%% Hm.*BAR_PISSED*%%%%*BAR_NEUTRAL**DRYHANDS(cat_bar)* I'm not sure this is my story to tell,% honestly.%%
 	Forgive me,% I try not to gossip about my patrons.
 	player:
 		&resp1c:
@@ -154,7 +154,7 @@ resp1c:
 	*setcam setpos -2917.238037 2928.200439 72.834885;setang 3.407556 58.931564 0.000000*
 	*setanim cat_bar idle*
 	*BAR_PISSED*
-	Like*setanim cat_bar gesture_sweep 1.0 idle* I said, not my story to tell.%*BAR_NEUTRAL*
+	Like*SWEEP(cat_bar)* I said, not my story to tell.%*BAR_NEUTRAL*
 	It's not anything particularly scandalous,% just a silly thing 
 	that I'd feel rather %%*BAR_HAPPY*catty%%*BAR_NEUTRAL* talking about behind their backs.
 	&resp1d
@@ -162,7 +162,7 @@ resp1c:
 resp1d:
 	*setcamoffset setpos 192.070801 101.057861 66.930687;setang 3.939932 176.591919 0.000000*
 	*BAR_HAPPY*
-	*setanim cat_bar gesture_foldarms*
+	*FOLDARMS(cat_bar)*
 	Honestly,% I don't think I've ever met such a cheery,% energetic bunch.
 	They %clearly loved just spending time with each other%.%.%.
 	didn't even seem to mind they were trapped here,%
@@ -186,12 +186,12 @@ resp2a:
 
 resp2b:
 	*setcamoffset setpos 192.070801 101.057861 66.930687;setang 3.939932 176.591919 0.000000*
-	Sorry to say,*BAR_NEUTRAL*%*setanim cat_bar gesture_dryhands* that was not our work.%%% In fact it wasn't any %ONE's%% work.%
+	Sorry to say,*BAR_NEUTRAL*%*DRYHANDS(cat_bar)* that was not our work.%%% In fact it wasn't any %ONE's%% work.%
 	That has been a %very% long project.
 	&resp2c
 
 resp2c:
-	*BAR_PISSED**setanim cat_bar gesture_sweep 1.0 idle*
+	*BAR_PISSED**SWEEP(cat_bar)*
 	Back before we had it,%% we had to manually drive up and down 
 	Voidway 66 trying to find a place to salvage,% hoping any 
 	given wormhole would be worthwhile.
@@ -199,14 +199,14 @@ resp2c:
 
 resp2d:
 	*setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000*
-	It was not optimal,*setanim cat_bar gesture_foldarms*% to say the least.%%*BAR_HAPPY* Eventually a guest 
+	It was not optimal,*FOLDARMS(cat_bar)*% to say the least.%%*BAR_HAPPY* Eventually a guest 
 	had the idea to make a compass that pointed to the closest dimensional 
 	breach.%%%%*BAR_NEUTRAL* I think a piece of it is still in that machine somewhere.
 	&resp2e
 	
 resp2e:
 	Then another guest wired some gizmo they had to it,%
-	and then*setanim cat_bar gesture_sweep 1.0 idle* another,%% and another,%% a little bit at a time%
+	and then*SWEEP(cat_bar)* another,%% and another,%% a little bit at a time%
 	until we were left with that hulking mass out there.%%*setcam setpos -2917.238037 2928.200439 72.834885;setang 3.407556 58.931564 0.000000*
 	To be honest,%*BAR_SURPRISE* I would not know how to repair it if we needed to.
 	&resp2f
@@ -225,7 +225,7 @@ resp3a:
 	*setspeaker cat_bar*
 	###*setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000*
 	*BAR_HAPPY*
-	*setanim cat_bar gesture_sweep 1.0 idle*
+	*SWEEP(cat_bar)*
 	CRISS-CROSS%%%%
 	*setposang narrator setpos -2864 2952 0;setang 0 -15 0*
 	*tweencamoffset 1 setpos 0 0 284;setang 90 105 0*
@@ -301,7 +301,7 @@ merge1a:
 	*setspeaker cat_bar*
 	*setcam setpos -2995.739502 2744.655029 24.768372;setang -8.039047 67.822502 0.000000*
 	*BAR_NEUTRAL*
-	*setanim cat_bar gesture_sweep 1.0 idle*
+	*SWEEP(cat_bar)*
 	In any event,%% it's come a long way from the empty room that it once was.%%
 	I'll admit,% hearing laughter and commotion coming from 
 	the camp again does fill me with a sort of pride. 
@@ -310,19 +310,19 @@ merge1a:
 merge1b:
 	*setcam setpos -2917.238037 2928.200439 72.834885;setang 3.407556 58.931564 0.000000*
 	*BAR_HAPPY*
-	*setanim cat_bar gesture_foldarms*
+	*FOLDARMS(cat_bar)*
 	Perhaps it is the nature of my profession,% who can say?
 	&merge1c
 
 merge1c:
 	*BAR_NEUTRAL*I hope you will be comfortable here during your stay.%%
-	Please,%*setanim cat_bar gesture_sweep 1.0 idle* don't hesitate to let me know if you need anything.
+	Please,%*SWEEP(cat_bar)* don't hesitate to let me know if you need anything.
 	%%*BAR_SURPRISE*Ah, one other*BAR_NEUTRAL* thing.%.%.
 	&merge1d
 
 merge1d:
 	*setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000*
-	This isn't required of you,%*setanim cat_bar gesture_jab 1.0 idle* but can I ask you to spend some time 
+	This isn't required of you,%*JAB(cat_bar)* but can I ask you to spend some time 
 	with the rest of my peers?%%%*BAR_HAPPY* They won't admit it,% but they do 
 	enjoy the company%.%.%.*BAR_NEUTRAL* and exposure to different worldviews 
 	couldn't hurt them either.

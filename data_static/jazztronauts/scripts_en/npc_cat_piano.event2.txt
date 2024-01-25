@@ -55,10 +55,10 @@ b1:
 		#*setcam setpos -1450.820923 3049.278076 66.423630;setang 10.594172 112.317444 0.000000* ###### BAR AND PIANO
 		*setspeaker cat_piano*
 		*PIANO_NEUTRAL*
-		*setanim cat_piano gesture_shock 1 idle*
+		*SHOCK(cat_piano)*
 	*BLOCKEND*
 	Oh,% hey *player*.%% I wasn't sure if you were coming.%%%*PIANO_SMIRK* 
-	But I figured,%*setanim cat_piano gesture_agree 1 idle* who turns down free food,% right?%%
+	But I figured,%*AGREE(cat_piano)* who turns down free food,% right?%%
 	So I set a place.
 	
 	player:
@@ -84,7 +84,7 @@ r1a1:
 		#*setcam setpos -1498.261108 3115.454590 54.479294;setang 6.880691 127.231255 0.000000* ###PIANO CLOSEUP
 		*setspeaker narrator*
 		*PIANO_FLUSTERED*
-		*setanim cat_piano gesture_embarass 1 idle*
+		*EMBARASS(cat_piano)*
 	*BLOCKEND*
 	> The Pianist looks,% momentarily,%% crestfallen.*PIANO_NEUTRAL*
 	&r1a2
@@ -93,9 +93,9 @@ r1a2:
 	*BLOCKSTART*
 		*setspeaker cat_piano*
 		*PIANO_SMIRK*
-		*setanim cat_piano gesture_agree 1 idle*
+		*AGREE(cat_piano)*
 	*BLOCKEND*
-	Oh.%%% Sure.% I know how it is,% being a busy interdimensional thief.%*setanim cat_piano gesture_exchange 1 idle*%*setcamroot cat_piano setpos 121.467041 15.463501 66.392380;setang 10.594 172.317 0.000*#*setcam setpos -1450.820923 3049.278076 66.423630;setang 10.594172 112.317444 0.000000* ###### BAR AND PIANO 
+	Oh.%%% Sure.% I know how it is,% being a busy interdimensional thief.%*EXCHANGE(cat_piano)*%*setcamroot cat_piano setpos 121.467041 15.463501 66.392380;setang 10.594 172.317 0.000*#*setcam setpos -1450.820923 3049.278076 66.423630;setang 10.594172 112.317444 0.000000* ###### BAR AND PIANO 
 	I saved some wonton soup for you,% try not to stain the trolley seat.
 	&r1a3
 	
@@ -103,7 +103,7 @@ r1a3:
 	*BLOCKSTART*
 		*setspeaker cat_bar*
 		*BAR_HAPPY*
-		*setanim cat_bar gesture_agree 1 idle*
+		*AGREE(cat_bar)*
 	*BLOCKEND*
 	I do hope you'll be able to join us in our next little gathering.%%
 	Stay safe!
@@ -116,7 +116,7 @@ r2a1:
 		#*setcam setpos -1510.434570 3071.411865 67.185104;setang 2.777888 -119.207855 0.000000* ###### CELLO ONLY
 		*setspeaker cat_cello*
 		*CELLO_GRIN*
-		*setanim cat_cello gesture_exchange 1 idle*
+		*EXCHANGE(cat_cello)*
 	*BLOCKEND*
 	it's fiiiine.%%% what's the worst that could happen?%% it's not like life or death 
 	has any meaning beyond what you give it% so*setanim gesture_sweep cat_cello 1 idle* sit down% grab 
@@ -130,10 +130,10 @@ r2a2:
 		#*setcam setpos -1498.261108 3115.454590 54.479294;setang 6.880691 127.231255 0.000000* ###PIANO CLOSEUP
 		*setspeaker cat_piano*
 		*PIANO_ANGRY*
-		*setanim cat_piano gesture_disagree 1 idle*
+		*DISAGREE(cat_piano)*
 	*BLOCKEND*
 	Thanks for the stirring speech,% Camus.%%%*PIANO_NEUTRAL*%*setcamroot takeout3 setpos 121.630371 78.379395 54.621941;setang 14.018 -151.904 0.432* But no legit,% it's cool.%%#*setcamroot takeout3**setcam setpos -1329.612915 3103.142334 94.227859;setang 14.996481 -171.855530 0.000000*
-	All of the foodstuffs we find are preserved in the state of their creation.%%%%*setanim cat_piano gesture_shrug 1 idle*
+	All of the foodstuffs we find are preserved in the state of their creation.%%%%*SHRUG(cat_piano)*
 	How else do you think we fuckin' eat?
 	
 	player:
@@ -154,11 +154,11 @@ r3a1:
 		*setspeaker narrator*
 		*PIANO_SMIRK*
 		*BAR_HAPPY*
-		*setanim cat_bar gesture_clap 1 idle*
-		*setanim cat_piano gesture_clap 1 idle*
+		*CLAP(cat_bar)*
+		*CLAP(cat_piano)*
 	*BLOCKEND*
 	> The Pianist and Bartender clap their hands together.*PIANO_FLUSTERED* 
-	The Pianist looks*setanim cat_piano gesture_embarass 1 idle* embarrassed and seems to be pretending 
+	The Pianist looks*EMBARASS(cat_piano)* embarrassed and seems to be pretending 
 	she did that to kill a bug.%%%
 	You let her think it worked.
 	&r3a2
@@ -168,7 +168,7 @@ r3a2:
 		*setspeaker cat_piano*
 		*PIANO_SMIRK*
 	*BLOCKEND*
-	Sweet.%%*setanim cat_piano gesture_exchange 1 idle* Here,% I saved you some wonton soup.
+	Sweet.%%*EXCHANGE(cat_piano)* Here,% I saved you some wonton soup.
 	&r3a2b
 r3a2b:
 	*setspeaker narrator*
@@ -191,7 +191,7 @@ r3a4:
 		*setspeaker cat_bar*
 		*BAR_SURPRISE*
 	*BLOCKEND*
-	Say, *player*.%%*BAR_HAPPY* H*setanim cat_bar gesture_confused 1 idle*ave you ever played a round of G—
+	Say, *player*.%%*BAR_HAPPY* H*CONFUSED(cat_bar)*ave you ever played a round of G—
 	&r3a5
 	
 r3a5:
@@ -203,7 +203,7 @@ r3a5:
 		*setanim cat_piano gesture_anger 2.5 idle*
 	*BLOCKEND*
 	SO ABOUT WHY I CALLED YOU ALL HERE TODAY.%%%%%
-	I found something.*setanim cat_piano gesture_agree 1.2 idle* S*PIANO_SMIRK*omething, cool.
+	I found something.*setanim cat_piano gesture_agree 1.2 idle*%% S*PIANO_SMIRK*omething cool.
 	&r3a6
 	
 r3a6:
@@ -222,7 +222,7 @@ r3a7:
 		*setanim cat_piano gesture_jab 1.7 idle*
 	*BLOCKEND*
 	Firstly,% you're repressing my free spirit with that rule and I resent it.%%%
-	Secondly,%%*setanim cat_piano gesture_disagree 1 idle* it's*PIANO_BLINK* not a cha*PIANO_SMIRK*insaw.%%% 
+	Secondly,%%*DISAGREE(cat_piano)* it's*PIANO_BLINK* not a cha*PIANO_SMIRK*insaw.%%% 
 	It's something better.
 	&r3a8
 
@@ -232,11 +232,11 @@ r3a8:
 		#*setcam setpos -1329.612915 3103.142334 94.227859;setang 14.996481 -171.855530 0.000000* ####### ALL 4
 		*setspeaker narrator*
 		*CELLO_NEUTRAL*
-		*setanim cat_piano gesture_exchange 1 idle*
+		*EXCHANGE(cat_piano)*
 	*BLOCKEND*
 	> The Pianist produces a recorder from her jacket pocket,%%
 	and places it on the table.
-	%%%%%
+	%%%%%*setanim cat_cello gesture_anger 2 idle*
 	The Cellist quickly stands up from his seat.
 	&r3a9
 
@@ -245,9 +245,9 @@ r3a9:
 		*setcamroot cat_cello setpos 55.990723 21.346680 42.153854;setang 2.778 -164.208 0.000* ###### CELLO ONLY
 		#*setcam setpos -1510.434570 3071.411865 67.185104;setang 2.777888 -119.207855 0.000000* ###### CELLO ONLY
 		*setspeaker cat_cello*
-		*setanim cat_cello gesture_shrug 1 idle*
+		*SHRUG(cat_cello)*
 	*BLOCKEND*
-	wee%e%e%e%e%eell it was nice hanging out with y'all t*setanim cat_cello gesture_agree 1 idle*hanks for the food but 
+	wee%e%e%e%e%eell it was nice hanging out with y'all t*AGREE(cat_cello)*hanks for the food but 
 	i need to find literally anywhere else to be at this point in time% so uh% if 
 	you'll excuse me% a bucket*setanim cat_cello gesture_laugh 1.4 idle* full of liquid nitrogen has 
 	an appointment with my face in about,% thirty seconds
@@ -257,7 +257,7 @@ r3a10:
 	*BLOCKSTART*
 		*setspeaker cat_bar*
 		*BAR_HAPPY*
-		*setanim cat_bar gesture_confused 1 idle*
+		*CONFUSED(cat_bar)*
 	*BLOCKEND*
 	Come now,%% don't be like that.
 	&r3a11
@@ -266,10 +266,10 @@ r3a11:
 	*BLOCKSTART*
 		*setspeaker cat_cello*
 		*CELLO_NEUTRAL*
-		*setanim cat_cello gesture_sigh 1 idle*
+		*SIGH(cat_cello)*
 	*BLOCKEND*
 	like we don't all know how this is gonna go you mean%%%%%%
-	no*setanim cat_cello gesture_disagree 1 idle* tha*CELLO_MAD*nks i'm out i am perfectly capable of destroying my 
+	no*DISAGREE(cat_cello)* tha*CELLO_MAD*nks i'm out i am perfectly capable of destroying my 
 	inner,% middle,% and outer ears on my own
 	&r3a12	
 	
@@ -387,10 +387,9 @@ m3:
 	*BLOCKSTART*
 		*setspeaker cat_cello*
 		*CELLO_NEUTRAL*
-		*setanim cat_cello gesture_jab 2.5 idle*
 	*BLOCKEND*
-	oh of course %you% liked it%%% you're a supportive friend%% which means as 
-	much as having your first*setanim cat_cello gesture_sigh 1 idle* ever crayon scribble hung up on the fridge
+	oh*setanim cat_cello gesture_jab 2.25 idle* of course %you% liked it%%% you're a supportive friend%% which means as 
+	much as having your first*SIGH(cat_cello)* ever crayon scribble hung up on the fridge
 	&m4
 	
 m4:

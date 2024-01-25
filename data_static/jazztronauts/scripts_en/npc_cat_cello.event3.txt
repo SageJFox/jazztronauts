@@ -18,7 +18,7 @@ begin:
 		
 	###### START
 		*show cat_cello*
-		*setanim cat_cello gesture_shock 1 idle*
+		*SHOCK(cat_cello)*
 	*BLOCKEND*
 	oh,%% it's you.
 	&b1
@@ -27,11 +27,11 @@ b1:
 	*BLOCKSTART*
 		*setcamoffset setpos 89.529053 -104.569397 64.169731;setang 7.383 119.535 0.000*
 		#*setcam setpos -1623.391724 412.007446 0.200981;setang 7.383154 65.535309 0.000000*
-		*setanim cat_cello gesture_confused 1 idle*
+		*CONFUSED(cat_cello)*
 	*BLOCKEND*
-	you're really starting to become a fixture around here,%%% huh?%%%*setanim cat_cello gesture_agree 1 idle*
+	you're really starting to become a fixture around here,%%% huh?%%%*AGREE(cat_cello)*
 	makes the whole place feel more alive.%% haven't had so much
-	hustle and/or bustle in%.%.%.%*setanim cat_cello gesture_sigh 1 idle*%% a long time.
+	hustle and/or bustle in%.%.%.%*SIGH(cat_cello)*%% a long time.
 	&b2
 	
 b2:
@@ -49,10 +49,10 @@ b3:
 		*setcamroot cat_cello setpos 40.369629 10.024597 44.927017;setang -0.550 -158.945 0.000* #### CELLO HEADSHOT
 		#*setcam setpos -1559.578613 519.134888 -19.041733;setang -0.549607 147.054596 0.000000* #### CELLO HEADSHOT
 		*setspeaker cat_cello*
-		*setanim cat_cello gesture_disagree 1 idle*
+		*DISAGREE(cat_cello)*
 	*BLOCKEND*
 	oh,%%% don't mind me,%% i was just spacing out.%%%%
-	old memories.%%*setanim cat_cello gesture_confused 1 idle*
+	old memories.%%*CONFUSED(cat_cello)*
 	what can i do for you?
 	player:
 		&m1:
@@ -73,7 +73,7 @@ r2a1:
 		#*setcam setpos -1559.578613 519.134888 -19.041733;setang -0.549607 147.054596 0.000000* #### CELLO HEADSHOT
 		*setspeaker narrator*
 		*CELLO_MAD*
-		*setanim cat_cello gesture_shock 1 idle*
+		*SHOCK(cat_cello)*
 	*BLOCKEND*
 	> The Cellist looks at you for a long moment,%%%
 	visibly sizing you up, guardedly.
@@ -85,10 +85,10 @@ r2a2:
 		#*setcam setpos -1467.164795 516.950806 -12.841831;setang 3.816079 173.940659 0.000000* ###### CELLO OTS
 		*CELLO_BLINK*
 		*setspeaker cat_cello*
-		*setanim cat_cello gesture_sigh 1 idle*
+		*SIGH(cat_cello)*
 	*BLOCKEND*
 	i appreciate the sentiment,%% but i ain't one for*CELLO_NEUTRAL* sitting around awkwardly
-	starin' at somebody.%%%%*setanim cat_cello gesture_shrug 1 idle* you wanna hang out it's gonna be easier for me if
+	starin' at somebody.%%%%*SHRUG(cat_cello)* you wanna hang out it's gonna be easier for me if
 	we talk,%% capiche?
 	player:
 		&r1a1:
@@ -121,10 +121,10 @@ r1a1:
 		#*setcam setpos -1467.164795 516.950806 -12.841831;setang 3.816079 173.940659 0.000000* ###### CELLO OTS
 		*CELLO_GRIN*
 		*setspeaker cat_cello*
-		*setanim cat_cello gesture_laugh 1 idle*
+		*LAUGH(cat_cello)*
 	*BLOCKEND*
 	pfff look at this nerd worrying about my dumb ass.%%%%*CELLO_NEUTRAL*
-	i'm*setanim cat_cello gesture_disagree 1 idle* fine as i ever am,%% s'all good.
+	i'm*DISAGREE(cat_cello)* fine as i ever am,%% s'all good.
 	&m1
 	
 	
@@ -155,11 +155,11 @@ m3:
 	*BLOCKSTART*
 		*setcamroot cat_cello setpos 162.935913 -171.807678 46.114353;setang 0.089 126.785 0.000*
 		#*setcam setpos -1634.641235 313.098297 -17.854397;setang 0.089285 72.784676 0.000000*
-		*setanim cat_cello gesture_disagree 1 idle*
+		*DISAGREE(cat_cello)*
 	*BLOCKEND*
 	y'see last time we spent entirely too much time on artists who were
 	mostly functional people%% and that's an erasure of complete disasters
-	who happen to be extremely skilled in their chosen field,%*setanim cat_cello gesture_jab 1 idle* also
+	who happen to be extremely skilled in their chosen field,%*JAB(cat_cello)* also
 	known as my kind of people
 	&m4
 	
@@ -167,10 +167,10 @@ m4:
 	*BLOCKSTART*
 		*setcamroot cat_cello setpos 40.369629 10.024597 44.927017;setang -0.550 -158.945 0.000* #### CELLO HEADSHOT
 		#*setcam setpos -1559.578613 519.134888 -19.041733;setang -0.549607 147.054596 0.000000* #### CELLO HEADSHOT
-		*setanim cat_cello gesture_laugh 1 idle*
+		*LAUGH(cat_cello)*
 	*BLOCKEND*
 	and boy fucking howdy was caravaggio supreme fuckmaster of being 
-	just an absolute catastrophe,%%%*setanim cat_cello gesture_shrug 1 idle* like even his first biographers were like
+	just an absolute catastrophe,%%%*SHRUG(cat_cello)* like even his first biographers were like
 	damn this dude didn't have issues he had periodicals
 	&m5
 	
@@ -178,16 +178,16 @@ m5:
 	*BLOCKSTART*
 		*setcamroot cat_cello setpos 85.091187 -34.305481 16.227837;setang -14.605 148.347 0.000*
 		#*setcam setpos -1569.155640 456.897888 -47.740913;setang -14.604954 94.346893 0.000000*
-		*setanim cat_cello gesture_agree 1 idle*
+		*AGREE(cat_cello)*
 	*BLOCKEND*
 	now granted since these were old biographies of a famous guy who
 	also did a whole lot of crimes they're also full of blatant lies
-	and*setanim cat_cello gesture_sweep 1 idle* unprovable assertions% so most of what we know about the guy
+	and*SWEEP(cat_cello)* unprovable assertions% so most of what we know about the guy
 	needs to be taken with a pinch of salt
 	&m6
 	
 m6:
-	*setanim cat_cello gesture_clap 1 idle*
+	*CLAP(cat_cello)*
 	but like%% one of the hard facts we do have is that caravaggio had
 	a criminal record that included committing manslaughter over a love
 	triangle where the other two corners were a prostitute and her pimp%%
@@ -203,7 +203,7 @@ m7:
 		*setcamroot cat_cello setpos 40.369629 10.024597 44.927017;setang -0.550 -158.945 0.000* #### CELLO HEADSHOT
 		#*setcam setpos -1559.578613 519.134888 -19.041733;setang -0.549607 147.054596 0.000000* #### CELLO HEADSHOT
 		*setspeaker cat_cello*
-		*setanim cat_cello gesture_embarass 1 idle*
+		*EMBARASS(cat_cello)*
 	*BLOCKEND*
 	oh jeez where to even start.%%%% petty theft,%% told a cop to shove a 
 	dagger up their ass,%% allegedly murdered another cop,%% constantly
@@ -280,7 +280,7 @@ m13:
 		*setcamroot cat_cello setpos 92.096069 -93.865662 40.524876;setang -0.283 120.822 0.000* ###### PLAYER AND CELLO
 		#*setcam setpos -1613.223511 416.222168 -23.443874;setang -0.283464 66.821823 0.000000* ###### PLAYER AND CELLO
 		*setspeaker cat_cello*
-		*setanim cat_cello gesture_laugh 1 idle*
+		*LAUGH(cat_cello)*
 	*BLOCKEND*
 	i consider him to be hashtag goals tbh
 	player:
@@ -298,11 +298,11 @@ r3a1:
 	*BLOCKSTART*
 		*setcamroot cat_cello setpos 92.096069 -93.865662 40.524876;setang -0.283 120.822 0.000* ###### PLAYER AND CELLO
 		#*setcam setpos -1613.223511 416.222168 -23.443874;setang -0.283464 66.821823 0.000000* ###### PLAYER AND CELLO
-		*setanim cat_cello gesture_sigh 1 idle*
+		*SIGH(cat_cello)*
 		*setspeaker cat_cello*
 	*BLOCKEND*
 	well,%% his biographies and contemporary accounts are full of
-	different testimonies.%%%*setanim cat_cello gesture_disagree 1 idle* some say he died of heatstroke or
+	different testimonies.%%%*DISAGREE(cat_cello)* some say he died of heatstroke or
 	chronically bad health while on a trip—
 	&r3a2
 		
@@ -310,7 +310,7 @@ r3a2:
 	*BLOCKSTART*
 		*setcamroot cat_cello setpos 40.369629 10.024597 44.927017;setang -0.550 -158.945 0.000* #### CELLO HEADSHOT
 		#*setcam setpos -1559.578613 519.134888 -19.041733;setang -0.549607 147.054596 0.000000* #### CELLO HEADSHOT
-		*setanim cat_cello gesture_jab 1 idle*
+		*JAB(cat_cello)*
 	*BLOCKEND*
 	—while another guy points out he had been beaten half to death
 	a year earlier by unknown assailants.
@@ -320,7 +320,7 @@ r3a4:
 	*BLOCKSTART*
 		*setcamroot cat_cello setpos 44.551758 297.934692 47.386959;setang -0.070 -93.940 0.000*
 		#*setcam setpos -1324.196167 684.980774 -16.581791;setang -0.070493 -147.939575 0.000000*
-		*setanim cat_cello gesture_shrug 1 idle*
+		*SHRUG(cat_cello)*
 	*BLOCKEND*
 	that plus some other circumstantial accounts indicate he may have
 	been whacked by a bunch of crusader hitmen.%%%*setanim cat_cello gesture_confused .8 idle* one of the other 
@@ -332,7 +332,7 @@ r3a5:
 	*BLOCKSTART*
 		*setcamroot cat_cello setpos 40.369629 10.024597 44.927017;setang -0.550 -158.945 0.000* #### CELLO HEADSHOT
 		#*setcam setpos -1559.578613 519.134888 -19.041733;setang -0.549607 147.054596 0.000000* #### CELLO HEADSHOT
-		*setanim cat_cello gesture_sweep 1 idle*
+		*SWEEP(cat_cello)*
 	*BLOCKEND*
 	this is mostly backed up by the fact that long-term lead poisoning
 	can make you unpredictable and violent% and the body most people
@@ -340,7 +340,7 @@ r3a5:
 	&r3a6
 	
 r3a6:
-	*setanim cat_cello gesture_foldarms 1 idle*
+	*FOLDARMS(cat_cello)*
 	i'm predisposed to believe that one% because there is something
 	deeply resonant about the idea that his artistic drive was the direct
 	cause of a slow death by poisoning that drove him to self-destructive
@@ -354,9 +354,9 @@ r4a1:
 		*setcamroot cat_cello setpos 92.096069 -93.865662 40.524876;setang -0.283 120.822 0.000* ###### PLAYER AND CELLO
 		#*setcam setpos -1613.223511 416.222168 -23.443874;setang -0.283464 66.821823 0.000000* ###### PLAYER AND CELLO
 		*setspeaker cat_cello*
-		*setanim cat_cello gesture_disagree 1 idle*
+		*DISAGREE(cat_cello)*
 	*BLOCKEND*
-	oh he did plenty of incredibly impressive things.%%% giant goddamn paintings,%%*setanim cat_cello gesture_sweep 1 idle*
+	oh he did plenty of incredibly impressive things.%%% giant goddamn paintings,%%*SWEEP(cat_cello)*
 	lighting techniques so refined and influential he damn near became
 	synonymous with the term chiaroscuro—
 	&r4a2
@@ -365,7 +365,7 @@ r4a2:
 	*BLOCKSTART*
 		*setcamroot cat_cello setpos 40.369629 10.024597 44.927017;setang -0.550 -158.945 0.000* #### CELLO HEADSHOT
 		#*setcam setpos -1559.578613 519.134888 -19.041733;setang -0.549607 147.054596 0.000000* #### CELLO HEADSHOT
-		*setanim cat_cello gesture_sweep 1 idle*
+		*SWEEP(cat_cello)*
 	*BLOCKEND*
 	put it this way he got away with being a douchebag for so long because
 	he was a ridiculously talented painter that rich people paid to make
@@ -377,7 +377,7 @@ r4a3:
 	*BLOCKSTART*
 		*setcamroot cat_cello setpos 92.096069 -93.865662 40.524876;setang -0.283 120.822 0.000* ###### PLAYER AND CELLO
 		#*setcam setpos -1613.223511 416.222168 -23.443874;setang -0.283464 66.821823 0.000000* ###### PLAYER AND CELLO
-		*setanim cat_cello gesture_disagree 1 idle*
+		*DISAGREE(cat_cello)*
 	*BLOCKEND*
 	of course after his death people he'd been a prick to shat on his 
 	legacy so hard that he practically disappeared in the minds of art
@@ -405,7 +405,7 @@ n1:
 		#*setcam setpos -1435.336670 101.609459 68.159439;setang 18.670031 108.242561 0.000000*
 		*CELLO_NEUTRAL*
 		*setspeaker cat_cello*
-		*setanim cat_cello gesture_embarass 1 idle*
+		*EMBARASS(cat_cello)*
 	*BLOCKEND*
 	ehhn.%%% starting to get a sore throat from all this yammering.%%
 	gonna go hit the hay in my room%% which in this instance actually is
@@ -417,7 +417,7 @@ n2:
 	*BLOCKSTART*
 		*setcamroot cat_cello setpos 40.369629 10.024597 44.927017;setang -0.550 -158.945 0.000* #### CELLO HEADSHOT
 		#*setcam setpos -1559.578613 519.134888 -19.041733;setang -0.549607 147.054596 0.000000* #### CELLO HEADSHOT
-		*setanim cat_cello gesture_agree 1 idle*
+		*AGREE(cat_cello)*
 	*BLOCKEND*
 	been nice chatting with you,% though.%%%%
 	see you around. *mark_seen*

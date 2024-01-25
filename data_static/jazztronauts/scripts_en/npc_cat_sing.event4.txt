@@ -33,7 +33,7 @@ b1:
 	*BLOCKEND*
 	> The Bartender is reading whatever the Singer has written on 
 	their tablet with great rapture.%%% Her expression shifts into a 
-	broad smile*BAR_HAPPY*,%*setanim cat_bar gesture_agree 1 idle* and*SINGER_HAPPY* the*setanim cat_singer gesture_clap 1 idle* Singer claps.
+	broad smile*BAR_HAPPY*,%*AGREE(cat_bar)* and*SINGER_HAPPY* the*CLAP(cat_singer)* Singer claps.
 	&b2
 	
 b2:
@@ -41,9 +41,9 @@ b2:
 		*setcamoffset setpos 119.628174 37.931641 40.941132;setang 1.420 -159.372 0.000*
 		#*setcam setpos -2825.637939 2925.269043 73.358551;setang 1.420215 111.132065 0.000000*
 		*setspeaker cat_bar*
-		*setanim cat_bar gesture_sweep 1 idle*
+		*SWEEP(cat_bar)*
 	*BLOCKEND*
-	That's fantastic!%%%*BAR_NEUTRAL* I'm*setanim cat_bar gesture_agree 1 idle* very impressed at the tremendous strides 
+	That's fantastic!%%%*BAR_NEUTRAL* I'm*AGREE(cat_bar)* very impressed at the tremendous strides 
 	your program has made in such a short time since you've had 
 	the aid of our guest.
 	&b3
@@ -61,7 +61,7 @@ b3:
 		*BAR_HAPPY*
 		*setanim cat_bar gesture_exchange 2 idle*
 	*BLOCKEND*
-	Speaking of which,% welcome!%%*BAR_NEUTRAL* Take a seat,%*setanim cat_bar gesture_sweep 1 idle* and I'll mix you 
+	Speaking of which,% welcome!%%*BAR_NEUTRAL* Take a seat,%*SWEEP(cat_bar)* and I'll mix you 
 	something up.%% Free of charge,% since you've been such an 
 	invaluable research assistant for the Singer.
 	player:
@@ -120,7 +120,7 @@ r2a1:
 		*setanim cat_singer gesture_shock 1.7 idle*
 	*BLOCKEND*
 	> The Singer looks legitimately offended and then opens*SINGER_NEUTRAL* up their 
-	thesis-in-progress to show that you*setanim cat_singer gesture_agree 1 idle* have in fact already been 
+	thesis-in-progress to show that you*AGREE(cat_singer)* have in fact already been 
 	credited in full as a research partner.
 	player:
 		&r1a1:
@@ -170,7 +170,7 @@ r3a2:
 	&r3a2b
 	
 r3a2b:
-	*setanim cat_singer gesture_shrug 1 idle*
+	*SHRUG(cat_singer)*
 	> At present, they're essentially animatronics.%%%%*setanim cat_singer gesture_sigh .85 idle* 
 	They have no reaction on any level to stimuli outside of
 	pre-programmed behaviours.
@@ -182,11 +182,11 @@ m1:
 		#*setcam setpos -2720.861328 2981.111328 71.907837;setang 3.443262 -176.994690 0.000000*
 		*setspeaker cat_bar*
 		*BAR_BLINK*
-		*setanim cat_bar gesture_confused 1 idle*
+		*CONFUSED(cat_bar)*
 	*BLOCKEND*
 	I must say,%% *player*,%%%%*BAR_NEUTRAL* 
 	you've been reminding us of someone we used to know as 
-	of late.%%%*setanim cat_bar gesture_agree 1 idle* It's been delightful.
+	of late.%%%*AGREE(cat_bar)* It's been delightful.
 	&m2
 	
 m2:
@@ -196,8 +196,8 @@ m2:
 		narratesinger()
 		*setanim cat_singer gesture_agree 1.3 idle*
 	*BLOCKEND*
-	> The Singer agrees.%%% It has been wonderful*SINGER_HAPPY* having*setanim cat_singer gesture_clap 1 idle* help with 
-	the Mewseum again.%% Their last helper was also very*setanim cat_singer gesture_laugh 1 idle* good at 
+	> The Singer agrees.%%% It has been wonderful*SINGER_HAPPY* having*CLAP(cat_singer)* help with 
+	the Mewseum again.%% Their last helper was also very*LAUGH(cat_singer)* good at 
 	finding,% niche,%% objects.*SINGER_NEUTRAL* 
 	&m2b
 	
@@ -217,7 +217,7 @@ m2b:
 m3:
 	*BLOCKSTART*
 		*SINGER_HAPPY*
-		*setanim cat_singer gesture_agree 1 idle*
+		*AGREE(cat_singer)*
 	*BLOCKEND*
 	> They preen as you read this,%% as it was a correct hypothesis.*SINGER_NEUTRAL*
 	&m4
@@ -228,7 +228,7 @@ m4:
 		#*setcam setpos -2826.586670 2983.291992 70.987778;setang 3.656236 138.175919 0.000000*
 		*setspeaker cat_bar*
 		*BAR_NEUTRAL*
-		*setanim cat_bar gesture_shrug 1 idle*
+		*SHRUG(cat_bar)*
 	*BLOCKEND*
 	They were always just as excited about 
 	the potential as you were.
@@ -236,7 +236,7 @@ m4:
 	
 m5:
 	Thank you, *player*.
-	*BAR_HAPPY**setanim cat_bar gesture_confused 1 idle*
+	*BAR_HAPPY**CONFUSED(cat_bar)*
 	We've all greatly appreciated your presence and assistance here.*BAR_NEUTRAL*
 	&m6
 	
@@ -248,7 +248,7 @@ m6:
 		*SINGER_NEUTRAL*
 		*setanim cat_singer gesture_agree 1.4 idle*
 	*BLOCKEND*
-	> The Singer bounces in their seat as they nod.%%%*setanim cat_singer gesture_laugh 1 idle*	
+	> The Singer bounces in their seat as they nod.%%%*LAUGH(cat_singer)*	
 	They're very thankful to count you among their friends. 
 	&m7
 	

@@ -53,7 +53,7 @@ b2:
 		*setcamroot cat_bar setpos 50.416748 33.669434 54.574524;setang 10.870 -150.268 0.000* ###### BAR
 		#*setcam setpos -2833.064697 2905.589111 54.574524;setang 10.870310 155.732285 0.000000* ###### BAR
 		*setspeaker cat_bar*
-		*setanim cat_bar gesture_sweep 1 idle*
+		*SWEEP(cat_bar)*
 	*BLOCKEND*
 	He came in here a little while ago drinking something,%% and got 
 	more and more agitated until he threw the empty glass across the
@@ -63,23 +63,23 @@ b2:
 ##bartender scowls while goin like bitch i know what you did but continues neutrally after that	
 b3:
 	If this has to do with all those*BAR_PISSED* milk cartons he just% so%
-	happened% to% find,%%%%*setanim cat_bar gesture_sigh 1 idle* *BAR_NEUTRAL*I think I know what's wrong.
+	happened% to% find,%%%%*SIGH(cat_bar)* *BAR_NEUTRAL*I think I know what's wrong.
 	&b4
 	
 b4:
 	*BLOCKSTART*
 		*BAR_BLINK*
-		*setanim cat_bar gesture_disagree 1 idle*
+		*DISAGREE(cat_bar)*
 	*BLOCKEND*
 	I won't mince words.%%%%*BAR_NEUTRAL* The Cellist is not well,%%% and he keeps putting
-	all his hopes on magic cures and instant solutions.%%%%%*setanim cat_bar gesture_sweep 1 idle* I think his 
+	all his hopes on magic cures and instant solutions.%%%%%*SWEEP(cat_bar)* I think his 
 	latest attempt just failed.
 	&b5
 	
 b5:
-	*setanim cat_bar gesture_disagree 1 idle*
+	*DISAGREE(cat_bar)*
 	Such failures are rarely good for his state of mind to 
-	begin with,%%*setanim cat_bar gesture_foldarms 1 idle* but combined with his recent mood%.%.%.%%
+	begin with,%%*FOLDARMS(cat_bar)* but combined with his recent mood%.%.%.%%
 	&b6
 	
 b6:
@@ -103,7 +103,7 @@ b7:
 	*BLOCKEND*
 	> “If he won't listen to us then maybe he'll listen to you??%%%
 	He's talked to you more than he's talked to anyone else we've
-	met in a Really Long Time even though he was on a downswing!!!%%%%*setanim cat_singer gesture_agree 1 idle*
+	met in a Really Long Time even though he was on a downswing!!!%%%%*AGREE(cat_singer)*
 	That's really impressive!!!”
 	condition:
 		&b8:
@@ -198,7 +198,7 @@ r2a1:
 		#*setcam setpos -2833.064697 2905.589111 54.574524;setang 10.870310 155.732285 0.000000* ###### BAR
 		*setspeaker cat_bar*
 		*BAR_NEUTRAL*
-		*setanim cat_bar gesture_facepalm 1 idle*
+		*FACEPALM(cat_bar)*
 	*BLOCKEND*
 	That's perfectly understandable,%% but please,%%% once you're
 	ready, come back as soon as you can.
@@ -209,7 +209,7 @@ m1:
 	*BLOCKSTART*
 		*setcamroot cat_piano setpos 90.093262 10.599243 57.335415;setang 8.687 -174.916 0.000* #### PIANO
 		#*setcam setpos -2851.549805 2833.720459 57.335415;setang 8.687464 145.084076 0.000000* #### PIANO
-		*setanim cat_piano gesture_exchange 1 idle*
+		*EXCHANGE(cat_piano)*
 		*setspeaker cat_piano*
 	*BLOCKEND*
 	He's on the patio that overlooks the lake. 
@@ -219,7 +219,7 @@ m2:
 	*BLOCKSTART*
 		*setcamroot cat_singer setpos 47.154785 22.483032 35.836128;setang -0.017 -157.455 0.000* ####### SINGER
 		#*setcam setpos -2810.619873 2851.688965 35.836128;setang -0.017270 148.544876 0.000000* ####### SINGER
-		*setanim cat_singer gesture_clap 1 idle*
+		*CLAP(cat_singer)*
 		*setspeaker cat_singer*
 	*BLOCKEND*
 	> “You're gonna do great, I know it! ✧/ᐠ-ꞈ-ᐟ\\”
@@ -229,7 +229,7 @@ m3:
 	*BLOCKSTART*
 		*setcamroot cat_bar setpos 50.416748 33.669434 54.574524;setang 10.870 -150.268 0.000* ###### BAR
 		#*setcam setpos -2833.064697 2905.589111 54.574524;setang 10.870310 155.732285 0.000000* ###### BAR
-		*setanim cat_singer gesture_agree 1 idle*
+		*AGREE(cat_singer)*
 		*setspeaker cat_bar*
 	*BLOCKEND*
 	Thank you.
@@ -294,9 +294,9 @@ m8:
 		*setanim cat_cello gesture_anger 2 idle*
 	*BLOCKEND*
 	i don't WANT help!%%%*setanim cat_cello gesture_anger 1.6 idle* i don't WANT to be pitied by a fucking
-	useless ephemeral piece of shit like you!%%%%*setcamroot player 538.250732 -118.861206 106.225632;11.908 146.960 0*%*setanim cat_cello gesture_facepalm 1 idle*#*setcam setpos 3637.327881 379.558289 106.256882;setang 11.908493 144.249985 0.000000*
+	useless ephemeral piece of shit like you!%%%%*setcamroot player 538.250732 -118.861206 106.225632;11.908 146.960 0*%*FACEPALM(cat_cello)*#*setcam setpos 3637.327881 379.558289 106.256882;setang 11.908493 144.249985 0.000000*
 	
-	i'm%.*CELLO_BLINK*%.%.%%*bgmplay sound/jazztronauts/music/events/pariah.mp3 .75 10*    i%*setanim cat_cello gesture_sigh 1 idle*.%.%.%%%*CELLO_MAD*
+	i'm%.*CELLO_BLINK*%.%.%%*bgmplay sound/jazztronauts/music/events/pariah.mp3 .75 10*    i%*SIGH(cat_cello)*.%.%.%%%*CELLO_MAD*
 	&m9
 
 m9:
@@ -306,7 +306,7 @@ m9:
 		*CELLO_EMPTY*
 		#*setposang player setpos 3332.448486 503.497314 0;setang 0.941127 0.297801 0.000000*
 		*block setoffset player setpos -203.551514 -8.502686 0.000000;setang 0 0.298 0.000-->setlook player -0.941*
-		*setanim cat_cello gesture_embarass 1 idle*
+		*EMBARASS(cat_cello)*
 	*BLOCKEND*
 	I'm sorry,% *player*.%%%%
 	I'm just so tired% of being so tired.
@@ -331,9 +331,9 @@ concern:
 		*setcamroot player setpos -68.491211 -69.39328 34.386749;setang 2.166 34.446 0* ###### PLAYER AND CELLO CELLO DOMINANT
 		#*setcam setpos 3264.319092 433.748749 34.417999;setang 2.165646 34.744156 0.000000* ###### PLAYER AND CELLO CELLO DOMINANT
 		*setspeaker cat_cello*
-		*setanim cat_cello gesture_sigh 1 idle*
+		*SIGH(cat_cello)*
 	*BLOCKEND*
-	I%.%.%.%% I appreciate the offer.%%% And the concern.%%%%*setanim cat_cello gesture_disagree 1 idle* But I don't know what 
+	I%.%.%.%% I appreciate the offer.%%% And the concern.%%%%*DISAGREE(cat_cello)* But I don't know what 
 	I need right now.
 	&concern1
 	
@@ -343,8 +343,8 @@ concern1:
 		#*setcam setpos 3507.908203 458.545197 71.318253;setang 18.004484 36.705151 0.000000* ###### CELLO 3/4
 		*CELLO_MAD*
 	*BLOCKEND*
-	%.%.%.%Well.%%%*setanim cat_cello gesture_confused 1 idle* I do know what I think I need,%% but enough of me's still 
-	stubborn enough to dig its heels in on the matter.%%%%*setanim cat_cello gesture_shrug 1 idle*
+	%.%.%.%Well.%%%*CONFUSED(cat_cello)* I do know what I think I need,%% but enough of me's still 
+	stubborn enough to dig its heels in on the matter.%%%%*SHRUG(cat_cello)*
 	So I take the next best option.
 	&n1
 	
@@ -354,11 +354,11 @@ others:
 		*setcamroot cat_cello setpos 78.433105 64.420502 71.318253;setang 18.004 -143.295 0.000* ###### CELLO 3/4
 		#*setcam setpos 3507.908203 458.545197 71.318253;setang 18.004484 36.705151 0.000000* ###### CELLO 3/4
 		*setspeaker cat_cello*
-		*setanim cat_cello gesture_laugh 1 idle*
+		*LAUGH(cat_cello)*
 		*CELLO_EMPTY*
 	*BLOCKEND*
-	Hah.%% More like worried sick OF me.%%%*setanim cat_cello gesture_disagree 1 idle* They didn't even bother coming
-	up with you,% did they?%%% I know what the lot of them really think of me,%%*setanim cat_cello gesture_sigh 1 idle* 
+	Hah.%% More like worried sick OF me.%%%*DISAGREE(cat_cello)* They didn't even bother coming
+	up with you,% did they?%%% I know what the lot of them really think of me,%%*SIGH(cat_cello)* 
 	even if they don't admit it to themselves.%%%% It's just a matter
 	of time until they get sick of rebuilding torched bridges.
 	&n1
@@ -370,7 +370,7 @@ yoga:
 		#*setcam setpos 3264.319092 433.748749 34.417999;setang 2.165646 34.744156 0.000000* ###### PLAYER AND CELLO CELLO DOMINANT
 		*CELLO_MAD*
 		*setspeaker cat_cello*
-		*setanim cat_cello gesture_sigh 1 idle*
+		*SIGH(cat_cello)*
 	*BLOCKEND*
 	Please,%% I know you want to help,%%% but I promise you I've tried
 	meditation,% I've tried exercise,% I've tried mindfulness,% I've tried 
@@ -386,15 +386,15 @@ n1:
 		#*setcam setpos 3438.793213 462.698669 9.742290;setang -4.515965 35.702534 0.000000*
 		*CELLO_MAD*
 		*setspeaker cat_cello*
-		*setanim cat_cello gesture_confused 1 idle*
+		*CONFUSED(cat_cello)*
 	*BLOCKEND*
-	You think I fled this far into altered states for fun?%%%*setanim cat_cello gesture_disagree 1 idle* No,% it's
-	because I can't fucking stand myself.%%%%*setanim cat_cello gesture_facepalm 1 idle* 
+	You think I fled this far into altered states for fun?%%%*DISAGREE(cat_cello)* No,% it's
+	because I can't fucking stand myself.%%%%*FACEPALM(cat_cello)* 
 	&n1b
 	
 n1b:
 	Being alone in my head,%%
-	with everything clear,%%% with nothing between me and myself%.%.%.%%%%*setanim cat_cello gesture_disagree 1 idle*
+	with everything clear,%%% with nothing between me and myself%.%.%.%%%%*DISAGREE(cat_cello)*
 	nobody could pitch me a more convincing Hell.
 	&n2
 	
@@ -403,9 +403,9 @@ n2:
 		*setcamroot player setpos 241.5271 -135.857971 48.846058;setang 3.337 124.794 0* ###### PLAYER AND CELLO PLAYER DOMINANT
 		#*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
 		*CELLO_EMPTY*
-		*setanim cat_cello gesture_shrug 1 idle*
+		*SHRUG(cat_cello)*
 	*BLOCKEND*
-	Maybe you can understand that.%%%%*setanim cat_cello gesture_disagree 1 idle* I really hope you don't.%%%%%%% But the
+	Maybe you can understand that.%%%%*DISAGREE(cat_cello)* I really hope you don't.%%%%%%% But the
 	funny thing about running from your problems is that you eventually
 	have to run as fast as you can just to stay in the same place.
 	&n3
@@ -415,9 +415,9 @@ n3:
 		*setcamroot cat_cello setpos 78.433105 64.420502 71.318253;setang 18.004 -143.295 0.000* ###### CELLO 3/4
 		#*setcam setpos 3507.908203 458.545197 71.318253;setang 18.004484 36.705151 0.000000* ###### CELLO 3/4
 		*CELLO_MAD*
-		*setanim cat_cello gesture_jab 1 idle*
+		*JAB(cat_cello)*
 	*BLOCKEND*
-	That's what happened to me until I got%.%.%.%%%*setanim cat_cello gesture_confused 1 idle*
+	That's what happened to me until I got%.%.%.%%%*CONFUSED(cat_cello)*
 	lucky's not the right word.
 	&n4
 	
@@ -433,8 +433,8 @@ n4:
 		*setanim cat_cello gesture_foldarms .75 idle*
 	*BLOCKEND*
 	Years ago,% I saw%% ev%ery%thing.%%% Whatever I did,%*CELLO_NEUTRAL* whatever I was on,%%
-	whatever my frame of mind was,%%% it all aligned.%%%%*setanim cat_cello gesture_agree 1 idle* I could see
-	everything in its place.%%% I can't even describe what I saw and felt,%%*setanim cat_cello gesture_disagree 1 idle* 
+	whatever my frame of mind was,%%% it all aligned.%%%%*AGREE(cat_cello)* I could see
+	everything in its place.%%% I can't even describe what I saw and felt,%%*DISAGREE(cat_cello)* 
 	because I can't remember it anymore.
 	&n5
 	
@@ -452,7 +452,7 @@ n6:
 		##*setcam setpos 3507.908203 458.545197 71.318253;setang 18.004484 36.705151 0.000000* ###### CELLO 3/4
 		#*CELLO_BLINK*
 		*block setoffset player -203.551514 -8.502686 0;0 0.298 0-->setcamroot cat_cello 78.433105 64.420502 71.318253;18.004 -143.295 0-->CELLO_BLINK*
-		*setanim cat_cello gesture_facepalm 1 idle*
+		*FACEPALM(cat_cello)*
 	*BLOCKEND*
 	%.%.%.%and then I crashed.%%%%*CELLO_MAD*
 	&n7
@@ -462,11 +462,11 @@ n7:
 		*setcamroot cat_cello setpos 49.837646 28.534668 48.873035;setang 1.846 -157.661 0.000* ####### CELLO HEADSHOT
 		#*setcam setpos 3536.503662 494.431030 48.873035;setang 1.846230 22.339319 0.000000* ####### CELLO HEADSHOT
 		*CELLO_EMPTY*
-		*setanim cat_cello gesture_disagree 1 idle*
+		*DISAGREE(cat_cello)*
 	*BLOCKEND*
 	It all was stripped from me as I came down.%%% That sense of oneness,%
 	that fulfillment,%*setanim cat_cello gesture_anger 2 idle* all of it gone except the echo of what it felt like.%%% 
-	I was left with nothing but that memory.%%%%*setanim cat_cello gesture_shrug 1 idle* That mockery.
+	I was left with nothing but that memory.%%%%*SHRUG(cat_cello)* That mockery.
 	&n8
 	
 n8:
@@ -481,10 +481,10 @@ n9:
 	*BLOCKSTART*
 		*setcamroot cat_cello setpos 78.433105 64.420502 71.318253;setang 18.004 -143.295 0.000* ###### CELLO 3/4
 		#*setcam setpos 3507.908203 458.545197 71.318253;setang 18.004484 36.705151 0.000000* ###### CELLO 3/4
-		*setanim cat_cello gesture_sweep 1 idle*
+		*SWEEP(cat_cello)*
 	*BLOCKEND*
 	And that led me to what you see now.%%% A burnt-out drug-addled wreck
-	chasing a mirage.%%%%*setanim cat_cello gesture_disagree 1 idle* 
+	chasing a mirage.%%%%*DISAGREE(cat_cello)* 
 	&n9b
 	
 n9b:
@@ -497,7 +497,7 @@ n10:
 	*BLOCKSTART*
 		*setcamroot player setpos -68.491211 -69.39328 34.386749;setang 2.166 34.446 0* ###### PLAYER AND CELLO CELLO DOMINANT
 		#*setcam setpos 3264.319092 433.748749 34.417999;setang 2.165646 34.744156 0.000000* ###### PLAYER AND CELLO CELLO DOMINANT
-		*setanim cat_cello gesture_sigh 1 idle*
+		*SIGH(cat_cello)*
 	*BLOCKEND*
 	I'm useless.%%%% I don't contribute anything to this crew anymore.%%%%*setanim cat_cello gesture_anger 2 idle*
 	I'm just a wallowing piece of shit coasting on old glories and 
@@ -509,7 +509,7 @@ n11:
 		*setcamroot cat_cello setpos 49.837646 28.534668 48.873035;setang 1.846 -157.661 0.000* ####### CELLO HEADSHOT
 		#*setcam setpos 3536.503662 494.431030 48.873035;setang 1.846230 22.339319 0.000000* ####### CELLO HEADSHOT
 		*CELLO_MAD*
-		*setanim cat_cello gesture_shock 1 idle*
+		*SHOCK(cat_cello)*
 	*BLOCKEND*
 	—realize that I'm more trouble than I'm worth,%*setanim cat_cello gesture_anger 2 idle*
 	and that I'll never live up to my "potential",%%%*CELLO_EMPTY* 
@@ -519,7 +519,7 @@ n11:
 n12:
 	*BLOCKSTART*
 		*CELLO_BLINK*
-		*setanim cat_cello gesture_facepalm 1 idle*
+		*FACEPALM(cat_cello)*
 	*BLOCKEND*
 	So just,%% leave me alone.%%%*CELLO_EMPTY* Let me destroy what's left of me in peace.%%%%
 	If there's nothing left of me to care,%% or there's nobody left to
@@ -528,7 +528,7 @@ n12:
 	
 n13:
 	*BLOCKSTART*
-		*setanim cat_cello gesture_sigh 1 idle*
+		*SIGH(cat_cello)*
 		*CELLO_EMPTY*
 	*BLOCKEND*
 	that's all I can hope for anymore.
