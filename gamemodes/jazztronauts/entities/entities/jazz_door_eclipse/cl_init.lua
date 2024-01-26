@@ -97,6 +97,8 @@ function ENT:UpdateWorldMarker()
 	worldmarker.SetEnabled(self.CountMarkerName, self.ShardsCollected and self.ShardsCollected > 0)
 end
 
+local oldSceneStatus = false
+
 function ENT:Think()
 	self:UpdateWorldMarker()
 
@@ -104,6 +106,17 @@ function ENT:Think()
 	self.ShardsRequired =  mapgen.GetTotalRequiredBlackShards()
 
 	self:SetNextClientThink(CurTime() + 2)
+
+	if oldSceneStatus ~= LocalPlayer().InScene then
+		if (LocalPlayer().InScene and dialog.GetParam("RENDER_DYNAMICENTS") ~= "true") or dialog.GetParam("RENDER_DYNAMICENTS") == "false" then
+			self:StopSound(self.HumSoundPath)
+		else
+			self:EmitSound(self.HumSoundPath, 75, 25, 1)
+		end
+	end
+
+	oldSceneStatus = LocalPlayer().InScene
+
 	return true
 end
 
