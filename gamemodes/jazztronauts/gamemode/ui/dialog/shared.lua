@@ -91,10 +91,10 @@ local function LoadMacros(sources)
 	local localmacros = {}
 	for line in lineitr(macros) do
 		line = line:Trim()
-		--local macros, defined by starting a line with MACRO before any branches are started
-		if localmac and not string.find(line,"^MACRO%s*") then continue end
-		if localmac and string.find(line,"^[%a%d]+:%s*") then break end
 		if line:len() == 0 or line[1] == "#" then continue end
+		--local macros, defined by starting a line with MACRO before any branches are started
+		if localmac and string.find(line,"^[%a%d]+:%s*") then break end
+		if localmac and not string.find(line,"^MACRO%s*") then continue end
 
 		local x,y,z = line:gmatch(pattern1)()
 		if not x then x,z = line:gmatch(pattern2)() end
@@ -139,7 +139,6 @@ local function CompileBlockExec(datasrc)
 	table.Add(macros,macrolist)
 	--yeah, that's right, I copied this code from below
 	for _, macro in pairs(macros) do
-
 		if not macro.paren then
 			data = data:gsub(macro.name, macro.use)
 		else
@@ -153,13 +152,10 @@ local function CompileBlockExec(datasrc)
 	--a little cleanup. This is to help shorten our string where we can
 	--todo maybe: this would technically affect any text as well.
 	--I doubt anyone's gonna wanna say "0.000" or "   setpos   ", but.
-	data = string.gsub(data,"%.0+%s+"," ") --remove trailing decimal zeros (space after)
-	data = string.gsub(data,"%.0+%*","*") --remove trailing decimal zeros (asterisk after)
-	data = string.gsub(data,"%.0+%-%->","-->") --remove trailing decimal zeros (block arrow after)
+	data = string.gsub(data,"%.0+([^123456789])",function( x ) return x end) --remove trailing decimal zeros
 	data = string.gsub(data,"%s*%-%->%s*","-->") --remove unneeded spaces from block arrow
 	data = string.gsub(data,"%s*setpos%s+"," ") --remove setpos and setang
 	data = string.gsub(data,"%s*setang%s*"," ") --(Honestly, go fuck yourself if you're using these as prop names. Who are you, the Riddler?)
-
 	--[[local newcount = #data
 	if newcount < 100 then print("New data:\n",data) end
 	local percent = oldcount ~= 0 and newcount * 100 / oldcount or 99999
@@ -224,6 +220,15 @@ local function CompileBlockExec(datasrc)
 			if not start then start, fin = string.find(data,patstart) end
 		end
 	end
+	--if you think something's fucky with a script because of this, check it here.
+	--Just look for something that only your script would have so you're not printing every script to console
+	--keep in mind that this is after processing, so local macros will be gone and some values will be truncated.
+	--[[
+	if string.find(data,"293.787109 143.954376 80.944336") then
+		for i = 1, math.ceil(#data/300) do
+			Msg(string.sub(data,math.max(1,(i-1)*300),math.min(#data,i*300-1)))
+		end
+	end--]]
 	--done processing, put it in
 	return data
 end
