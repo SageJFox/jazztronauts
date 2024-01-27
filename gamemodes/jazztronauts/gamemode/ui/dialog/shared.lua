@@ -152,7 +152,7 @@ local function CompileBlockExec(datasrc)
 	--a little cleanup. This is to help shorten our string where we can
 	--todo maybe: this would technically affect any text as well.
 	--I doubt anyone's gonna wanna say "0.000" or "   setpos   ", but.
-	data = string.gsub(data,"%.0+([^123456789])",function( x ) return x end) --remove trailing decimal zeros
+	data = string.gsub(data,"%.0+([%D])",function( x ) return x end) --remove trailing decimal zeros
 	data = string.gsub(data,"%s*%-%->%s*","-->") --remove unneeded spaces from block arrow
 	data = string.gsub(data,"%s*setpos%s+"," ") --remove setpos and setang
 	data = string.gsub(data,"%s*setang%s*"," ") --(Honestly, go fuck yourself if you're using these as prop names. Who are you, the Riddler?)
