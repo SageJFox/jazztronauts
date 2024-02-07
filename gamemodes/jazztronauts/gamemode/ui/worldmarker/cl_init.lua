@@ -3,7 +3,8 @@ module("worldmarker", package.seeall)
 
 markers = markers or {}
 local screenSize = ScreenScale(16)
-function Register(name, icon, radius)
+function Register(name, icon, radius, alwaysvisible)
+	local alwaysvisible = alwaysvisible or false
 	markers[name] =
 	{
 		name = name,
@@ -11,7 +12,8 @@ function Register(name, icon, radius)
 		radius = radius,
 		vishandle = util.GetPixelVisibleHandle(),
 		pos = Vector(),
-		enabled = true
+		enabled = true,
+		alwaysvisible = alwaysvisible
 	}
 end
 
@@ -40,7 +42,7 @@ hook.Add("HUDPaint", "JazzWorldMarkerDraw", function()
 	for _, v in pairs(markers) do
 		if not v.enabled then continue end
 		if dialog and dialog.IsInDialog() then return end -- Don't try markers in dialogs
-		local visible = util.PixelVisible(v.pos, v.radius, v.vishandle)
+		local visible = v.alwaysvisible and 1 or util.PixelVisible(v.pos, v.radius, v.vishandle)
 		if not visible or visible <= 0 then continue end
 
 		cam.Start3D()
@@ -49,7 +51,7 @@ hook.Add("HUDPaint", "JazzWorldMarkerDraw", function()
 		render.SetBlend(visible)
 
 		if v.render then
-			v.render(scrpos, visible, v.pos)
+			v:render(scrpos, visible)
 		else
 			surface.SetDrawColor( 255, 255, 255, visible * 255 )
 			surface.SetMaterial(v.icon)
