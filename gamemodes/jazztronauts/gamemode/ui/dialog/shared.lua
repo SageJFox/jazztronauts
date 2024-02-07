@@ -168,8 +168,8 @@ local function CompileBlockExec(datasrc)
 	if not start then start, fin = string.find(data,patstart) end --try finding a blank one
 	while start do
 		--print("BLOCKSTART "..signifier.." found, processing...")
-		if signifier then start, fin =  string.find(data,patstart.."%s*"..signifier.."%*[%g%s]-"..patend.."%s*"..signifier)
-		else start, fin =  string.find(data,patstart.."%*[%g%s]-"..patend) end
+		if signifier then start, fin =  string.find(data,patstart.."%s*"..signifier.."%*.-"..patend.."%s*"..signifier)
+		else start, fin =  string.find(data,patstart.."%*.-"..patend) end
 		if start then
 			local scope = string.sub( data, start - 1, fin + 1 ) --grabs the asterisks on both sides, too
 			--print("SCOPE PRIOR:")
@@ -628,7 +628,7 @@ function LoadScripts()
 				if branchnumber > 0 then
 					local pattern = "[%w]*cam[%w]* [%w%d%-%.%ssetpos]+ [%d%-%.]+ [%d%-%.]+%s*;[setang]*%s*[%d%-%.]+ [%d%-%.]+ [%d%-%.]+" --attempting to find various camera setting commands
 					if override:GetFOV() ~= 0 then pattern = pattern .. "[ ]*[fov%d%-%.]*" end -- add FOV to the mix if we're replacing it
-					local comment, endline, oldcommand = "#[%g%s]*", "[%g%s]*\r?\n", ""
+					local comment, endline, oldcommand = "#.-", ".-\r?\n", ""
 					while branchnumber > 0 do
 						local oldfoundend = foundend
 						foundstart,foundend,_ = string.find(script,pattern,foundend)
