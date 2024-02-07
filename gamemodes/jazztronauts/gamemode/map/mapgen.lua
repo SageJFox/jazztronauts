@@ -316,7 +316,7 @@ if SERVER then
 		["theater_door"] = "TeleportName",
 
 		-- some maps use these for cutscenes, let them override?
-		--["point_teleport"] = "", -- itself is the point
+		["point_teleport"] = "", -- itself is the point
 	}
 
 	local function getPotentialPlayerPositions()
@@ -331,10 +331,13 @@ if SERVER then
 
 		-- Teleports
 		for name, dest in pairs(teleports) do
+			local dests = {}
+			local destscount = 1
 			for _, ent in pairs(ents.FindByClass(name)) do
 				-- No destination keyvalue, so itself is the destination
 				if #dest == 0 then
 					positions[#positions + 1] = ent:GetPos()
+					dests[ent] = destscount
 				else
 					local destName = ent:GetKeyValues()[dest] or ent[dest]
 					if not destName or #destName == 0 then continue end
@@ -342,7 +345,26 @@ if SERVER then
 					-- Add in all destination ents with matching name
 					for _, v in pairs(ents.FindByName(destName)) do
 						positions[#positions + 1] = v:GetPos()
+						dests[v] = destscount
 					end
+				end
+				destscount = destscount + 1
+			end
+			--create stan markers
+			dests = table.Flip(dests) --initially built table with values as keys to eliminate potential duplicate entries (if multiple teleporters go to the same destination)
+			for _, v in pairs(dests) do
+				if not IsValid(v) then continue end
+				local stanmark = ents.Create("jazz_stanteleportmarker")
+				stanmark:SetPos(v:GetPos())
+				stanmark:Spawn()
+				stanmark:SetDestination(v)
+				stanmark:SetDestinationName(v:GetName() or "")
+				if v:GetClass() == "point_teleport" then
+					local ducked = tobool(bit.band(v:GetFlags(),2)) -- Into Duck (episodic)
+					print("Ducked?",ducked)
+					stanmark:SetDucked(ducked)
+				else
+					stanmark:SetDucked(false)
 				end
 			end
 		end

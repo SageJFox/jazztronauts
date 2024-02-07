@@ -13,7 +13,7 @@ SWEP.AutoSwitchFrom			= false
 SWEP.ViewModel				= "models/weapons/c_stan.mdl"
 SWEP.WorldModel				= ""
 
-SWEP.UseHands		= true
+SWEP.UseHands				= true
 
 SWEP.HoldType				= "magic"
 
@@ -27,21 +27,26 @@ SWEP.Primary.Ammo			= "none"
 SWEP.Primary.Sound			= Sound( "weapons/357/357_fire2.wav" )
 SWEP.Primary.Automatic		= false
 
+SWEP.Secondary.Delay		= 0.5
 SWEP.Secondary.ClipSize		= -1
 SWEP.Secondary.DefaultClip	= -1
-SWEP.Secondary.Ammo		= "none"
+SWEP.Secondary.Ammo			= "none"
+SWEP.Secondary.Automatic	= false
 
 
 local DefaultTeleportDistance	= 256
 local DefaultProngCount			= 2
 local DefaultSpeed				= 300
+local teleMarker				= Material("materials/ui/jazztronauts/pentergram.png", "smooth")
 
 SWEP.Spawnable				= true
 SWEP.RequestInfo			= {}
 SWEP.TeleportDistance		= DefaultTeleportDistance
-SWEP.ProngCount			= DefaultProngCount
+SWEP.ProngCount				= DefaultProngCount
 SWEP.SpeedRate				= DefaultSpeed
 SWEP.TopSpeed				= 2000
+SWEP.TeleportDestinations	= false
+SWEP.TeleportDestTarget		= nil
 
 
 -- List this weapon in the store
@@ -62,6 +67,100 @@ local storeSpeed = jstore.RegisterSeries("stan_speed", 1000, 10, {
 	type = "upgrade",
 	priceMultiplier = 2,
 })
+local storeTeleport = jstore.Register("stan_teleport", 25000, {
+	name = jazzloc.Localize("jazz.weapon.stan.upgrade.teleport"),
+	--cat = jazzloc.Localize("jazz.weapon.stan"),
+	desc = jazzloc.Localize("jazz.weapon.stan.upgrade.teleport.desc"),
+	type = "upgrade",
+	requires = storeStan
+})
+
+if CLIENT then
+
+	surface.CreateFont( "JazzStanMarkersSymbols", {
+		font = "Agathodaimon",
+		size = 25,
+		weight = 500,
+		antialias = true,
+	} )
+
+	surface.CreateFont( "JazzStanMarkers", {
+		font	  = "KG Red Hands",
+		size	  = 25,
+		weight	= 500,
+		antialias = true
+	})
+
+	local screenSize = ScreenScale(16)
+
+	function stanmarkerspin(self, scrpos, visible)
+		self.transcribed = self.transcribed or {}
+		local text = self.label or ""
+		local fadein = isnumber(self.starttime) and math.min(1,(CurTime() - self.starttime) / 2) or 1 --we're always visible, so fade in over 2 seconds instead
+		if fadein < 0.01 then table.Empty(self.transcribed) end
+
+		--rotate our main marker
+		surface.SetDrawColor( 255, 255, 255, fadein * 255 )
+		surface.SetMaterial(self.icon)
+		local size = screenSize
+		if self.big then size = size * 2 end
+		surface.DrawTexturedRectRotated(scrpos.x, scrpos.y, size, size, CurTime() % (360 / math.abs(self.rotspeed)) * self.rotspeed)
+		surface.SetTextColor( 159, 22, 0, fadein * 255 )
+		surface.SetFont("JazzStanMarkers")
+		
+		--write our name, if we have one
+		--start with runes that randomly convert to regular characters as we fade in
+		local w, _ = surface.GetTextSize(text)
+		surface.SetTextPos(scrpos.x - w/2, scrpos.y + size/2)
+		local scribed = 0
+		for char = 1, #text do
+			if self.transcribed[char] then scribed = scribed + 1 end
+			surface.SetFont(self.transcribed[char] and "JazzStanMarkers" or "JazzStanMarkersSymbols")
+			surface.DrawText( string.sub( text, char, char ) )
+			if fadein >= 1 then self.transcribed[char] = true end --make sure they're all converted if we're fully faded in
+		end
+		--randomly transcribe characters as we fade in 
+		local runs = -3
+		if fadein < 1 then
+			while scribed / (#text * 2) + 0.5 < fadein and runs < #self.transcribed do
+				local k = math.random(#text)
+				if self.transcribed[k] then
+					--we don't wanna risk spending a *long* time on this as we get more transcribed, we can always try again next frame
+					runs = runs + 1
+				else
+					self.transcribed[k] = true 
+					scribed = scribed + 1
+				end
+			end
+		end
+	end
+
+else
+	util.AddNetworkString("JazzStanTeleportDestTarget")
+end
+
+net.Receive("JazzStanTeleportDestTarget",function(len,ply)
+	local self = net.ReadEntity()
+	local teleportdesttarget = net.ReadEntity()
+	if not IsValid(self) then return end
+	local owner = self:GetOwner()
+	if IsValid(owner) and self.TeleportDestinations then
+		--clear the effects for the old one
+		if CLIENT then
+			if IsValid(self.TeleportDestTarget) and worldmarker.markers[self.TeleportDestTarget] then
+				worldmarker.markers[self.TeleportDestTarget].rotspeed = -90
+				worldmarker.markers[self.TeleportDestTarget].big = false
+			end
+		end
+		if (SERVER and owner == ply) or CLIENT then
+			if self.TeleportDestTarget == teleportdesttarget then self.TeleportDestTarget = nil return end --deselect
+			self.TeleportDestTarget = teleportdesttarget
+		end
+	end
+end)
+
+
+local markerAdjust = Vector(0,0,36)
 
 function SWEP:Initialize()
 
@@ -80,7 +179,7 @@ function SWEP:Initialize()
 
 	hook.Add( "OnUnlocked", self, function( self, list_name, key, ply )
 		local baseKey = jstore.GetSeriesBase(key)
-		if ply == self:GetOwner() and storeRange == baseKey or storeSpeed == baseKey then
+		if ply == self:GetOwner() and (storeRange == baseKey or storeSpeed == baseKey or string.find(key, "stan_teleport")) then
 			self:SetUpgrades()
 		end
 	end )
@@ -105,6 +204,8 @@ function SWEP:SetUpgrades()
 	local speedLevel = jstore.GetSeries(owner, storeSpeed)
 	self.SpeedRate = DefaultSpeed + speedLevel * 300
 
+	self.TeleportDestinations = unlocks.IsUnlocked("store", owner, storeTeleport)
+
 	-- # of skulls == # of upgrades
 	self.ProngCount = DefaultProngCount + rangeLevel + speedLevel
 end
@@ -122,6 +223,24 @@ function SWEP:Deploy()
 		vm:SendViewModelMatchingSequence( depseq )
 		--vm:SendViewModelMatchingSequence( vm:LookupSequence( "fists_draw" ) )
 		vm:SetPlaybackRate( 1.5 )
+	end
+
+	--make/update markers for all info_teleport_destinations
+	if CLIENT and self.TeleportDestinations then
+		local teledests = ents.FindByClass( "jazz_stanteleportmarker" )
+		for _, v in ipairs(teledests) do
+			local istarget = v == self.TeleportDestTarget
+			worldmarker.Register(v, teleMarker, 20, true)
+			worldmarker.markers[v].label = v:GetDestinationName()
+			worldmarker.markers[v].starttime = istarget and 0 or CurTime()
+			worldmarker.markers[v].rotspeed = istarget and 360 or -90
+			worldmarker.markers[v].big = istarget and true or false
+			worldmarker.SetRenderFunction(v, stanmarkerspin)
+			worldmarker.SetEnabled(v,true)
+			local pos = Vector(v:GetPos())
+			pos:Add(markerAdjust)
+			worldmarker.Update(v, pos)
+		end
 	end
 
 	return true
@@ -147,6 +266,48 @@ function SWEP:StartPrimaryAttack()
 
 end
 
+function SWEP:SecondaryAttack()
+	if CLIENT then
+		if not self.TeleportDestinations then return end
+		local owner = self:GetOwner()
+		if not owner then return end
+		for _, v in ipairs(ents.FindByClass("jazz_stanteleportmarker")) do
+			local screenloc = v:GetPos()
+			screenloc:Add(markerAdjust)
+			local telemark = screenloc:ToScreen()
+			if math.abs(ScrW() / 2 - telemark.x) <= 24 and math.abs(ScrH() / 2 - telemark.y) <= 24 then
+				if self.TeleportDestTarget == v then break end
+				if IsValid(self.TeleportDestTarget) then
+					worldmarker.markers[self.TeleportDestTarget].rotspeed = -90
+					worldmarker.markers[self.TeleportDestTarget].big = false
+				end
+				worldmarker.markers[v].starttime = 0
+				worldmarker.markers[v].rotspeed = 360
+				worldmarker.markers[v].big = true
+				self.TeleportDestTarget = v
+				net.Start("JazzStanTeleportDestTarget")
+					net.WriteEntity(self)
+					net.WriteEntity(v)
+				net.SendToServer()
+				owner:EmitSound( Sound( "buttons/button6.wav" ), 100, 70 )
+				return
+			end
+		end
+		--nothing picked, just remove 
+		local teledest = self.TeleportDestTarget
+		if IsValid(teledest) and worldmarker.markers[teledest] then
+			worldmarker.markers[teledest].rotspeed = -90
+			worldmarker.markers[teledest].big = false
+			self.TeleportDestTarget = nil
+			net.Start("JazzStanTeleportDestTarget")
+				net.WriteEntity(self)
+				net.WriteEntity(nil)
+			net.SendToServer()
+			owner:EmitSound( Sound( "buttons/button8.wav" ), 100, 70 )
+		end
+	end
+end
+
 function SWEP:StopPrimaryAttack()
 
 	//print("Stopping attack")
@@ -163,6 +324,16 @@ function SWEP:Cleanup()
 	if CLIENT then
 		self.Hum:Stop()
 		self.BeamLoop1:Stop()
+
+		local teledests = ents.FindByClass( "jazz_stanteleportmarker" )
+		for _, v in ipairs(teledests) do
+			if worldmarker.markers[v] then
+				--if v ~= self.TeleportDestTarget or not IsValid(self:GetOwner()) or not self:GetOwner():Alive() then
+					worldmarker.SetEnabled(v,false)
+					worldmarker.markers[v].starttime = nil
+				--end
+			end
+		end
 	end
 
 end
@@ -380,6 +551,7 @@ function SWEP:DrawHUD()
 	cam.IgnoreZ(true)
 
 	local b,e = pcall(function()
+		if IsValid(self.TeleportDestTarget) then return end
 
 		local viewmodel = owner:GetViewModel(0)
 		local hands = LocalPlayer():GetHands()
@@ -522,7 +694,7 @@ function SWEP:Teleport()
 	local endpos = startpos + viewdir * distance
 	local fragments = self:TraceFragments( startpos, endpos )
 
-	if #fragments ~= 3 then
+	if #fragments ~= 3 and not IsValid(self.TeleportDestTarget) then
 		if SERVER then owner:EmitSound( Sound( "buttons/button10.wav" ), 100, 100 ) end
 		return
 	end
@@ -530,7 +702,28 @@ function SWEP:Teleport()
 	if SERVER then
 		owner:EmitSound( Sound( "beams/beamstart5.wav" ), 100, 70 )
 		owner:EmitSound( Sound( "beamstart7.wav" ), 70, 40 )
-		owner:SetPos( fragments[3].endpos )
+		if IsValid(self.TeleportDestTarget) then
+			local target = self.TeleportDestTarget:GetDestination()
+			if IsValid(target) then
+				--make sure that there's room at the destination
+				if self:TestPlayerLocation(target:GetPos()) or 
+					target:GetClass() == "info_teleport_destination" then --sometimes the location check fails, but if it's one of these it should be valid anyway
+					owner:SetPos( target:GetPos() )
+				end
+				if self.TeleportDestTarget:GetDucked() then --let the entity handle this for us
+					target:Fire("TeleportEntity","!activator",0,owner,self)
+				end
+				self.TeleportDestTarget = nil
+				net.Start("JazzStanTeleportDestTarget")
+					net.WriteEntity(self)
+					net.WriteEntity(nil)
+				net.Send(owner)
+				return
+			end
+		end
+		if #fragments == 3 then
+			owner:SetPos( fragments[3].endpos )
+		end
 	end
 
 	if CLIENT and self:IsCarriedByLocalPlayer() then
@@ -609,7 +802,6 @@ function SWEP:Think()
 		if not self:CanTeleport() then
 			self:StopPrimaryAttacking()
 		end
-
 	else
 
 		if self.speed > 0 then
@@ -669,6 +861,8 @@ end
 function SWEP:CanTeleport()
 	if CLIENT and not self:IsCarriedByLocalPlayer() then return true end
 
+	if self.TeleportDestTarget then return true end
+
 	local owner = self:GetOwner()
 	local distance = self.TeleportDistance
 	local viewdir = owner:GetAimVector()
@@ -701,4 +895,4 @@ function SWEP:ShootEffects()
 end
 
 function SWEP:Reload() return false end
-function SWEP:CanSecondaryAttack() return false end
+function SWEP:CanSecondaryAttack() return self.TeleportDestinations end
