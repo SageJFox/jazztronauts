@@ -87,6 +87,7 @@ local AcceptEntClass = {
 	["combine_mine"] = true,
 	["env_headcrabcanister"] = true,
 	["prop_thumper"] = true,
+	["env_flare"] = true,
 }
 
 local IgnoreEntClass = {
