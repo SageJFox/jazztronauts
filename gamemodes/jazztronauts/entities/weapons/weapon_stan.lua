@@ -38,6 +38,8 @@ local DefaultTeleportDistance	= 256
 local DefaultProngCount			= 2
 local DefaultSpeed				= 300
 local teleMarker				= Material("materials/ui/jazztronauts/pentergram.png", "smooth")
+local teleMarkerRotSpeed		= -90
+local teleMarkerRotSpeedSel		= 360
 
 SWEP.Spawnable				= true
 SWEP.RequestInfo			= {}
@@ -148,7 +150,7 @@ net.Receive("JazzStanTeleportDestTarget",function(len,ply)
 		--clear the effects for the old one
 		if CLIENT then
 			if IsValid(self.TeleportDestTarget) and worldmarker.markers[self.TeleportDestTarget] then
-				worldmarker.markers[self.TeleportDestTarget].rotspeed = -90
+				worldmarker.markers[self.TeleportDestTarget].rotspeed = teleMarkerRotSpeed
 				worldmarker.markers[self.TeleportDestTarget].big = false
 			end
 		end
@@ -233,7 +235,7 @@ function SWEP:Deploy()
 			worldmarker.Register(v, teleMarker, 20, true)
 			worldmarker.markers[v].label = v:GetDestinationName()
 			worldmarker.markers[v].starttime = istarget and 0 or CurTime()
-			worldmarker.markers[v].rotspeed = istarget and 360 or -90
+			worldmarker.markers[v].rotspeed = istarget and teleMarkerRotSpeedSel or teleMarkerRotSpeed
 			worldmarker.markers[v].big = istarget and true or false
 			worldmarker.SetRenderFunction(v, stanmarkerspin)
 			worldmarker.SetEnabled(v,true)
@@ -278,11 +280,11 @@ function SWEP:SecondaryAttack()
 			if math.abs(ScrW() / 2 - telemark.x) <= 24 and math.abs(ScrH() / 2 - telemark.y) <= 24 then
 				if self.TeleportDestTarget == v then break end
 				if IsValid(self.TeleportDestTarget) then
-					worldmarker.markers[self.TeleportDestTarget].rotspeed = -90
+					worldmarker.markers[self.TeleportDestTarget].rotspeed = teleMarkerRotSpeed
 					worldmarker.markers[self.TeleportDestTarget].big = false
 				end
 				worldmarker.markers[v].starttime = 0
-				worldmarker.markers[v].rotspeed = 360
+				worldmarker.markers[v].rotspeed = teleMarkerRotSpeedSel
 				worldmarker.markers[v].big = true
 				self.TeleportDestTarget = v
 				net.Start("JazzStanTeleportDestTarget")
@@ -296,7 +298,7 @@ function SWEP:SecondaryAttack()
 		--nothing picked, just remove 
 		local teledest = self.TeleportDestTarget
 		if IsValid(teledest) and worldmarker.markers[teledest] then
-			worldmarker.markers[teledest].rotspeed = -90
+			worldmarker.markers[teledest].rotspeed = teleMarkerRotSpeed
 			worldmarker.markers[teledest].big = false
 			self.TeleportDestTarget = nil
 			net.Start("JazzStanTeleportDestTarget")
