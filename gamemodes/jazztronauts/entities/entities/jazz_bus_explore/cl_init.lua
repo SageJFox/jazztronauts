@@ -11,14 +11,14 @@ ENT.BusLength = 248
 
 local destRTWidth = 256
 local destRTHeight = 256
+local IRT = irt.New("jazz_bus_destination_explore", destRTWidth, destRTHeight )
 function ENT:Initialize()
-	self.IRT = irt.New("jazz_bus_destination_explore", destRTWidth, destRTHeight )
-	self.DestMat = self.IRT:GetUnlitMaterial()
+	self.DestMat = IRT:GetUnlitMaterial()
 	self:UpdateDestinationMaterial()
 end
 
 function ENT:UpdateDestinationMaterial()
-	JazzRenderDestinationMaterial(self, jazzloc.Localize("jazz.bus.bar"))
+	JazzRenderDestinationMaterial(IRT, jazzloc.Localize("jazz.bus.bar"))
 end
 
 function ENT:StartLaunchEffects()

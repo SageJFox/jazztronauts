@@ -32,9 +32,10 @@ surface.CreateFont( "JazzDestinationFont", {
 
 local destRTWidth = 256
 local destRTHeight = 256
+local IRT = irt.New("jazz_bus_destination", destRTWidth, destRTHeight )
+
 function ENT:Initialize()
-	self.IRT = irt.New("jazz_bus_destination", destRTWidth, destRTHeight )
-	self.DestMat = self.IRT:GetUnlitMaterial()
+	self.DestMat = IRT:GetUnlitMaterial()
 	self:UpdateDestinationMaterial()
 	self:RefreshWorkshopInfo()
 end
@@ -103,8 +104,8 @@ local function ProgressString(col, total)
 end
 
 -- HOLY FUCK MAKE THESE INHERIT ALREADY
-function JazzRenderDestinationMaterial(self, dest)
-	self.IRT:Render(function()
+function JazzRenderDestinationMaterial(irt, dest)
+	irt:Render(function()
 		cam.Start2D()
 			surface.SetDrawColor(HSVToColor(RealTime() * 20 % 360, .7, 0.4))
 			surface.DrawRect(0, 0, destRTWidth, destRTHeight)
@@ -127,7 +128,7 @@ function JazzRenderDestinationMaterial(self, dest)
 end
 
 function ENT:UpdateDestinationMaterial()
-	JazzRenderDestinationMaterial(self, self:GetDestination())
+	JazzRenderDestinationMaterial(IRT, self:GetDestination())
 end
 
 function ENT:DrawSideInfo()
