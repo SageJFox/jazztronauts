@@ -50,7 +50,7 @@ AddNPC("jazz_bar_shardprogress.begin25", missions.NPC_BAR, function(ply, talknpc
 	return cur >= math.Round(total * 0.25)
 		and cur < math.Round(total * 0.50)
 end,
-SUPER_PRIORITY - 1)
+SUPER_PRIORITY - 4)
 
 -- Collected 50% shards
 AddNPC("jazz_bar_shardprogress.begin50", missions.NPC_BAR, function(ply, talknpc)
@@ -58,7 +58,7 @@ AddNPC("jazz_bar_shardprogress.begin50", missions.NPC_BAR, function(ply, talknpc
 	return cur >= math.Round(total * 0.50)
 		and cur < math.Round(total * 0.75)
 end,
-SUPER_PRIORITY - 1)
+SUPER_PRIORITY - 3)
 
 -- Collected 75% shards
 -- For some reason, this event was actually missing from the scripts. A placeholder got added in the meantime. - ptown2
@@ -67,7 +67,7 @@ AddNPC("jazz_bar_shardprogress.begin75", missions.NPC_BAR, function(ply, talknpc
 	return cur >= math.Round(total * 0.75)
 		and cur < math.Round(total * 1.00)
 end,
-SUPER_PRIORITY - 1)
+SUPER_PRIORITY - 2)
 
 -- Once they've gotten enough shards, do this one, it's even more important
 AddNPC("jazz_bar_shardprogress.begin100", missions.NPC_BAR, function(ply, talknpc)
