@@ -47,17 +47,10 @@ function ENT:Initialize()
 	self:DrawShadow(false)
 end
 
-
-if SERVER then
-	hook.Add( "SetupPlayerVisibility", "AddJazzSceneViewOverrides", function( ply, viewEntity )
-		for _, ent in ents.Iterator() do
-			if IsValid(ent) and ent:GetClass() == "jazz_sceneviewoverride" and not ply:TestPVS(ent) then AddOriginToPVS( ent:GetPos() ) end
-		end
-	end )
-	
-	return
+--should always network scene view overrides
+function ENT:UpdateTransmitState()
+	return TRANSMIT_ALWAYS
 end
-
 
 function ENT:Draw()
 end
