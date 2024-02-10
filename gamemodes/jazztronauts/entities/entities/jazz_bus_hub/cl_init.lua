@@ -32,11 +32,9 @@ surface.CreateFont( "JazzDestinationFont", {
 
 local destRTWidth = 256
 local destRTHeight = 256
-local IRT = irt.New("jazz_bus_destination", destRTWidth, destRTHeight )
+local screen_rt = irt.New("jazz_bus_destination", destRTWidth, destRTHeight )
 
 function ENT:Initialize()
-	self.DestMat = IRT:GetUnlitMaterial()
-	self:UpdateDestinationMaterial()
 	self:RefreshWorkshopInfo()
 end
 
@@ -103,19 +101,17 @@ local function ProgressString(col, total)
 	return jazzloc.Localize("jazz.shards.partial",col,total)
 end
 
--- HOLY FUCK MAKE THESE INHERIT ALREADY
-function JazzRenderDestinationMaterial(irt, dest)
-	irt:Render(function()
+function ENT:DrawRTScreen(dest)
+	screen_rt:Render(function()
+		local c = HSVToColor(RealTime() * 20 % 360, .7, 0.4)
+		render.Clear(c.r, c.g, c.b, 255)
 		cam.Start2D()
-			surface.SetDrawColor(HSVToColor(RealTime() * 20 % 360, .7, 0.4))
-			surface.DrawRect(0, 0, destRTWidth, destRTHeight)
 			surface.SetFont("JazzDestinationFont")
 			local w, h = surface.GetTextSize(dest)
 			local mwidth = destRTWidth
 			local mat = Matrix()
 			if w > mwidth then
 				mat:Scale(Vector(mwidth/w, 1, 1))
-
 			else
 				mat:Translate(Vector(mwidth/2 - w/2, 0, 0))
 			end
@@ -125,10 +121,6 @@ function JazzRenderDestinationMaterial(irt, dest)
 			cam.PopModelMatrix()
 		cam.End2D()
 	end)
-end
-
-function ENT:UpdateDestinationMaterial()
-	JazzRenderDestinationMaterial(IRT, self:GetDestination())
 end
 
 function ENT:DrawSideInfo()
@@ -200,8 +192,8 @@ function ENT:DrawRearInfo()
 end
 
 function ENT:Draw()
-	self:UpdateDestinationMaterial()
-	render.MaterialOverrideByIndex(2, self.DestMat)
+	self:DrawRTScreen(self:GetDestination())
+	render.MaterialOverrideByIndex(2, screen_rt:GetUnlitMaterial())
 	self:DrawModel()
 	render.MaterialOverrideByIndex(1, nil)
 

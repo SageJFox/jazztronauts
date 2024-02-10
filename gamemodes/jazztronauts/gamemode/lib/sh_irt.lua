@@ -4,7 +4,7 @@ if SERVER then return end
 include("sh_rect.lua")
 include("sh_scene.lua")
 
-IRT = nil
+--IRT = nil
 
 module( "irt", package.seeall )
 
@@ -396,9 +396,9 @@ function New(id, width, height)
 
 end
 
-IRT = New
+--IRT = New
 
-
+--[[
 local camera = Camera( Vector(-90,0,0), Angle(0,0,0), 8 )
 local scene = Scene( camera )
 
@@ -454,7 +454,7 @@ local function test()
 
 		--scene:Render( Rect(0,0,size_test,size_test):ScreenScale() )
 
-	end
+	--end
 
 	--[[removetime = removetime - FrameTime()
 	if removetime <= 0 and scene ~= nil then
@@ -462,5 +462,5 @@ local function test()
 		scene = nil
 	end]]
 
-end
-hook.Add("HUDPaint", "irttest", test)
+--end
+--hook.Add("HUDPaint", "irttest", test)

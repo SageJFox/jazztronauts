@@ -11,14 +11,32 @@ ENT.BusLength = 248
 
 local destRTWidth = 256
 local destRTHeight = 256
-local IRT = irt.New("jazz_bus_destination_explore", destRTWidth, destRTHeight )
+local screen_rt = irt.New("jazz_bus_destination_explore", destRTWidth, destRTHeight )
+
 function ENT:Initialize()
-	self.DestMat = IRT:GetUnlitMaterial()
-	self:UpdateDestinationMaterial()
+	
 end
 
-function ENT:UpdateDestinationMaterial()
-	JazzRenderDestinationMaterial(IRT, jazzloc.Localize("jazz.bus.bar"))
+function ENT:DrawRTScreen(dest)
+	screen_rt:Render(function()
+		local c = HSVToColor(RealTime() * 20 % 360, .7, 0.4)
+		render.Clear(c.r, c.g, c.b, 255)
+		cam.Start2D()
+			surface.SetFont("JazzDestinationFont")
+			local w, h = surface.GetTextSize(dest)
+			local mwidth = destRTWidth
+			local mat = Matrix()
+			if w > mwidth then
+				mat:Scale(Vector(mwidth/w, 1, 1))
+			else
+				mat:Translate(Vector(mwidth/2 - w/2, 0, 0))
+			end
+
+			cam.PushModelMatrix(mat)
+				draw.SimpleText(dest, "JazzDestinationFont", 0, h * -0.2, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+			cam.PopModelMatrix()
+		cam.End2D()
+	end)
 end
 
 function ENT:StartLaunchEffects()
@@ -33,9 +51,11 @@ function ENT:GetStartOffset()
 	return math.min(0, (CurTime() - self:GetBreakTime()) * 2000)
 end
 
+local dest = jazzloc.Localize("jazz.bus.bar")
+
 function ENT:Draw()
-	self:UpdateDestinationMaterial()
-	render.MaterialOverrideByIndex(2, self.DestMat)
+	self:DrawRTScreen(dest)
+	render.MaterialOverrideByIndex(2, screen_rt:GetUnlitMaterial())
 
 	local offset = self:GetStartOffset()
 	if offset < 0 then
