@@ -132,7 +132,14 @@ function SWEP:SetUpgrades(overpowered)
 	local owner = self:GetOwner()
 	if not IsValid(owner) then return end
 
-	overpowered = overpowered or self.Overpowered or cvars.Bool("jazz_debug_snatch_allups", false)
+	local overpowered = overpowered or self.Overpowered or cvars.Bool("jazz_debug_snatch_allups", false)
+	local isOutro = false
+	for _,v in ipairs(mapcontrol:GetEndMaps()) do
+		if game.GetMap() == v then
+			isOutro = true
+			break
+		end
+	end
 
 	-- Tier I - Aim in cone upgrade
 	self.AutoAimCone = AimConeDefault + jstore.GetSeries(owner, snatch_cone) * 3.3
@@ -148,8 +155,18 @@ function SWEP:SetUpgrades(overpowered)
 	-- Tier III - World stealing
 	self.CanStealWorld = unlocks.IsUnlocked("store", owner, snatch_world) or overpowered
 
+	--ensure players have world steal so they can't softlock on Normal Ending
+	if isOutro and not self.CanStealWorld then
+		self.CanStealWorld = true 
+		print("Unlocking world steal to prevent potential softlock!")
+	end
+
 	-- How fast they can steal the world
 	self.WorldStealSpeed = overpowered and math.huge or (jstore.GetSeries(owner, snatch_world_speed) + 1)
+
+	if isOutro then --have a little mercy and give a couple steal speed upgrades
+		self.WorldStealSpeed = math.max(self.WorldStealSpeed,5)
+	end
 
 	-- Allow multi-tasking?
 	self.CanMultitask = unlocks.IsUnlocked("store", owner, snatch_multi) or overpowered
