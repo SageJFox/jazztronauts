@@ -16,6 +16,15 @@ function ENT:Initialize()
 	self:SetModel("models/props_interiors/vendingmachinesoda01a.mdl")
 	self:SetCollisionGroup(COLLISION_GROUP_IN_VEHICLE)
 	self:DrawShadow(false)
+	if SERVER then self:NextThink( CurTime() + 1 ) end
+end
+
+if SERVER then
+	function ENT:Think()
+		if not IsValid(self:GetDestination()) then self:Remove() end
+		self:NextThink( CurTime() + 3 ) --not super concerned with running this often
+		return true
+	end
 end
 
 --should always network teleport markers

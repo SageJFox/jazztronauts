@@ -372,6 +372,38 @@ if SERVER then
 		return positions
 	end
 
+	local destinations = {
+		"point_teleport",
+		"info_teleport_destination"
+	}
+	--handle teleporters that don't exist when map spawns
+	hook.Add("OnEntityCreated", "JazzStanTeleportMarkers", function(ent)
+		timer.Simple(1,function() --wait a bit so it can initialize
+			if not IsValid(ent) then return end
+			for _, v in ipairs(destinations) do
+				if ent:GetClass() == v then
+					--make sure we don't have a marker already
+					for _, s in ipairs(ents.FindByClass("jazz_stanteleportmarker")) do
+						if s:GetDestination() == ent then return end
+					end
+					local stanmark = ents.Create("jazz_stanteleportmarker")
+					stanmark:SetPos(ent:GetPos())
+					stanmark:Spawn()
+					stanmark:SetDestination(ent)
+					stanmark:SetDestinationName(ent:GetName() or "")
+					if ent:GetClass() == "point_teleport" then
+						local ducked = tobool(bit.band(ent:GetFlags(),2)) -- Into Duck (episodic)
+						print("Ducked?",ducked)
+						stanmark:SetDucked(ducked)
+					else
+						stanmark:SetDucked(false)
+					end
+					return
+				end
+			end
+		end)
+	end)
+
 	local function getPositionLeafs(map)
 		local positions = getPotentialPlayerPositions()
 		local leaves = {}
