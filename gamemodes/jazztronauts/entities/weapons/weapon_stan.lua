@@ -1,6 +1,10 @@
 if SERVER then
 	AddCSLuaFile()
 end
+local newring = CreateClientConVar("jazz_stan_newring","1",true,false,"How Stan will utilize new skull orbiting behavior. Options are:\n"..
+"\t0 - Only use old behavior: Stan will form one continuous (and eventually clipping) ring.\n"..
+"\t1 - Only use new behavior: Stan will form multiple rings (of a maximum of 7 skulls) as needed.\n"..
+"\t2 - Stan will use old behavior normally, new behavior when Teleporter Lock-On unlock is purchased.",0,2)
 
 SWEP.Base					= "weapon_basehold"
 SWEP.PrintName				= jazzloc.Localize("jazz.weapon.stan")
@@ -201,7 +205,7 @@ function SWEP:SetUpgrades()
 	if not IsValid(owner) then return end
 
 	local rangeLevel = jstore.GetSeries(owner, storeRange)
-	self.TeleportDistance = DefaultTeleportDistance + math.pow(rangeLevel, 2) * 300
+	self.TeleportDistance = DefaultTeleportDistance * math.max(1,rangeLevel) + math.pow(rangeLevel, 2) * 300
 
 	local speedLevel = jstore.GetSeries(owner, storeSpeed)
 	self.SpeedRate = DefaultSpeed + speedLevel * 300
@@ -209,10 +213,11 @@ function SWEP:SetUpgrades()
 	self.TeleportDestinations = unlocks.IsUnlocked("store", owner, storeTeleport)
 
 	-- # of skulls == # of upgrades
-	self.ProngCount = DefaultProngCount + rangeLevel + speedLevel
+	self.ProngCount = DefaultProngCount + rangeLevel + speedLevel + ( self.TeleportDestinations and 1 or 0 )
 end
 
 function SWEP:SetupDataTables()
+	self:NetworkVar("Bool",0,"TeleSuccess")
 	self.BaseClass.SetupDataTables( self )
 end
 
@@ -236,7 +241,7 @@ function SWEP:Deploy()
 			worldmarker.markers[v].label = v:GetDestinationName()
 			worldmarker.markers[v].starttime = istarget and 0 or CurTime()
 			worldmarker.markers[v].rotspeed = istarget and teleMarkerRotSpeedSel or teleMarkerRotSpeed
-			worldmarker.markers[v].big = istarget and true or false
+			worldmarker.markers[v].big = istarget
 			worldmarker.SetRenderFunction(v, stanmarkerspin)
 			worldmarker.SetEnabled(v,true)
 			local pos = Vector(v:GetPos())
@@ -349,6 +354,8 @@ end
 
 local shiver = {}
 local MatFlare = Material("effects/blueflare1")
+local MaxPerRing = 7
+local checkRings = function(self) return math.Round(newring:GetFloat()) == 0 or (math.Round(newring:GetFloat()) == 2 and not self.TeleportDestinations) end
 
 function SWEP:PostDrawViewModel(viewmodel, weapon, ply)
 
@@ -370,10 +377,15 @@ function SWEP:PostDrawViewModel(viewmodel, weapon, ply)
 	self.offset = math.NormalizeAngle(self.offset)
 
 	local r = self.offset + UnPredictedCurTime() * 15
+	local lastfullrow = math.floor(self.ProngCount / MaxPerRing) * MaxPerRing
 	for i=1, self.ProngCount do
-
-		self:AddProng( i, mtx, r + i * (360/self.ProngCount) )
-
+		if checkRings(self) then
+			self:AddProng( i, mtx, r + i * (360/self.ProngCount) )
+		else
+			local sides = 360 / MaxPerRing
+			if i > lastfullrow then sides = 360 / (self.ProngCount - lastfullrow) end
+			self:AddProng( i, mtx, r + i * sides )
+		end
 	end
 
 	render.SetMaterial( MatFlare )
@@ -392,6 +404,60 @@ function SWEP:PreDrawViewModel(viewmodel, weapon, ply)
 
 end
 
+
+function SWEP:Reload() return false end
+
+--Uncomment to cycle through number of prongs with Reload (comment out regular function above)
+
+--[[local ReloadTime = 0
+
+function SWEP:Reload()
+	if CurTime() - ReloadTime < .25 then return end
+	if self.ProngCount < 28 then
+		self.ProngCount = self.ProngCount + 1
+	else
+		self.ProngCount = 2
+	end
+	self:UpdateProngs()
+	ReloadTime = CurTime()
+end
+
+function SWEP:UpdateProngs()
+	if SERVER then return end
+	local ply = self:GetOwner()
+	if not IsValid(ply) then return end
+	local hands = ply:GetHands()
+	if not IsValid(hands) then return end
+	local atBone = hands:LookupBone( "ValveBiped.Bip01_R_Hand" )
+
+	if not atBone then return end
+
+	local pos, ang = hands:GetBonePosition( atBone )
+	local mtx = Matrix()
+
+	pos = pos + ang:Forward()
+
+	mtx:SetAngles( ang )
+	mtx:SetTranslation( pos )
+
+	self.offset = self.offset + self.speed * RealFrameTime()
+	self.offset = math.NormalizeAngle(self.offset)
+
+	local r = self.offset + UnPredictedCurTime() * 15
+	local lastfullrow = math.floor(self.ProngCount / MaxPerRing) * MaxPerRing
+	for i=1, self.ProngCount do
+
+		local oldskull = _ENTITY_POOL["gun_prong_" .. i .. "models/Gibs/HGIBS.mdl"]
+		if IsValid(oldskull) then oldskull:Remove() end
+		_ENTITY_POOL["gun_prong_" .. i .. "models/Gibs/HGIBS.mdl"] = nil
+
+		--self:AddProng( i, mtx, r + i * (360/self.ProngCount) )
+		local sides = 360 / MaxPerRing
+		if i > lastfullrow then sides = 360 / (self.ProngCount - lastfullrow) end
+		self:AddProng( i, mtx, r + i * sides )
+
+	end
+end--]]
 
 
 function SWEP:AddProng( id, mtx, rot )
@@ -416,8 +482,9 @@ function SWEP:AddProng( id, mtx, rot )
 	local out = math.pow( math.sin( self.open * math.pi / 2 ), 2 )
 	local lmtx = Matrix()
 	lmtx:SetScale( Vector( 0.2, 0.2, 0.2 ) )
-	lmtx:Rotate( Angle( 0, 0, rot ) )
-	lmtx:Translate( Vector( -10, out * 30 + 20, 0 ) + VectorRand() * shiver[id].amt )
+	local spiral = checkRings(self) and 1 or math.ceil(id / MaxPerRing)
+	lmtx:Rotate( Angle( 0, 0, rot + spiral * 20 ) )
+	lmtx:Translate( Vector( -10 * spiral, out * 30 + 20, 0 ) + VectorRand() * shiver[id].amt )
 
 	lmtx:Rotate( Angle(90 * self.glow, math.sin( CurTime() + id * 2 ) * 10 + 180, 180 -90 * (1-self.open) ) )
 
@@ -685,11 +752,26 @@ function SWEP:CalcView( ply, pos, ang, fov )
 	return pos, ang, fov
 end
 
+function SWEP:TeleportFX(owner)
+	owner:EmitSound( Sound( "beams/beamstart5.wav" ), 100, 70 )
+	owner:EmitSound( Sound( "beamstart7.wav" ), 70, 40 )
+	self:SetTeleSuccess(true)
+end
+
+function SWEP:TeleportFailedFX(owner)
+	owner:EmitSound( Sound( "buttons/button8.wav" ), 100, 70 )
+	owner:EmitSound( Sound( "buttons/combine_button_locked.wav" ), 70, 40 )
+	self:SetTeleSuccess(false)
+	--todo: probably slap a message on the screen that we failed because the location wasn't clear
+	print("Teleport failed!")
+end
+
 --Check singleplayer
 
 function SWEP:Teleport()
 
 	local owner = self:GetOwner()
+	if not IsValid(owner) then return end
 	local distance = self.TeleportDistance
 	local viewdir = owner:GetAimVector()
 	local startpos = owner:GetShootPos()
@@ -702,30 +784,35 @@ function SWEP:Teleport()
 	end
 
 	if SERVER then
-		owner:EmitSound( Sound( "beams/beamstart5.wav" ), 100, 70 )
-		owner:EmitSound( Sound( "beamstart7.wav" ), 70, 40 )
 		if IsValid(self.TeleportDestTarget) then
+			self:SetTeleSuccess(nil)
 			local target = self.TeleportDestTarget:GetDestination()
 			if IsValid(target) then
 				--make sure that there's room at the destination
 				if self:TestPlayerLocation(target:GetPos()) or 
 					target:GetClass() == "info_teleport_destination" then --sometimes the location check fails, but if it's one of these it should be valid anyway
 					owner:SetPos( target:GetPos() )
+					self:TeleportFX(owner)
 				end
 				if self.TeleportDestTarget:GetDucked() then --let the entity handle this for us
 					target:Fire("TeleportEntity","!activator",0,owner,self)
+					self:TeleportFX(owner)
 				end
+				--clear out tele destination (either we teleported or it failed)
 				self.TeleportDestTarget = nil
 				net.Start("JazzStanTeleportDestTarget")
 					net.WriteEntity(self)
 					net.WriteEntity(nil)
 				net.Send(owner)
-				return
+				if self:GetTeleSuccess() then return end
 			end
 		end
 		if #fragments == 3 then
 			owner:SetPos( fragments[3].endpos )
+			self:TeleportFX(owner)
+			return
 		end
+		self:TeleportFailedFX(owner) --no teleport happened, we got got
 	end
 
 	if CLIENT and self:IsCarriedByLocalPlayer() then
@@ -896,5 +983,4 @@ function SWEP:ShootEffects()
 
 end
 
-function SWEP:Reload() return false end
 function SWEP:CanSecondaryAttack() return self.TeleportDestinations end
