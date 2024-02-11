@@ -53,3 +53,12 @@ include("sh_styler.lua")
 include("sh_eventfeed.lua")
 
 if SERVER then AddCSLuaFile("shared.lua") end
+
+
+
+--TODO ERROR BUGBUG FIXME FUCK SHIT TEMPORARY if ents.Iterator() actually gets added to the main branch get rid of this
+if BRANCH == "unknown" then
+	function ents.Iterator()
+		return ipairs(ents.GetAll())
+	end
+end
