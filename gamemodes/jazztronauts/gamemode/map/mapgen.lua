@@ -319,6 +319,21 @@ if SERVER then
 		["point_teleport"] = "", -- itself is the point
 	}
 
+	local function CreateMarker(ent)
+		local stanmark = ents.Create("jazz_stanteleportmarker")
+		stanmark:SetPos(ent:GetPos())
+		stanmark:Spawn()
+		stanmark:SetDestination(ent)
+		stanmark:SetDestinationName(ent:GetName() or "")
+		if ent:GetClass() == "point_teleport" then
+			local ducked = tobool(bit.band(ent:GetFlags(),2)) -- Into Duck (episodic)
+			print("Ducked?",ducked)
+			stanmark:SetDucked(ducked)
+		else
+			stanmark:SetDucked(false)
+		end
+	end
+
 	local function getPotentialPlayerPositions()
 		local positions = {}
 
@@ -354,18 +369,7 @@ if SERVER then
 			dests = table.Flip(dests) --initially built table with values as keys to eliminate potential duplicate entries (if multiple teleporters go to the same destination)
 			for _, v in pairs(dests) do
 				if not IsValid(v) then continue end
-				local stanmark = ents.Create("jazz_stanteleportmarker")
-				stanmark:SetPos(v:GetPos())
-				stanmark:Spawn()
-				stanmark:SetDestination(v)
-				stanmark:SetDestinationName(v:GetName() or "")
-				if v:GetClass() == "point_teleport" then
-					local ducked = tobool(bit.band(v:GetFlags(),2)) -- Into Duck (episodic)
-					print("Ducked?",ducked)
-					stanmark:SetDucked(ducked)
-				else
-					stanmark:SetDucked(false)
-				end
+				CreateMarker(v)
 			end
 		end
 
@@ -386,18 +390,7 @@ if SERVER then
 					for _, s in ipairs(ents.FindByClass("jazz_stanteleportmarker")) do
 						if s:GetDestination() == ent then return end
 					end
-					local stanmark = ents.Create("jazz_stanteleportmarker")
-					stanmark:SetPos(ent:GetPos())
-					stanmark:Spawn()
-					stanmark:SetDestination(ent)
-					stanmark:SetDestinationName(ent:GetName() or "")
-					if ent:GetClass() == "point_teleport" then
-						local ducked = tobool(bit.band(ent:GetFlags(),2)) -- Into Duck (episodic)
-						print("Ducked?",ducked)
-						stanmark:SetDucked(ducked)
-					else
-						stanmark:SetDucked(false)
-					end
+					CreateMarker(ent)
 					return
 				end
 			end
