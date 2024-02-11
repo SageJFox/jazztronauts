@@ -450,10 +450,8 @@ local function LoadMDL( mdl_path, fast )
 	
 	--local t0 = SysTime()
 
-	local base = mdl_path:sub(1, -4)
 	local yield_rate = fast and 1000 or 200
-
-	local f_mdl = file.Open( base .. "mdl", "rb", "GAME" )
+	local f_mdl = file.Open( mdl_path .. "mdl", "rb", "GAME" )
 	if not f_mdl then return nil end
 
 	local header = mdl_header.read( f_mdl )
@@ -499,9 +497,8 @@ local function LoadVTX( mdl_path, fast )
 	--local t0 = SysTime()
 
 	local yield_rate = fast and 500 or 100
-	local base = mdl_path:sub(1, -4)
 
-	local f_vtx = file.Open( base .. "dx90.vtx", "rb", "GAME" )
+	local f_vtx = file.Open( mdl_path .. "dx90.vtx", "rb", "GAME" )
 	if not f_vtx then return nil end
 
 	--print("***MDL VERSION***: " .. __mdl_version)
@@ -524,11 +521,10 @@ local function LoadVVD( mdl_path, fast )
 
 	local t0 = SysTime()
 
-	local base = mdl_path:sub(1, -4)
 	local yield_rate_v = fast and 200 or 100
 	local yield_rate_f = fast and 1000 or 400
 
-	local f_vvd = file.Open( base .. "vvd", "rb", "GAME" )
+	local f_vvd = file.Open( mdl_path .. "vvd", "rb", "GAME" )
 	if not f_vvd then ErrorNoHalt("VVD NOT FOUND: " .. tostring(mdl_path)) return nil end
 
 	--local t1 = SysTime()
@@ -875,7 +871,8 @@ local function LoadModel( model, fast )
 end
 
 function MakeExpandedModel( model, material, fast )
-
+	
+	local _,_,model = string.find(model,"%.?/?(.*)mdl$") --props can very rarely be formatted as "./models/...", which won't load correctly
 	local vvd, vtx, mdl = LoadModel( model, fast )
 	if not vvd then return nil end
 
