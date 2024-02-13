@@ -9,6 +9,7 @@ set "ZIPFOLDER=..\..\bspzip"
 
 call:pakBspList jazz_bar
 call:pakBspList jazz_apartments
+call:pakBspList jazz_intro
 
 goto:eof
 
