@@ -63,7 +63,6 @@ local autoSetMap = CreateConVar("jazz_debug_checkmap", "1", { FCVAR_ARCHIVE }, "
 local function SetIfDefault(convarstr, ...)
 	local convar = GetConVar(convarstr)
 	if not convar or convar:GetDefault() == convar:GetString() then
-		print("Setting " .. convarstr)
 		RunConsoleCommand(convarstr, ...)
 	end
 end
@@ -468,7 +467,7 @@ function GM:PlayerSpawn( ply )
 	player_manager.RunClass( ply, "Spawn" )
 
 	--self.BaseClass.PlayerSpawn( self, ply )
-	
+
 	hook.Call( "PlayerLoadout", GAMEMODE, ply )
 	hook.Call( "PlayerSetModel", GAMEMODE, ply )
 	ply:SetupHands()
