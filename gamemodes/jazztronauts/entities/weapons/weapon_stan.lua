@@ -106,23 +106,42 @@ if CLIENT then
 		if fadein < 0.01 then table.Empty(self.transcribed) end
 
 		--rotate our main marker
-		surface.SetDrawColor( 255, 255, 255, fadein * 255 )
+		surface.SetDrawColor( 255, 255, 255, Lerp(math.sqrt(fadein),0,255) )
 		surface.SetMaterial(self.icon)
 		local size = screenSize
 		if self.big then size = size * 2 end
-		surface.DrawTexturedRectRotated(scrpos.x, scrpos.y, size, size, CurTime() % (360 / math.abs(self.rotspeed)) * self.rotspeed)
-		surface.SetTextColor( 159, 22, 0, fadein * 255 )
+		surface.DrawTexturedRectRotated(scrpos.x, scrpos.y, size, size, (CurTime() + util.SharedRandom(text,0,180) ) % (360 / math.abs(self.rotspeed)) * self.rotspeed)
+		surface.SetTextColor( 159, 22, 0, Lerp(math.sqrt(fadein),0,255) )
 		surface.SetFont("JazzStanMarkers")
 		
 		--write our name, if we have one
 		--start with runes that randomly convert to regular characters as we fade in
 		local w, _ = surface.GetTextSize(text)
 		surface.SetTextPos(scrpos.x - w/2, scrpos.y + size/2)
-		local scribed = 0
+		local scribed, numbah = 0, false
 		for char = 1, #text do
 			if self.transcribed[char] then scribed = scribed + 1 end
-			surface.SetFont(self.transcribed[char] and "JazzStanMarkers" or "JazzStanMarkersSymbols")
-			surface.DrawText( string.sub( text, char, char ) )
+			surface.SetFont((self.transcribed[char] or tonumber(text[char]) ) and "JazzStanMarkers" or "JazzStanMarkersSymbols")
+			--unfortunately, our rune font is only letters (and some character modifiers). This tries to at least somewhat handle the other stuff better
+			local drawtext = string.sub( text, char, char )
+			if not self.transcribed[char] then
+				--get fancy with roman numerals for numbers (we excluded them from the rune font already)
+				if tonumber(drawtext) then
+					if not numbah and tonumber(drawtext) ~= 0 then 
+						drawtext = jazzloc.RomanNumerals(table.concat(string.Explode("%D",text,true))) --this smashes all the numbers in it together into one, but, who cares
+						numbah = true
+					else
+						drawtext = ""
+					end
+				-- turn underscores into spaces
+				elseif drawtext == "_" then 
+					drawtext = " "
+				-- convert our character to A-Z, in a way that is consistent per character
+				elseif string.find(drawtext,"%A") then
+					drawtext = utf8.char((utf8.codepoint(drawtext)[1] % 26) + 65)
+				end
+			end
+			surface.DrawText( drawtext )
 			if fadein >= 1 then self.transcribed[char] = true end --make sure they're all converted if we're fully faded in
 		end
 		--randomly transcribe characters as we fade in 
