@@ -825,8 +825,7 @@ function SWEP:Teleport()
 				net.Send(owner)
 				if self:GetTeleSuccess() then return end
 			end
-		end
-		if #fragments == 3 then
+		elseif #fragments == 3 then
 			owner:SetPos( fragments[3].endpos )
 			self:TeleportFX(owner)
 			return
