@@ -3,7 +3,7 @@
 local jazz_var = "sv_loadingurl"
 local jazz_url = "asset://jazztronauts/html/loading-basic.html"
 if BRANCH == "x86-64" then
-    jazz_url = "asset://jazztronauts/html/loading.html"
+	jazz_url = "asset://jazztronauts/html/loading.html"
 end
 local WORKSHOP_CACHE_PATH = "jazztronauts/cache"
 

@@ -30,10 +30,10 @@ ScriptSources = ScriptSources or {} -- Raw uncompiled script sources, transmitte
 g_graph = g_graph or {} 			-- Compiled script graphs
 
 local ScriptPath = "data_static/jazztronauts/scripts"--_"..string.lower(GetConVar("gmod_language"):GetString()).."/"
-local HIGH_PRIORITY_SCRIPTS = { 
+local HIGH_PRIORITY_SCRIPTS = {
 	["macros.txt"] = true,
 	["jazz_bar_intro.txt"] = true,
-	["jazz_bar_shardprogress.txt"] = true, 
+	["jazz_bar_shardprogress.txt"] = true,
 	["no_singleplayer_allowed.txt"] = true,
 }
 
@@ -161,7 +161,7 @@ local function CompileBlockExec(datasrc)
 	local percent = oldcount ~= 0 and newcount * 100 / oldcount or 99999
 	local goodcolor, badcolor = Color(64,255,64,255), Color(255,64,64,255)
 	MsgC("Compressing script data: "..tostring(newcount).."/"..tostring(oldcount),percent < 100 and goodcolor or badcolor,"\t("..string.sub(percent,1,5).."%)\n")--]]
-	
+
 	--now for processing
 	local patstart, patmeat, patend = "BLOCKSTART","%*%s*%*","BLOCKEND" --our pattern filters
 	local start, fin, signifier = string.find(data,patstart.."%s*([%w_]+)") --find our first start
@@ -175,11 +175,11 @@ local function CompileBlockExec(datasrc)
 			--print("SCOPE PRIOR:")
 			--print(scope)
 			if signifier then
-				scope = string.gsub(scope,patstart.."%s*"..signifier..patmeat,"block ") --start out our block with the block command 
+				scope = string.gsub(scope,patstart.."%s*"..signifier..patmeat,"block ") --start out our block with the block command
 				scope = string.gsub(scope,patmeat,"-->")
 				scope = string.gsub(scope,"-->%s*"..patend.."%s*"..signifier,"") --its asterisk already got replaced, so it'll be -->BLOCKEND now
 			else
-				scope = string.gsub(scope,patstart..patmeat,"block ") --start out our block with the block command 
+				scope = string.gsub(scope,patstart..patmeat,"block ") --start out our block with the block command
 				scope = string.gsub(scope,patmeat,"-->")
 				scope = string.gsub(scope,"-->%s*"..patend,"") --its asterisk already got replaced, so it'll be -->BLOCKEND now
 			end
@@ -196,7 +196,7 @@ local function CompileBlockExec(datasrc)
 
 			--validation time baby
 			local invalid = false
-			
+
 			if string.find(scope,"[%s]*[%w]-:") or string.find(scope,"[%s]*&[%w]-[%s]") then --contains a branch, this ain't good
 				if signifier then ErrorNoHaltWithStack("Improperly formatted exec block "..signifier..", likely missed a BLOCKEND:\n"..string.sub( data, start - 1, fin + 1 ))
 				else ErrorNoHaltWithStack("Improperly formatted exec block, likely missed a BLOCKEND:\n"..string.sub( data, start - 1, fin + 1 )) end
@@ -252,7 +252,7 @@ local function ParseLine(script, line)
 		table.insert(script.tokens, {tok = tok, type = type}) tok = ""
 	end
 	local i = 1
-	
+
 	local inExec = false
 	repeat
 		local ch = line[i]
@@ -507,7 +507,7 @@ function LoadScript(name, contents)
 		entries = {},
 		name = name,
 	}
-	
+
 	contents = CompileBlockExec(contents)
 
 	for line in lineitr(contents) do
@@ -523,7 +523,7 @@ function LoadScript(name, contents)
 end
 
 function CompileMacros(sources)
-	
+
 	LoadMacros(sources)
 
 	local function replace( str )
@@ -572,7 +572,7 @@ function CompileScripts(sources)
 			end
 		end
 	end
-	
+
 	return compiled
 end
 
@@ -624,7 +624,7 @@ function LoadScripts()
 
 				--now find the command we want to change
 				local foundstart, foundend, branchnumber = branchstart, branchstart, override:GetBranchNumber()
-				
+
 				if branchnumber > 0 then
 					local pattern = "[%w]*cam[%w]* [%w%d%-%.%ssetpos]+ [%d%-%.]+ [%d%-%.]+%s*;[setang]*%s*[%d%-%.]+ [%d%-%.]+ [%d%-%.]+" --attempting to find various camera setting commands
 					if override:GetFOV() ~= 0 then pattern = pattern .. "[ ]*[fov%d%-%.]*" end -- add FOV to the mix if we're replacing it
@@ -656,7 +656,7 @@ function LoadScripts()
 				else
 					script = string.Left(script,foundend - 1).. "\n*" .. override:GetCommand() .. "*" .. string.sub(script,foundend + 1)
 				end
-				
+
 				ScriptSources[scriptname] = script
 				--print("LET ME GET THIS RIGHT:")
 				--print(string.sub(script,math.max(0,foundend - 255),math.min(0,foundend - 255) + foundend + 255))
@@ -805,7 +805,7 @@ local function DecodeScripts( blob )
 
 			name = nil
 			lastbuf = i+1
-			
+
 		elseif !name and blob[i] == ':' then
 			name = string.sub(blob, lastbuf, i-1)
 			lastbuf = i+1

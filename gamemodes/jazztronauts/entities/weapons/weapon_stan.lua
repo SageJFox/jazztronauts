@@ -56,7 +56,10 @@ SWEP.TeleportDestTarget		= nil
 
 
 -- List this weapon in the store
-local storeStan = jstore.Register(SWEP, 4000, { type = "tool" })
+local storeStan = jstore.Register(SWEP, 4000, {
+	desc = jazzloc.Localize("jazz.weapon.stan.desc"), -- don't use the short one
+	type = "tool"
+})
 
 -- Create 3 items to be purchased one after the other that control range
 local storeRange = jstore.RegisterSeries("stan_range", 2000, 10, {
@@ -113,7 +116,7 @@ if CLIENT then
 		surface.DrawTexturedRectRotated(scrpos.x, scrpos.y, size, size, (CurTime() + util.SharedRandom(text,0,180) ) % (360 / math.abs(self.rotspeed)) * self.rotspeed)
 		surface.SetTextColor( 159, 22, 0, Lerp(math.sqrt(fadein),0,255) )
 		surface.SetFont("JazzStanMarkers")
-		
+
 		--write our name, if we have one
 		--start with runes that randomly convert to regular characters as we fade in
 		local w, _ = surface.GetTextSize(text)
@@ -144,7 +147,7 @@ if CLIENT then
 			surface.DrawText( drawtext )
 			if fadein >= 1 then self.transcribed[char] = true end --make sure they're all converted if we're fully faded in
 		end
-		--randomly transcribe characters as we fade in 
+		--randomly transcribe characters as we fade in
 		local runs = -3
 		if fadein < 1 then
 			while scribed / (#text * 2) + 0.5 < fadein and runs < #self.transcribed do
@@ -153,7 +156,7 @@ if CLIENT then
 					--we don't wanna risk spending a *long* time on this as we get more transcribed, we can always try again next frame
 					runs = runs + 1
 				else
-					self.transcribed[k] = true 
+					self.transcribed[k] = true
 					scribed = scribed + 1
 				end
 			end
@@ -319,7 +322,7 @@ function SWEP:SecondaryAttack()
 				return
 			end
 		end
-		--nothing picked, just remove 
+		--nothing picked, just remove
 		local teledest = self.TeleportDestTarget
 		if IsValid(teledest) and worldmarker.markers[teledest] then
 			worldmarker.markers[teledest].rotspeed = teleMarkerRotSpeed
@@ -808,7 +811,7 @@ function SWEP:Teleport()
 			local target = self.TeleportDestTarget:GetDestination()
 			if IsValid(target) then
 				--make sure that there's room at the destination
-				if self:TestPlayerLocation(target:GetPos()) or 
+				if self:TestPlayerLocation(target:GetPos()) or
 					target:GetClass() == "info_teleport_destination" then --sometimes the location check fails, but if it's one of these it should be valid anyway
 					owner:SetPos( target:GetPos() )
 					self:TeleportFX(owner)

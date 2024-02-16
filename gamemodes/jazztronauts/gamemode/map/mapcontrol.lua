@@ -1,7 +1,7 @@
 
 module( 'mapcontrol', package.seeall )
-local defaultMapHost = "http://host.foohy.net/jazz/data/addons.txt"
-local defaultAddonCache = "data_static/jazztronauts/addons.txt"
+local defaultMapHost = "http://jazz.foohy.net/addons.txt"
+local defaultAddonList = "data_static/jazztronauts/addons.txt"
 local overrideAddonCache = "jazztronauts/addons_override.txt"
 
 local fallbackVersion = VERSION < 210618 -- Maps unmounted fixed in gmod dev branch version 210618. Before that, fallback to local addons/maps instead
@@ -103,8 +103,8 @@ function GetNextEncounter()
 	local isngp = newgame.GetResetCount() > 0
 	if not isngp then return nil end
 
-	local seen1, seen2, seen3 = tobool(newgame.GetGlobal("encounter_1")), 
-		tobool(newgame.GetGlobal("encounter_2")), 
+	local seen1, seen2, seen3 = tobool(newgame.GetGlobal("encounter_1")),
+		tobool(newgame.GetGlobal("encounter_2")),
 		tobool(newgame.GetGlobal("encounter_3"))
 	local halfway = math.Round(bshardReq / 2)
 
@@ -257,7 +257,7 @@ if SERVER then
 		end
 
 		-- Download from internet and mount
-		if not server_ugc then 
+		if not server_ugc then
 			workshop.DownloadGMA(wsid, function(filepath, errmsg)
 				PostDownload(filepath, errmsg)
 			end, decompFunc)
@@ -330,7 +330,7 @@ if SERVER then
 		end
 		if includeExternal:GetBool() and not fallbackLocalOnly then
 			local addonTask = task.NewCallback(function(done)
-				http.Fetch(includeExternalHost:GetString(), done, function(err) ErrorNoHalt(err .. "\n") done() end)
+				http.Fetch(includeExternalHost:GetString(), done, function(err) ErrorNoHalt("Failed to get latest addons.txt list!\n" .. err .. "\n") done() end)
 			end )
 			local addonsStr = task.Await(addonTask)
 
@@ -343,7 +343,7 @@ if SERVER then
 				addonsStr = file.Read(overrideAddonCache, "DATA")
 
 				-- Built in cache that comes with the game
-				addonsStr = addonsStr or file.Read(defaultAddonCache, "GAME")
+				addonsStr = addonsStr or file.Read(defaultAddonList, "GAME")
 			end
 
 			insertAddons(GetExternalMapAddons(addonsStr or ""))
@@ -410,7 +410,7 @@ if SERVER then
  		--delay the bus so crazy physics has a chance to turn off before it spawns in and just gets removed anyway
 		timer.Simple(0, function()
 			local bus = ents.Create("jazz_bus_explore")
-			if IsValid(bus) then 
+			if IsValid(bus) then
 				-- Remove last ones
 				for _, v in pairs(lastBusEnts) do SafeRemoveEntityDelayed(v, 5) end
 

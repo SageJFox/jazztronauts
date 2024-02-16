@@ -23,6 +23,6 @@ if __name__ == "__main__":
             f.write("\n")
             f.write(str(path.resolve()))
             firstline = False
-    
+
     print("all done")
     f.close()

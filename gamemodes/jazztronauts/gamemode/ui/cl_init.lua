@@ -15,6 +15,8 @@ function GM:HUDPaint()
 
 	self.BaseClass.HUDPaint(self)
 
+	if jazzHideHUD then return end
+
 	dialog.PaintAll()
 	--radar.Paint()
 	if not drawhud or drawhud:GetBool() then
@@ -27,7 +29,7 @@ function GM:HUDPaint()
 end
 
 hook.Add("Think", "JazzTickDialog", function()
-	
+
 	dialog.Update( FrameTime() )
 
 end )
