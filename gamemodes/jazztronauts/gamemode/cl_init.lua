@@ -52,3 +52,7 @@ function GM:HUDShouldDraw( name )
 
 	return self.BaseClass.HUDShouldDraw(self, name)
 end
+
+function GM:HUDDrawTargetID()
+	return false
+end
