@@ -1,0 +1,8 @@
+"LightMappedGeneric"
+{
+	"$basetexture" "models/sunabouzu/band/sax"
+	"$surfaceprop" "Flesh"
+	$alpha		0
+	"$nocull" 1
+	"$nodecal" 1
+}
