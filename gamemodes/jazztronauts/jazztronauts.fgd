@@ -317,5 +317,10 @@
 	traveldist(integer) : "Exit Distance" : 4500 : "How far the trolley travels when exiting the hub. Can be negative to go backwards!"
 ]
 
+@PointClass base(Targetname, Angles, Parentname) studioprop("models/matt/jazz_trolley.mdl") = jazz_bus_model : "Dummy model for putting text on the bus"
+[
+	destination(string) : "Destination Text" : "jazz.bus.bar" : "Text displayed for the destination sign. Can be a localization token."
+]
+
 
 @PointClass base(Weapon) studioprop("models/weapons/w_stunbaton.mdl") = weapon_propsnatcher : "Prop Snatcher" []
