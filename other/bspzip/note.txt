@@ -1,0 +1,6 @@
+Add
+
+$bspdir\..\addons\jazztronauts\other\bspzip\package_$file.bat
+
+to your Expert compile options to automatically use a map's pack list when compiled
+(assuming your bspdir is set to garrysmod\maps)
