@@ -54,7 +54,7 @@ function Register(unlockName, price, props)
 		local classname = unlockName.ClassName or (unlockName.Folder and string.GetFileFromFilename(unlockName.Folder))
 		props.name = props.name or unlockName.PrintName or classname
 		props.desc = props.desc or unlockName.Purpose
-		props.icon = props.icon or "vgui/entities/" .. classname
+		props.icon = props.icon or unlockName.WepSelectIcon or Material("entities/" .. classname, "mips smooth")
 
 		unlockName = classname
 	end
@@ -62,10 +62,6 @@ function Register(unlockName, price, props)
 	props = props or {}
 	props.price = math.max(0, math.Round(price))
 	props.unlock = unlockName -- For completeness
-
-	if props.icon then
-		props.icon = Material(props.icon, "mips smooth")
-	end
 
 	-- Calc the # of requisite items needed
 	-- Later on we'll sort by this

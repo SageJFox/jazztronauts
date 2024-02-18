@@ -3,7 +3,7 @@ jstore.Register("spawnmenu", 100000, {
 	cat = "tools",
 	name = jazzloc.Localize("jazz.gmodspawn"),
 	desc = jazzloc.Localize("jazz.gmodspawn.desc"),
-	icon = "ui/gman.jpg",
+	icon = "entities/npc_breen.png",
 	thirdparty = true
 })
 
