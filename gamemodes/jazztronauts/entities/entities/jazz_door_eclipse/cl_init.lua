@@ -36,9 +36,9 @@ function ENT:Initialize()
 	self.CountMarkerName = "bad_boy_counter" .. tostring(self)
 	worldmarker.Register(self.CountMarkerName, AttentionMarker, 150)
 	worldmarker.Update(self.CountMarkerName, self:GetPos() + Vector(0, 0, 50))
-	worldmarker.SetRenderFunction(self.CountMarkerName, function(scrpos, visible, pos)
-		if IsValid(self) then self:RenderCountMarker(scrpos, visible, pos) end
-	end)
+	worldmarker.SetRenderFunction(self.CountMarkerName, EclipseDoorCountMarkerRender)
+	worldmarker.markers[self.CountMarkerName].ShardsCollected = mapgen.GetTotalCollectedBlackShards()
+	worldmarker.markers[self.CountMarkerName].ShardsRequired = mapgen.GetTotalRequiredBlackShards()
 
 	-- Spawn candles around as an additional progress indicator
 	self:SpawnShardCount()
@@ -120,10 +120,10 @@ function ENT:Think()
 	return true
 end
 
-function ENT:RenderCountMarker(scrpos, visible, pos)
-	local dist2 = (EyePos() - pos):LengthSqr()
+function EclipseDoorCountMarkerRender(self, scrpos, visible)
+	local dist2 = (EyePos() - self.pos):LengthSqr()
 	local left = self.ShardsRequired - self.ShardsCollected
-	visible = visible - dist2 * 0.00000005
+	local visible = visible - dist2 * 0.00000005
 	local text = jazzloc.Localize((left == 1 and "jazz.blacksharddoor.one" or "jazz.blacksharddoor.remain"),left)
 	draw.SimpleText(text, "BlackShardDoorCount", scrpos.x, scrpos.y, Color(200, 50, 50, visible * 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
