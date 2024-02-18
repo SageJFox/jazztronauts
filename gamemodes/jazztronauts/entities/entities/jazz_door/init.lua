@@ -19,7 +19,7 @@ local outputs =
 }
 
 function ENT:Initialize()
-	self:PhysicsInit(SOLID_VPHYSICS)
+	self:PhysicsInitStatic(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_NONE)
 	self:SetUseType(SIMPLE_USE)
 	self:DrawShadow( false )
