@@ -62,7 +62,7 @@ function Register(unlockName, price, props)
 
 		-- if no icon still, check the default location
 		local spawnmenuicon = "entities/" .. classname .. ".png"
-		if not props.icon and file.Exists(spawnmenuicon, "GAME") then
+		if not props.icon and file.Exists("materials/" .. spawnmenuicon, "GAME") then
 			props.icon = spawnmenuicon
 		end
 
