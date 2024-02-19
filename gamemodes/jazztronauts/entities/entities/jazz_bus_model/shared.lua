@@ -8,7 +8,7 @@ ENT.Base = "base_entity"
 ENT.PrintName		= "#jazz_bus_hub"
 ENT.Author			= ""
 ENT.Information		= ""
-ENT.Category		= ""
+ENT.Category		= "#jazz.weapon.category"
 ENT.Spawnable		= true
 ENT.AdminSpawnable	= false
 
