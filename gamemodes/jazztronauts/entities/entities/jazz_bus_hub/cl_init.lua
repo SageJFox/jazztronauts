@@ -210,7 +210,7 @@ end
 
 function ENT:OnRemove()
 	if self.IsLaunching then
-
+		if not IsValid(LocalPlayer()) then return end
 		LocalPlayer():SetDSP(25)
 		LocalPlayer():ScreenFade(SCREENFADE.STAYOUT, Color(0, 0, 0, 255), 0, 5)
 		LocalPlayer():EmitSound("ambient/explosions/exp4.wav", 100, 100)
