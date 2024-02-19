@@ -366,10 +366,12 @@ if SERVER then
 				destscount = destscount + 1
 			end
 			--create stan markers
-			dests = table.Flip(dests) --initially built table with values as keys to eliminate potential duplicate entries (if multiple teleporters go to the same destination)
-			for _, v in pairs(dests) do
-				if not IsValid(v) then continue end
-				CreateMarker(v)
+			if table.IsEmpty(ents.FindByClass("jazz_stanteleportmarker")) then --don't rerun this if we've already done it
+				dests = table.Flip(dests) --initially built table with values as keys to eliminate potential duplicate entries (if multiple teleporters go to the same destination)
+				for _, v in pairs(dests) do
+					if not IsValid(v) then continue end
+					CreateMarker(v)
+				end
 			end
 		end
 
