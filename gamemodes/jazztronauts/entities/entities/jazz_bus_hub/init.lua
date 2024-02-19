@@ -194,6 +194,10 @@ function ENT:LeaveStation()
 	self:ResetTrigger("arrived")
 	self:GetPhysicsObject():EnableMotion(true)
 	self:GetPhysicsObject():Wake()
+
+	hook.Add("PlayerLeaveVehicle","JazzHoppedOffTheBus",function(ply,veh)
+		ply.LeftJazzBus = true
+	end)
 end
 
 function ENT:GetProgress()

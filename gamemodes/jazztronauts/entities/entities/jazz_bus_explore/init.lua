@@ -217,6 +217,7 @@ function ENT:Leave()
 	self:GetPhysicsObject():Wake()
 
 	hook.Add( "PlayerLeaveVehicle", "VoidEjection", function( ply )
+		ply.LeftJazzBus = true
 		timer.Create( "VoidEjectTimer", 0, 1, function() -- timer prevents crash
 			if not IsValid(self) then return end
 			local repcount = 0

@@ -102,8 +102,10 @@ if SERVER then
 		net.WriteEntity( dmg:GetInflictor() )
 		net.WriteEntity( weapon )
 		net.WriteUInt( dmg:GetDamageType(), 32 )
+		net.WriteBool(ply.LeftJazzBus)
 		net.Broadcast()
 
+		ply.LeftJazzBus = nil
 		GAMEMODE.BaseClass.DoPlayerDeath( self, ply, attacker, dmg )
 
 	end
@@ -167,12 +169,20 @@ else
 		local inflictor = net.ReadEntity()
 		local weapon = net.ReadEntity()
 		local dmg = net.ReadUInt(32)
+		local leftJazzBus = net.ReadBool()
 
 		local name = IsValid(ply) and ply:Nick() or "<Player>"
 		local ev = eventfeed.Create()
 
+		--we've died after leaving a moving bus
+		if leftJazzBus then
+
+			leftJazzBus = nil
+			ev:Title(jazzloc.Localize("jazz.death.leftbus","%name"), 
+				{ name = name }
+			)
 		--tripped on a cloud and fell eight miles high
-		if dmg == DMG_FALL then
+		elseif dmg == DMG_FALL then
 
 			ev:Title(jazzloc.Localize("jazz.death.fall","%name"), 
 				{ name = name }
