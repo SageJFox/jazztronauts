@@ -317,6 +317,15 @@ if SERVER then
 
 		-- some maps use these for cutscenes, let them override?
 		["point_teleport"] = "", -- itself is the point
+		["info_target"] = "", -- itself is the point, also names matter (see below)
+	}
+
+	local infotarget_names = {
+		"spawn_loot", --TF2 Monoculus dies
+		"spawn_loot_winner", --TF2 Hell winning Team
+		"spawn_loot_loser", --TF2 Hell losing Team
+		"spawn_purgatory", --TF2 Monoculus teleports
+		"spawn_warcrimes", --TF2 Hell end of round losers
 	}
 
 	local function CreateMarker(ent)
@@ -349,6 +358,19 @@ if SERVER then
 			local dests = {}
 			local destscount = 1
 			for _, ent in pairs(ents.FindByClass(name)) do
+
+				local really = true
+				if name == "info_target" then
+					really = false
+					for _, s in ipairs(infotarget_names) do
+						if ent:GetName() == s then
+							really = true
+							break
+						end
+					end
+				end
+				if not really then continue end
+
 				-- No destination keyvalue, so itself is the destination
 				if #dest == 0 then
 					positions[#positions + 1] = ent:GetPos()
@@ -380,7 +402,8 @@ if SERVER then
 
 	local destinations = {
 		"point_teleport",
-		"info_teleport_destination"
+		"info_teleport_destination",
+		"info_target"
 	}
 	--handle teleporters that don't exist when map spawns
 	hook.Add("OnEntityCreated", "JazzStanTeleportMarkers", function(ent)
@@ -388,6 +411,17 @@ if SERVER then
 			if not IsValid(ent) then return end
 			for _, v in ipairs(destinations) do
 				if ent:GetClass() == v then
+					local really = true
+					if ent:GetClass() == "info_target" then
+						really = false
+						for _, s in ipairs(infotarget_names) do
+							if ent:GetName() == s then
+								really = true
+								break
+							end
+						end
+					end
+					if not really then continue end
 					--make sure we don't have a marker already
 					for _, s in ipairs(ents.FindByClass("jazz_stanteleportmarker")) do
 						if s:GetDestination() == ent then return end
