@@ -8,9 +8,11 @@ SWEP.Base					= "weapon_basehold"
 SWEP.PrintName				= jazzloc.Localize("jazz.weapon.snatcher")
 SWEP.Slot					= 0
 SWEP.Category				= "#jazz.weapon.category"
-SWEP.Purpose				= "#jazz.weapon.snatcher.desc"
-SWEP.WepSelectIcon			= Material( "entities/weapon_propsnatcher.png" )
+SWEP.Purpose				= jazzloc.Localize("jazz.weapon.snatcher.desc")
 SWEP.AutoSwitchFrom			= false
+
+SWEP.WepSelectIcon = "p"
+SWEP.AutoIconAngle = Angle(170, 40, 0)
 
 SWEP.ViewModel				= "models/weapons/c_stunstick.mdl"
 SWEP.WorldModel				= "models/weapons/w_stunbaton.mdl"
@@ -157,7 +159,7 @@ function SWEP:SetUpgrades(overpowered)
 
 	--ensure players have world steal so they can't softlock on Normal Ending
 	if isOutro and not self.CanStealWorld then
-		self.CanStealWorld = true 
+		self.CanStealWorld = true
 		print("Unlocking world steal to prevent potential softlock!")
 	end
 

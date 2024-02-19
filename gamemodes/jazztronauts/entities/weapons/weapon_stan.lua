@@ -10,12 +10,15 @@ SWEP.Base					= "weapon_basehold"
 SWEP.PrintName				= jazzloc.Localize("jazz.weapon.stan")
 SWEP.Slot					= 3
 SWEP.Category				= "#jazz.weapon.category"
-SWEP.Purpose				= "#jazz.weapon.stan.desc"
-SWEP.WepSelectIcon			= Material( "entities/weapon_stan.png" )
+SWEP.Purpose				= jazzloc.Localize("jazz.weapon.stan.desc.short")
 SWEP.AutoSwitchFrom			= false
 
+SWEP.WepSelectIcon = "s"
+SWEP.WepSelectColor = Color(196,0,0)
+SWEP.AutoIconAngle = Angle(45, 90, 0)
+
 SWEP.ViewModel				= "models/weapons/c_stan.mdl"
-SWEP.WorldModel				= ""
+SWEP.WorldModel				= "models/Gibs/HGIBS.mdl"
 
 SWEP.UseHands				= true
 
@@ -130,14 +133,14 @@ if CLIENT then
 			if not self.transcribed[char] then
 				--get fancy with roman numerals for numbers (we excluded them from the rune font already)
 				if tonumber(drawtext) then
-					if not numbah and tonumber(drawtext) ~= 0 then 
+					if not numbah and tonumber(drawtext) ~= 0 then
 						drawtext = jazzloc.RomanNumerals(table.concat(string.Explode("%D",text,true))) --this smashes all the numbers in it together into one, but, who cares
 						numbah = true
 					else
 						drawtext = ""
 					end
 				-- turn underscores into spaces
-				elseif drawtext == "_" then 
+				elseif drawtext == "_" then
 					drawtext = " "
 				-- convert our character to A-Z, in a way that is consistent per character
 				elseif string.find(drawtext,"%A") then

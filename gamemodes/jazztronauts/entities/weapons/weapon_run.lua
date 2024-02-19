@@ -6,9 +6,12 @@ SWEP.Base					= "weapon_basehold"
 SWEP.PrintName				= jazzloc.Localize("jazz.weapon.run")
 SWEP.Slot					= 2
 SWEP.Category				= "#jazz.weapon.category"
-SWEP.Purpose				= "#jazz.weapon.run.desc"
-SWEP.WepSelectIcon			= Material( "entities/weapon_run.png" )
+SWEP.Purpose				= jazzloc.Localize("jazz.weapon.run.desc")
 SWEP.AutoSwitchFrom			= false
+
+SWEP.WepSelectIcon = "r"
+SWEP.WepSelectColor = Color(247,92,30)
+SWEP.AutoIconAngle = Angle(25, 90, 0)
 
 SWEP.ViewModel				= "models/weapons/c_run.mdl"
 SWEP.WorldModel				= "models/weapons/w_run.mdl"
@@ -303,7 +306,7 @@ function SWEP:Think()
 
 			if self.CrouchTime < 0 or self.JumpMultiplier <= 1 or owner:InVehicle() then
 				self:StopChargeSound()
-			end 
+			end
 		end
 		local runspeed = owner:KeyDown(IN_SPEED) and self.OldWalkSpeed or 800 --let player hold sprint to go at regular speed
 		owner:SetWalkSpeed( runspeed )

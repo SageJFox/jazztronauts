@@ -6,9 +6,11 @@ SWEP.Base					= "weapon_basehold"
 SWEP.PrintName				= jazzloc.Localize("jazz.weapon.buscaller")
 SWEP.Slot					= 5
 SWEP.Category				= "#jazz.weapon.category"
-SWEP.Purpose				= "#jazz.weapon.buscaller.desc"
-SWEP.WepSelectIcon			= Material( "entities/weapon_buscaller.png" )
+SWEP.Purpose				= jazzloc.Localize("jazz.weapon.buscaller.desc")
 SWEP.AutoSwitchFrom			= false
+
+SWEP.WepSelectIcon = "b"
+SWEP.AutoIconAngle = Angle(0, 100, 70)
 
 SWEP.ViewModel				= "models/weapons/c_bus_summoner.mdl"
 SWEP.WorldModel				= "models/weapons/w_bus_summoner.mdl"
@@ -219,7 +221,7 @@ function SWEP:StopPrimaryAttack()
 
 	self:SetBusMarker(nil)
 	if voted then
-		voted = nil 
+		voted = nil
 		mapcontrol.voteToLeave(false)
 	end
 end
@@ -229,7 +231,7 @@ function SWEP:Cleanup()
 		self.BeamHum:Stop()
 	end
 	if voted then
-		voted = nil 
+		voted = nil
 		mapcontrol.voteToLeave(false)
 	end
 	self.IgnoreAttackForced = false

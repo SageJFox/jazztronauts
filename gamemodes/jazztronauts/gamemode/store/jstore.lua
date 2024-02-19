@@ -53,8 +53,27 @@ function Register(unlockName, price, props)
 	if type(unlockName) == "table" then
 		local classname = unlockName.ClassName or (unlockName.Folder and string.GetFileFromFilename(unlockName.Folder))
 		props.name = props.name or unlockName.PrintName or classname
-		props.desc = props.desc or unlockName.Purpose
-		props.icon = props.icon or unlockName.WepSelectIcon or Material("entities/" .. classname, "mips smooth")
+		props.desc = props.desc or unlockName.Purpose or unlockName.Instructions
+
+		-- if no icon, get the manually set one for the spawnmenu
+		if not props.icon and unlockName.IconOverride then
+			props.icon = string.Replace(unlockName.IconOverride, "materials/", "")
+		end
+
+		-- if no icon still, check the default location
+		local spawnmenuicon = "entities/" .. classname .. ".png"
+		if not props.icon and file.Exists(spawnmenuicon, "GAME") then
+			props.icon = spawnmenuicon
+		end
+
+		-- last ditch effort, use the weapon select icon
+		if not props.icon then
+			props.icon = unlockName.WepSelectIcon
+		end
+
+		if props.icon then
+			props.icon = Material(props.icon, "mips smooth")
+		end
 
 		unlockName = classname
 	end

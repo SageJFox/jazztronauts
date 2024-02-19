@@ -123,7 +123,7 @@ local function addButton(parent, item)
 	-- Create image thumbnail
 	local img = vgui.Create("DImage", btn)
 	--img:SetMaterial((type(item.icon) == "IMaterial" and not item.icon:IsError() or type(item.icon) == "string") and item.icon or defaultIcon)
-	img:SetMaterial(item.icon)
+	img:SetMaterial(item.icon or defaultIcon)
 	if img:GetMaterial():IsError() then img:SetMaterial(defaultIcon) end
 	img:Dock(LEFT)
 	img:DockMargin(uniPad, uniPad, uniPad, uniPad)
