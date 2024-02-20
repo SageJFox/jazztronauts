@@ -139,7 +139,12 @@ hook.Add("HUDPaint", "JazzDrawMissions", function()
 		else
 			MissionsX = SlideOutMissions()
 		end
-	else
+	-- Don't change state mid-transition, instantly swap if transitioned out
+	elseif not isTransitioning() then
+		if isTransitionedOut() then
+			MissionsX = MissionsXShow
+		end
+
 		if MissionsX < MissionsXShow then
 			MissionsX = SlideInMissions()
 		end

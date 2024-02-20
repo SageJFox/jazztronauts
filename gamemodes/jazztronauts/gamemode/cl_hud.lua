@@ -100,7 +100,12 @@ local function DrawNoteCount()
 		else
 			CurAlpha = 200
 		end
-	else
+	-- Don't change state mid-transition, instantly swap if transitioned out
+	elseif not isTransitioning() then
+		if isTransitionedOut() then
+			CurAlpha = 200
+		end
+
 		if CurAlpha < 200 then
 			CurAlpha = FadeInNotes()
 		end
