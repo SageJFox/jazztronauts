@@ -13,7 +13,7 @@
 		{
 			"name"		"jazz_wait_enable"
 			"text"		"#jazz.gamemode.wait"
-			"help"		"Whether or not to enable the 'waiting for players' whiteboard."
+			"help"		"#jazz.gamemode.wait.help"
 			"type"		"CheckBox"
 			"default"	"1"
 		}
@@ -22,7 +22,7 @@
 		{
 			"name"		"jazz_include_localaddon"
 			"text"		"#jazz.gamemode.localaddons"
-			"help"		"If enabled, maps from locally installed workshop addons will be included when rolling for a map."
+			"help"		"#jazz.gamemode.localaddons.help"
 			"type"		"CheckBox"
 			"default"	"0"
 		}
@@ -31,7 +31,7 @@
 		{
 			"name"		"jazz_player_pvp"
 			"text"		"players_damage_players"
-			"help"		"If enabled, players will collide and be able to hurt each other"
+			"help"		"#jazz.gamemode.pvp.help"
 			"type"		"CheckBox"
 			"default"	"0"
 		}
