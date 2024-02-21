@@ -3,9 +3,10 @@ local chatmenu = {}
 ENT.ScreenWidth = 500
 ENT.ScreenHeight = 340
 
--- Base values multiplied with distance
-chatmenu.ScreenScale = 0.05
-chatmenu.verticalOffset = 30
+-- Base values for 640x480, divided by higher resolutions, multiplied with distance
+-- In clearer terms: it gets smaller the higher res the game is, but gets bigger the further away you are
+chatmenu.ScreenScale = 0.06
+chatmenu.verticalOffset = 20
 
 -- Center offset ofthe radial menu in 3d2d screen space
 ENT.RadialOffset = 0
@@ -26,33 +27,28 @@ chatmenu.scaleH = 60
 chatmenu.cursorW = 20
 chatmenu.cursorH = 30
 
-chatmenu.flipChat = false
 chatmenu.showperc = 1.0
 
 function ENT:GetMenuPosAng(ply)
 	local pos = self:GetPos()
 	local playpos = ply:EyePos()
-
 	local dist = pos:Distance(playpos)
-	self.ScreenScale = chatmenu.ScreenScale * (dist / 30)
+
+	-- this is cursed math and i hate it
+	local resscale = math.max(ScrH() / 480.0 - 0.3, 1)
+	self.ScreenScale = math.Clamp( chatmenu.ScreenScale / resscale, 0.03, 0.06 ) * (dist / 30)
 
 	local ang = self:GetAngles()
 	--ang:RotateAroundAxis(ang:Forward(), -90)
 	--ang:RotateAroundAxis(ang:Right(), -90)
 
 	local offset
-	if chatmenu.flipChat then
-		offset = (chatmenu.verticalOffset + ((dist-50) / 6 )) * 2.3
-	else
-		offset = chatmenu.verticalOffset - ((dist-50) / 2 )
-	end
+	offset = (chatmenu.verticalOffset * resscale) - (dist / 3.5)
 	offset = ang:Up() * offset
-	if not chatmenu.flipChat then
-		local fwdAng = (pos - playpos):Angle()
-		fwdAng.p = 0
-		fwdAng.r = 0
-		offset = offset + fwdAng:Forward() * -10
-	end
+	local fwdAng = (pos - playpos):Angle()
+	fwdAng.p = 0
+	fwdAng.r = 0
+	offset = offset + fwdAng:Forward() * -10
 	pos = pos + offset
 
 	ang = (pos - playpos):Angle()
@@ -280,12 +276,7 @@ function ENT:DrawDialogEntry(choices, showperc)
 	cam.Start3D2D(pos + ang:Right() * (1-sizeperc) * 10, ang, self.ScreenScale * sizeperc)
 		surface.SetDrawColor(255, 255, 255)
 		surface.SetMaterial(bubbleMat)
-
-		if chatmenu.flipChat then
-			surface.DrawTexturedRectRotated(0, 0, self.ScreenWidth, self.ScreenHeight, 180)
-		else
-			surface.DrawTexturedRect(-self.ScreenWidth * 0.5, -220, self.ScreenWidth, self.ScreenHeight)
-		end
+		surface.DrawTexturedRect(-self.ScreenWidth * 0.5, -220, self.ScreenWidth, self.ScreenHeight)
 
 	cam.End3D2D()
 	render.OverrideDepthEnable(false)
