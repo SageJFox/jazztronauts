@@ -105,6 +105,7 @@ if SERVER then
 	function GM:DoPlayerDeath( ply, attacker, dmg )
 		local weapon = nil
 		if attacker:IsNPC() then weapon = attacker:GetWeapons()[1] end
+		if attacker:IsPlayer() then weapon = attacker:GetActiveWeapon() end --might not be accurate 100% of the time if weapon switch tomfoolery happens?
 		net.Start("death_notice")
 		net.WriteEntity( ply )
 		net.WriteEntity( attacker )
@@ -234,13 +235,13 @@ else
 
 			local damtab = getDamageTypes(dmg)
 			local killedby = jazzloc.Localize(attackclass)
-
+			if attacker:IsPlayer() then killedby = attacker:Nick() end
 			--projectiles
 			if IsValid(inflictor) and inflictor ~= attacker then
-				killedby = jazzloc.Localize("jazz.death.weapon",jazzloc.Localize(attackclass),jazzloc.Localize(inflictor:GetClass()))
+				killedby = jazzloc.Localize("jazz.death.weapon",killedby,jazzloc.Localize(inflictor:GetClass()))
 			--weapons
 			elseif IsValid(weapon) then
-				killedby = jazzloc.Localize("jazz.death.weapon",jazzloc.Localize(attackclass),jazzloc.Localize(weapon:GetClass()))
+				killedby = jazzloc.Localize("jazz.death.weapon",killedby,jazzloc.Localize(weapon:GetClass()))
 			end
 			--put it all together, with picking a random damage type from the list
 			ev:Title(jazzloc.Localize("jazz.death.killer","%name",jazzloc.Localize("jazz.dmg." .. damtab[ math.random( #damtab ) ] ),"%killer"),
