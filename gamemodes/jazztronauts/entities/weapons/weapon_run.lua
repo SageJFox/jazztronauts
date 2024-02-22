@@ -39,6 +39,9 @@ SWEP.RequestInfo			= {}
 SWEP.JumpMultiplier			= 1
 SWEP.CrouchTime				= -1
 SWEP.JumpChargeSound		= Sound( "sierra/run/jump_chargeup.wav" )
+SWEP.Walking				= false
+
+local walkspeedinvert = CreateClientConVar("jazz_run_invert_walk_toggle",0,true,true,"By default, sprinting will disable Run's speed boost.\n\tSet this to 1 to cause speed boost to ONLY be provided when sprinting. Changes take effect on respawn.",0,1)
 
 -- List this weapon in the store
 local storeRun = jstore.Register(SWEP, 10000, { type = "tool" })
@@ -104,7 +107,12 @@ function SWEP:Initialize()
 	if CLIENT then
 		self:SetUpgrades()
 	end
-
+	timer.Simple(0,function() --no owner on first frame of server life
+		local owner = self:GetOwner()
+		if IsValid(owner) then
+			self.Walking = tobool(owner:GetInfoNum("jazz_run_invert_walk_toggle",0))
+		end
+	end)
 end
 
 function SWEP:OwnerChanged()
@@ -246,8 +254,8 @@ function SWEP:PreDrawViewModel(viewmodel, weapon, ply)
         self.CurPoseY = math.Approach(self.CurPoseY, movey, FrameTime() * APPROACH_SPEED)
 		self.CurPlayback = math.Approach(self.CurPlayback, playback, FrameTime() * APPROACH_SPEED)
 
-		local walkmultiplier = ply:KeyDown(IN_SPEED) and .8 or 1
-		local playmultiplier = ply:KeyDown(IN_SPEED) and .5 or 1
+		local walkmultiplier = (self.Walking ~= ply:KeyDown(IN_SPEED)) and .8 or 1
+		local playmultiplier = (self.Walking ~= ply:KeyDown(IN_SPEED)) and .5 or 1
         viewmodel:SetPoseParameter("move_x", math.Remap( self.CurPoseX, 0, 1, -1, 1) * walkmultiplier)
         viewmodel:SetPoseParameter("move_y", math.Remap( self.CurPoseY, 0, 1, -1, 1) * walkmultiplier)
 		viewmodel:SetPlaybackRate(self.CurPlayback * playmultiplier)
@@ -308,7 +316,7 @@ function SWEP:Think()
 				self:StopChargeSound()
 			end
 		end
-		local runspeed = owner:KeyDown(IN_SPEED) and self.OldWalkSpeed or 800 --let player hold sprint to go at regular speed
+		local runspeed = (self.Walking ~= owner:KeyDown(IN_SPEED)) and self.OldWalkSpeed or 800 --let player hold sprint to go at regular speed
 		owner:SetWalkSpeed( runspeed )
 		owner:SetRunSpeed( runspeed )
 		--print(self.CrouchTime, self.JumpMultiplier)
