@@ -72,6 +72,21 @@ end
 
 function PANEL:Populate()
 
+	-- Weapons Panel
+	local pnl = vgui.Create( "DPanel" )
+	self:AddSheet( "#spawnmenu.category.weapons", pnl, "icon16/gun.png", nil, nil, "#jazz.gmodspawn.weapons.desc" )
+
+	self.weapons = vgui.Create( "ContentContainer", pnl )
+	self.weapons:Dock( FILL )
+	self.weapons:SetSkin( "Jazz" )
+
+	-- Go through every registered jazz weapon and try to add them
+	for k, v in pairs(list.Get("Weapon")) do
+		if v.Category == "#jazz.weapon.category" and GAMEMODE:JazzCanSpawnWeapon(LocalPlayer(), k) then
+			self:AddUnlockedWeapon( k )
+		end
+	end
+
 	-- Prop Panel
 	local pnl = vgui.Create( "Panel", self )
 	self:AddSheet( "#jazz.gmodspawn.props", pnl, "icon16/application_view_tile.png", nil, nil, "#jazz.gmodspawn.props.desc" )
@@ -96,22 +111,6 @@ function PANEL:Populate()
 
 	//local pnl = vgui.Create( "DPanel" )
 	//self:AddSheet( "#spawnmenu.tools_tab", pnl, "icon16/exclamation.png", nil, nil, "Select tools" )
-
-
-	-- Weapons Panel
-	local pnl = vgui.Create( "DPanel" )
-	self:AddSheet( "#spawnmenu.category.weapons", pnl, "icon16/gun.png", nil, nil, "#jazz.gmodspawn.weapons.desc" )
-
-	self.weapons = vgui.Create( "ContentContainer", pnl )
-	self.weapons:Dock( FILL )
-	self.weapons:SetSkin( "Jazz" )
-
-	-- Go through every registered jazz weapon and try to add them
-	for k, v in pairs(list.Get("Weapon")) do
-		if v.Category == "#jazz.weapon.category" and GAMEMODE:JazzCanSpawnWeapon(LocalPlayer(), k) then
-			self:AddUnlockedWeapon( k )
-		end
-	end
 
 	hook.Add("OnUnlocked", "weapons_panel_unlock", function( list, key )
 		if list == "store" then
