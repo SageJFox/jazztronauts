@@ -10,7 +10,7 @@ local rate = .75
 local drawearly = false
 local fadeout = false -- happy transition horse or just a boring fade
 
-local convar_drawtransition = CreateClientConVar("jazz_transition", "1", true, false,
+local convar_drawtransition = CreateClientConVar("jazz_debug_transition", "1", true, false,
 	"How to render transitions. 0 will never render them. 1 will render them normally as intended. 2 will only render a simple fade.", 0, 2)
 
 -- use global functions In and Out below this
@@ -159,6 +159,15 @@ hook.Add("PreDrawHUD", "jazzCatTransitionEarly", function()
 	drawTransition()
 	cam.End2D()
 end )
+
+
+
+local convar_hubtransition = CreateClientConVar("jazz_transitionintohub", "1", true, false, "Toggles whether or not to show a transition when spawning in the hub.")
+if not convar_hubtransition:GetBool()
+or not convar_drawtransition:GetBool()
+or GAMEMODE && GAMEMODE:GetDevMode() >= 2 then
+	return
+end
 
 if mapcontrol.IsInHub() then
 	-- Prevents flash frame before OnClientInitialized runs
