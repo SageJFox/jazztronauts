@@ -11,6 +11,8 @@ surface.CreateFont( "Mission_Description", {
 	weight = 1000,
 } )
 
+local CurAlpha = 255
+
 local function drawProgressBar(m, x, y, width, height, prog, max, animclip)
 	local perc = prog * 1.0 / max
 
@@ -22,11 +24,11 @@ local function drawProgressBar(m, x, y, width, height, prog, max, animclip)
 	perc = math.min( perc, 1 )
 
 	if perc >= 1 then
-		draw.RoundedBox(4, x, y, width, height, Color(55, 164, 44))
+		draw.RoundedBox(4, x, y, width, height, Color(55, 164, 44, CurAlpha))
 	else
-		draw.RoundedBox(4, x, y, width, height, Color(80, 0, 80))
+		draw.RoundedBox(4, x, y, width, height, Color(80, 0, 80, CurAlpha))
 		if perc > 0 then
-			draw.RoundedBox(4, x, y, width * perc, height, Color(255, 200, flash2*255))
+			draw.RoundedBox(4, x, y, width * perc, height, Color(255, 200, flash2*255, CurAlpha))
 		end
 	end
 
@@ -34,13 +36,13 @@ local function drawProgressBar(m, x, y, width, height, prog, max, animclip)
 	subclip.w = width*perc
 	subclip:Clamp( animclip )
 	subclip:SetClip(true)
-	draw.SimpleText(prog .. "/" .. max, "Mission_ProgressPercent", x + width/2, y + height/2, Color(0, 0, 0), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+	draw.SimpleText(prog .. "/" .. max, "Mission_ProgressPercent", x + width/2, y + height/2, Color(0, 0, 0, CurAlpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 
 	subclip.x = x + width*perc
 	subclip.w = width - width*perc
 	subclip:Clamp( animclip )
 	subclip:SetClip(true)
-	draw.SimpleText(prog .. "/" .. max, "Mission_ProgressPercent", x + width/2, y + height/2, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+	draw.SimpleText(prog .. "/" .. max, "Mission_ProgressPercent", x + width/2, y + height/2, Color(255, 255, 255, CurAlpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
 
 local metrics = {
@@ -89,17 +91,17 @@ local function DrawMission(mission, x, y)
 
 	local tr = TextRect( minfo.Instructions, font ):Dock( rect, DOCK_TOP + DOCK_LEFT):Inset(ScreenScale(2))
 
-	draw.RoundedBox(5, x, y, width, height, Color(255 - bumpdt*255, bumpdt*255, 255 - bumpdt*255, 50))
-	draw.SimpleText(minfo.Instructions, font, tr.x + ScreenScale(1), tr.y, Color(255 - bumpdt*255,255,255 - bumpdt*255))
+	draw.RoundedBox(5, x, y, width, height, Color(255 - bumpdt*255, bumpdt*255, 255 - bumpdt*255, math.max(CurAlpha - 155, 0)))
+	draw.SimpleText(minfo.Instructions, font, tr.x + ScreenScale(1), tr.y, Color(255 - bumpdt*255,255,255 - bumpdt*255, CurAlpha))
 
 	font = "Mission_ProgressPercent"
 
 	if not mission.completed then
 		drawProgressBar(m, x + ScreenScale(2.5), y + height - ScreenScale(14), width - ScreenScale(5), height - ScreenScale(14), missions.Active[mid], minfo.Count, animclip)
 	elseif mission.completed then
-		draw.SimpleText(jazzloc.Localize("jazz.mission.finished"), font, tr.x + ScreenScale(1), y + ScreenScale(11), Color(255, 255, 0))
+		draw.SimpleText(jazzloc.Localize("jazz.mission.finished"), font, tr.x + ScreenScale(1), y + ScreenScale(11), Color(255, 255, 0, CurAlpha))
 	else
-		draw.SimpleText(jazzloc.Localize("jazz.mission.locked"), font, tr.x + ScreenScale(1), y + ScreenScale(11), Color(200, 200, 200))
+		draw.SimpleText(jazzloc.Localize("jazz.mission.locked"), font, tr.x + ScreenScale(1), y + ScreenScale(11), Color(200, 200, 200, CurAlpha))
 	end
 
 	animclip:SetClip(false)
@@ -129,9 +131,32 @@ local function SlideInMissions()
 	return MissionsX + (FrameTime() * SlideSpeed) * ease
 end
 
+local ChatOpen = false
+hook.Add( "StartChat", "JazzMissionTyping", function()
+	ChatOpen = true
+end )
+hook.Add( "FinishChat", "JazzMissionDoneTyping", function()
+	ChatOpen = false
+end )
+
+local FadeSpeed = 1200
+local function FadeOutMissions()
+	return math.Clamp(CurAlpha - (FrameTime() * FadeSpeed ), 0, 255 )
+end
+local function FadeInMissions()
+	return math.Clamp(CurAlpha + (FrameTime() * FadeSpeed ), 0, 255 )
+end
+
 local ShowFinishedMissions = false
 hook.Add("HUDPaint", "JazzDrawMissions", function()
 	if jazzHideHUD then return end
+
+	if ChatOpen then
+		if CurAlpha <= 0 then return end
+		CurAlpha = FadeOutMissions()
+	elseif CurAlpha < 255 then
+		CurAlpha = FadeInMissions()
+	end
 
 	if dialog.IsInDialog() then
 		if MissionsX <= MissionsXHide then
