@@ -39,7 +39,6 @@ SWEP.RequestInfo			= {}
 SWEP.JumpMultiplier			= 1
 SWEP.CrouchTime				= -1
 SWEP.JumpChargeSound		= Sound( "sierra/run/jump_chargeup.wav" )
-SWEP.WalkingToggle			= false --if we have our sprint-to-walk toggle enabled
 
 local walkspeedinvert = CreateClientConVar("jazz_run_invert_walk_toggle",0,true,true,"By default, sprinting will disable Run's speed boost.\n\tSet this to 1 to cause speed boost to ONLY be provided when sprinting. Changes take effect on respawn.",0,1)
 
@@ -155,7 +154,7 @@ function SWEP:PhysDmgLevel()
 end
 
 function SWEP:SetupDataTables()
-	self:NetworkVar("Bool",0,"WalkingToggle")
+	self:NetworkVar("Bool",0,"WalkingToggle") --if we have our sprint-to-walk toggle enabled
 	self.BaseClass.SetupDataTables( self )
 end
 
