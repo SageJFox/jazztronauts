@@ -71,7 +71,7 @@ function Register(unlockName, price, props)
 			props.icon = unlockName.WepSelectIcon
 		end
 
-		if props.icon then
+		if props.icon and isstring(props.icon) then
 			props.icon = Material(props.icon, "mips smooth")
 		end
 
