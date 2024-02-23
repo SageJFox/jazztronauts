@@ -1,0 +1,169 @@
+@font-face {
+	font-family: "KG Shake It Off Chunky"; font-display: block;
+	src: url("../../resource/fonts/kgshakeitoffchunky.ttf") format("truetype");
+}
+
+html { min-height: 100vh }
+
+body {
+	margin: 0;
+	overflow: hidden;
+
+	color: #d9c040;
+	text-align: center;
+	font-family: "KG Shake It Off Chunky", "Comic Sans MS", sans-serif;
+}
+
+
+
+#bgbelow, #bgabove {
+	position: absolute; top: 0;
+	width: 100vw; height: 100vh;
+
+	background-repeat: repeat;
+	animation-duration: 2000s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+
+#bgbelow {
+	background-image: url("images/jazzswirl01.jpg");
+	background-size: 200vh; width: 20480px;
+	animation-name: voidbelow;
+}
+
+#bgabove {
+	background-image: url("images/jazzshell.jpg");
+	background-size: 30vh; width: 51200px;
+	animation-name: voidabove;
+	opacity: 0.5;
+}
+
+@supports ( mix-blend-mode: color-dodge ) {
+	#bgabove { opacity: 1; mix-blend-mode: color-dodge }
+}
+
+/* why loop shit properly (impossible??) when you can make a 30 minute animation */
+@keyframes voidbelow {
+	0% { transform: translateX(0) }
+	to { transform: translateX(-25600px) }
+}
+@keyframes voidabove {
+	0% { transform: translateX(0) }
+	to { transform: translateX(-51200px) }
+}
+
+
+
+#top {
+	position: relative;
+	z-index: 999;
+	margin-top: 100px;
+	text-shadow: 0 0 5px #000, 0 0 15px #000;
+}
+#top img { filter: drop-shadow(0 0 3px black) }
+#top h2 { font-size: 2em; margin: 20px 0 }
+#top h3 { font-size: 1.3em; margin: 0 }
+
+@media (max-height: 1000px) {
+	#top { margin-top: 70px }
+}
+
+@media (max-height: 899px) {
+	#top h2 { margin: 10px 0 }
+}
+
+@media (max-height: 850px) {
+	#top { margin-top: 50px }
+	#top h2 { margin: 5px 0 }
+}
+
+@media (max-height: 719px) {
+	#top { margin-top: 25px }
+}
+
+/* move text to one line */
+@media (max-height: 630px) {
+	#top div {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	#top h2 { margin-right: 20px; }
+}
+
+/* this works for 640x480, gmod can't go lower */
+@media (max-height: 530px) {
+	#top { margin-top: 10px }
+}
+
+
+
+#road, #trolley {
+	z-index: 26;
+}
+
+#road {
+	position: absolute;
+	bottom: 15%;
+	background: url("images/road.jpg") repeat-x;
+	background-size: contain;
+	height: min(15%, 12vw);
+	width: 1024000px;
+	animation: road 2000s infinite linear;
+}
+
+@keyframes road {
+	0% { transform: translateX(0) }
+	to { transform: translateX(-100%) }
+}
+
+#trolley {
+	position: fixed;
+	bottom: 20%;
+	left: 50%;
+	-webkit-transform: translateX(-50%); /* for awesomium */
+	transform: translateX(-50%);
+	max-height: 36%;
+	max-width: 90%;
+}
+
+
+
+.crispy {
+	image-rendering: pixelated;
+	image-rendering: crisp-edges;
+}
+
+#scrollers img {
+	position: fixed;
+	animation-iteration-count: 1, infinite;
+	animation-timing-function: linear;
+	right: -25%;
+}
+
+@keyframes scrollanim {
+	0% { transform: translateX(0) }
+	to { transform: translateX(calc(-125vw))}
+}
+
+@keyframes spinny {
+	from {transform: rotate(0deg)}
+	50% {transform: rotate(180deg)}
+	to {transform: rotate(360deg)}
+}
+
+@keyframes bouncy {
+	from {transform: translateY(25px)}
+	to {transform: translateY(-25px)}
+}
+
+@keyframes flyout {
+	from {transform: scale(1)}
+	to {transform: scale(0.2)}
+}
+
+@keyframes flyin {
+	from {transform: scale(1)}
+	to {transform: scale(2)}
+}
