@@ -3,7 +3,7 @@ jstore.Register("spawnmenu", 100000, {
 	cat = "tools",
 	name = jazzloc.Localize("jazz.gmodspawn"),
 	desc = jazzloc.Localize("jazz.gmodspawn.desc"),
-	icon = "entities/npc_breen.png",
+	icon = "ui/gman.jpg",
 	thirdparty = true
 })
 
@@ -44,11 +44,16 @@ function PANEL:AddUnlockedWeapon( weapon )
 	local wepinfo = list.Get("Weapon")[weapon]
 	if not wepinfo then return false end
 
+	local spawnmenuicon
+	if wepinfo.IconOverride then
+		spawnmenuicon = string.Replace(wepinfo.IconOverride, "materials/", "")
+	end
+
 	local icon = spawnmenu.CreateContentIcon( wepinfo.ScriptedEntityType or "weapon", self.content,
 		{
 			nicename = wepinfo.PrintName or wepinfo.ClassName or weapon,
 			spawnname = wepinfo.ClassName or weapon,
-			material = "entities/" .. (wepinfo.ClassName or weapon) .. ".png",
+			material = spawnmenuicon or "entities/" .. (wepinfo.ClassName or weapon) .. ".png",
 			admin = wepinfo.AdminOnly
 		} )
 
@@ -66,6 +71,21 @@ function PANEL:AddLegacySpawnMenu()
 end
 
 function PANEL:Populate()
+
+	-- Weapons Panel
+	local pnl = vgui.Create( "DPanel" )
+	self:AddSheet( "#spawnmenu.category.weapons", pnl, "icon16/gun.png", nil, nil, "#jazz.gmodspawn.weapons.desc" )
+
+	self.weapons = vgui.Create( "ContentContainer", pnl )
+	self.weapons:Dock( FILL )
+	self.weapons:SetSkin( "Jazz" )
+
+	-- Go through every registered jazz weapon and try to add them
+	for k, v in pairs(list.Get("Weapon")) do
+		if v.Category == "#jazz.weapon.category" and GAMEMODE:JazzCanSpawnWeapon(LocalPlayer(), k) then
+			self:AddUnlockedWeapon( k )
+		end
+	end
 
 	-- Prop Panel
 	local pnl = vgui.Create( "Panel", self )
@@ -91,22 +111,6 @@ function PANEL:Populate()
 
 	//local pnl = vgui.Create( "DPanel" )
 	//self:AddSheet( "#spawnmenu.tools_tab", pnl, "icon16/exclamation.png", nil, nil, "Select tools" )
-
-
-	-- Weapons Panel
-	local pnl = vgui.Create( "DPanel" )
-	self:AddSheet( "#spawnmenu.category.weapons", pnl, "icon16/gun.png", nil, nil, "#jazz.gmodspawn.weapons.desc" )
-
-	self.weapons = vgui.Create( "ContentContainer", pnl )
-	self.weapons:Dock( FILL )
-	self.weapons:SetSkin( "Jazz" )
-
-	-- Go through every registered jazz weapon and try to add them
-	for k, v in pairs(list.Get("Weapon")) do
-		if v.Category == "#jazz.weapon.category" and GAMEMODE:JazzCanSpawnWeapon(LocalPlayer(), k) then
-			self:AddUnlockedWeapon( k )
-		end
-	end
 
 	hook.Add("OnUnlocked", "weapons_panel_unlock", function( list, key )
 		if list == "store" then

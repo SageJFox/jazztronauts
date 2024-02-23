@@ -30,7 +30,10 @@ AddCSLuaFile("cl_texturelocs.lua")
 
 util.AddNetworkString("shard_notify")
 
-local LOADING_SCREEN_URL = "asset://jazztronauts/html/loading.html"
+local LOADING_SCREEN_URL = "asset://garrysmod/html/jazzload/loading-basic.html"
+if BRANCH == "x86-64" then
+	LOADING_SCREEN_URL = "asset://garrysmod/html/jazzload/loading.html"
+end
 
 CreateConVar("crazyfix","0",bit.bor(FCVAR_PROTECTED,FCVAR_UNREGISTERED,FCVAR_UNLOGGED))
 
@@ -450,14 +453,17 @@ function GM:PlayerInitialSpawn( ply )
 		ply:SuppressHint( "OpeningMenu" )
 	end
 	ply:SendHint( "OpeningContext", 30 )
+end
 
+-- PlayerInitialSpawn runs before player is fully loaded and can see, for visible stuff use this hook
+hook.Add("OnClientInitialized", "JazzTransitionIntoBar", function(ply)
 	-- Hey. Don't play this in singleplayer
 	if game.SinglePlayer() then
-		timer.Simple(5, function()
+		timer.Simple(3, function()
 			dialog.Dispatch("no_singleplayer_allowed.begin", ply)
 		end )
 	end
-end
+end )
 
 function GM:PlayerSpawn( ply )
 	local class = mapcontrol.IsInGamemodeMap() and "player_hub" or "player_explore"
@@ -485,9 +491,13 @@ function GM:IsSpawnpointSuitable(ply, spawnent, makesuitable)
 	return true
 end
 
--- Don't allow pvp damage
+-- Don't allow pvp by default, except self-damage cause rocketjumping fun
 function GM:PlayerShouldTakeDamage(ply, attacker)
-	return not (attacker:IsValid() and attacker:IsPlayer())
+	if attacker:IsValid() and attacker:IsPlayer() and ply != attacker then
+		return cvars.Bool("jazz_player_pvp")
+	end
+
+	return true
 end
 
 -- no fall damange with Run

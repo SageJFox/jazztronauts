@@ -1,10 +1,7 @@
 -- Fix loading screen not correctly getting reset when switching out of jazztronauts
 
 local jazz_var = "sv_loadingurl"
-local jazz_url = "asset://jazztronauts/html/loading-basic.html"
-if BRANCH == "x86-64" then
-	jazz_url = "asset://jazztronauts/html/loading.html"
-end
+local jazz_url = "asset://garrysmod/html/jazzload/"
 local WORKSHOP_CACHE_PATH = "jazztronauts/cache"
 
 local function ClearCache()
@@ -25,7 +22,7 @@ hook.Add("Initialize", "jazz_disable_loadscreen", function()
 	local convar = GetConVar(jazz_var)
 	if convar then
 		--TODO: We should store the original loadingurl and load it back here.
-		if string.find(convar:GetString(), jazz_url, 1, true) then
+		if string.StartsWith(convar:GetString(), jazz_url) then
 			RunConsoleCommand(jazz_var, "")
 		end
 	end

@@ -15,13 +15,11 @@ end
 
 function Clear( list_name )
 
-	if SERVER then
+	if CLIENT then return end
 
-		local table_name = "unlocklist_" .. list_name
-		sql.Query( "DROP TABLE " .. table_name )
-		print("Dropping " .. table_name)
-
-	end
+	local table_name = "unlocklist_" .. list_name
+	sql.Query( "DROP TABLE " .. table_name )
+	print("Dropping " .. table_name)
 
 end
 
@@ -29,6 +27,32 @@ function ClearAll()
 	for k, v in pairs(unlock_lists) do
 		Clear(k)
 	end
+end
+
+function ClearPlayer( list_name, steamid64 )
+
+	if not list_name then return false end
+
+	if CLIENT then
+		local list = unlock_lists[list_name]
+		table.Empty(list)
+		return true
+	end
+
+	if not steamid64 then return false end
+
+	local result = sql.Query( ("DELETE FROM %s WHERE steamid = '%s'"):format(
+		unlock_lists[list_name],
+		steamid64 ) )
+
+	if false == result then
+		print("ERROR: " .. tostring( sql.LastError() ) )
+		return false
+	end
+
+	print("Successfully wiped " .. list_name .. " for " .. steamid64)
+	return true
+
 end
 
 function Register( list_name )
@@ -295,6 +319,49 @@ concommand.Add( "jazz_download_unlocks_to_players", function( ply )
 	end
 
 end )
+
+local ResetHelpMsg = "Resets your collected props. This does not affect the sandbox spawnmenu, only snatched props."
+	.. "\nDoing this can possibly reduce lag when opening the spawnmenu or claiming props in the hub."
+	.. '\nTo clear yourself, type "jazz_reset_props self". As an admin, to clear it for everyone, type "all" instead.'
+	.. "\nAdmins can also enter a player's SteamID64. The player being reset doesn't need to be online."
+concommand.Add( "jazz_reset_props", function( ply, _, args )
+	local arg = args[1]
+
+	if not arg then
+		print(ResetHelpMsg)
+		return
+	end
+
+	if ply:IsAdmin() and arg == "all" then
+		Clear("props")
+		return
+	end
+
+	local steamid64 = false
+
+	if ply:IsAdmin() and tonumber(arg) then
+		steamid64 = tostring(arg)
+	end
+
+	if arg == "self" then
+		steamid64 = ply:SteamID64()
+		if CLIENT then
+			ClearPlayer("props")
+			print("Props list reset! Might not show until map change.")
+		end
+	end
+
+	if not steamid64 then
+		print("Invalid argument!")
+		return
+	end
+
+	if SERVER then
+		ClearPlayer("props", steamid64)
+		return
+	end
+
+end, nil, ResetHelpMsg)
 
 
 --[[Register("ballocs")

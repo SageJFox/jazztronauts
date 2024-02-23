@@ -2,13 +2,16 @@ if SERVER then
 	AddCSLuaFile()
 end
 
-SWEP.Base					= "weapon_base"
+SWEP.Base					= "weapon_basehold"
 SWEP.PrintName				= jazzloc.Localize("jazz.weapon.hacker")
 SWEP.Slot					= 4
 SWEP.Category				= "#jazz.weapon.category"
-SWEP.Purpose				= "#jazz.weapon.hacker.desc"
-SWEP.WepSelectIcon			= Material( "entities/weapon_hacker.png" )
+SWEP.Purpose				= jazzloc.Localize("jazz.weapon.hacker.desc")
 SWEP.AutoSwitchFrom			= false
+
+SWEP.WepSelectIcon = "h"
+SWEP.WepSelectColor = Color(21,204,21)
+SWEP.AutoIconAngle = Angle(125, -20, 40)
 
 SWEP.ViewModel				= "models/weapons/c_hackergoggles.mdl"
 SWEP.WorldModel				= "models/weapons/w_hackergoggles.mdl"
@@ -205,18 +208,6 @@ function SWEP:ShootEffects()
 	owner:MuzzleFlash()
 	owner:SetAnimation( PLAYER_ATTACK1 )
 
-end
-
-function SWEP:DrawWeaponSelection(x, y, w, h, alpha)
-	surface.SetDrawColor(255, 255, 255, alpha)
-	if self.WepSelectIcon then
-		surface.SetMaterial(self.WepSelectIcon)
-	else
-		surface.SetTexture("weapons/swep")
-	end
-
-	surface.DrawTexturedRect(x + w / 2 - 128, y + h / 2 - 64, 256, 128)
-	self:PrintWeaponInfo(x + w + 20, y + h, alpha)
 end
 
 function SWEP:Reload() return false end
