@@ -230,7 +230,6 @@ function ENT:Leave()
 
 			local EjectSpeed = Vector(0, 0, 0) + BusAngle * -2000
 			ply:SetVelocity(EjectSpeed)
-
 			ply:Kill()
 			ply:Spectate(OBS_MODE_DEATHCAM)
 			hook.Add( "PlayerSpawn", "VoidEjectedRespawn", function()

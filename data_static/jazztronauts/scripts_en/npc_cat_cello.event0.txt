@@ -72,24 +72,27 @@ b4:
 		&r1a1:
 			*BLOCKSTART*
 				#*setposang player setpos -714.635681 3504.432373 0;setang 5.164247 65.622467 0.000000*
-				*setoffset player setpos -10.635681 -31.567627 0.000000;setang 5.164 65.622 0.000*
-				*setcamroot player setpos 117.854004 -10.018799 78.157104;setang 5.138 -176.721 0.000*
+				*setoffset player setpos -10.635681 -31.567627 0.000000;setang 0 65.622 0.000*
+				*setlook player 5.164*
+				*setcamroot player setpos 117.854248 -10.018799 78.157097;setang 5.138 -176.721 0.000*
 				#*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
 			*BLOCKEND*
 			You seem remarkably unfazed by being blown up.
 		&r1a1:
 			*BLOCKSTART*
 				#*setposang player setpos -714.635681 3504.432373 0;setang 5.164247 65.622467 0.000000*
-				*setoffset player setpos -10.635681 -31.567627 0.000000;setang 5.164 65.622 0.000*
-				*setcamroot player setpos 117.854004 -10.018799 78.157104;setang 5.138 -176.721 0.000*
+				*setoffset player setpos -10.635681 -31.567627 0.000000;setang 0 65.622 0.000*
+				*setlook player 5.164*
+				*setcamroot player setpos 117.854248 -10.018799 78.157097;setang 5.138 -176.721 0.000*
 				#*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
 			*BLOCKEND*
 			Is this a regular occurrence?
 		&r2a1:
 			*BLOCKSTART*
 				#*setposang player setpos -714.635681 3504.432373 0;setang 5.164247 65.622467 0.000000*
-				*setoffset player setpos -10.635681 -31.567627 0.000000;setang 5.164 65.622 0.000*
-				*setcamroot player setpos 117.854004 -10.018799 78.157104;setang 5.138 -176.721 0.000*
+				*setoffset player setpos -10.635681 -31.567627 0.000000;setang 0 65.622 0.000*
+				*setlook player 5.164*
+				*setcamroot player setpos 117.854248 -10.018799 78.157097;setang 5.138 -176.721 0.000*
 				#*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
 			*BLOCKEND*
 			Y'know that feels like something you could have figured out
@@ -177,15 +180,15 @@ m1:
 	time and space.%%*CONFUSED(cat_cello)* why'd you agree to this arrangement?
 	player:
 		&exploration:
-			*setcamroot player setpos 110.338135 -10.018799 88.478668;setang 10.293 -176.680 0.300*
+			*setcamroot player setpos 117.854248 -10.018799 78.157097;setang 5.138 -176.721 0.000*
 			#*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
 			To see the sights,% explore all these places people made.
 		&comraderie:
-			*setcamroot player setpos 110.338135 -10.018799 88.478668;setang 10.293 -176.680 0.300*
+			*setcamroot player setpos 117.854248 -10.018799 78.157097;setang 5.138 -176.721 0.000*
 			#*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
 			I kinda wanted to get to know the four of you more.
 		&agoodtime:
-			*setcamroot player setpos 110.338135 -10.018799 88.478668;setang 10.293 -176.680 0.300*
+			*setcamroot player setpos 117.854248 -10.018799 78.157097;setang 5.138 -176.721 0.000*
 			#*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
 			I'mma get rich and mess with all your weird guns.
 		
@@ -390,7 +393,7 @@ n1:
 	
 n2:
 	*BLOCKSTART*
-		*setcamroot player setpos 117.854004 -10.018799 78.157104;setang 5.138 -176.721 0.000*
+		*setcamroot player setpos 117.854248 -10.018799 78.157097;setang 5.138 -176.721 0.000*
 		#*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
 		*setspeaker narrator*
 	*BLOCKEND*
