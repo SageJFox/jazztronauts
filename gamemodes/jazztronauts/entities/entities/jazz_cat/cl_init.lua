@@ -204,7 +204,7 @@ function ENT:Draw()
 
 		-- Play a small click sound when switching between options
 		local opt = self:GetSelectedOption(LocalPlayer(), self.ChatChoices)
-		if self.LastOption != opt then
+		if self:ShouldDrawChat() and self.LastOption != opt then
 			self.LastOption = opt
 
 			LocalPlayer():EmitSound("buttons/lightswitch2.wav", 0, 175)
