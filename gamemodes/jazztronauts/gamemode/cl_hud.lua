@@ -181,7 +181,8 @@ local function DrawNoteCount()
 
 	-- Draw extra money multiplier
 	if noteMultiplier > 1 then
-		local multCol = Color(108, 52, 0, 250)
+
+		local multCol = Color(108, 52, 0, math.min( 255, CurAlpha * 1.25)) --250
 		drawTextRotated(noteMultiplier, "JazzNoteMultiplier",
 			ScrW() - coinDistance / 2 - distFromSide, distFromTop + coinSize / 2 - ScreenScale(1),
 			multCol, 0, coinSize/1.3)
