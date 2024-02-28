@@ -155,6 +155,9 @@ end
 
 function SWEP:SetupDataTables()
 	self:NetworkVar("Bool",0,"WalkingToggle") --if we have our sprint-to-walk toggle enabled
+	self:NetworkVar("Float",0,"OldRunSpeed")
+	self:NetworkVar("Float",1,"OldWalkSpeed")
+	self:NetworkVar("Float",2,"OldJumpPower")
 	self.BaseClass.SetupDataTables( self )
 end
 
@@ -162,9 +165,11 @@ function SWEP:Deploy()
 
 	if SERVER then
 		local owner = self:GetOwner()
-		self.OldRunSpeed = owner:GetRunSpeed()
-		self.OldWalkSpeed = owner:GetWalkSpeed()
-		self.OldJumpPower = owner:GetJumpPower()
+		if IsValid(owner) then
+			self:SetOldRunSpeed( owner:GetRunSpeed() )
+			self:SetOldWalkSpeed( owner:GetWalkSpeed() )
+			self:SetOldJumpPower( owner:GetJumpPower() )
+		end
 	end
 
 	self.JumpMultiplier	= 1
@@ -178,10 +183,10 @@ end
 
 function SWEP:Cleanup()
 	local owner = self:GetOwner()
-	if SERVER and self.OldRunSpeed and IsValid(owner) then
-		owner:SetRunSpeed(self.OldRunSpeed)
-		owner:SetWalkSpeed(self.OldWalkSpeed)
-		owner:SetJumpPower(self.OldJumpPower)
+	if SERVER and IsValid(owner) then
+		owner:SetRunSpeed( self:GetOldRunSpeed() )
+		owner:SetWalkSpeed( self:GetOldWalkSpeed() )
+		owner:SetJumpPower( self:GetOldJumpPower() )
 	end
 	if CLIENT and IsValid(owner) then
 		--clean up posing
@@ -268,8 +273,8 @@ function SWEP:PreDrawViewModel(viewmodel, weapon, ply)
         self.CurPoseY = math.Approach(self.CurPoseY, movey, FrameTime() * APPROACH_SPEED)
 		self.CurPlayback = math.Approach(self.CurPlayback, playback, FrameTime() * APPROACH_SPEED)
 
-		local walkmultiplier = (self.GetWalkingToggle() ~= ply:KeyDown(IN_SPEED)) and .8 or 1
-		local playmultiplier = (self.GetWalkingToggle() ~= ply:KeyDown(IN_SPEED)) and .5 or 1
+		local walkmultiplier = (self:GetWalkingToggle() ~= ply:KeyDown(IN_SPEED)) and .8 or 1
+		local playmultiplier = (self:GetWalkingToggle() ~= ply:KeyDown(IN_SPEED)) and .5 or 1
         viewmodel:SetPoseParameter("move_x", math.Remap( self.CurPoseX, 0, 1, -1, 1) * walkmultiplier)
         viewmodel:SetPoseParameter("move_y", math.Remap( self.CurPoseY, 0, 1, -1, 1) * walkmultiplier)
 		viewmodel:SetPlaybackRate(self.CurPlayback * playmultiplier)
@@ -330,11 +335,11 @@ function SWEP:Think()
 				self:StopChargeSound()
 			end
 		end
-		local runspeed = (self.GetWalkingToggle() ~= owner:KeyDown(IN_SPEED)) and self.OldWalkSpeed or 800 --let player hold sprint to go at regular speed
+		local runspeed = (self:GetWalkingToggle() ~= owner:KeyDown(IN_SPEED)) and self:GetOldWalkSpeed() or 800 --let player hold sprint to go at regular speed
 		owner:SetWalkSpeed( runspeed )
 		owner:SetRunSpeed( runspeed )
 		--print(self.CrouchTime, self.JumpMultiplier)
-		owner:SetJumpPower( 500 * self.JumpMultiplier)
+		owner:SetJumpPower( 500 * self.JumpMultiplier )
 	end
 	self.LastThink = CurTime()
 end
