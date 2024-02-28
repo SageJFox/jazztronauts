@@ -85,10 +85,14 @@ local run_propbump = jstore.RegisterSeries("run_propbump", 15000, 6, {
 
 function SWEP:PlayChargeSound(pitch)
 
-	pitch = pitch or 100
+	if CLIENT then return end
+
+	local pitch = pitch or 100
 
 	if not self.ChargeSound then
-		self.ChargeSound = CreateSound(self, self.JumpChargeSound)
+		local rf = RecipientFilter()
+		rf:AddPlayer(self:GetOwner())
+		self.ChargeSound = CreateSound(self, self.JumpChargeSound, rf)
 		self.ChargeSound:SetSoundLevel(75)
 		self.ChargeSound:Play()
 		self.ChargeSound:ChangeVolume(1)
@@ -183,7 +187,7 @@ end
 
 function SWEP:Cleanup()
 	local owner = self:GetOwner()
-	if SERVER and IsValid(owner) then
+	if SERVER and self:GetOldRunSpeed() ~= 0 and IsValid(owner) then
 		owner:SetRunSpeed( self:GetOldRunSpeed() )
 		owner:SetWalkSpeed( self:GetOldWalkSpeed() )
 		owner:SetJumpPower( self:GetOldJumpPower() )
