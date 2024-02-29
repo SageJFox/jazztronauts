@@ -135,16 +135,21 @@ body {
 	image-rendering: crisp-edges;
 }
 
-#scrollers img {
+#scrollers div {
 	position: fixed;
-	animation-iteration-count: 1, infinite;
+	right: -25vw;
+	animation-iteration-count: 1;
 	animation-timing-function: linear;
-	right: -25%;
+}
+#scrollers img {
+	height: 100%;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
 }
 
 @keyframes scrollanim {
 	0% { transform: translateX(0) }
-	to { transform: translateX(calc(-125vw))}
+	to { transform: translateX(-125vw)}
 }
 
 @keyframes spinny {
