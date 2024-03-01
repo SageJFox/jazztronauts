@@ -193,18 +193,6 @@ else
 			ev:Title(jazzloc.Localize("jazz.death.leftbus","%name"),
 				{ name = name }
 			)
-		--tripped on a cloud and fell eight miles high
-		elseif dmg == DMG_FALL then
-
-			ev:Title(jazzloc.Localize("jazz.death.fall","%name"),
-				{ name = name }
-			)
-		--not likely to show up unless HL2 suit is on
-		elseif dmg == DMG_DROWN then
-
-			ev:Title(jazzloc.Localize("jazz.death.drown","%name"),
-				{ name = name }
-			)
 		--trust no one, not even yourself
 		elseif attacker == ply then
 
@@ -223,6 +211,11 @@ else
 			ev:Title(jazzloc.Localize("jazz.death.selector","%name"),
 				{ name = name }
 			)
+		elseif attackname == "flushkill" then
+
+			ev:Title(jazzloc.Localize("jazz.death.toilet","%name"),
+				{ name = name }
+			)
 		--trigger_hurt special messages
 		elseif attackclass == "trigger_hurt" then
 
@@ -230,6 +223,21 @@ else
 			ev:Title(jazzloc.Localize("jazz.triggerhurt." .. damtab[ math.random( #damtab ) ],"%name"),
 				{ name = name }
 			)
+
+		--tripped on a cloud and fell eight miles high
+		elseif dmg == DMG_FALL then
+
+			ev:Title(jazzloc.Localize("jazz.death.fall","%name"),
+				{ name = name }
+			)
+			
+		--not likely to show up unless HL2 suit is on
+		elseif dmg == DMG_DROWN then
+
+			ev:Title(jazzloc.Localize("jazz.death.drown","%name"),
+				{ name = name }
+			)
+
 		--agh, you've killed me!
 		elseif IsValid(attacker) or attackclass ~= "" then
 
