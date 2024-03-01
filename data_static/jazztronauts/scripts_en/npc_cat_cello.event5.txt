@@ -512,7 +512,7 @@ n11:
 		*SHOCK(cat_cello)*
 	*BLOCKEND*
 	—realize that I'm more trouble than I'm worth,%*setanim cat_cello gesture_anger 2 idle*
-	and that I'll never live up to my "potential",%%%*CELLO_EMPTY* 
+	and that I'll never live up to my "potential,"%%%*CELLO_EMPTY* 
 	and then they'll throw me out on my ass.
 	&n12
 	

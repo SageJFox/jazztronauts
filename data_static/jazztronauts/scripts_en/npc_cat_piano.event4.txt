@@ -171,20 +171,20 @@ r3a4:
 		*setcamroot cat_piano setpos 119.760498 -2.515625 31.996399;setang 1.649 -166.446 0.000*
 		#*setcam setpos -2909.484375 3073.760498 67.996399;setang 1.649263 -76.445908 0.000000*
 	*BLOCKEND*
-	Tryin' to find a way around it.% Might take up some new.%%
-	Hobby.% Somethin' stupid an' dangerous.%%%%*setanim cat_piano pianist_drunk_to_player .75*
+	Tryin' to find a way around it.% Might take up some new %%
+	hobby.% Somethin' stupid an' dangerous.%%%%*setanim cat_piano pianist_drunk_to_player .75*
 	Figure I won't be able to think then,% y'know?
 	&r3a5
 	
 r3a5:
 	*setspeaker cat_piano*
-	I'm overthinking trying not to overthink% fuck my 
-	entire life with a rusty rake.*setanim cat_piano pianist_drunk_to_idle .95*
+	I'm overthinking trying not to overthink% 
+	fuck my entire life with a rusty rake.*setanim cat_piano pianist_drunk_to_idle .95*
 	&r3a6
 	
 r3a6:
 	*setspeaker cat_piano*
-	*player*.%%%*setanim cat_piano pianist_drunk_to_player .75*You're good at like.%%%%
+	*player*.%%%*setanim cat_piano pianist_drunk_to_player .75* You're good at like.%%%%
 	Doin' shit on impulse.%%
 	How do?%%%%%
 	player:

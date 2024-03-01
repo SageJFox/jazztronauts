@@ -1,3 +1,5 @@
+SKIP_OPEN = true
+
 begin:
 
 ###### SCENE SETUP
@@ -54,8 +56,8 @@ b3:
 		#*setposang cat_bar -2864.620361 3044.558594 32.417419;setang -90 195 0*
 		#*setposang cat_singer setpos -2863.950439 2954.573730 38;setang -90 236 0.000000*
 		*setoffset player setpos 39.786621 84.571533 0.000000;setang -0.000 -134.804 0.000*
-		*setoffset cat_bar setpos -92.558594 -0.620361 32.417419;setang 0.000 15.000 0.000*
-		*setoffset cat_singer setpos -2.573730 0.049561 38.000000;setang 0.000 56.000 0.000*
+		*setoffset cat_bar setpos -92.558594 -0.620361 0;setang 0.000 15.000 0.000*
+		*setoffset cat_singer setpos -2.573730 0.049561 0;setang 0.000 56.000 0.000*
 		*setcamoffset setpos 212.024658 14.117554 36.462303;setang 0.835 -178.979 0.000*
 		#*setcam setpos -2796.107910 2843.412354 68.879723;setang 0.834593 106.020760 0.000000*
 		*BAR_HAPPY*
@@ -98,8 +100,8 @@ r1a2:
 	*BLOCKSTART*
 		#*setposang cat_singer setpos -2863.950439 2954.573730 38;setang -90 0 0.000000*
 		#*setposang cat_bar -2864.620361 3044.558594 32.417419;setang -90 90.504135 90.000000*
-		*setoffset cat_singer setpos -2.573730 0.049561 38.000000;setang 0.000 180.000 0.000*
-		*setoffset cat_bar setpos -92.558594 -0.620361 32.417419;setang 0.000 0.504 0.000*
+		*setoffset cat_singer setpos -2.573730 0.049561 0;setang 0.000 180.000 0.000*
+		*setoffset cat_bar setpos -92.558594 -0.620361 0;setang 0.000 0.504 0.000*
 		*setcamroot narrator setpos 201.018555 303.249512 279.112549;setang 44.917 -131.929 0.000*
 		#*setcam setpos -2560.750488 2750.981445 279.112549;setang 44.917320 138.070877 0.000000*
 		*BAR_NEUTRAL*

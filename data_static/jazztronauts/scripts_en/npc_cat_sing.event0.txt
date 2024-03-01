@@ -1,3 +1,5 @@
+SKIP_OPEN = true
+
 begin:
 
 ###### SCENE SETUP
