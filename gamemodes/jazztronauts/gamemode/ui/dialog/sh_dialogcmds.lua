@@ -169,23 +169,32 @@ local zSnap = {64}
 	The first layer is always defined by the position of the locale entity (and is thus always 0). The rest are defined in relation to it. ]]
 local layers = {0}
 
-local function FindByName(name)
+local function FindByName(name,skipPlayerCreate)
+	local skipPlayerCreate = skipPlayerCreate or false
 	if (not name) or name == "nil" then return nil end
 	if name == "focus" then return dialog.GetFocus() end
 	if IsValid(sceneModels[name]) then return sceneModels[name] end
 
 	-- Lazy-create player object
 	if name == "player" then
-		local plyobj = CreatePlayerProxy()
-		sceneModels[name] = plyobj
-		g_funcs["setlook"]("setlook","player") --reset player look
-		plyobj.gravity = true
-		plyobj.layer = 1
-		return plyobj
+		if not skipPlayerCreate then
+			local plyobj = CreatePlayerProxy()
+			sceneModels[name] = plyobj
+			g_funcs["setlook"]("setlook","player") --reset player look
+			plyobj.gravity = true
+			plyobj.layer = 1
+			return plyobj
+		else
+			return sceneModels["player"]
+		end
 	end
 
 	return FindNPCByName(name)
 end
+
+dialog.RegisterFunc("spawnplayer", function(d, name)
+	FindByName("player")
+end)
 
 dialog.RegisterFunc("sceneroot", function(d, name)
 	defaultRoot = sceneModels[name] or nil
@@ -424,7 +433,7 @@ dialog.RegisterFunc("hide", function(d, time)
 end)
 
 local function speakerset(name)
-	local ent = FindByName(name)
+	local ent = FindByName(name,true)
 	if name == "player" and (pac or not IsValid(ent)) then
 		dialog.SetFocusProxy(LocalPlayer()) --TODO: remove this PAC conditional if/when PAC is supported nicely on the player proxy.
 	else
@@ -1184,7 +1193,7 @@ dialog.RegisterFunc("setcam", function(d, ...)
 	end
 
 	-- Only create the player proxy if we modify the camera
-	FindByName("player")
+	--FindByName("player")
 
 	-- Tell server to load in the specific origin into our PVS
 	--[[net.Start("dialog_requestpvs") --handled in WorldToSceneRootCam function call up above
@@ -1224,7 +1233,7 @@ dialog.RegisterFunc("setcamroot", function(d, rootname, ...)
 	end
 
 	-- Only create the player proxy if we modify the camera
-	FindByName("player")
+	--FindByName("player")
 
 end)
 

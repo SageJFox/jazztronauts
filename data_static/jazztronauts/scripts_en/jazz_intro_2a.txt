@@ -8,6 +8,7 @@ begin1:
 	*BLOCKSTART*
 		*txout*
 		spawngang()
+		*spawnplayer*
 		*setposang cat_bar setpos -13710.177734 -2197.684814 995.031250;setang -90 180.0 0.000000*
 		*setposang cat_cello setpos -13525.564453 -2201.192139 995.031250;setang -90 48.527863 0.000000*
 		*setposang cat_piano setpos -13609.130859 -2194.377686 995.031250;setang -90 288 0.000000*
