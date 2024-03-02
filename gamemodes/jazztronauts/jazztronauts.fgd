@@ -310,6 +310,21 @@
 	tweentime(float) : "Tween Time" : "5.0" : "Time to spend tweening"
 ]
 
+@PointClass base(Targetname) iconsprite("editor/jazz_pvs_occupation.vmt") = jazz_pvs_occupation : "Keep track of an area's PVS state"
+[
+	initialstate(choices) : "Initial State" : 0 : "The state this entity is expected to be in when the first player spawns into the level. Occupied prevents initial OnOccupied output from firing on first player spawn." =
+	[
+		0 : "Unoccupied"
+		1 : "Occupied"
+	]
+	
+	output OnOccupied(void) : "Fired when the first player's view is first detected in this entity's PVS."
+	output OnUnoccupied(void) : "Fired when the last player's view is no longer detected in this entity's PVS."
+
+	input ForceOccupancy(float) : "Force this entity to consider that its PVS holds a player's view. Will trigger OnOccupied if no actual player was already viewing. Optional timer to auto unforce."
+	input ReleaseForcedOccupancy(void) : "Revert back to normal detection behavior. Will trigger OnUnoccupied if no actual players are viewing."
+]
+
 @PointClass base(Targetname, Angles) studioprop("models/matt/jazz_trolley.mdl") = info_busstop : "Marker for summoned trolley to travel to"
 [
 	traveltime(float) : "Exit Time" : "2.5" : "How long the trolley takes to travel to the end of its path."

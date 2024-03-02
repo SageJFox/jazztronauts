@@ -192,7 +192,7 @@ local function FindByName(name,skipPlayerCreate)
 	return FindNPCByName(name)
 end
 
-dialog.RegisterFunc("spawnplayer", function(d, name)
+dialog.RegisterFunc("spawnplayer", function(d)
 	FindByName("player")
 end)
 

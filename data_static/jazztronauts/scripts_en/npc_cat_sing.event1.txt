@@ -295,7 +295,7 @@ m1:
 		*SINGER_HAPPY*
 		*CLAP(cat_singer)*
 	*BLOCKEND*
-	> The Singer thanks you for your help.%%% you've given them 
+	> The Singer thanks you for your help.%%% You've given them 
 	some good ideas on*SINGER_NEUTRAL* how*AGREE(cat_singer)* to make each entry individual,% 
 	even if the item is virtually identical.
 	&m2

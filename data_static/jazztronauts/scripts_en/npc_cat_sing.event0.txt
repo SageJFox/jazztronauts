@@ -262,8 +262,8 @@ m6:
 		narratesinger()
 		*SINGER_MAD*
 	*BLOCKEND*
-	> Seeing your unchanging express*SINGER_BLINK*ion,%%*SIGH(cat_singer)* they sigh. *setspeaker cat_singer*
-	“%%It didn't see*SINGER_MAD*m RIGHT to just destroy the hard work of everyone 
+	> Seeing your unchanging express*SINGER_BLINK*ion,%%*SIGH(cat_singer)* they sigh.%% *setspeaker cat_singer*
+	“It didn't see*SINGER_MAD*m RIGHT to just destroy the hard work of everyone 
 	who h*SHRUG(cat_singer)*elped make these places in the first place forever!!”
 	&m7
 	
