@@ -1,16 +1,18 @@
 // loaded by both loading and loading-basic
 // no es6 in this file cause awesomium
 
-function GameDetails(_, _, mapname, _, _, _, _, lang) {
-	var nextstop = {
-		'en':    "Next Stop:",
-		'en-PT': "Avast, ye be comin' up on:",
-	};
-	var thebar = {
-		'en':    "The Bar",
-		'en-PT': "Th' Tavern"
-	};
+var nextstop = {
+	'en':    "Next Stop:",
+	'en-PT': "Avast, ye be comin' up on:",
+};
 
+var thebar = {
+	'en':    "The Bar",
+	'en-PT': "Th' Tavern"
+};
+
+
+function GameDetails(_, _, mapname, _, _, _, _, lang) {
 	switch (mapname) {
 		case "jazz_bar":
 		case "jazz_outro":
@@ -22,7 +24,6 @@ function GameDetails(_, _, mapname, _, _, _, _, lang) {
 	document.getElementById("nextstop").textContent = nextstop[lang] || nextstop['en'];
 	document.getElementById("mapname").textContent = mapname;
 }
-
 
 var params = new URLSearchParams(window.location.search)
 if (params.has('debug')) {

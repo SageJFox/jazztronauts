@@ -2,8 +2,10 @@ const trolleyZ = Number( window.getComputedStyle(document.getElementById("trolle
 const scrollers = document.getElementById("scrollers")
 
 function makeScroller(className = "") {
-	const tag = document.createElement("img");
+	const tag = document.createElement("div");
 	if (className) tag.className = className;
+	tag.appendChild( document.createElement("img") );
+
 	scrollers.appendChild(tag);
 	return tag;
 }
@@ -36,7 +38,7 @@ function setScroller(tag, img = "", backimg = img) {
 	// larger ones are closer, show back if in front of trolley
 	tag.style.zIndex = Math.round(height * (1 + boost));
 	let near = tag.style.zIndex >= trolleyZ
-	tag.src = "images/" + (near ? backimg : img)
+	tag.firstChild.src = "images/" + (near ? backimg : img)
 
 	// very close ones get blurry
 	let blur = Math.floor(Math.abs(height - 20 + Math.max(0,tag.style.zIndex - trolleyZ))/10) + boost * 2;
@@ -98,12 +100,20 @@ const anims = [
 	["fly"],
 ]
 
+function RandomFile(count = 1) {
+	for (let i = 0; i < count; i++) {
+		var keys = Object.keys(exts);
+		console.log( DownloadingFile(keys[ keys.length * Math.random() << 0]) );
+	}
+};
+
 function DownloadingFile( filename ) {
 	const ext =  filename.split(".").pop();
 	const icon = exts[ext] || "package.png";
 
-	const img = makeScroller("crispy");
-	const near = setScroller(img, "icons/" + icon)
+	const tag = makeScroller("crispy");
+	const near = setScroller(tag, "icons/" + icon)
+	const img = tag.firstChild
 
 	const anim = anims[Math.floor(Math.random() * anims.length)]
 
@@ -112,14 +122,15 @@ function DownloadingFile( filename ) {
 		animname = near ? "flyin" : "flyout"
 	}
 
-	// unfortunate string concatenation disaster to allow multiple animations
-	img.style.animationName += ", " + animname
-	if (anim[1]) img.style.animationDuration += ", " + anim[1] * Math.random() + "s"
-	if (anim[2]) img.style.animationTimingFunction = "linear, " + anim[2]
-	if (anim[3]) img.style.animationDirection = anim[3]
+	img.style.animationName = animname
+	if (anim[1]) img.style.animationDuration = anim[1] * Math.random() + "s"
+	img.style.animationTimingFunction = anim[2]
+	img.style.animationDirection = anim[3]
 
 	// remove it once it goes offscreen
-	img.addEventListener("animationend", function (anim) {
-		if (anim == "scrollanim") img.remove()
+	tag.addEventListener("animationend", function (anim) {
+		if (anim.animationName == "scrollanim") tag.remove()
 	});
+
+	return `${filename}, ${icon}, ${animname}`
 }
