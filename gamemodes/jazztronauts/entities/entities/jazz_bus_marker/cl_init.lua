@@ -77,8 +77,9 @@ local function renderPlayerBeam(marker, ply)
 
 	if attachIdx > 0 then
 		attach = wep:GetAttachment(attachIdx).Pos -- World model position, at very least
-		if wep:IsCarriedByLocalPlayer() then
-			local attachInfo = ply:GetViewModel():GetAttachment(attachIdx)
+		local vm = ply:GetViewModel()
+		if wep:IsCarriedByLocalPlayer() and IsValid(vm) then
+			local attachInfo = vm:GetAttachment(attachIdx)
 			if attachInfo then attach = attachInfo.Pos end -- View model position
 		end
 	end
