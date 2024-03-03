@@ -54,7 +54,7 @@ SWEP.TeleportDistance		= DefaultTeleportDistance
 SWEP.ProngCount				= DefaultProngCount
 SWEP.SpeedRate				= DefaultSpeed
 SWEP.TopSpeed				= 2000
-SWEP.TeleportDestinations	= false
+SWEP.TeleportLockOnLevel	= 0
 SWEP.TeleportDestTarget		= nil
 
 
@@ -79,12 +79,16 @@ local storeSpeed = jstore.RegisterSeries("stan_speed", 1000, 10, {
 	type = "upgrade",
 	priceMultiplier = 2,
 })
-local storeTeleport = jstore.Register("stan_teleport", 25000, {
+local storeTeleport = jstore.RegisterSeries("stan_teleport", 25000, 2, {
 	name = jazzloc.Localize("jazz.weapon.stan.upgrade.teleport"),
 	--cat = jazzloc.Localize("jazz.weapon.stan"),
-	desc = jazzloc.Localize("jazz.weapon.stan.upgrade.teleport.desc"),
+	requires = storeStan,
+	desc = function(num)
+		local num = num or 1
+		return jazzloc.Localize( "jazz.weapon.stan.upgrade.teleport.desc" .. tostring(num) )
+	end,
 	type = "upgrade",
-	requires = storeStan
+	priceMultiplier = 10,
 })
 
 if CLIENT then
@@ -107,7 +111,7 @@ if CLIENT then
 
 	function stanmarkerspin(self, scrpos, visible)
 		self.transcribed = self.transcribed or {}
-		local text = self.label or ""
+		local text = jazzloc.Localize(self.label) or ""
 		local fadein = isnumber(self.starttime) and math.min(1,(CurTime() - self.starttime) / 2) or 1 --we're always visible, so fade in over 2 seconds instead
 		if fadein < 0.01 then table.Empty(self.transcribed) end
 
@@ -175,7 +179,7 @@ net.Receive("JazzStanTeleportDestTarget",function(len,ply)
 	local teleportdesttarget = net.ReadEntity()
 	if not IsValid(self) then return end
 	local owner = self:GetOwner()
-	if IsValid(owner) and self.TeleportDestinations then
+	if IsValid(owner) and self.TeleportLockOnLevel > 0 then
 		--clear the effects for the old one
 		if CLIENT then
 			if IsValid(self.TeleportDestTarget) and worldmarker.markers[self.TeleportDestTarget] then
@@ -235,10 +239,10 @@ function SWEP:SetUpgrades()
 	local speedLevel = jstore.GetSeries(owner, storeSpeed)
 	self.SpeedRate = DefaultSpeed + speedLevel * 300
 
-	self.TeleportDestinations = unlocks.IsUnlocked("store", owner, storeTeleport)
+	self.TeleportLockOnLevel = jstore.GetSeries(owner, storeTeleport)
 
 	-- # of skulls == # of upgrades
-	self.ProngCount = DefaultProngCount + rangeLevel + speedLevel + ( self.TeleportDestinations and 1 or 0 )
+	self.ProngCount = DefaultProngCount + rangeLevel + speedLevel + self.TeleportLockOnLevel
 end
 
 function SWEP:SetupDataTables()
@@ -258,9 +262,10 @@ function SWEP:Deploy()
 	end
 
 	--make/update markers for all info_teleport_destinations
-	if CLIENT and self.TeleportDestinations then
+	if CLIENT and self.TeleportLockOnLevel > 0 then
 		local teledests = ents.FindByClass( "jazz_stanteleportmarker" )
 		for _, v in ipairs(teledests) do
+			if v:GetLevel() > self.TeleportLockOnLevel then continue end
 			local istarget = v == self.TeleportDestTarget
 			worldmarker.Register(v, teleMarker, 20, true)
 			worldmarker.markers[v].label = v:GetDestinationName()
@@ -300,10 +305,11 @@ end
 
 function SWEP:SecondaryAttack()
 	if CLIENT then
-		if not self.TeleportDestinations then return end
+		if self.TeleportLockOnLevel < 1 then return end
 		local owner = self:GetOwner()
 		if not owner then return end
 		for _, v in ipairs(ents.FindByClass("jazz_stanteleportmarker")) do
+			if v:GetLevel() > self.TeleportLockOnLevel then continue end
 			local screenloc = v:GetPos()
 			screenloc:Add(markerAdjust)
 			local telemark = screenloc:ToScreen()
@@ -380,7 +386,7 @@ end
 local shiver = {}
 local MatFlare = Material("effects/blueflare1")
 local MaxPerRing = 7
-local checkRings = function(self) return math.Round(newring:GetFloat()) == 0 or (math.Round(newring:GetFloat()) == 2 and not self.TeleportDestinations) end
+local checkRings = function(self) return math.Round(newring:GetFloat()) == 0 or (math.Round(newring:GetFloat()) == 2 and self.TeleportLockOnLevel < 1) end
 
 function SWEP:PostDrawViewModel(viewmodel, weapon, ply)
 
@@ -815,9 +821,10 @@ function SWEP:Teleport()
 			if IsValid(target) then
 				--make sure that there's room at the destination
 				if self:TestPlayerLocation(target:GetPos()) or
-					target:GetClass() == "info_teleport_destination" then --sometimes the location check fails, but if it's one of these it should be valid anyway
-					owner:SetPos( target:GetPos() )
-					self:TeleportFX(owner)
+					target:GetClass() == "info_teleport_destination" or --sometimes the location check fails, but if it's one of these it should be valid anyway
+					self.TeleportDestTarget:GetLevel() > 1 then --these are spawns and sky_camera, both of which should just be clear
+						owner:SetPos( target:GetPos() )
+						self:TeleportFX(owner)
 				end
 				if self.TeleportDestTarget:GetDucked() then --let the entity handle this for us
 					target:Fire("TeleportEntity","!activator",0,owner,self)
@@ -1007,4 +1014,4 @@ function SWEP:ShootEffects()
 
 end
 
-function SWEP:CanSecondaryAttack() return self.TeleportDestinations end
+function SWEP:CanSecondaryAttack() return self.TeleportLockOnLevel end

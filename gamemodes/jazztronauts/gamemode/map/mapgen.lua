@@ -328,30 +328,41 @@ if SERVER then
 		"spawn_warcrimes", --TF2 Hell end of round losers
 	}
 
-	local function CreateMarker(ent)
+	local function CreateMarker(ent,level)
+		local level = level or 1
 		local stanmark = ents.Create("jazz_stanteleportmarker")
 		stanmark:SetPos(ent:GetPos())
 		stanmark:Spawn()
 		stanmark:SetDestination(ent)
 		stanmark:SetDestinationName(ent:GetName() or "")
+		stanmark:SetLevel(level)
 		if ent:GetClass() == "point_teleport" then
 			local ducked = tobool(bit.band(ent:GetFlags(),2)) -- Into Duck (episodic)
-			print("Ducked?",ducked)
+			--print("Ducked?",ducked)
 			stanmark:SetDucked(ducked)
 		else
 			stanmark:SetDucked(false)
 		end
+		return stanmark
 	end
 
 	local function getPotentialPlayerPositions()
 		local positions = {}
 
 		-- Spawnpoints
-		for _, pt in pairs(spawnpoints) do
-			for _, v in pairs(ents.FindByClass(pt)) do
+		for _, pt in ipairs(spawnpoints) do
+			for _, v in ipairs(ents.FindByClass(pt)) do
 				positions[#positions + 1] = v:GetPos()
+				local stanmark = CreateMarker(v,2)
+				if stanmark:GetDestinationName() == "" then stanmark:SetDestinationName("spawn") end --using community localization tokens
 			end
 		end
+
+		for _, v in ipairs(ents.FindByClass("sky_camera")) do
+			local stanmark = CreateMarker(v,2)
+			if stanmark:GetDestinationName() == "" then stanmark:SetDestinationName("skybox") end --using community localization tokens
+		end
+
 
 		-- Teleports
 		for name, dest in pairs(teleports) do

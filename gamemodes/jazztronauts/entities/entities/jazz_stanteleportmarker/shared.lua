@@ -10,6 +10,7 @@ function ENT:SetupDataTables()
 	self:NetworkVar( "Bool", 0, "Ducked" ) --should the player teleporting here be ducked?
 	self:NetworkVar( "Entity", 0, "Destination" ) --where the actual teleport is
 	self:NetworkVar( "String", 0, "DestinationName" ) --name of our teleporter entity
+	self:NetworkVar( "Float", 0, "Level" ) --Level required by Upgrade to use
 end
 
 function ENT:Initialize()
