@@ -5,6 +5,7 @@ include("shared.lua")
 
 
 function ENT:Initialize()
+	self:DrawShadow(false)
 	self.BaseClass.Initialize(self)
 end
 

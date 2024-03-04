@@ -14,7 +14,7 @@ local funnydraw = GetConVar("r_drawtranslucentworld")
 
 ENT.SpawnScale = 0
 function ENT:Initialize()
-
+	self:DrawShadow(false)
 end
 
 
@@ -177,7 +177,7 @@ hook.Add( "PostDrawHUD", "JazzDrawBusMarker", function()
 
 			//Draw hint to hold mouse1 while hovered
 			if isLookNotHold then
-				draw.DrawText("HOLD MOUSE", "JazzMouseHint", x, y + radius - ScreenScale(4), Color(255, 247, 114, 255), TEXT_ALIGN_CENTER)
+				draw.DrawText(string.upper(jazzloc.Localize("jazz.weapon.buscaller.holdhint",jazzloc.Localize(input.LookupBinding("+attack")))), "JazzMouseHint", x, y + radius - ScreenScale(4), Color(255, 247, 114, 255), TEXT_ALIGN_CENTER)
 			end
 
 			//draw.DrawText(tostring(v:GetSpawnPercent()), nil, x, y)
