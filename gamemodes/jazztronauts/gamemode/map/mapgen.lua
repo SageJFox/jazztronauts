@@ -280,18 +280,22 @@ if SERVER then
 
 	local spawnpoints = {
 		"info_player_start",
+		"gmod_player_start",
+		--HL2:DM
 		"info_player_deathmatch",
 		"info_player_rebel",
-
+		"info_player_combine",
+		--CS:S
 		"info_player_counterterrorist",
 		"info_player_terrorist",
-
+		--DoD:S
 		"info_player_axis",
 		"info_player_allies",
-
-		"gmod_player_start",
-
+		--TF2
 		"info_player_teamspawn",
+		--Portal 2
+		"info_coop_spawn",
+		--misc.
 		"ins_spawnpoint",
 		"aoc_spawnpoint",
 		"dys_spawn_point",
@@ -306,7 +310,11 @@ if SERVER then
 		"info_player_human",
 		"info_player_zombie",
 		"info_player_zombiemaster",
+		--L4D/2
 		"info_survivor_position",
+		--Black Mesa
+		--"info_player_scientist",
+		--"info_player_marine",
 	}
 
 	-- Entities that facilitate transporting players
@@ -328,13 +336,16 @@ if SERVER then
 		"spawn_warcrimes", --TF2 Hell end of round losers
 	}
 
-	local function CreateMarker(ent,level)
+	local initialStanDestSpawned = false
+
+	local function CreateMarker(ent,level,defaultName)
 		local level = level or 1
+		local defaultName = defaultName or ""
 		local stanmark = ents.Create("jazz_stanteleportmarker")
 		stanmark:SetPos(ent:GetPos())
 		stanmark:Spawn()
 		stanmark:SetDestination(ent)
-		stanmark:SetDestinationName(ent:GetName() or "")
+		stanmark:SetDestinationName(ent:GetName() ~= "" and ent:GetName() or defaultName)
 		stanmark:SetLevel(level)
 		if ent:GetClass() == "point_teleport" then
 			local ducked = tobool(bit.band(ent:GetFlags(),2)) -- Into Duck (episodic)
@@ -353,14 +364,12 @@ if SERVER then
 		for _, pt in ipairs(spawnpoints) do
 			for _, v in ipairs(ents.FindByClass(pt)) do
 				positions[#positions + 1] = v:GetPos()
-				local stanmark = CreateMarker(v,2)
-				if stanmark:GetDestinationName() == "" then stanmark:SetDestinationName("spawn") end --using community localization tokens
+				if not initialStanDestSpawned then CreateMarker(v,2,"spawn") end --using community localization tokens
 			end
 		end
 
 		for _, v in ipairs(ents.FindByClass("sky_camera")) do
-			local stanmark = CreateMarker(v,2)
-			if stanmark:GetDestinationName() == "" then stanmark:SetDestinationName("skybox") end --using community localization tokens
+			if not initialStanDestSpawned then CreateMarker(v,2,"skybox") end --using community localization tokens
 		end
 
 
@@ -399,12 +408,13 @@ if SERVER then
 				destscount = destscount + 1
 			end
 			--create stan markers
-			if table.IsEmpty(ents.FindByClass("jazz_stanteleportmarker")) then --don't rerun this if we've already done it
+			if not initialStanDestSpawned then --don't rerun this if we've already done it
 				dests = table.Flip(dests) --initially built table with values as keys to eliminate potential duplicate entries (if multiple teleporters go to the same destination)
 				for _, v in pairs(dests) do
 					if not IsValid(v) then continue end
 					CreateMarker(v)
 				end
+				initialStanDestSpawned = true
 			end
 		end
 
@@ -414,14 +424,27 @@ if SERVER then
 	local destinations = {
 		"point_teleport",
 		"info_teleport_destination",
-		"info_target"
+		"info_target",
+		--leave this last, with spawns added after!
+		"sky_camera"
 	}
+
+	local level2destnum = #destinations
+
+	table.Add(destinations,spawnpoints)
+
 	--handle teleporters that don't exist when map spawns
 	hook.Add("OnEntityCreated", "JazzStanTeleportMarkers", function(ent)
 		timer.Simple(1,function() --wait a bit so it can initialize
+
 			if not IsValid(ent) then return end
-			for _, v in ipairs(destinations) do
+			--gonna be making a lot of these, no sense going over them for themselves
+			if ent:GetClass() == "jazz_stanteleportmarker" then return end
+
+			for k, v in ipairs(destinations) do
+
 				if ent:GetClass() == v then
+
 					local really = true
 					if ent:GetClass() == "info_target" then
 						really = false
@@ -432,15 +455,21 @@ if SERVER then
 							end
 						end
 					end
+
 					if not really then continue end
 					--make sure we don't have a marker already
 					for _, s in ipairs(ents.FindByClass("jazz_stanteleportmarker")) do
 						if s:GetDestination() == ent then return end
 					end
-					CreateMarker(ent)
+					
+					local level = k >= level2destnum and 2 or 1
+					local name = k >= level2destnum and (k > level2destnum and "spawn" or "skybox") or ""
+					CreateMarker(ent,level,name)
 					return
+
 				end
 			end
+
 		end)
 	end)
 
