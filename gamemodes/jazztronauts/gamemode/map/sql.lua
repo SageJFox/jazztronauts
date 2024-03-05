@@ -4,6 +4,10 @@ CORRUPT_NONE		= 0 -- No black shards spawned
 CORRUPT_SPAWNED	= 1 -- Black shard spawned, not stolen
 CORRUPT_STOLEN		= 2 -- Black shard stolen, map is fully corrupted
 
+local function mapNameCleanup(mapname)
+	return "'" .. string.Replace(mapname,"'","''") .. "'"
+end
+
 -- Stores map generation information about a specific map
 jsql.Register("jazz_mapgen",
 [[
@@ -44,6 +48,21 @@ jsql.Register("jazz_hubprops",
 	toy BOOL NOT NULL DEFAULT 0
 ]])
 
+-- Map chain multiplier
+jsql.Register("jazz_deepdive",
+[[
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	filename VARCHAR(128) UNIQUE NOT NULL
+]])
+
+-- Map chain multiplier manager
+jsql.Register("jazz_deepdive_next",
+[[
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	filename VARCHAR(128) UNIQUE NOT NULL,
+	unlocked BOOL NOT NULL DEFAULT 0
+]])
+
 function Reset()
 	jsql.Reset()
 end
@@ -58,7 +77,7 @@ end
 
 function GetMap(mapname)
 	local chkstr = "SELECT * FROM jazz_mapgen WHERE " ..
-		string.format("filename='%s'", string.Replace(mapname,"'","''"))
+		string.format( "filename=%s", mapNameCleanup(mapname) )
 
 	local res = Query(chkstr)
 
@@ -85,11 +104,11 @@ function StoreMap(mapname, wsid, seed)
 	wsid = wsid or 0
 
 	local insrt = "INSERT INTO jazz_mapgen (filename, wsid, seed)" ..
-		string.format("VALUES ( '%s', %s, %s) ", string.Replace(mapname,"'","''"), wsid, seed)
+		string.format("VALUES ( %s, %s, %s) ", mapNameCleanup(mapname), wsid, seed)
 
 	local update = "UPDATE jazz_mapgen " ..
 		string.format("SET wsid=%s, seed=%s ", wsid, seed) ..
-		string.format("WHERE filename='%s'", string.Replace(mapname,"'","''"))
+		string.format("WHERE filename=%s", mapNameCleanup(mapname))
 
 	local map = GetMap(mapname)
 	return Query(map != nil and update or insrt) != false
@@ -176,7 +195,7 @@ function GetMapShards(mapname)
 	mapname = mapname and string.lower(mapname)
 	local chkstr = "SELECT * FROM jazz_mapgen " ..
 		"INNER JOIN jazz_mapshards ON jazz_mapgen.id = jazz_mapshards.mapid " ..
-		(mapname and "WHERE " .. string.format("filename='%s' ", string.Replace(mapname,"'","''")) or "") ..
+		(mapname and "WHERE " .. string.format("filename=%s ", mapNameCleanup(mapname)) or "") ..
 		"ORDER BY jazz_mapshards.id ASC"
 
 	return Query(chkstr) or {}
@@ -188,7 +207,7 @@ function GetMapShardCount(mapname)
 
 	local chkstr = "SELECT SUM(collected) as collected, COUNT(*) as total FROM jazz_mapgen " ..
 		"INNER JOIN jazz_mapshards ON jazz_mapgen.id = jazz_mapshards.mapid " ..
-		(mapname and "WHERE " .. string.format("filename='%s' ", string.Replace(mapname,"'","''")) or "") ..
+		(mapname and "WHERE " .. string.format("filename=%s ", mapNameCleanup(mapname)) or "") ..
 		"ORDER BY jazz_mapshards.id ASC"
 
 	local res = Query(chkstr)
@@ -237,7 +256,7 @@ function SetCorrupted(mapname, state)
 
 	local update = "UPDATE jazz_mapgen " ..
 		string.format("SET corrupt=%d ", state) ..
-		string.format("WHERE filename='%s'", string.Replace(mapname,"'","''"))
+		string.format("WHERE filename=%s", mapNameCleanup(mapname))
 
 	return Query(update) != false
 end
@@ -288,4 +307,107 @@ function LoadHubPropData()
 	end
 
 	return res
+end
+
+--deepdive functions (yes I'm just taking the internal name from DRG, it's a good game)
+
+--call when deep dive has been ended (returned to hub or a new, non-sequential map has been put into the server. Store data in case session is interrupted but verify we're on that map again)
+function EndDeepDive()
+	Query("DROP TABLE jazz_deepdive")
+	Query("DROP TABLE jazz_deepdive_next")
+end
+
+--deep dive multiplier, added to NG+ multiplier (every map technically starts as a deep dive of 1)
+local multiplier = 1
+
+if SERVER then
+
+	util.AddNetworkString( "JazzDeepDiveMultiplier" )
+
+	function DeepDiveMultiplier()
+		local res = Query("SELECT COUNT(id) FROM jazz_deepdive")
+		multiplier = res and math.max( 1, res[1]["COUNT(id)"]) or 1
+
+		net.Start( "JazzDeepDiveMultiplier" )
+			net.WriteUInt( multiplier, 8 ) --up to 255 maps
+		net.Broadcast()
+		print(multiplier)
+		return multiplier
+	end
+
+else
+
+	net.Receive( "JazzDeepDiveMultiplier", function( len, ply )
+		multiplier = net.ReadUInt(8)
+	end )
+	function DeepDiveMultiplier()
+		print(multiplier)
+		return multiplier
+	end
+
+end
+
+--figure out which maps we're allowed to go to to keep our multiplier up
+function DeepDiveGetNextMaps(unlock)
+	local unlock = unlock
+	if unlock ~= nil then unlock = unlock and "1" or "0" end --allow it to be expressly nil
+
+	local changelevels = ents.FindByClass("*_changelevel")
+	
+	if table.IsEmpty(changelevels) then EndDeepDive() return false end --there's no chain of maps here, we can't dive deep
+
+	--first things first, add this map to the table and unlock it (if the server goes down we wanna be able to continue a deep dive from this map, at minimum)
+	local insrt = "INSERT INTO jazz_deepdive_next (filename,unlocked) " ..
+					string.format("VALUES (%s,%s)",mapNameCleanup(game.GetMap()),unlock or "1")
+	if not Query(insrt) and unlock then
+		Query("UPDATE jazz_deepdive_next SET unlocked = " .. unlock .. " WHERE filename = " .. mapNameCleanup(game.GetMap()))
+	end
+
+	for _, v in ipairs(changelevels) do
+
+		local mapname = string.Trim( utf8.char( unpack( v:GetInternalVariable( "m_szMapName" ) ) ), "\0" ) --*God*
+		--MsgC(Color(0,255,0),mapname,"\n")
+		if not isstring(mapname) or mapname == "" then return false end
+
+		insrt = "INSERT INTO jazz_deepdive_next (filename) " ..
+				string.format( "VALUES (%s)", mapNameCleanup(mapname) )
+
+		Query(insrt)
+
+	end
+
+	return true
+
+end
+
+--call on map load
+function DeepDiveMapLoad()
+	--don't bother in hub, etc.
+	if mapcontrol.IsInGamemodeMap() then EndDeepDive() return end
+
+	local mapname = game.GetMap()
+
+	--first, check to make sure that we're allowed to be here
+	local tried = Query("SELECT unlocked FROM jazz_deepdive_next WHERE filename = " .. mapNameCleanup(mapname))
+	if not tried or not tobool( tried[1].unlocked ) then EndDeepDive() end
+
+	--clear previous map's next table and setup ours
+	--Query("TRUNCATE TABLE jazz_deepdive_next") --eh, probably works better for our logic to leave the old table (if they wanna revisit old maps in the chain, let'em)
+	DeepDiveGetNextMaps(true)
+
+	--add this map to the deepdive list
+	local insrt = "INSERT INTO jazz_deepdive (filename) " ..
+	string.format( "VALUES (%s)", mapNameCleanup(mapname) )
+
+	Query(insrt)
+
+end
+
+hook.Add( "InitPostEntity", "JazzDeepDive", function()
+	DeepDiveMapLoad()
+end )
+
+--trolley has locked onto our map change, let this map continue our deep dive
+function DeepDiveSetNext(mapname)
+	Query("UPDATE jazz_deepdive_next SET unlocked = 1 WHERE filename = " .. mapNameCleanup(mapname))
 end
