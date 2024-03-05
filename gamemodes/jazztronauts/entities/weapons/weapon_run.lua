@@ -83,37 +83,31 @@ local run_propbump = jstore.RegisterSeries("run_propbump", 15000, 6, {
 	priceMultiplier = 1.1,
 })
 
+--haha just kidding what if these chargesound functions don't work on the client on the first life
 function SWEP:PlayChargeSound(pitch)
+	
+	if SERVER then return end
 
-	if CLIENT then return end
-
+	self.ChargeSound:Play()
+	self.ChargeSound:ChangeVolume(1)
 	local pitch = pitch or 100
 
-	if not self.ChargeSound then
-		local rf = RecipientFilter()
-		rf:AddPlayer(self:GetOwner())
-		self.ChargeSound = CreateSound(self, self.JumpChargeSound, rf)
-		self.ChargeSound:SetSoundLevel(75)
-		self.ChargeSound:Play()
-		self.ChargeSound:ChangeVolume(1)
-	end
-	if self.ChargeSound then
-		self.ChargeSound:ChangePitch(pitch)
-	end
+	self.ChargeSound:ChangePitch(pitch)
 
 end
 
 function SWEP:StopChargeSound()
-	if self.ChargeSound then
-		self.ChargeSound:Stop()
-		self.ChargeSound = nil
-	end
+	
+	if SERVER then return end
+	self.ChargeSound:ChangePitch(70)
+	self.ChargeSound:Stop()
 end
 
 function SWEP:Initialize()
 
 	self.BaseClass.Initialize( self )
 	self:SetWeaponHoldType( self.HoldType )
+	self.ChargeSound = CreateSound( self, self.JumpChargeSound )
 
 	self.LastThink = CurTime()
 	self.JumpMultiplier	= 1
@@ -174,6 +168,9 @@ function SWEP:Deploy()
 			self:SetOldWalkSpeed( owner:GetWalkSpeed() )
 			self:SetOldJumpPower( owner:GetJumpPower() )
 		end
+	else
+		self.ChargeSound:SetSoundLevel(75)
+		self.ChargeSound:ChangePitch(70)
 	end
 
 	self.JumpMultiplier	= 1
@@ -186,12 +183,14 @@ function SWEP:Deploy()
 end
 
 function SWEP:Cleanup()
+
 	local owner = self:GetOwner()
 	if SERVER and self:GetOldRunSpeed() ~= 0 and IsValid(owner) then
 		owner:SetRunSpeed( self:GetOldRunSpeed() )
 		owner:SetWalkSpeed( self:GetOldWalkSpeed() )
 		owner:SetJumpPower( self:GetOldJumpPower() )
 	end
+	
 	if CLIENT and IsValid(owner) then
 		--clean up posing
 		local arm_right = owner:LookupBone( "ValveBiped.Bip01_R_UpperArm" )
@@ -213,8 +212,13 @@ function SWEP:Cleanup()
 		if spine then
 			owner:ManipulateBoneAngles( spine, angle_zero )
 		end
+
 	end
-	self:StopChargeSound()
+
+	--self:StopChargeSound()
+	self.ChargeSound:ChangePitch(70)
+	self.ChargeSound:Stop()
+
 end
 
 function SWEP:DrawWorldModel()
@@ -312,7 +316,10 @@ function SWEP:Think()
 				if self.CrouchTime < 0 then
 					--print("crouching at "..tostring(CurTime()))
 					self.CrouchTime = CurTime()
-					self:PlayChargeSound(math.Remap(self.JumpMultiplier,1,3,70,150))
+					--self:PlayChargeSound(math.Remap(self.JumpMultiplier,1,3,70,150))
+					self.ChargeSound:Play()
+					self.ChargeSound:ChangeVolume(1)
+					self.ChargeSound:ChangePitch(math.Remap(self.JumpMultiplier,1,3,70,150))
 				end
 			else
 				--if self.CrouchTime > 0 then print("uncrouch") end
@@ -324,7 +331,10 @@ function SWEP:Think()
 				else
 					self.JumpMultiplier = 3
 				end
-				self:PlayChargeSound(math.Remap(self.JumpMultiplier,1,3,70,150))
+				--self:PlayChargeSound(math.Remap(self.JumpMultiplier,1,3,70,150))
+				self.ChargeSound:Play()
+				self.ChargeSound:ChangeVolume(1)
+				self.ChargeSound:ChangePitch(math.Remap(self.JumpMultiplier,1,3,70,150))
 			end
 			--drain full jump power with movement
 			if not owner:Crouching() or owner:KeyDown(IN_FORWARD) or owner:KeyDown(IN_BACK) or owner:KeyDown(IN_MOVELEFT) or owner:KeyDown(IN_MOVERIGHT) then
@@ -335,8 +345,10 @@ function SWEP:Think()
 				self.JumpMultiplier = math.max(1,self.JumpMultiplier - (CurTime() - self.LastThink) * 2)
 			end
 
-			if self.CrouchTime < 0 or self.JumpMultiplier <= 1 or owner:InVehicle() then
-				self:StopChargeSound()
+			if self.CrouchTime < 0 or self.JumpMultiplier <= 1 or owner:InVehicle() or not owner:Alive() then
+				--self:StopChargeSound()
+				self.ChargeSound:ChangePitch(70)
+				self.ChargeSound:Stop()
 			end
 		end
 		local runspeed = (self:GetWalkingToggle() ~= owner:KeyDown(IN_SPEED)) and self:GetOldWalkSpeed() or 800 --let player hold sprint to go at regular speed
