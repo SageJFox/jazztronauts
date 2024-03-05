@@ -265,7 +265,7 @@ function SWEP:Deploy()
 	if CLIENT and self.TeleportLockOnLevel > 0 then
 		local teledests = ents.FindByClass( "jazz_stanteleportmarker" )
 		for _, v in ipairs(teledests) do
-			if v:GetLevel() > self.TeleportLockOnLevel then continue end
+			if v:GetLevel() > self.TeleportLockOnLevel or v:GetBusMarker() then continue end
 			local istarget = v == self.TeleportDestTarget
 			worldmarker.Register(v, teleMarker, 20, true)
 			worldmarker.markers[v].label = v:GetDestinationName()
@@ -309,7 +309,7 @@ function SWEP:SecondaryAttack()
 		local owner = self:GetOwner()
 		if not owner then return end
 		for _, v in ipairs(ents.FindByClass("jazz_stanteleportmarker")) do
-			if v:GetLevel() > self.TeleportLockOnLevel then continue end
+			if v:GetLevel() > self.TeleportLockOnLevel or v:GetBusMarker() then continue end
 			local screenloc = v:GetPos()
 			screenloc:Add(markerAdjust)
 			local telemark = screenloc:ToScreen()
@@ -365,6 +365,7 @@ function SWEP:Cleanup()
 
 		local teledests = ents.FindByClass( "jazz_stanteleportmarker" )
 		for _, v in ipairs(teledests) do
+			if v:GetBusMarker() then continue end
 			if worldmarker.markers[v] then
 				--if v ~= self.TeleportDestTarget or not IsValid(self:GetOwner()) or not self:GetOwner():Alive() then
 					worldmarker.SetEnabled(v,false)

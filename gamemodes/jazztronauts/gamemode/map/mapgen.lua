@@ -347,6 +347,7 @@ if SERVER then
 		stanmark:SetDestination(ent)
 		stanmark:SetDestinationName(ent:GetName() ~= "" and ent:GetName() or defaultName)
 		stanmark:SetLevel(level)
+		stanmark:SetBusMarker(false)
 		if ent:GetClass() == "point_teleport" then
 			local ducked = tobool(bit.band(ent:GetFlags(),2)) -- Into Duck (episodic)
 			--print("Ducked?",ducked)
