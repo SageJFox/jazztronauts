@@ -70,7 +70,7 @@ end
 
 -- Get the current active money multiplier
 function GetMultiplier()
-	return GetResetCount() + 1
+	return GetResetCount() + ( progress and progress.DeepDiveMultiplier() or 1 ) --todo: no progress on client
 end
 
 -- Get the global state table
