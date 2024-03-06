@@ -246,6 +246,7 @@ function CollectShard(mapname, shardid, ply)
 			string.format("AND id='%d'", shardid)
 
 	if Query(altr) != false then
+		DeepDiveCheckTotals(true)
 		return GetMapShards(mapname)
 	end
 end
@@ -313,38 +314,18 @@ end
 
 --call when deep dive has been ended (returned to hub or a new, non-sequential map has been put into the server. Store data in case session is interrupted but verify we're on that map again)
 function EndDeepDive()
-	Query("DROP TABLE jazz_deepdive")
-	Query("DROP TABLE jazz_deepdive_next")
+	Query("DROP TABLE jazz_deepdive;" ..
+		"DROP TABLE jazz_deepdive_next")
 end
 
 --deep dive multiplier, added to NG+ multiplier (every map technically starts as a deep dive of 1)
 local multiplier = 1
 
-if SERVER then
+function DeepDiveMultiplier()
+	local res = Query("SELECT COUNT(id) FROM jazz_deepdive")
+	multiplier = type(res) == "table" and math.max( 1, res[1]["COUNT(id)"]) or 1
 
-	util.AddNetworkString( "JazzDeepDiveMultiplier" )
-
-	function DeepDiveMultiplier()
-		local res = Query("SELECT COUNT(id) FROM jazz_deepdive")
-		multiplier = res and math.max( 1, res[1]["COUNT(id)"]) or 1
-
-		net.Start( "JazzDeepDiveMultiplier" )
-			net.WriteUInt( multiplier, 8 ) --up to 255 maps
-		net.Broadcast()
-		print(multiplier)
-		return multiplier
-	end
-
-else
-
-	net.Receive( "JazzDeepDiveMultiplier", function( len, ply )
-		multiplier = net.ReadUInt(8)
-	end )
-	function DeepDiveMultiplier()
-		print(multiplier)
-		return multiplier
-	end
-
+	return multiplier
 end
 
 --figure out which maps we're allowed to go to to keep our multiplier up
@@ -389,7 +370,7 @@ function DeepDiveMapLoad()
 
 	--first, check to make sure that we're allowed to be here
 	local tried = Query("SELECT unlocked FROM jazz_deepdive_next WHERE filename = " .. mapNameCleanup(mapname))
-	if not tried or not tobool( tried[1].unlocked ) then EndDeepDive() end
+	if type(tried) ~= "table" or not tobool( tried[1].unlocked ) then EndDeepDive() end
 
 	--clear previous map's next table and setup ours
 	--Query("TRUNCATE TABLE jazz_deepdive_next") --eh, probably works better for our logic to leave the old table (if they wanna revisit old maps in the chain, let'em)
@@ -405,9 +386,48 @@ end
 
 hook.Add( "InitPostEntity", "JazzDeepDive", function()
 	DeepDiveMapLoad()
+	timer.Simple(30,function()
+		local c,t = DeepDiveCheckTotals(true)
+		print("REALM")
+		MsgC(Color(72,224,128),"Shards this chain: " .. tostring(c) .. "/" .. tostring(t) .."\n")
+	end)
 end )
+
+deepdivecollected, deepdivetotal = 0, 0
+
+--get the total number of collected shards for this dive and the max shards it could be
+--(this isn't gonna update terribly often compared to how often we'd be grabbing it so make the option to use cached results)
+function DeepDiveCheckTotals(update)
+
+	if update then
+
+		local maps = Query("SELECT * FROM jazz_deepdive")
+		if type(maps) ~= "table" then return 0, 1 end
+
+		deepdivecollected, deepdivetotal = 0, 0
+
+		for _, v in ipairs(maps) do
+
+			local collectedMap, totalMap = GetMapShardCount(string.lower(v.filename))
+			if collectedMap and totalMap then
+				deepdivecollected = deepdivecollected + collectedMap
+				deepdivetotal = deepdivetotal + totalMap
+			end
+
+		end
+
+	end
+	return deepdivecollected, deepdivetotal
+end
 
 --trolley has locked onto our map change, let this map continue our deep dive
 function DeepDiveSetNext(mapname)
 	Query("UPDATE jazz_deepdive_next SET unlocked = 1 WHERE filename = " .. mapNameCleanup(mapname))
 end
+
+concommand.Add("jazz_debug_addtodeepdive",
+	function(ply,cmd,args,argStr)
+		DeepDiveSetNext(args[1])
+	end,
+	function(cmd,args) return end,
+	"Enable a map to continue our deep dive")

@@ -273,12 +273,11 @@ end
 function GM:CollectShard(shard, ply)
 	local left, total = mapgen.CollectShard(ply, shard)
 	if not left then return false end
-
 	-- Go you
 	ply:ChangeNotes(shard.JazzWorth * newgame.GetMultiplier())
 
 	net.Start("shard_notify")
-	net.WriteEntity( ply )
+		net.WriteEntity( ply )
 	net.Broadcast()
 
 end
