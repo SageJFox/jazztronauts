@@ -49,14 +49,14 @@ jsql.Register("jazz_hubprops",
 ]])
 
 -- Map chain multiplier
-jsql.Register("jazz_deepdive",
+jsql.Register("jazz_roadtrip",
 [[
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	filename VARCHAR(128) UNIQUE NOT NULL
 ]])
 
 -- Map chain multiplier manager
-jsql.Register("jazz_deepdive_next",
+jsql.Register("jazz_roadtrip_next",
 [[
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	filename VARCHAR(128) UNIQUE NOT NULL,
@@ -246,7 +246,7 @@ function CollectShard(mapname, shardid, ply)
 			string.format("AND id='%d'", shardid)
 
 	if Query(altr) != false then
-		DeepDiveCheckTotals(true)
+		RoadtripCheckTotals(true)
 		return GetMapShards(mapname)
 	end
 end
@@ -310,38 +310,56 @@ function LoadHubPropData()
 	return res
 end
 
---deepdive functions (yes I'm just taking the internal name from DRG, it's a good game)
+--roadtrip functions
 
---call when deep dive has been ended (returned to hub or a new, non-sequential map has been put into the server. Store data in case session is interrupted but verify we're on that map again)
-function EndDeepDive()
-	Query("DROP TABLE jazz_deepdive;" ..
-		"DROP TABLE jazz_deepdive_next")
+--call when roadtrip has been ended (returned to hub or a new, non-sequential map has been put into the server. Store data in case session is interrupted but verify we're on that map again)
+function EndRoadtrip()
+	Query("DROP TABLE jazz_roadtrip;" ..
+		"DROP TABLE jazz_roadtrip_next")
 end
 
---deep dive multiplier, added to NG+ multiplier (every map technically starts as a deep dive of 1)
+--roadtrip multiplier, added to NG+ multiplier (every map technically starts as a roadtrip of 1)
 local multiplier = 1
 
-function DeepDiveMultiplier()
-	local res = Query("SELECT COUNT(id) FROM jazz_deepdive")
-	multiplier = type(res) == "table" and math.max( 1, res[1]["COUNT(id)"]) or 1
+function RoadtripMultiplier()
+	--old method, just 1 from each map
+	--local res = Query("SELECT COUNT(id) FROM jazz_roadtrip")
+	--multiplier = type(res) == "table" and math.max( 1, res[1]["COUNT(id)"]) or 1
 
-	return multiplier
+	--new method. Each map adds up to +1 for the number of shards the player's grabbed
+	--multiplier can't go below 1
+
+	local maps = Query("SELECT * FROM jazz_roadtrip")
+	if type(maps) ~= "table" then return 1 end
+
+	multiplier = 0
+
+	for _, v in ipairs(maps) do
+
+		local collectedMap, totalMap = GetMapShardCount(string.lower(v.filename))
+		if collectedMap and totalMap and totalMap ~= 0 then
+			multiplier = multiplier + collectedMap / totalMap
+		end
+
+	end
+
+	return math.max(1, multiplier)
 end
 
 --figure out which maps we're allowed to go to to keep our multiplier up
-function DeepDiveGetNextMaps(unlock)
+function RoadtripGetNextMaps(unlock)
 	local unlock = unlock
 	if unlock ~= nil then unlock = unlock and "1" or "0" end --allow it to be expressly nil
 
 	local changelevels = ents.FindByClass("*_changelevel")
 	
-	if table.IsEmpty(changelevels) then EndDeepDive() return false end --there's no chain of maps here, we can't dive deep
+	if table.IsEmpty(changelevels) then EndRoadtrip() return false end --there's no chain of maps here, we can't do a roadtrip
 
-	--first things first, add this map to the table and unlock it (if the server goes down we wanna be able to continue a deep dive from this map, at minimum)
-	local insrt = "INSERT INTO jazz_deepdive_next (filename,unlocked) " ..
+	--first things first, add this map to the table and unlock it (if the server goes down we wanna be able to continue a roadtrip from this map, at minimum)
+	local insrt = "INSERT INTO jazz_roadtrip_next (filename,unlocked) " ..
 					string.format("VALUES (%s,%s)",mapNameCleanup(game.GetMap()),unlock or "1")
 	if not Query(insrt) and unlock then
-		Query("UPDATE jazz_deepdive_next SET unlocked = " .. unlock .. " WHERE filename = " .. mapNameCleanup(game.GetMap()))
+		Query("UPDATE jazz_roadtrip_next SET unlocked = " .. unlock .. " WHERE filename = " .. mapNameCleanup(game.GetMap()))
 	end
 
 	for _, v in ipairs(changelevels) do
@@ -350,7 +368,7 @@ function DeepDiveGetNextMaps(unlock)
 		--MsgC(Color(0,255,0),mapname,"\n")
 		if not isstring(mapname) or mapname == "" then return false end
 
-		insrt = "INSERT INTO jazz_deepdive_next (filename) " ..
+		insrt = "INSERT INTO jazz_roadtrip_next (filename) " ..
 				string.format( "VALUES (%s)", mapNameCleanup(mapname) )
 
 		Query(insrt)
@@ -362,72 +380,71 @@ function DeepDiveGetNextMaps(unlock)
 end
 
 --call on map load
-function DeepDiveMapLoad()
+function RoadtripMapLoad()
 	--don't bother in hub, etc.
-	if mapcontrol.IsInGamemodeMap() then EndDeepDive() return end
+	if mapcontrol.IsInGamemodeMap() then EndRoadtrip() return end
 
 	local mapname = game.GetMap()
 
 	--first, check to make sure that we're allowed to be here
-	local tried = Query("SELECT unlocked FROM jazz_deepdive_next WHERE filename = " .. mapNameCleanup(mapname))
-	if type(tried) ~= "table" or not tobool( tried[1].unlocked ) then EndDeepDive() end
+	local tried = Query("SELECT unlocked FROM jazz_roadtrip_next WHERE filename = " .. mapNameCleanup(mapname))
+	if type(tried) ~= "table" or not tobool( tried[1].unlocked ) then EndRoadtrip() end
 
 	--clear previous map's next table and setup ours
-	--Query("TRUNCATE TABLE jazz_deepdive_next") --eh, probably works better for our logic to leave the old table (if they wanna revisit old maps in the chain, let'em)
-	DeepDiveGetNextMaps(true)
+	--Query("TRUNCATE TABLE jazz_roadtrip_next") --eh, probably works better for our logic to leave the old table (if they wanna revisit old maps in the chain, let'em)
+	RoadtripGetNextMaps(true)
 
-	--add this map to the deepdive list
-	local insrt = "INSERT INTO jazz_deepdive (filename) " ..
+	--add this map to the roadtrip list
+	local insrt = "INSERT INTO jazz_roadtrip (filename) " ..
 	string.format( "VALUES (%s)", mapNameCleanup(mapname) )
 
 	Query(insrt)
 
 end
 
-hook.Add( "InitPostEntity", "JazzDeepDive", function()
-	DeepDiveMapLoad()
-	timer.Simple(30,function()
-		local c,t = DeepDiveCheckTotals(true)
-		print("REALM")
-		MsgC(Color(72,224,128),"Shards this chain: " .. tostring(c) .. "/" .. tostring(t) .."\n")
-	end)
+hook.Add( "InitPostEntity", "JazzRoadtrip", function()
+	RoadtripMapLoad()
+	--[[timer.Simple(30,function()
+		local c,t = RoadtripCheckTotals(true)
+		MsgC(Color(72,224,128),"Shards this trip: " .. tostring(c) .. "/" .. tostring(t) .."\n")
+	end)]]
 end )
 
-deepdivecollected, deepdivetotal = 0, 0
+roadtripcollected, roadtriptotal = 0, 0
 
---get the total number of collected shards for this dive and the max shards it could be
+--get the total number of collected shards for this trip and the max shards it could be
 --(this isn't gonna update terribly often compared to how often we'd be grabbing it so make the option to use cached results)
-function DeepDiveCheckTotals(update)
+function RoadtripCheckTotals(update)
 
 	if update then
 
-		local maps = Query("SELECT * FROM jazz_deepdive")
+		local maps = Query("SELECT * FROM jazz_roadtrip")
 		if type(maps) ~= "table" then return 0, 1 end
 
-		deepdivecollected, deepdivetotal = 0, 0
+		roadtripcollected, roadtriptotal = 0, 0
 
 		for _, v in ipairs(maps) do
 
 			local collectedMap, totalMap = GetMapShardCount(string.lower(v.filename))
 			if collectedMap and totalMap then
-				deepdivecollected = deepdivecollected + collectedMap
-				deepdivetotal = deepdivetotal + totalMap
+				roadtripcollected = roadtripcollected + collectedMap
+				roadtriptotal = roadtriptotal + totalMap
 			end
 
 		end
 
 	end
-	return deepdivecollected, deepdivetotal
+	return roadtripcollected, roadtriptotal
 end
 
---trolley has locked onto our map change, let this map continue our deep dive
-function DeepDiveSetNext(mapname)
-	Query("UPDATE jazz_deepdive_next SET unlocked = 1 WHERE filename = " .. mapNameCleanup(mapname))
+--trolley has locked onto our map change, let this map continue our roadtrip
+function RoadtripSetNext(mapname)
+	Query("UPDATE jazz_roadtrip_next SET unlocked = 1 WHERE filename = " .. mapNameCleanup(mapname))
 end
 
-concommand.Add("jazz_debug_addtodeepdive",
+concommand.Add("jazz_debug_addtoroadtrip",
 	function(ply,cmd,args,argStr)
-		DeepDiveSetNext(args[1])
+		RoadtripSetNext(args[1])
 	end,
 	function(cmd,args) return end,
-	"Enable a map to continue our deep dive")
+	"Enable a map to continue our roadtrip")

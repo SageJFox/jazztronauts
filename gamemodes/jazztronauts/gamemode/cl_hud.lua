@@ -22,6 +22,7 @@ local moneyFillVelocity = 1 //Amount of money to fill per frame. Adjusted based 
 local lastMoneyCount = -1
 
 local catcoin = Material("materials/ui/jazztronauts/catcoin.png", "smooth")
+local catcoin_silver = Material("materials/ui/jazztronauts/catcoin_silver.png", "smooth")
 
 surface.CreateFont( "JazzNote",
 {
@@ -40,6 +41,13 @@ surface.CreateFont( "JazzNoteMultiplier",
 {
 	font		= "KG Shake it Off Chunky",
 	size		= ScreenScale(12),
+	weight		= 1500,
+	antialias	= true
+})
+surface.CreateFont( "JazzNoteMultiplierExtra",
+{
+	font		= "KG Shake it Off Chunky",
+	size		= ScreenScale(9),
 	weight		= 1500,
 	antialias	= true
 })
@@ -121,7 +129,8 @@ local function DrawNoteCount()
 	end
 
 	-- Current multiplier for all earned money
-	local noteMultiplier = newgame.GetMultiplier()
+	local noteMultiplier = newgame.GetMultiplierBase() + 1
+	local noteMultiplierExtra = newgame.GetMultiplierExtra(true) - 1
 	local finalText = jazzloc.Localize("jazz.hud.money",string.Comma( VisualAmount ))
 
 	surface.SetFont( "JazzNote")
@@ -148,7 +157,7 @@ local function DrawNoteCount()
 		text = "+"
 		color = Color( 0, 255, 0 )
 	end
-	text = text .. tostring( amt - VisualAmount )
+	text = text .. tostring( math.floor( amt - VisualAmount ) )
 
 	if amt - VisualAmount ~= 0 then
 		draw.DrawText( text, "JazzNoteFill", ScrW() - distFromSide, bgHeight + ScreenScale(6), color, TEXT_ALIGN_RIGHT)
@@ -179,13 +188,25 @@ local function DrawNoteCount()
 	surface.SetMaterial(catcoin)
 	surface.DrawTexturedRect(ScrW() - coinDistance, distFromTop, coinSize, coinSize)
 
-	-- Draw extra money multiplier
+	-- Draw money multiplier
 	if noteMultiplier > 1 then
 
 		local multCol = Color(108, 52, 0, math.min( 255, CurAlpha * 1.25)) --250
 		drawTextRotated(noteMultiplier, "JazzNoteMultiplier",
 			ScrW() - coinDistance / 2 - distFromSide, distFromTop + coinSize / 2 - ScreenScale(1),
 			multCol, 0, coinSize/1.3)
+	end
+
+	if noteMultiplierExtra > 0 then
+		--draw silver coin
+		surface.SetDrawColor(255, 255, 255, CurAlpha)
+		surface.SetMaterial(catcoin_silver)
+		surface.DrawTexturedRect(ScrW() - coinDistance * .625, distFromTop * 2.125, coinSize * .75, coinSize * .75)
+
+		multCol = Color(90, 92, 118, math.min( 255, CurAlpha * 1.25)) --250
+		drawTextRotated("+" .. tostring(noteMultiplierExtra), "JazzNoteMultiplierExtra",
+			ScrW() - (coinDistance / 2 + distFromSide) * .625, distFromTop * 2.125 + coinSize * .75 / 2 - ScreenScale(0.75),
+			multCol, 0, coinSize/1.3 * .75)
 	end
 
 end

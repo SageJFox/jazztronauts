@@ -68,32 +68,48 @@ function GetResetCount()
 	return (nettable.Get(nettbl) or {}).resets or 0
 end
 
-if SERVER then util.AddNetworkString("JazzDeepDiveMultiplier") end
+if SERVER then util.AddNetworkString("JazzRoadtripMultiplier") end
 multiplier = 1
 
 -- Get the current active money multiplier
 function GetMultiplier()
 
 	if SERVER then 
-		multiplier = progress.DeepDiveMultiplier()
-		net.Start("JazzDeepDiveMultiplier")
-			net.WriteUInt( multiplier, 8 ) --up to 255 maps
+		multiplier = progress.RoadtripMultiplier()
+		net.Start("JazzRoadtripMultiplier")
+			net.WriteFloat( multiplier )
 		net.Broadcast()
 	end
 	return GetResetCount() + multiplier
 end
 
 if CLIENT then
-	net.Receive("JazzDeepDiveMultiplier",function(len,ply)
-		multiplier = net.ReadUInt(8)
+	net.Receive("JazzRoadtripMultiplier",function(len,ply)
+		multiplier = net.ReadFloat()
 	end)
 end
 
 if SERVER then
 	gameevent.Listen( "OnRequestFullUpdate" )
-	hook.Add( "OnRequestFullUpdate", "JazzDeepDive", function() --get our deep dive status over to the client
-			GetMultiplier()
+	hook.Add( "OnRequestFullUpdate", "JazzRoadtrip", function() --get our roadtrip status over to the client
+		GetMultiplier()
 	end )
+end
+
+-- Get the current active money multiplier base value
+function GetMultiplierBase()
+	return GetResetCount()
+end
+
+-- Get the current active money multiplier extra value
+function GetMultiplierExtra(truncate)
+	local truncate = truncate or false 
+
+	local mult = GetMultiplier() - GetResetCount()
+
+	if truncate then mult = math.Round(mult * 10) / 10 end
+
+	return mult
 end
 
 -- Get the global state table
