@@ -342,6 +342,7 @@ if SERVER then
 		local level = level or 1
 		local defaultName = defaultName or ""
 		local stanmark = ents.Create("jazz_stanteleportmarker")
+		if not IsValid(ent) then return end
 		stanmark:SetPos(ent:GetPos())
 		stanmark:Spawn()
 		stanmark:SetDestination(ent)

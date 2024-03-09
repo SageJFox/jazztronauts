@@ -368,7 +368,8 @@ if SERVER then
 	-- Note this spawns three entities, the enterance, the bus, and the exit
 	-- (also note the bus itself has many entities attached to it. The seats, the radio...)
 	lastBusEnts = lastBusEnts or {}
-	function SpawnExitBus(pos, ang)
+	function SpawnExitBus(pos, ang, target)
+		local target = target or "<hub>"
 		local spawnpos = pos
 		local spawnang = Angle(ang)
 		spawnang:RotateAroundAxis(spawnang:Up(), 90)
@@ -416,6 +417,7 @@ if SERVER then
 
 				bus:SetPos(spawnpos)
 				bus:SetAngles(spawnang)
+				bus:SetTarget(target)
 				bus:Spawn()
 				bus:Activate()
 				table.insert(lastBusEnts, bus)

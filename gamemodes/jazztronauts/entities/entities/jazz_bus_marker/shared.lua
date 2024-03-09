@@ -3,6 +3,7 @@ ENT.Type = "anim"
 ENT.Base = "jazz_base_playermarker"
 ENT.RenderGroup = RENDERGROUP_OPAQUE
 ENT.Model	   = "models/weapons/bus_summoner_marker.mdl"
+ENT.Destination = "<hub>"
 
 ENT.ActivateDelay = 3
 ENT.CircleCone = 3

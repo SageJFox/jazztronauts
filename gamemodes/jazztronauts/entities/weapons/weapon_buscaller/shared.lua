@@ -45,6 +45,7 @@ function SWEP:SetupDataTables()
 	self.BaseClass.SetupDataTables( self )
 
 	self:NetworkVar("Entity", 0, "BusMarker")
+	self:NetworkVar("Entity", 1, "BusStop")
 end
 
 function SWEP:Deploy()
@@ -145,6 +146,10 @@ function SWEP:CreateBusMarker(pos, angle)
 	if not IsValid(marker) then return nil end
 	marker:SetPos(pos)
 	marker:SetAngles(angle)
+	local busstop = self:GetBusStop()
+	if IsValid(busstop) then
+		marker.Destination = string.Split( busstop:GetDestinationName(), ":")[1]
+	end
 	marker:Spawn()
 	marker:Activate()
 
@@ -202,6 +207,40 @@ function SWEP:PrimaryAttack()
 	self:ShootEffects()
 end
 
+function SWEP:CheckBusStop()
+	local owner = self:GetOwner()
+	if not IsValid(owner) then return end
+
+	local td = util.GetPlayerTrace(owner)
+	td.filter = function(ent)
+		if IsValid(ent) and (ent:GetClass() == "jazz_stanteleportmarker" or ent:GetName() == "jazzWHATTHEFUCKWHY") and ent:GetBusMarker() then return true else return false end end
+
+	local tr = util.TraceLine(td)
+	if IsValid(tr.Entity) then
+		print(tr.Entity)
+		self:SetBusStop(tr.Entity)
+	elseif self:GetBusStop() then --clear previous marker
+		print("nil")
+		self:SetBusStop(nil)
+	end
+
+end
+
+function SWEP:SecondaryAttack()
+	self.BaseClass.SecondaryAttack(self)
+
+	self:GetOwner():ViewPunch( Angle( -1, 0, 0 ) )
+	self:EmitSound( self.Primary.Sound, 50, math.random( 200, 255 ) )
+
+	if IsFirstTimePredicted() then
+
+		if SERVER then
+			self:CheckBusStop()
+		end
+	end
+
+end
+
 function SWEP:ShootEffects()
 
 	local owner = self:GetOwner()
@@ -240,8 +279,7 @@ end
 
 function SWEP:Reload() return false end
 function SWEP:CanPrimaryAttack() return true end
-function SWEP:CanSecondaryAttack() return false end
-function SWEP:CanSecondaryAttack() return false end
+function SWEP:CanSecondaryAttack() return true end
 function SWEP:Reload() return false end
 
 hook.Add("CreateMove", "JazzSwitchToBusCaller", function(cmd)

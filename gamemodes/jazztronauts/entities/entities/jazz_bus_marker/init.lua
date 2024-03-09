@@ -21,7 +21,7 @@ function ENT:HasEnoughPlayers()
 end
 
 function ENT:ActivateMarker()
-	mapcontrol.SpawnExitBus(self:GetPos(), self:GetAngles())
+	mapcontrol.SpawnExitBus(self:GetPos(), self:GetAngles(), self.Destination)
 end
 
 function ENT:UpdateSpeed()

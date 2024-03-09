@@ -54,6 +54,8 @@ ENT.TravelTime = 1.5
 util.AddNetworkString("jazz_bus_explore_voideffects")
 
 function ENT:Initialize()
+	local target = self:GetTarget()
+	if not target or target == "<hub>" or target == "" then self:SetTarget(mapcontrol.GetHubMap()) end
 
 	self:SetModel( self.Model )
 	self:PhysicsInit( SOLID_VPHYSICS )
@@ -459,7 +461,10 @@ function ENT:Think()
 	-- Changelevel at the end
 	if self.ChangelevelTime and CurTime() > self.ChangelevelTime then
 		--if self:GetNumOccupants() >= player.GetCount() then
-			mapcontrol.Launch(mapcontrol.GetHubMap())
+			local map = self:GetTarget()
+			if map == "" or map == "<hub>" then map = mapcontrol.GetHubMap() end
+			progress.RoadtripSetNext(map)
+			mapcontrol.Launch(map)
 		--end
 	end
 end
