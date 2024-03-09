@@ -346,6 +346,26 @@ function RoadtripMultiplier()
 	return math.max(1, multiplier)
 end
 
+function RoadtripTotals()
+	
+	local maps = Query("SELECT * FROM jazz_roadtrip")
+	if type(maps) ~= "table" then return 1 end
+
+	local collected, total = 0, 0
+
+	for _, v in ipairs(maps) do
+
+		local collectedMap, totalMap = GetMapShardCount(string.lower(v.filename))
+		if collectedMap and totalMap and totalMap ~= 0 then
+			collected = collected + collectedMap
+			total = total + totalMap
+		end
+
+	end
+
+	return collected, total
+end
+
 --figure out which maps we're allowed to go to to keep our multiplier up
 function RoadtripGetNextMaps(unlock)
 	local unlock = unlock

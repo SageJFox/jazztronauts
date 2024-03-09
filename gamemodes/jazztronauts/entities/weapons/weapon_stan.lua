@@ -365,7 +365,7 @@ function SWEP:Cleanup()
 
 		local teledests = ents.FindByClass( "jazz_stanteleportmarker" )
 		for _, v in ipairs(teledests) do
-			if v:GetBusMarker() then continue end
+			if IsValid(v) and v.GetBusMarker and v:GetBusMarker() then continue end
 			if worldmarker.markers[v] then
 				--if v ~= self.TeleportDestTarget or not IsValid(self:GetOwner()) or not self:GetOwner():Alive() then
 					worldmarker.SetEnabled(v,false)

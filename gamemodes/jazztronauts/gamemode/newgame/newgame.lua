@@ -68,8 +68,13 @@ function GetResetCount()
 	return (nettable.Get(nettbl) or {}).resets or 0
 end
 
-if SERVER then util.AddNetworkString("JazzRoadtripMultiplier") end
+if SERVER then
+	util.AddNetworkString("JazzRoadtripMultiplier")
+	util.AddNetworkString("JazzRoadtripTotals")
+end
 multiplier = 1
+roadtripcollected = 0
+roadtriptotal = 0
 
 -- Get the current active money multiplier
 function GetMultiplier()
@@ -88,11 +93,31 @@ if CLIENT then
 		multiplier = net.ReadFloat()
 	end)
 end
+-- Get the current Roadtrip totals
+function GetRoadtripTotals()
+
+	if SERVER then 
+		roadtripcollected, roadtriptotal = progress.RoadtripTotals()
+		net.Start("JazzRoadtripTotals")
+			net.WriteUInt( roadtripcollected, 8 ) --up to 255
+			net.WriteUInt( roadtriptotal, 8 ) --up to 255
+		net.Broadcast()
+	end
+	return roadtripcollected, roadtriptotal
+end
+
+if CLIENT then
+	net.Receive("JazzRoadtripTotals",function(len,ply)
+		roadtripcollected = net.ReadUInt(8)
+		roadtriptotal = net.ReadUInt(8)
+	end)
+end
 
 if SERVER then
 	gameevent.Listen( "OnRequestFullUpdate" )
 	hook.Add( "OnRequestFullUpdate", "JazzRoadtrip", function() --get our roadtrip status over to the client
 		GetMultiplier()
+		GetRoadtripTotals()
 	end )
 end
 

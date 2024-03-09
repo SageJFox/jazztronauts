@@ -76,7 +76,7 @@ local AcceptEntClass = {
 	["gib"] = true,
 	["rpg_missile"] = true,
 	["apc_missile"] = true,
-	["npc_grenade_bugbait"] = true;
+	["npc_grenade_bugbait"] = true,
 	["phys_magnet"] = true,
 	["prop_ragdoll_attached"] = true,
 	["gmod_wire_hoverdrivecontroler"] = true,
@@ -427,11 +427,12 @@ if SERVER then
 		"point_teleport",
 		"info_teleport_destination",
 		"info_target",
-		--leave this last, with spawns added after!
+		--leave these last, with spawns added after!
+		"point_camera",
 		"sky_camera"
 	}
 
-	local level2destnum = #destinations
+	local level2destnum = #destinations - 1
 
 	table.Add(destinations,spawnpoints)
 

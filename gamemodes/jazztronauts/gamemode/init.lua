@@ -300,6 +300,7 @@ function GM:CollectShard(shard, ply)
 	if not left then return false end
 	-- Go you
 	ply:ChangeNotes(math.floor( shard.JazzWorth * newgame.GetMultiplier() ))
+	newgame.GetRoadtripTotals() --update totals, too
 
 	net.Start("shard_notify")
 		net.WriteEntity( ply )

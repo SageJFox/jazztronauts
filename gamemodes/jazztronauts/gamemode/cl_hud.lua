@@ -232,6 +232,7 @@ end
 
 local function DrawShardCount()
 	local left, total = mapgen.GetShardCount()
+	local roadtrip = newgame.GetMultiplierExtra(true) - 1
 	local str = jazzloc.Localize("jazz.shards.partialcollected",total - left,total)
 	local color = Color(143, 0, 255, 100)
 	if left == 0 then
@@ -242,7 +243,16 @@ local function DrawShardCount()
 	surface.SetFont("JazzNote")
 	local offset = surface.GetTextSize(str) / 2
 	offset = offset + 5
-	draw.WordBox( 5, ScrW() / 2 - offset, 5, str, "JazzNote", color, color_white )
+	local w, h = draw.WordBox( 5, ScrW() / 2 - offset, 5, str, "JazzNote", color, color_white )
+
+	--draw roadtrip totals
+	if roadtrip > 0 then
+		surface.SetFont("JazzNoteFill")
+		local lefttotal, totaltotal = newgame.GetRoadtripTotals()
+		local str2 = tostring(lefttotal) .. "/" .. tostring(totaltotal)
+		local offset2 = surface.GetTextSize(str2) / 2
+		draw.WordBox( 3, ScrW() / 2 - offset2, h - 5,str2, "JazzNoteFill", color, color_white )
+	end
 end
 
 hook.Add("HUDPaint", "JazzDrawHUD", function()
