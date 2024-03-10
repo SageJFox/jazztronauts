@@ -598,7 +598,11 @@ if SERVER then
 		if !IsValid(ent) or !ent:CreatedByMap() then return nil end
 		if isInSkyBox(ent) then return nil end -- god wouldn't that suck
 
-		return findValidSpawn(ent, map, leafs)
+		--bit of a hacky fix, prevents shards from spawning on brush entities like triggers 
+		--where it'll subsequently steal all the brush models of the map all stacked up on each other in a horrible fashion
+		local spawn = findValidSpawn(ent, map, leafs)
+		if spawn and spawn.pos:DistToSqr(Vector(0, 0, 16)) < 1 then return nil end
+		return spawn
 	end
 
 
