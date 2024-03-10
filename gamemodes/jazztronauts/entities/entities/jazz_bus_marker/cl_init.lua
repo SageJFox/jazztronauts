@@ -87,7 +87,7 @@ local function renderPlayerBeam(marker, ply)
 	--just kidding check for bus stop
 	local busstop = wep:GetBusStop()
 	if IsValid(busstop) then
-		attach = busstop:GetPos()
+		attach = busstop:GetAttachment(busstop:LookupAttachment("sign")).Pos
 	end
 
 	-- Draw beam

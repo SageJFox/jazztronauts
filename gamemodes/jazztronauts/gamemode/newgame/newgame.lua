@@ -98,18 +98,20 @@ function GetRoadtripTotals()
 
 	if SERVER then 
 		roadtripcollected, roadtriptotal = progress.RoadtripTotals()
-		net.Start("JazzRoadtripTotals")
-			net.WriteUInt( roadtripcollected, 8 ) --up to 255
-			net.WriteUInt( roadtriptotal, 8 ) --up to 255
-		net.Broadcast()
+		if roadtripcollected and roadtriptotal then
+			net.Start("JazzRoadtripTotals")
+				net.WriteUInt( roadtripcollected, 10 ) --up to 1023
+				net.WriteUInt( roadtriptotal, 10 ) --up to 1023
+			net.Broadcast()
+		end
 	end
 	return roadtripcollected, roadtriptotal
 end
 
 if CLIENT then
 	net.Receive("JazzRoadtripTotals",function(len,ply)
-		roadtripcollected = net.ReadUInt(8)
-		roadtriptotal = net.ReadUInt(8)
+		roadtripcollected = net.ReadUInt(10)
+		roadtriptotal = net.ReadUInt(10)
 	end)
 end
 

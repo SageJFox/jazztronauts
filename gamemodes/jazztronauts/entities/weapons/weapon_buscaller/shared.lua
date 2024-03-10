@@ -64,7 +64,7 @@ function SWEP:UpdateBeamHum()
 
 	if not self:IsCarriedByLocalPlayer() then return end
 
-	if active then
+	if active or IsValid(self:GetBusStop()) then
 		if not self.BeamHum then
 			self.BeamHum = CreateSound(self, "ambient/energy/force_field_loop1.wav")
 		end
@@ -306,6 +306,63 @@ hook.Add("CreateMove", "JazzSwitchToBusCaller", function(cmd)
 		end
 	end
 end )
+
+if CLIENT then
+
+	local funnydraw = GetConVar("r_drawtranslucentworld")
+	
+	function SWEP:renderPlayerBeam()
+		if not IsValid(self) then return false end
+
+		local ply = self:GetOwner()
+		if not IsValid(ply) then return false end
+
+		local wep = ply:GetActiveWeapon()
+		if not IsValid(wep) or wep ~= self then return false end
+
+		local busstop = self:GetBusStop()
+		if not IsValid(busstop) then return false end
+
+		-- Get attach point of gun's muzzle
+		local attach = ply:GetShootPos()
+		local attachIdx = self.AttachIdx or 1
+
+		if attachIdx > 0 then
+			attach = self:GetAttachment(attachIdx).Pos -- World model position, at very least
+			local vm = ply:GetViewModel()
+			if self:IsCarriedByLocalPlayer() and IsValid(vm) then
+				local attachInfo = vm:GetAttachment(attachIdx)
+				if attachInfo then attach = attachInfo.Pos end -- View model position
+			end
+		end
+		
+		-- Draw beam
+		local dist = attach:Distance(busstop:GetPos())
+		local offset = -CurTime()*4
+
+		render.SetMaterial(self.BeamMat)
+		render.DrawBeam(attach, busstop:GetAttachment(busstop:LookupAttachment("sign")).Pos, 3, offset, dist/100 + offset, color_blue)
+		return true
+	end
+
+	hook.Add("PostDrawOpaqueRenderables", "JazzDrawBusstopBeams", function()
+		--work around for a bug where translucent won't render
+		if funnydraw:GetBool() == false then
+			for _, v in ipairs(ents.FindByClass("weapon_buscaller")) do
+				if not IsValid(v) then continue end
+				v:renderPlayerBeam()
+			end
+		end
+	end )
+
+	hook.Add("PostDrawTranslucentRenderables", "JazzDrawBusstopBeams", function()
+		for _, v in ipairs(ents.FindByClass("weapon_buscaller")) do
+			if not IsValid(v) then continue end
+			v:renderPlayerBeam()
+		end
+	end )
+end
+
 
 -- Give the player the bus caller if they're hovering over it and somehow don't have it
 hook.Add("SetupMove", "JazzSwitchToBusCaller", function(ply, mv, cmd)
