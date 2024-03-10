@@ -21,7 +21,23 @@ function ENT:HasEnoughPlayers()
 end
 
 function ENT:ActivateMarker()
+
 	mapcontrol.SpawnExitBus(self:GetPos(), self:GetAngles(), self.Destination)
+
+	for i = 1, game.MaxPlayers() do
+
+		local ply = Entity(i)
+		if not IsValid(ply) or not ply:IsPlayer() then return end
+
+		local w = ply:GetWeapon("weapon_buscaller")
+		if not IsValid(w) then return end
+
+		if w:GetBusMarker() == self then
+			w:SetBusStop(nil)
+		end
+
+	end
+	
 end
 
 function ENT:UpdateSpeed()
