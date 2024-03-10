@@ -33,7 +33,12 @@ function ENT:ActivateMarker()
 		if not IsValid(w) then return end
 
 		if w:GetBusMarker() == self then
+			local busstop = w:GetBusStop()
 			w:SetBusStop(nil)
+			if IsValid(busstop) then
+				busstop:SetDucked(false)
+				busstop:SetLevel(100)
+			end
 		end
 
 	end

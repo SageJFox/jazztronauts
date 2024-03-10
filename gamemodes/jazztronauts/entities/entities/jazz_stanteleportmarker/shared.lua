@@ -89,12 +89,36 @@ function ENT:OnRemove(fullupdate)
 		busmark:SetPos(self:GetPos())
 	end
 end
+local material = Material( "sprites/light_glow02_add_noz" )
+local red = Color( 255, 0, 0 )
 
 function ENT:Draw()
 	if self:GetBusMarker() then
+
+		if self:GetDucked() and self:GetLevel() == 99 then
+			self:SetSkin( CurTime() - math.floor(CurTime()) < 0.5 and 1 or 2 )
+		elseif self:GetLevel() == 99 then -- using level 99 as code for unused, 100 is used
+			self:SetSkin(0)
+		else
+			self:SetSkin(3)
+		end
+
 		self:DrawModel()
-		--todo: do blinking fx if it's selected
-		--use ducked bool to tell if it's selected
+		--draw glowsprites
+		render.SetMaterial( material )
+		if self:GetSkin() % 2 ~= 0 then --1 & 3
+
+			local pos = self:GetAttachment(self:LookupAttachment("light1")).Pos
+			--render.SetBlend( util.PixelVisible(pos,16,util.GetPixelVisibleHandle()) ) --we love bug #3166
+			render.DrawSprite( pos, 16, 16, red)
+		end
+		if self:GetSkin() > 1 then --2 & 3
+			local pos = self:GetAttachment(self:LookupAttachment("light2")).Pos
+			--render.SetBlend( util.PixelVisible(pos,16,util.GetPixelVisibleHandle()) )
+			render.DrawSprite( pos, 16, 16, red)
+		end
+		--render.SetBlend(1)
+
 	end
 end
 --I tried

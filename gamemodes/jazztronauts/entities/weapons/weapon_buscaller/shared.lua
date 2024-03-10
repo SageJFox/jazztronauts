@@ -216,11 +216,17 @@ function SWEP:CheckBusStop()
 		if IsValid(ent) and (ent:GetClass() == "jazz_stanteleportmarker" or ent:GetName() == "jazzWHATTHEFUCKWHY") and ent:GetBusMarker() then return true else return false end end
 
 	local tr = util.TraceLine(td)
-	if IsValid(tr.Entity) then
-		print(tr.Entity)
+	if IsValid(tr.Entity) and tr.Entity ~= self:GetBusStop() then
+		--print(tr.Entity)
 		self:SetBusStop(tr.Entity)
-	elseif self:GetBusStop() then --clear previous marker
-		print("nil")
+		tr.Entity:SetDucked(true)
+	else --clear previous marker
+		local busstop = self:GetBusStop()
+		if IsValid(busstop) then
+			busstop:SetLevel(99)
+			busstop:SetDucked(false)
+		end
+		--print("nil")
 		self:SetBusStop(nil)
 	end
 
