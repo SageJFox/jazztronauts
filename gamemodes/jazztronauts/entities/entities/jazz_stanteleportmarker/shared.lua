@@ -46,7 +46,7 @@ function ENT:Initialize()
 	if self:GetBusMarker() then
 		self:PhysicsInit(SOLID_VPHYSICS)
 		self.RenderGroup = RENDERGROUP_OPAQUE
-		self:SetPos( groundHit( self:GetPos(), Vector(0, 0, -0.25) ) )
+		if SERVER then self:SetPos( groundHit( self:GetPos(), Vector(0, 0, -0.25) ) ) end
 		local signnames = string.Split(self:GetDestinationName(),":")
 		self.Sign1Text = signnames[1]
 		self.Sign2Text = signnames[2]
