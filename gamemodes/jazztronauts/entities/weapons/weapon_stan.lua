@@ -148,7 +148,7 @@ if CLIENT then
 					drawtext = " "
 				-- convert our character to A-Z, in a way that is consistent per character
 				elseif string.find(drawtext,"%A") then
-					drawtext = utf8.char((utf8.codepoint(drawtext)[1] % 26) + 65)
+					drawtext = utf8.char((utf8.codepoint(drawtext) % 26) + 65)
 				end
 			end
 			surface.DrawText( drawtext )
