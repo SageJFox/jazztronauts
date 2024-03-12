@@ -232,7 +232,7 @@ function GM:GenerateJazzEntities(noshards)
 			for _, v in ipairs(ents.FindByClass("*_changelevel")) do
 
 				local destname = string.Trim( utf8.char( unpack( v:GetInternalVariable( "m_szMapName" ) ) ), "\0" )
-				if string.lower(destname) == string.lower(game.GetMap()) then continue end --Seriously Valve what the fuck 
+				if string.lower(destname) == string.lower(game.GetMap()) then continue end --Seriously Valve what the fuck
 
 				local ent = nil
 				--fine Valve, use the same name for other ents
@@ -242,7 +242,7 @@ function GM:GenerateJazzEntities(noshards)
 				local busmark = ents.Create("jazz_stanteleportmarker")
 
 				if not IsValid(ent) or not IsValid(busmark) then continue end
-				
+
 				busmark:SetPos(ent:GetPos())
 				--busmark:SetAngles( Angle( 0, 0, ent:GetAngles().z ) ) --just kidding no angles on landmarks
 				busmark:SetBusMarker(true)
@@ -519,7 +519,7 @@ end
 -- Don't allow pvp by default, except self-damage cause rocketjumping fun
 function GM:PlayerShouldTakeDamage(ply, attacker)
 	if attacker:IsValid() and attacker:IsPlayer() and ply != attacker then
-		return cvars.Bool("jazz_player_pvp")
+		return cvars.Bool("jazz_pvp")
 	end
 
 	return true

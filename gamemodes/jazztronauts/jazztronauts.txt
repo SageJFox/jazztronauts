@@ -29,7 +29,7 @@
 
 		3
 		{
-			"name"		"jazz_player_pvp"
+			"name"		"jazz_pvp"
 			"text"		"players_damage_players"
 			"help"		"#jazz.gamemode.pvp.help"
 			"type"		"CheckBox"

@@ -10,10 +10,10 @@ GM.Website = "https://steamcommunity.com/sharedfiles/filedetails/?id=1452613192"
 team.SetUp( 1, "Jazztronauts", Color( 255, 128, 0, 255 ) )
 
 -- Defined here for users to see, functionality is in init.lua
-CreateConVar("jazz_player_pvp", "0", { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_NOTIFY },
+CreateConVar("jazz_pvp", "0", { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_NOTIFY },
 	"Allow players to damage each other. Default is 0. When enabled, players will collide, as hitscan weapons won't function otherwise.")
 
-cvars.AddChangeCallback("jazz_player_pvp", function(_, old, new)
+cvars.AddChangeCallback("jazz_pvp", function(_, old, new)
 	if tobool(new) == true then
 		for i, ply in ipairs( player.GetAll() ) do
 			hook.Run("JazzPlayerOnPlayer", ply)
@@ -230,7 +230,7 @@ else
 			ev:Title(jazzloc.Localize("jazz.death.fall","%name"),
 				{ name = name }
 			)
-			
+
 		--not likely to show up unless HL2 suit is on
 		elseif dmg == DMG_DROWN then
 
