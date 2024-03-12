@@ -507,10 +507,17 @@ if SERVER then
 	end
 
 	local function findValidSpawn(ent, map, leafs)
-		local pos = ent:GetPos() + Vector(0, 0, 16)
+		local pos = ent:GetPos()
+
+		--the map origin is a stinky spot, don't do it
+		--todo: This is a bit of a bandage fix, figure out why it likes to grab every brush model when it's here and stop it from doing that, instead
+		--(especially since the black shard take everything does these too)
+		if pos:Distance(vector_origin) < 16 then return end 
+
+		pos:Add( Vector(0, 0, 16) )
 
 		-- If moving the entity that small amount up puts it out of the world -- nah
-		if not util.IsInWorld(pos) then return nil end
+		if not util.IsInWorld(pos) then return end
 
 		-- If the point is inside something solid -- also nah
 		if maskAny(util.PointContents(pos), CONTENTS_PLAYERCLIP, CONTENTS_SOLID, CONTENTS_GRATE) then return end
@@ -598,11 +605,7 @@ if SERVER then
 		if !IsValid(ent) or !ent:CreatedByMap() then return nil end
 		if isInSkyBox(ent) then return nil end -- god wouldn't that suck
 
-		--bit of a hacky fix, prevents shards from spawning on brush entities like triggers 
-		--where it'll subsequently steal all the brush models of the map all stacked up on each other in a horrible fashion
-		local spawn = findValidSpawn(ent, map, leafs)
-		if spawn and spawn.pos:DistToSqr(Vector(0, 0, 16)) < 1 then return nil end
-		return spawn
+		return findValidSpawn(ent, map, leafs)
 	end
 
 
