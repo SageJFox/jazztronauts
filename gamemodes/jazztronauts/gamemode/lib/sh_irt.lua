@@ -316,6 +316,24 @@ function meta:GetUnlitMaterial(...)
 
 end
 
+function meta:GetVertexLitMaterial(...)
+
+	local params, pflags = self:BuildMaterialParams(...)
+
+	local idstr = "m_vertexlit_" .. self:GetIDString() .. "_" .. pflags
+	local cached = g_cachemap[idstr]
+	if cached ~= nil then return cached end
+
+	params["$basetexture"] = self:GetIDString()
+
+	local material = CreateMaterial( idstr, "VertexLitGeneric", params )
+	--print(material)
+
+	g_cachemap[idstr] = material
+	return material
+
+end
+
 function meta:RenderViewOrtho( origin, angles, scale, bViewModel )
 
 	scale = scale or 1

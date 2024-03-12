@@ -197,7 +197,9 @@ function SWEP:PrimaryAttack()
 	self:EmitSound( self.Primary.Sound, 50, math.random( 200, 255 ) )
 
 	if IsFirstTimePredicted() then
-
+		if IsValid(self:GetBusStop()) then
+			self:GetBusStop():SetBodygroup(2,1)
+		end
 		if SERVER then
 
 			self:CreateOrUpdateBusMarker()
@@ -223,6 +225,7 @@ function SWEP:CheckBusStop()
 	else --clear previous marker
 		local busstop = self:GetBusStop()
 		if IsValid(busstop) then
+			busstop:SetBodygroup(2,0)
 			busstop:SetLevel(99)
 			busstop:SetDucked(false)
 		end
@@ -259,6 +262,10 @@ end
 function SWEP:StopPrimaryAttack()
 	self:SendWeaponAnim( ACT_VM_IDLE )
 	if !IsFirstTimePredicted() then return end
+
+	if IsValid(self:GetBusStop()) then
+		self:GetBusStop():SetBodygroup(2,0)
+	end
 
 	if SERVER and IsValid(self:GetBusMarker()) then
 		self:GetBusMarker():RemovePlayer(self:GetOwner())
