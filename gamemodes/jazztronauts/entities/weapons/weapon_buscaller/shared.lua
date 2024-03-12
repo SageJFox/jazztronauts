@@ -45,6 +45,7 @@ function SWEP:SetupDataTables()
 	self.BaseClass.SetupDataTables( self )
 
 	self:NetworkVar("Entity", 0, "BusMarker")
+	self:NetworkVar("Entity", 1, "BusStop")
 end
 
 function SWEP:Deploy()
@@ -63,7 +64,7 @@ function SWEP:UpdateBeamHum()
 
 	if not self:IsCarriedByLocalPlayer() then return end
 
-	if active then
+	if active or IsValid(self:GetBusStop()) then
 		if not self.BeamHum then
 			self.BeamHum = CreateSound(self, "ambient/energy/force_field_loop1.wav")
 		end
@@ -145,6 +146,10 @@ function SWEP:CreateBusMarker(pos, angle)
 	if not IsValid(marker) then return nil end
 	marker:SetPos(pos)
 	marker:SetAngles(angle)
+	local busstop = self:GetBusStop()
+	if IsValid(busstop) then
+		marker.Destination = string.Split( busstop:GetDestinationName(), ":")[1]
+	end
 	marker:Spawn()
 	marker:Activate()
 
@@ -192,7 +197,9 @@ function SWEP:PrimaryAttack()
 	self:EmitSound( self.Primary.Sound, 50, math.random( 200, 255 ) )
 
 	if IsFirstTimePredicted() then
-
+		if IsValid(self:GetBusStop()) then
+			self:GetBusStop():SetBodygroup(2,1)
+		end
 		if SERVER then
 
 			self:CreateOrUpdateBusMarker()
@@ -200,6 +207,47 @@ function SWEP:PrimaryAttack()
 	end
 
 	self:ShootEffects()
+end
+
+function SWEP:CheckBusStop()
+	local owner = self:GetOwner()
+	if not IsValid(owner) then return end
+
+	local td = util.GetPlayerTrace(owner)
+	td.filter = function(ent)
+		if IsValid(ent) and (ent:GetClass() == "jazz_stanteleportmarker" or ent:GetName() == "jazzWHATTHEFUCKWHY") and ent:GetBusMarker() then return true else return false end end
+
+	local tr = util.TraceLine(td)
+	if IsValid(tr.Entity) and tr.Entity ~= self:GetBusStop() then
+		--print(tr.Entity)
+		self:SetBusStop(tr.Entity)
+		tr.Entity:SetDucked(true)
+	else --clear previous marker
+		local busstop = self:GetBusStop()
+		if IsValid(busstop) then
+			busstop:SetBodygroup(2,0)
+			busstop:SetLevel(99)
+			busstop:SetDucked(false)
+		end
+		--print("nil")
+		self:SetBusStop(nil)
+	end
+
+end
+
+function SWEP:SecondaryAttack()
+	self.BaseClass.SecondaryAttack(self)
+
+	self:GetOwner():ViewPunch( Angle( -1, 0, 0 ) )
+	self:EmitSound( self.Primary.Sound, 50, math.random( 200, 255 ) )
+
+	if IsFirstTimePredicted() then
+
+		if SERVER then
+			self:CheckBusStop()
+		end
+	end
+
 end
 
 function SWEP:ShootEffects()
@@ -214,6 +262,10 @@ end
 function SWEP:StopPrimaryAttack()
 	self:SendWeaponAnim( ACT_VM_IDLE )
 	if !IsFirstTimePredicted() then return end
+
+	if IsValid(self:GetBusStop()) then
+		self:GetBusStop():SetBodygroup(2,0)
+	end
 
 	if SERVER and IsValid(self:GetBusMarker()) then
 		self:GetBusMarker():RemovePlayer(self:GetOwner())
@@ -240,8 +292,7 @@ end
 
 function SWEP:Reload() return false end
 function SWEP:CanPrimaryAttack() return true end
-function SWEP:CanSecondaryAttack() return false end
-function SWEP:CanSecondaryAttack() return false end
+function SWEP:CanSecondaryAttack() return true end
 function SWEP:Reload() return false end
 
 hook.Add("CreateMove", "JazzSwitchToBusCaller", function(cmd)
@@ -268,6 +319,63 @@ hook.Add("CreateMove", "JazzSwitchToBusCaller", function(cmd)
 		end
 	end
 end )
+
+if CLIENT then
+
+	local funnydraw = GetConVar("r_drawtranslucentworld")
+	
+	function SWEP:renderPlayerBeam()
+		if not IsValid(self) then return false end
+
+		local ply = self:GetOwner()
+		if not IsValid(ply) then return false end
+
+		local wep = ply:GetActiveWeapon()
+		if not IsValid(wep) or wep ~= self then return false end
+
+		local busstop = self:GetBusStop()
+		if not IsValid(busstop) then return false end
+
+		-- Get attach point of gun's muzzle
+		local attach = ply:GetShootPos()
+		local attachIdx = self.AttachIdx or 1
+
+		if attachIdx > 0 then
+			attach = self:GetAttachment(attachIdx).Pos -- World model position, at very least
+			local vm = ply:GetViewModel()
+			if self:IsCarriedByLocalPlayer() and IsValid(vm) then
+				local attachInfo = vm:GetAttachment(attachIdx)
+				if attachInfo then attach = attachInfo.Pos end -- View model position
+			end
+		end
+		
+		-- Draw beam
+		local dist = attach:Distance(busstop:GetPos())
+		local offset = -CurTime()*4
+
+		render.SetMaterial(self.BeamMat)
+		render.DrawBeam(attach, busstop:GetAttachment(busstop:LookupAttachment("sign")).Pos, 3, offset, dist/100 + offset, color_blue)
+		return true
+	end
+
+	hook.Add("PostDrawOpaqueRenderables", "JazzDrawBusstopBeams", function()
+		--work around for a bug where translucent won't render
+		if funnydraw:GetBool() == false then
+			for _, v in ipairs(ents.FindByClass("weapon_buscaller")) do
+				if not IsValid(v) then continue end
+				v:renderPlayerBeam()
+			end
+		end
+	end )
+
+	hook.Add("PostDrawTranslucentRenderables", "JazzDrawBusstopBeams", function()
+		for _, v in ipairs(ents.FindByClass("weapon_buscaller")) do
+			if not IsValid(v) then continue end
+			v:renderPlayerBeam()
+		end
+	end )
+end
+
 
 -- Give the player the bus caller if they're hovering over it and somehow don't have it
 hook.Add("SetupMove", "JazzSwitchToBusCaller", function(ply, mv, cmd)

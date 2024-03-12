@@ -76,7 +76,7 @@ local AcceptEntClass = {
 	["gib"] = true,
 	["rpg_missile"] = true,
 	["apc_missile"] = true,
-	["npc_grenade_bugbait"] = true;
+	["npc_grenade_bugbait"] = true,
 	["phys_magnet"] = true,
 	["prop_ragdoll_attached"] = true,
 	["gmod_wire_hoverdrivecontroler"] = true,
@@ -342,11 +342,13 @@ if SERVER then
 		local level = level or 1
 		local defaultName = defaultName or ""
 		local stanmark = ents.Create("jazz_stanteleportmarker")
+		if not IsValid(ent) then return end
 		stanmark:SetPos(ent:GetPos())
 		stanmark:Spawn()
 		stanmark:SetDestination(ent)
 		stanmark:SetDestinationName(ent:GetName() ~= "" and ent:GetName() or defaultName)
 		stanmark:SetLevel(level)
+		stanmark:SetBusMarker(false)
 		if ent:GetClass() == "point_teleport" then
 			local ducked = tobool(bit.band(ent:GetFlags(),2)) -- Into Duck (episodic)
 			--print("Ducked?",ducked)
@@ -425,11 +427,12 @@ if SERVER then
 		"point_teleport",
 		"info_teleport_destination",
 		"info_target",
-		--leave this last, with spawns added after!
+		--leave these last, with spawns added after!
+		"point_camera",
 		"sky_camera"
 	}
 
-	local level2destnum = #destinations
+	local level2destnum = #destinations - 1
 
 	table.Add(destinations,spawnpoints)
 
@@ -595,7 +598,11 @@ if SERVER then
 		if !IsValid(ent) or !ent:CreatedByMap() then return nil end
 		if isInSkyBox(ent) then return nil end -- god wouldn't that suck
 
-		return findValidSpawn(ent, map, leafs)
+		--bit of a hacky fix, prevents shards from spawning on brush entities like triggers 
+		--where it'll subsequently steal all the brush models of the map all stacked up on each other in a horrible fashion
+		local spawn = findValidSpawn(ent, map, leafs)
+		if spawn and spawn.pos:DistToSqr(Vector(0, 0, 16)) < 1 then return nil end
+		return spawn
 	end
 
 

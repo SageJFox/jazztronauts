@@ -14,7 +14,8 @@ local destRTHeight = 256
 local screen_rt = irt.New("jazz_bus_destination_explore", destRTWidth, destRTHeight )
 
 function ENT:Initialize()
-	
+	self.dest = self:GetTarget()
+	if self.dest == "jazz_bar" or self.dest == "<hub>" or self.dest == "" then self.dest = jazzloc.Localize("jazz.bus.bar") end
 end
 
 function ENT:DrawRTScreen(dest)
@@ -51,10 +52,8 @@ function ENT:GetStartOffset()
 	return math.min(0, (CurTime() - self:GetBreakTime()) * 2000)
 end
 
-local dest = jazzloc.Localize("jazz.bus.bar")
-
 function ENT:Draw()
-	self:DrawRTScreen(dest)
+	self:DrawRTScreen(self.dest)
 	render.MaterialOverrideByIndex(2, screen_rt:GetUnlitMaterial())
 
 	local offset = self:GetStartOffset()

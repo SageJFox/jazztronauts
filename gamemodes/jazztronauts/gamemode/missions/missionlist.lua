@@ -15,7 +15,7 @@ AddNPC("NPC_CAT_ASH", jazzloc.Localize("jazz.cat.ash"), "models/andy/basecat/cat
 -- Utility function for giving a player a monetary reward
 local function GrantMoney(amt)
 	return function(ply)
-		ply:ChangeNotes(amt * newgame.GetMultiplier())
+		ply:ChangeNotes(amt * newgame.GetMultiplier()) --todo: if this is being affected by the multiplier, it should probably be re-given on subsequent resets?
 	end
 end
 

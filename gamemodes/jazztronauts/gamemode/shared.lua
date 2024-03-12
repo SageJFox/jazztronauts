@@ -107,14 +107,14 @@ if SERVER then
 		if attacker:IsNPC() then weapon = attacker:GetWeapons()[1] end
 		if attacker:IsPlayer() then weapon = attacker:GetActiveWeapon() end --might not be accurate 100% of the time if weapon switch tomfoolery happens?
 		net.Start("death_notice")
-		net.WriteEntity( ply )
-		net.WriteEntity( attacker )
-		net.WriteString( attacker:GetClass()) --sending attacker class separately lets us still get it if it's a server-only entity
-		net.WriteString( attacker:GetName()) --name is only available on server, so grab it now
-		net.WriteEntity( dmg:GetInflictor() )
-		net.WriteEntity( weapon )
-		net.WriteUInt( dmg:GetDamageType(), 32 )
-		net.WriteBool(ply.LeftJazzBus)
+			net.WriteEntity( ply )
+			net.WriteEntity( attacker )
+			net.WriteString( attacker:GetClass() ) --sending attacker class separately lets us still get it if it's a server-only entity
+			net.WriteString( attacker:GetName() ) --name is only available on server, so grab it now
+			net.WriteEntity( dmg:GetInflictor() )
+			net.WriteEntity( weapon )
+			net.WriteUInt( dmg:GetDamageType(), 32 )
+			net.WriteBool( ply.LeftJazzBus )
 		net.Broadcast()
 
 		ply.LeftJazzBus = nil
@@ -140,7 +140,7 @@ else
 		)
 
 		ev:Body("%total",
-			{ total = jazzloc.Localize("jazz.hud.money",jazzloc.AddSeperators(1000 * newgame.GetMultiplier())) }
+			{ total = jazzloc.Localize("jazz.hud.money",jazzloc.AddSeperators(math.floor(1000 * newgame.GetMultiplier()))) }
 		)
 
 		ev:SetHue("rainbow")

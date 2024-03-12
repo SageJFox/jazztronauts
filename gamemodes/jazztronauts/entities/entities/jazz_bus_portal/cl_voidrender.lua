@@ -206,6 +206,13 @@ local function renderVoid(eyePos, eyeAng, fov)
 	cam.End3D()
 
 	end
+
+	-- Draw Busstops
+	for _, v in ipairs(ents.FindByClass("jazz_stanteleportmarker")) do
+		if not IsValid(v) or not v:GetBusMarker() then continue end
+		v:DrawModel()
+	end
+
 	render.OverrideDepthEnable(false)
 	render.FogMode(oldFog)
 	render.SuppressEngineLighting(false)

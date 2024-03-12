@@ -4,6 +4,10 @@ CORRUPT_NONE		= 0 -- No black shards spawned
 CORRUPT_SPAWNED	= 1 -- Black shard spawned, not stolen
 CORRUPT_STOLEN		= 2 -- Black shard stolen, map is fully corrupted
 
+local function mapNameCleanup(mapname)
+	return "'" .. string.Replace(mapname,"'","''") .. "'"
+end
+
 -- Stores map generation information about a specific map
 jsql.Register("jazz_mapgen",
 [[
@@ -44,6 +48,21 @@ jsql.Register("jazz_hubprops",
 	toy BOOL NOT NULL DEFAULT 0
 ]])
 
+-- Map chain multiplier
+jsql.Register("jazz_roadtrip",
+[[
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	filename VARCHAR(128) UNIQUE NOT NULL
+]])
+
+-- Map chain multiplier manager
+jsql.Register("jazz_roadtrip_next",
+[[
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	filename VARCHAR(128) UNIQUE NOT NULL,
+	unlocked BOOL NOT NULL DEFAULT 0
+]])
+
 function Reset()
 	jsql.Reset()
 end
@@ -58,7 +77,7 @@ end
 
 function GetMap(mapname)
 	local chkstr = "SELECT * FROM jazz_mapgen WHERE " ..
-		string.format("filename='%s'", string.Replace(mapname,"'","''"))
+		string.format( "filename=%s", mapNameCleanup(mapname) )
 
 	local res = Query(chkstr)
 
@@ -85,11 +104,11 @@ function StoreMap(mapname, wsid, seed)
 	wsid = wsid or 0
 
 	local insrt = "INSERT INTO jazz_mapgen (filename, wsid, seed)" ..
-		string.format("VALUES ( '%s', %s, %s) ", string.Replace(mapname,"'","''"), wsid, seed)
+		string.format("VALUES ( %s, %s, %s) ", mapNameCleanup(mapname), wsid, seed)
 
 	local update = "UPDATE jazz_mapgen " ..
 		string.format("SET wsid=%s, seed=%s ", wsid, seed) ..
-		string.format("WHERE filename='%s'", string.Replace(mapname,"'","''"))
+		string.format("WHERE filename=%s", mapNameCleanup(mapname))
 
 	local map = GetMap(mapname)
 	return Query(map != nil and update or insrt) != false
@@ -176,7 +195,7 @@ function GetMapShards(mapname)
 	mapname = mapname and string.lower(mapname)
 	local chkstr = "SELECT * FROM jazz_mapgen " ..
 		"INNER JOIN jazz_mapshards ON jazz_mapgen.id = jazz_mapshards.mapid " ..
-		(mapname and "WHERE " .. string.format("filename='%s' ", string.Replace(mapname,"'","''")) or "") ..
+		(mapname and "WHERE " .. string.format("filename=%s ", mapNameCleanup(mapname)) or "") ..
 		"ORDER BY jazz_mapshards.id ASC"
 
 	return Query(chkstr) or {}
@@ -188,7 +207,7 @@ function GetMapShardCount(mapname)
 
 	local chkstr = "SELECT SUM(collected) as collected, COUNT(*) as total FROM jazz_mapgen " ..
 		"INNER JOIN jazz_mapshards ON jazz_mapgen.id = jazz_mapshards.mapid " ..
-		(mapname and "WHERE " .. string.format("filename='%s' ", string.Replace(mapname,"'","''")) or "") ..
+		(mapname and "WHERE " .. string.format("filename=%s ", mapNameCleanup(mapname)) or "") ..
 		"ORDER BY jazz_mapshards.id ASC"
 
 	local res = Query(chkstr)
@@ -227,6 +246,7 @@ function CollectShard(mapname, shardid, ply)
 			string.format("AND id='%d'", shardid)
 
 	if Query(altr) != false then
+		RoadtripCheckTotals(true)
 		return GetMapShards(mapname)
 	end
 end
@@ -237,7 +257,7 @@ function SetCorrupted(mapname, state)
 
 	local update = "UPDATE jazz_mapgen " ..
 		string.format("SET corrupt=%d ", state) ..
-		string.format("WHERE filename='%s'", string.Replace(mapname,"'","''"))
+		string.format("WHERE filename=%s", mapNameCleanup(mapname))
 
 	return Query(update) != false
 end
@@ -289,3 +309,162 @@ function LoadHubPropData()
 
 	return res
 end
+
+--roadtrip functions
+
+--call when roadtrip has been ended (returned to hub or a new, non-sequential map has been put into the server. Store data in case session is interrupted but verify we're on that map again)
+function EndRoadtrip()
+	Query("DROP TABLE jazz_roadtrip;" ..
+		"DROP TABLE jazz_roadtrip_next")
+end
+
+--roadtrip multiplier, added to NG+ multiplier (every map technically starts as a roadtrip of 1)
+local multiplier = 1
+
+function RoadtripMultiplier()
+	--old method, just 1 from each map
+	--local res = Query("SELECT COUNT(id) FROM jazz_roadtrip")
+	--multiplier = type(res) == "table" and math.max( 1, res[1]["COUNT(id)"]) or 1
+
+	--new method. Each map adds up to +1 for the number of shards the player's grabbed
+	--multiplier can't go below 1
+
+	local maps = Query("SELECT * FROM jazz_roadtrip")
+	if type(maps) ~= "table" then return 1 end
+
+	multiplier = 0
+
+	for _, v in ipairs(maps) do
+
+		local collectedMap, totalMap = GetMapShardCount(string.lower(v.filename))
+		if collectedMap and totalMap and totalMap ~= 0 then
+			multiplier = multiplier + collectedMap / totalMap
+		end
+
+	end
+
+	return math.max(1, multiplier)
+end
+
+function RoadtripTotals()
+	
+	local maps = Query("SELECT * FROM jazz_roadtrip")
+	if type(maps) ~= "table" then return 1 end
+
+	local collected, total = 0, 0
+
+	for _, v in ipairs(maps) do
+
+		local collectedMap, totalMap = GetMapShardCount(string.lower(v.filename))
+		if collectedMap and totalMap and totalMap ~= 0 then
+			collected = collected + collectedMap
+			total = total + totalMap
+		end
+
+	end
+
+	return collected, total
+end
+
+--figure out which maps we're allowed to go to to keep our multiplier up
+function RoadtripGetNextMaps(unlock)
+	local unlock = unlock
+	if unlock ~= nil then unlock = unlock and "1" or "0" end --allow it to be expressly nil
+
+	local changelevels = ents.FindByClass("*_changelevel")
+	
+	if table.IsEmpty(changelevels) then EndRoadtrip() return false end --there's no chain of maps here, we can't do a roadtrip
+
+	--first things first, add this map to the table and unlock it (if the server goes down we wanna be able to continue a roadtrip from this map, at minimum)
+	local insrt = "INSERT INTO jazz_roadtrip_next (filename,unlocked) " ..
+					string.format("VALUES (%s,%s)",mapNameCleanup(game.GetMap()),unlock or "1")
+	if not Query(insrt) and unlock then
+		Query("UPDATE jazz_roadtrip_next SET unlocked = " .. unlock .. " WHERE filename = " .. mapNameCleanup(game.GetMap()))
+	end
+
+	for _, v in ipairs(changelevels) do
+
+		local mapname = string.Trim( utf8.char( unpack( v:GetInternalVariable( "m_szMapName" ) ) ), "\0" ) --*God*
+		--MsgC(Color(0,255,0),mapname,"\n")
+		if not isstring(mapname) or mapname == "" then return false end
+
+		insrt = "INSERT INTO jazz_roadtrip_next (filename) " ..
+				string.format( "VALUES (%s)", mapNameCleanup(mapname) )
+
+		Query(insrt)
+
+	end
+
+	return true
+
+end
+
+--call on map load
+function RoadtripMapLoad()
+	--don't bother in hub, etc.
+	if mapcontrol.IsInGamemodeMap() then EndRoadtrip() return end
+
+	local mapname = game.GetMap()
+
+	--first, check to make sure that we're allowed to be here
+	local tried = Query("SELECT unlocked FROM jazz_roadtrip_next WHERE filename = " .. mapNameCleanup(mapname))
+	if type(tried) ~= "table" or not tobool( tried[1].unlocked ) then EndRoadtrip() end
+
+	--clear previous map's next table and setup ours
+	--Query("TRUNCATE TABLE jazz_roadtrip_next") --eh, probably works better for our logic to leave the old table (if they wanna revisit old maps in the chain, let'em)
+	RoadtripGetNextMaps(true)
+
+	--add this map to the roadtrip list
+	local insrt = "INSERT INTO jazz_roadtrip (filename) " ..
+	string.format( "VALUES (%s)", mapNameCleanup(mapname) )
+
+	Query(insrt)
+
+end
+
+hook.Add( "InitPostEntity", "JazzRoadtrip", function()
+	RoadtripMapLoad()
+	--[[timer.Simple(30,function()
+		local c,t = RoadtripCheckTotals(true)
+		MsgC(Color(72,224,128),"Shards this trip: " .. tostring(c) .. "/" .. tostring(t) .."\n")
+	end)]]
+end )
+
+roadtripcollected, roadtriptotal = 0, 0
+
+--get the total number of collected shards for this trip and the max shards it could be
+--(this isn't gonna update terribly often compared to how often we'd be grabbing it so make the option to use cached results)
+function RoadtripCheckTotals(update)
+
+	if update then
+
+		local maps = Query("SELECT * FROM jazz_roadtrip")
+		if type(maps) ~= "table" then return 0, 1 end
+
+		roadtripcollected, roadtriptotal = 0, 0
+
+		for _, v in ipairs(maps) do
+
+			local collectedMap, totalMap = GetMapShardCount(string.lower(v.filename))
+			if collectedMap and totalMap then
+				roadtripcollected = roadtripcollected + collectedMap
+				roadtriptotal = roadtriptotal + totalMap
+			end
+
+		end
+
+	end
+	return roadtripcollected, roadtriptotal
+end
+
+--trolley has locked onto our map change, let this map continue our roadtrip
+function RoadtripSetNext(mapname)
+	Query("UPDATE jazz_roadtrip_next SET unlocked = 1 WHERE filename = " .. mapNameCleanup(mapname))
+end
+
+concommand.Add("jazz_debug_addtoroadtrip",
+	function(ply,cmd,args,argStr)
+		RoadtripSetNext(args[1])
+	end,
+	function(cmd,args) return end,
+	"Enable a map to continue our roadtrip")

@@ -227,6 +227,31 @@ function GM:GenerateJazzEntities(noshards)
 			if (map.corrupt > progress.CORRUPT_NONE) then
 				mapgen.GenerateBlackShard(map.seed)
 			end
+
+			--spawn markers for Roadtrips
+			for _, v in ipairs(ents.FindByClass("*_changelevel")) do
+
+				local destname = string.Trim( utf8.char( unpack( v:GetInternalVariable( "m_szMapName" ) ) ), "\0" )
+				if string.lower(destname) == string.lower(game.GetMap()) then continue end --Seriously Valve what the fuck 
+
+				local ent = nil
+				--fine Valve, use the same name for other ents
+				for _, v in ipairs(ents.FindByName( string.Trim( utf8.char( unpack( v:GetInternalVariable( "m_szLandmarkName" ) ) ), "\0" ) )) do
+					if IsValid(v) and v:GetClass() == "info_landmark" then ent = v break end
+				end
+				local busmark = ents.Create("jazz_stanteleportmarker")
+
+				if not IsValid(ent) or not IsValid(busmark) then continue end
+				
+				busmark:SetPos(ent:GetPos())
+				--busmark:SetAngles( Angle( 0, 0, ent:GetAngles().z ) ) --just kidding no angles on landmarks
+				busmark:SetBusMarker(true)
+				busmark:SetDestinationName(destname .. ":" .. game.GetMap()) --map names can't have a colon, so we use that as a separator
+				busmark:SetDestination(ent)
+				busmark:SetLevel(99)
+				busmark:Spawn()
+
+			end
 		end
 
 		-- Spawn static prop proxy entities
@@ -273,12 +298,12 @@ end
 function GM:CollectShard(shard, ply)
 	local left, total = mapgen.CollectShard(ply, shard)
 	if not left then return false end
-
 	-- Go you
-	ply:ChangeNotes(shard.JazzWorth * newgame.GetMultiplier())
+	ply:ChangeNotes(math.floor( shard.JazzWorth * newgame.GetMultiplier() ))
+	newgame.GetRoadtripTotals() --update totals, too
 
 	net.Start("shard_notify")
-	net.WriteEntity( ply )
+		net.WriteEntity( ply )
 	net.Broadcast()
 
 end
