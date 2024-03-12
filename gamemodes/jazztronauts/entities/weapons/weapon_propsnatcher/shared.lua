@@ -106,7 +106,7 @@ local snatch_world_speed = jstore.RegisterSeries("snatch_world_speed", 1, 10, {
 
 
 
-CreateConVar("jazz_debug_snatch_allups", "0", { FCVAR_REPLICATED, FCVAR_NOTIFY }, jazzloc.Localize("Temporarily enable all upgrades for snatcher"))
+CreateConVar("jazz_debug_snatch_allups", "0", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_CHEAT }, jazzloc.Localize("Temporarily enable all upgrades for snatcher"))
 
 function SWEP:Initialize()
 	self.BaseClass.Initialize( self )
@@ -751,33 +751,48 @@ local function getBrushScale(marker)
 	return scale
 end
 
-function SWEP:CalcView(ply, pos, ang, fov)
-	local marker = self:GetCurSnatchMarker(newMarker)
-	if not IsValid(marker) or not marker.GetProgress or not marker.BrushInfo then return end
+if CLIENT then
+	local convar_shake = CreateClientConVar("jazz_snatch_shake", "1", true, false, "Multiplier for how much the screen shakes when stealing brushes. 1 is the default, 0 disables shaking.")
+	local ShakeScale = convar_shake:GetFloat()
+	cvars.AddChangeCallback("jazz_snatchshake", function()
+		ShakeScale = convar_shake:GetFloat()
+	end)
 
-	local scale = getBrushScale(marker)
-	scale = math.max(0, scale - self.WorldStealSpeed * 0.000001)
+	SWEP.PullShake = 0
+	SWEP.GoalShake = 0
+	SWEP.NextRandom = 0
+	function SWEP:CalcView(ply, pos, ang, fov)
+		local marker = self:GetCurSnatchMarker(newMarker)
+		if not IsValid(marker) or not marker.GetProgress or not marker.BrushInfo then return end
 
-	self.PullShake = self.PullShake or 0
-	self.GoalShake = self.GoalShake or 0
-	self.NextRandom = self.NextRandom or 0
-	if CurTime() > self.NextRandom then
-		local time = math.random(0.1, 0.7)
-		self.NextRandom = CurTime() + time
-		self.GoalShake = math.random(0.2, 1) * sign(math.random(-1, 1))
+		local scale = getBrushScale(marker)
+		scale = math.max(0, scale - self.WorldStealSpeed * 0.000001)
 
-		util.ScreenShake(pos, 5 * scale, 5, time, 256)
-		if math.random() > 0.65 then
-			self:GetOwner():EmitSound(table.Random(strainsounds), 75, math.random(80, 100), 0.25, CHAN_WEAPON + 2 )
+		if CurTime() > self.NextRandom then
+			local time = math.random(0.1, 0.7)
+			self.NextRandom = CurTime() + time
+
+			if tobool(ShakeScale) then
+				self.GoalShake = math.random(0.2, 1) * sign(math.random(-1, 1))
+				util.ScreenShake(pos, 5 * scale * ShakeScale, 5, time, 256)
+			end
+			if math.random() > 0.65 then
+				self:GetOwner():EmitSound(table.Random(strainsounds), 75, math.random(80, 100), 0.25, CHAN_WEAPON + 2 )
+			end
 		end
+
+		local p = marker:GetProgress()
+
+		if tobool(ShakeScale) then
+			self.PullShake = math.Approach(self.PullShake, self.GoalShake, FrameTime() * 7)
+
+			local rot = self.PullShake * 25 + math.sin(CurTime() * 7) * 10
+			rot = rot + math.sin(CurTime() * 70) * 3
+			ang = ang + Angle(0, 0, rot * p * scale * ShakeScale)
+		end
+
+		return pos, ang, fov + p * scale * 25
 	end
-	self.PullShake = math.Approach(self.PullShake, self.GoalShake, FrameTime() * 7)
-
-	local p = marker:GetProgress()
-	local rot = self.PullShake * 25 + math.sin(CurTime() * 7) * 10
-	rot = rot + math.sin(CurTime() * 70) * 3
-
-	return pos, ang + Angle(0, 0, rot * p * scale), fov + p * scale * 25
 end
 
 function SWEP:RemoveSnatchMarker()
