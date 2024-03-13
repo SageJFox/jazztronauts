@@ -251,6 +251,8 @@ function GM:GenerateJazzEntities(noshards)
 				busmark:SetLevel(99)
 				busmark:Spawn()
 
+				v:Remove() --changelevels on at least Ep1/Ep2 maps completely lock up the player, even after respawn. How fun!
+
 			end
 		end
 
