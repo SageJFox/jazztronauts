@@ -88,7 +88,7 @@ if SERVER then
 	end
 
 	local HelpMsg = "Add money to a specified player, or yourself if you're the host. Negative money subtracts.\n"
-	.. "Usage: jazz_money_add amount [player]"
+	.. "Usage: jazz_money_add amount [SteamID64]"
 	concommand.Add("jazz_money_add", function(ply, _, args)
 		local amt = tonumber(args[1])
 
