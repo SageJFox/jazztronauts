@@ -87,6 +87,34 @@ if SERVER then
 		return false
 	end
 
+	local HelpMsg = "Add money to a specified player, or yourself if you're the host. Negative money subtracts.\n"
+	.. "Usage: jazz_money_add amount [player]"
+	concommand.Add("jazz_money_add", function(ply, _, args)
+		local amt = tonumber(args[1])
+
+		if !amt then
+			print(HelpMsg)
+			return
+		end
+
+		local steamid64 = false
+
+		if args[2] and tonumber(args[2]) then
+			steamid64 = tostring(args[2])
+		end
+
+		if ply and !args[2] then
+			steamid64 = ply:SteamID64()
+		end
+
+		if !steamid64 then
+			print("No player specified!")
+			return
+		end
+
+		ChangeNotes(ply, amt)
+	end, nil, HelpMsg, { FCVAR_CHEAT } )
+
 	UpdateTotal()
 
 	-- Lua refresh do a full total update
