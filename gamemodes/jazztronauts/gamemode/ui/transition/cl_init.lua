@@ -96,7 +96,7 @@ local function drawHorse(amount)
 
 	surface.DrawTexturedRect(transitionrect:Unpack())
 
-	
+
 	surface.DrawRect( -1, -1, box.x0 + 1, ScrH() + 1 )
 	surface.DrawRect( box.x0, -1, ScrW() - box.x0, box.y0 + 1 )
 	surface.DrawRect( box.x1, box.y0, ScrW() - box.x1, ScrH() - box.y0 )
@@ -171,7 +171,7 @@ if mapcontrol.IsInHub() then
 	-- Prevents flash frame before OnClientInitialized runs
 	hook.Add("PostDrawHUD", "JazzPrepareTransitionIntoBar", function()
 		surface.SetDrawColor(0,0,0,255)
-		surface.DrawRect( 0, 0, ScrW(), ScrH() )
+		surface.DrawRect( -1, -1, ScrW() + 2, ScrH() + 2 )
 	end )
 	hook.Add("OnClientInitialized", "JazzTransitionIntoBar", function(ply)
 		transitionIn(1)

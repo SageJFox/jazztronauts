@@ -76,7 +76,7 @@ end
 -- So just manually check collision here for players
 hook.Add("ShouldCollide", "JazzPlayerCollide", function(ent1, ent2)
 	if not (ent1:IsPlayer() and ent2:IsPlayer()) then return end
-	if cvars.Bool("jazz_player_pvp") then return end
+	if cvars.Bool("jazz_pvp") then return end
 	return false
 end )
 

@@ -50,7 +50,7 @@ if SERVER then
 
 		-- Activate anti-stuck code when PvP is on since players are allowed to collide
 		-- Prob doesn't need to be a hook, but makes sense keeping it with the other collision stuff
-		if cvars.Bool("jazz_player_pvp") then
+		if cvars.Bool("jazz_pvp") then
 			hook.Run("JazzPlayerOnPlayer", ply, ent)
 		end
 	end )

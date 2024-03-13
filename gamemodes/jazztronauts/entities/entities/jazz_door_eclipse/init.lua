@@ -9,7 +9,17 @@ ENT.DoorClose = Sound("doors/door_wood_close1.wav") //just defaults
 
 PrecacheParticleSystem("jazzCandle")
 
+local convar_noeclipse = CreateConVar("jazz_disable_eclipse", "0", { FCVAR_ARCHIVE, FCVAR_REPLICATED }, "Disables the New Game Plus marker in the bar. Requires a map change to take effect.")
+
 function ENT:Initialize()
+	-- Only spawn if NG+, game isn't ended, and the server hasn't opted out
+	if newgame.GetResetCount() == 0
+	or tobool(newgame.GetGlobal("ended"))
+	or convar_noeclipse:GetBool() then
+		self:Remove()
+		return
+	end
+
 	self:SetModel("models/props_c17/gravestone_coffinpiece002a.mdl")
 	self:SetMoveType(MOVETYPE_NONE)
 	self:SetSolid(SOLID_VPHYSICS)
@@ -23,11 +33,6 @@ function ENT:Initialize()
 	end
 
 	self:ResetSequence(self:LookupSequence("idle"))
-
-	-- Only spawn if NG+ and game isn't ended
-	if newgame.GetResetCount() == 0 or tobool(newgame.GetGlobal("ended")) then
-		self:Remove()
-	end
 
 	-- If we have somewhere to go, spawn the voter machine
 	if self:GetDestination() then
