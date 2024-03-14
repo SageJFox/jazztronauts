@@ -31,7 +31,19 @@ function money.GetTotalEarned()
 	return tonumber(res[1].total) or 0
 end
 
-local function ChangeNotes(ply64, delta, column)
+function money.ChangeNotes(ply64, delta, onlyearn)
+	if delta == 0 then return false end
+
+	local column = "earned"
+	if delta < 0 and not onlyearn then
+		delta = math.abs(delta)
+		column = "spent"
+
+		-- Not enough money
+		local mon = money.GetNotes(ply64)
+		if (mon.earned - mon.spent) < delta then return false end
+	end
+
 	local deltaStr = delta >= 0 and "+ " .. delta or tostring(delta)
 
 	local update = "UPDATE jazz_player_money "
@@ -46,22 +58,6 @@ local function ChangeNotes(ply64, delta, column)
 	if jsql.Query(update) == false then return false end
 
 	return true
-end
-
-function money.ChangeEarned(ply, delta)
-	if !IsValid(ply) then return false end
-	return ChangeNotes(ply:SteamID64() or "0", delta, "earned")
-end
-
-function money.ChangeSpent(ply, delta)
-	if !IsValid(ply) then return false end
-	return ChangeNotes(ply:SteamID64() or "0", delta, "spent")
-end
-
--- Similar to above functions, but doesn't credit anyone in particular
-function money.ChangeEarnedTotal(delta)
-	if !IsValid(ply) then return false end
-	return ChangeNotes(SERVER_ID, delta, "earned")
 end
 
 local function ConvertTypes(entry)
@@ -90,11 +86,13 @@ end
 
 -- Retrieve the note count of a specific player
 function money.GetNotes(ply)
-	if !IsValid(ply) then return nil end
-	local id = ply:SteamID64() or "0"
+	if isentity(ply) then
+		if ply:IsValid() then return nil end
+		ply = ply:SteamID64()
+	end
 
 	local sel = "SELECT * FROM jazz_player_money "
-		.. string.format("WHERE steamid='%s'", id)
+		.. string.format("WHERE steamid='%s'", ply)
 
 	local res = jsql.Query(sel)
 	if type(res) == "table" then
