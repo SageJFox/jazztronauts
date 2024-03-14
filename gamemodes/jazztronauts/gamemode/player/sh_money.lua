@@ -48,47 +48,23 @@ if SERVER then
 		return money.GetTotalPlayers()
 	end
 
-	-- Player earned some money
-	function AddNotes(ply, amt)
-		if money.ChangeEarned(ply, math.max(0, amt)) then
-			UpdateTotal(amt) -- Refresh total $ cache
-			return true
-		end
+	function ChangeNotes(ply, amt, onlyearn)
+		if isentity(ply) then ply = ply:SteamID64() end
 
-		return false
+		-- Change money, return if failed
+		if not money.ChangeNotes(ply, amt, onlyearn) then return false end
+
+		if amt > 0 or onlyearn then -- Earned, refresh total $ cache
+			UpdateTotal(amt)
+		else -- Spent, update this person's spent table
+			spentTbl[ply] = GetPlayerMoney(ply).spent
+		end
+		return true
 	end
 
-	-- Player spent some money
-	function RemoveNotes(ply, amt)
-		local num = GetNotes(ply)
-
-		-- Not enough money
-		if num < amt then return false end
-
-		local ret = money.ChangeSpent(ply, math.max(0, amt))
-
-		-- Update this person's spent table
-		if ret then
-			spentTbl[ply:SteamID64()] = GetPlayerMoney(ply).spent
-		end
-
-		return ret
-	end
-
-	-- Encapsulate AddNotes and RemoveNotes depending on if delta is positive or negative
-	function ChangeNotes(ply, delta)
-		if delta > 0 then
-			return AddNotes(ply, delta)
-		elseif delta < 0 then
-			return RemoveNotes(ply, math.abs(delta))
-		end
-
-		-- Change 0 does nothing
-		return false
-	end
-
-	local HelpMsg = "Add money to a specified player, or yourself if you're the host. Negative money subtracts.\n"
-	.. "Usage: jazz_money_add amount [SteamID64]"
+	local HelpMsg = "Gives money to all players. Not affected by active multipliers. Negative values subtract.\n"
+	.. 'If jazz_money_shared is 0, specify a player via SteamID64. The host can type "self" instead.\n'
+	.. "Usage: jazz_money_add amount [self/SteamID64]"
 	concommand.Add("jazz_money_add", function(ply, _, args)
 		local amt = tonumber(args[1])
 
@@ -97,22 +73,43 @@ if SERVER then
 			return
 		end
 
-		local steamid64 = false
+		local steamid64 = "-1"
 
-		if args[2] and tonumber(args[2]) then
-			steamid64 = tostring(args[2])
-		end
+		-- sets for everyone
+		if IsShared() and !args[2] then
+			if amt < 0 then
+				local sel = "SELECT * FROM jazz_player_money WHERE earned = (SELECT MAX(earned) FROM jazz_player_money)"
+				local res = jsql.Query(sel)[1]
 
-		if ply and !args[2] then
-			steamid64 = ply:SteamID64()
-		end
+				if tonumber(res.earned) < math.abs(amt) then
+					print("Can't remove that much money!")
+					return
+				end
 
-		if !steamid64 then
-			print("No player specified!")
+				steamid64 = res.steamid
+			end
+
+			ChangeNotes(steamid64, amt, true)
 			return
 		end
 
-		ChangeNotes(ply, amt)
+
+		if args[2] == "self" then
+			if !ply or !IsValid(ply) then
+				print("Couldn't find you!")
+				return
+			end
+			steamid64 = ply:SteamID64()
+		elseif tonumber(args[2]) then
+			steamid64 = args[2]
+		else
+			print("Invalid player specified!")
+			return
+		end
+
+		if not ChangeNotes(steamid64, amt) then
+			print("Failure!")
+		end
 	end, nil, HelpMsg, { FCVAR_CHEAT } )
 
 	UpdateTotal()
