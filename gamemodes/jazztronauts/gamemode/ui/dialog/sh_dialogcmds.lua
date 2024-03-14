@@ -783,7 +783,7 @@ local function WorldToSceneRoot(name, set)
 	return tab
 end
 
-local cat_angle_fix = Angle(90,90,0)
+local cat_angle_fix = angle_zero --Angle(90,90,0) --set this to non zero if converting scenes from old models to new
 
 dialog.RegisterFunc("setposang", function(d, name, ...)
 	local prop = FindByName(name)

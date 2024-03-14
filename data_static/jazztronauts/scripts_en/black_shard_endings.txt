@@ -291,6 +291,7 @@ t4b:
 	*BLOCKSTART*
 		*setspeaker cat_bar*
 		*emitsound ambient/atmosphere/terrain_rumble1.wav .45 .7*
+		*setcamroot nil* #TEMPFIX
 	*BLOCKEND*
 	You okay, *player*? Here, sit dow—*emitsound ambient/atmosphere/terrain_rumble1.wav .58 .8*
 	&t5
@@ -308,6 +309,7 @@ t5:
 		*wait 4*
 		*shake 6*
 		*show narrator*
+		*setanim cat_cello falling*
 	*BLOCKEND*
 	> The trolley is falling!% *overrideportrait cat_cello*The Cellist goes flying 
 	past you,% swearing incomprehensibly.
@@ -337,6 +339,7 @@ t9:
 		*setlocale narrator scene_voidway*
 		*setcam setpos -8377.819336 1647.768677 -6782.931641;setang 4.631858 92.969254 0.000000*
 		*setspeaker cat_piano*
+		*setanim cat_cello idle*
 	*BLOCKEND*
 	Funny how when I finally find a way to kill you,%
 	I don't actually want to do it.
@@ -355,7 +358,8 @@ t9b:
 t10:
 	*BLOCKSTART*
 		*fadeblind 1*
-		*setlocale narrator scene_voidway_spin*
+		#*setlocale narrator scene_voidway_spin* #todo
+		*setcamroot nil* #TEMPFIX
 		*setcam setpos -11234.839844 -1545.087036 -9792.435547;setang -32.333832 89.721710 0.000000*
 		*tweencam 35 setpos -11101.661133 5169.411621 -7036.478027;setang 22.024242 -95.597954 0.000000*
 		*setspeaker narrator*
@@ -484,6 +488,7 @@ t19:
 	*BLOCKSTART*
 		*hide*
 		*setcam setpos 6542.691406 213.712082 3864.309082;setang 21.811207 -18.417343 0.000000*
+		*setposang cat_void setpos 7188.277344 4.338923 3584.031250;setang 0 180 0.000000* #tempfix
 		*setanim cat_void gesture_anger 2 idle*
 		*emitsound ambient/levels/caves/rumble2.wav .95*
 		*shake 10*
@@ -498,7 +503,8 @@ t19:
 		*shake 6*
 		*wait 8*
 		*fadeblind*
-		*setposang cat_void setpos -11416.734375 2756.970947 -7782.452148;setang -90 -89.537148 0.000000*
+		#*setposang cat_void setpos -11416.734375 2756.970947 -7782.452148;setang -90 -89.537148 0.000000*
+		*setposang cat_void setpos -11416.734375 2756.970947 -7782.452148;setang 0 0.462852 0.000000* #tempfix for now
 		*setcam setpos -11399.670898 225.986191 -8377.907227;setang -4.046246 89.642105 0.000000*
 		*tweencam 20 setpos -11405.599609 -722.182678 -8064.457031;setang -3.993006 89.588867 0.000000*
 		*show cat_piano*
@@ -522,6 +528,25 @@ t21:
 		*DISAGREE(cat_cello)*
 	*BLOCKEND*
 	oh my god fuck you now is not the time for—
+	&t22hotfix
+
+t22hotfix:
+	*BLOCKSTART*
+		*hide*
+		*txout*
+		*wait 2*
+		*setspeaker narrator*
+		*show*
+	*BLOCKEND*
+	> The Void cat dives past the trolley and grabs onto the cow catcher!%%% 
+	Voidway starts rolling out in front of them.%.%.% The Void slowly fades 
+	back to normal as the trolley evens out.
+	&t22hotfix2
+
+t22hotfix2:
+	> The Void cat hops down off of the cow catcher and onto the Void 
+	pavement.%% They.%.%.% wave?% Turn around, and start heading back 
+	down the road.%.%.%
 	&t22
 
 [Ash dives past the trolley and grabs onto the cow catcher. Track appears and starts unfolding in front of them. 
@@ -534,6 +559,7 @@ Waves. Turns around and starts walking back. Change view back to interior of tro
 t22:
 	*BLOCKSTART*
 		*hide*
+		*txin* #FOR HOTFIX ONLY
 		*CELLO_MAD*
 		*voiddisable*
 		*setgravity code_trolley*
@@ -541,7 +567,8 @@ t22:
 		*bgmplay sound/jazztronauts/music/events/dangersong.mp3 0 1*
 		*emitsound ambient/energy/whiteflash.wav .75*
 		*fadeblind 2*
-		*setposang cat_void setpos -8248.544922 1706.195801 -8000.286621;setang -90 180 0.000000*
+		#*setposang cat_void setpos -8248.544922 1706.195801 -8000.286621;setang -90 180 0.000000*
+		*setposang cat_void setpos -8248.544922 1706.195801 -8000.286621;setang 0 -90 0.000000* #tempfix for now
 		*setcam setpos -8167.002930 2335.509033 -6803.162598;setang 0.621752 -115.030540 0.000000*
 		*wait 3*
 		*show cat_cello*
@@ -577,10 +604,12 @@ t25:
 	*BLOCKSTART*
 		*hide*
 		*txout*
+	*BLOCKEND*
 		*setlocale narrator scene_depo*
 		*setcamroot narrator setpos 293.858643 8.113190 66.432495;setang -0.603 179.675 0.000*
 		#*setcam setpos 1454.141357 503.886780 -1829.567505;setang -0.602724 -0.324777 0.000000*
 		*setoffset code_trolley setpos -258.556885 -1160.070679 0;setang -0.000 180.000 0.000*
+	*BLOCKSTART*
 		*tweenoffset code_trolley 5 setpos -258.556763 15.000031 0;setang -0.000 180.000 0.000*
 		#*setposang code_trolley setpos 2006.556763 1672.070679 -1816.968750;setang 0 0 0.000000*
 		#*tweenposang code_trolley 5 setpos 2006.556763 497 -1816.968750;setang 0 0 0.000000*
@@ -611,6 +640,7 @@ t26:
 	*BLOCKSTART*
 		*BAR_HAPPY*
 		*CLAP(cat_bar)*
+		*setcamroot nil* #TEMPFIX
 	*BLOCKEND*
 	Well,% that was existentially horrifying and I'd 
 	like to not think about it for a few hours,% so I 
@@ -619,7 +649,7 @@ t26:
 
 t27:
 	*BLOCKSTART*
-		*setcamroot cat_piano*
+		#*setcamroot cat_piano* #todo
 		*setcam setpos 1790.002930 575.927551 -1850.974731;setang 4.987455 177.390213 0.000000*
 		*BAR_NEUTRAL*
 		*PIANO_SMIRK*
@@ -636,7 +666,7 @@ t29:
 	*BLOCKSTART*
 		*CELLO_HIGH*
 		*setspeaker cat_cello*
-		*setcamroot cat_cello*
+		#*setcamroot cat_cello* #todo
 		*setcam setpos 1771.005737 526.512756 -1850.544189;setang -4.382786 -155.031708 0.000000*
 		*CONFUSED(cat_cello)*
 	*BLOCKEND*
@@ -659,7 +689,7 @@ t31:
 	*BLOCKSTART*
 		*SINGER_CRY*
 		narratesinger()
-		*setcamroot cat_singer*
+		#*setcamroot cat_singer* #todo
 		*setcam setpos 1790.002930 575.927551 -1850.974731;setang 4.987455 177.390213 0.000000*
 	*BLOCKEND*
 	> The Singer runs off to the Mewseum,% and returns with a fresh 
@@ -732,15 +762,16 @@ t38:
 		*setposang metrocop_spec setpos 1825.338379 534.568604 -1896.968750;setang -1.241788 -179.095718 0.000000*
 		*setanim metrocop_spec Idle_Baton*
 		newsceneroot(barhop,scene_bar)
-		*setroot cat_bar barhop*
-		*setroot player barhop*
-		*setposang cat_bar setpos 328.994995 704.156860 -1871.968750;setang -90 180 0.000000*
-		####*setposang player setpos 283.669067 579.761719 -1896;setang 0.568216 67.521133 0.000000*
-		*setoffset player setpos -8.678223 -47.472656 0;setang 14.517 152.446 0.000*
-		*setanim player sit*
-		*setcamroot barhop*
+		#*setroot cat_bar barhop* #todo
+		#*setroot player barhop* #todo
+		#*setposang cat_bar setpos 328.994995 704.156860 -1871.968750;setang -90 180 0.000000*
+		*setposang cat_bar setpos 328.994995 704.156860 -1871.968750;setang 0 -90 0.000000* #tempfix for now
+		*setposang player setpos 283.669067 579.761719 -1896;setang 0.568216 67.521133 0.000000*
+		#*setoffset player setpos -8.678223 -47.472656 0;setang 14.517 152.446 0.000*
+		#*setanim player sit* #todo
+		#*setcamroot barhop* #todo
 		*setcam setpos -223.834137 550.917419 -1818.752808;setang 1.207416 -9.633442 0.000000*
-		*setcamroot narrator*
+		#*setcamroot narrator* #todo
 		*tweencam 34 setpos 1461.387939 515.352539 -1826.769043;setang 1.367136 -0.209962 0.000000*
 		*bgmplay sound/jazztronauts/music/events/warm_song.mp3 .75 3*
 		*txin*
@@ -758,7 +789,8 @@ t39:
 
 t40:
 	*BLOCKSTART*
-		*setposang cat_bar setpos 328.994995 704.156860 -1871.968750;setang -90 180 0.000000*
+		#*setposang cat_bar setpos 328.994995 704.156860 -1871.968750;setang -90 180 0.000000*
+		*setposang cat_bar setpos 328.994995 704.156860 -1871.968750;setang 0 -90 0.000000* #tempfix for now
 		*setposang player setpos 283.669067 579.761719 -1896;setang 0.568216 67.521133 0.000000*
 		*setspeaker cat_bar*
 		*setcam setpos 405.847565 552.598999 -1816.320557;setang 9.246651 137.255585 0.000000*
@@ -775,7 +807,7 @@ t40:
 
 r1:
 	*BLOCKSTART*
-		*setcamroot cat_bar*
+		#*setcamroot cat_bar* #todo
 		*setcam setpos 327.828461 628.367981 -1827.825073;setang -1.135153 90.351120 0.000000*
 		*setspeaker cat_bar*
 		*BAR_BLINK*
@@ -820,7 +852,7 @@ r1f:
 
 r2:
 	*BLOCKSTART*
-		*setcamroot cat_bar*
+		#*setcamroot cat_bar* #todo
 		*setcam setpos 327.828461 628.367981 -1827.825073;setang -1.135153 90.351120 0.000000*
 		*setspeaker cat_bar*
 		*BAR_NEUTRAL*
@@ -895,7 +927,7 @@ r2g:
 
 r3:
 	*BLOCKSTART*
-		*setcamroot cat_bar*
+		#*setcamroot cat_bar* #todo
 		*setcam setpos 327.828461 628.367981 -1827.825073;setang -1.135153 90.351120 0.000000*
 		*setspeaker cat_bar*
 		*BAR_SURPRISE*
@@ -930,14 +962,17 @@ r3b:
 
 t41:
 	*BLOCKSTART*
-		*setcam setpos 228.721680 680.249146 -1814.534058;setang 9.992023 -35.135532 0.000000*
+		*setcam setpos 228.721680 680.249146 -1814.534058;setang 9.992023 -35.135532 0.000000* #why is this fucked
 		*setroot metrocop_spec nil*
 		*setroot barhop cat_cello*
 		*setroot barhop cat_singer*
 		*setroot barhop cat_piano*
-		*setposang cat_cello setpos 484.166382 474.805298 -1896;setang -90 45 0.000000*
-		*setposang cat_singer setpos 481.753113 522.927368 -1896;setang -90 45 0.000000*
-		*setposang cat_piano setpos 517.119995 530.757996 -1896;setang -90 45 0.000000*
+		#*setposang cat_cello setpos 484.166382 474.805298 -1896;setang -90 45 0.000000*
+		#*setposang cat_singer setpos 481.753113 522.927368 -1896;setang -90 45 0.000000*
+		#*setposang cat_piano setpos 517.119995 530.757996 -1896;setang -90 45 0.000000*
+		*setposang cat_cello setpos 484.166382 474.805298 -1896;setang 0 135 0.000000* #tempfix for now
+		*setposang cat_singer setpos 481.753113 522.927368 -1896;setang 0 135 0.000000* #tempfix for now
+		*setposang cat_piano setpos 517.119995 530.757996 -1896;setang 0 135 0.000000* #tempfix for now
 		*PIANO_FLUSTERED*
 		*setspeaker cat_piano*
 		*EMBARASS(cat_piano)*
@@ -1031,10 +1066,14 @@ concert:
 		*setlocale narrator scene_pond*
 		*bgmplay sound/jazztronauts/music/que_chevere_travel.mp3 .9 2*
 		*wait 1*
-		*setposang cat_singer setpos -2307.144287 507.479340 -1959.968750;setang -90 270 0.000000*
-		*setposang cat_piano setpos -2430.814209 653.278625 -1959.968750;setang -90 255 0.000000*
-		*setposang cat_cello setpos -2431.651855 351.723389 -1959.968750;setang -90 285 0.000000*
-		*setposang cat_bar setpos -2486.503906 518.960266 -1959.968750;setang -90 270 0.000000*
+		#*setposang cat_singer setpos -2307.144287 507.479340 -1959.968750;setang -90 270 0.000000*
+		#*setposang cat_piano setpos -2430.814209 653.278625 -1959.968750;setang -90 255 0.000000*
+		#*setposang cat_cello setpos -2431.651855 351.723389 -1959.968750;setang -90 285 0.000000*
+		#*setposang cat_bar setpos -2486.503906 518.960266 -1959.968750;setang -90 270 0.000000*
+		*setposang cat_singer setpos -2307.144287 507.479340 -1959.968750;setang 0 0 0.000000* #tempfix for now
+		*setposang cat_piano setpos -2430.814209 653.278625 -1959.968750;setang 0 -15 0.000000* #tempfix for now
+		*setposang cat_cello setpos -2431.651855 351.723389 -1959.968750;setang 0 15 0.000000* #tempfix for now
+		*setposang cat_bar setpos -2486.503906 518.960266 -1959.968750;setang 0 0 0.000000* #tempfix for now
 		*setroot player narrator*
 		*setposang player setpos -1852.779663 504.277893 -1959.968750;setang 0 -179.414841 0.000000*
 		*setanim player sit_zen*
