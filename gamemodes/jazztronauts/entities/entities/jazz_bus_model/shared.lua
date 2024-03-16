@@ -69,9 +69,9 @@ if CLIENT then
 
 	function ENT:Draw()
 		self:DrawRTScreen(jazzloc.Localize(self:GetDestination()))
-		render.MaterialOverrideByIndex(2, screen_rt:GetUnlitMaterial())
+		render.MaterialOverrideByIndex(1, screen_rt:GetUnlitMaterial())
 		self:DrawModel()
-		render.MaterialOverrideByIndex(1, nil)
+		render.MaterialOverrideByIndex(0, nil)
 	end
 
 end

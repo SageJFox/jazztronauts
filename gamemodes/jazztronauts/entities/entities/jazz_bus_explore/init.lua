@@ -83,12 +83,12 @@ function ENT:Initialize()
 
 	-- Setup seat offsets
 	for i=1, 8 do
-		self:AttachSeat(Vector(40, i * 40 - 180, 80), Angle(0, 180, 0))
-		self:AttachSeat(Vector(-40, i * 40 - 180, 80), Angle(0, 180, 0))
+		self:AttachSeat(Vector(40, i * 40 - 180, 70), Angle(0, 180, 0))
+		self:AttachSeat(Vector(-40, i * 40 - 180, 70), Angle(0, 180, 0))
 	end
 
 	-- Setup radio
-	self:AttachRadio(Vector(40, -190, 50), Angle(0, 150, 0))
+	self:AttachRadio(Vector(40, -190, 40), Angle(0, 150, 0))
 
 	local spawnPos = self:GetPos()
 	self.StartPos = spawnPos + self:GetAngles():Right() * (-self.HalfLength - 20) + Vector(0, 0, 20)
@@ -422,6 +422,8 @@ function ENT:PhysicsSimulate( phys, deltatime )
 
 	phys:ComputeShadowControl( self.ShadowControl )
 end
+
+local flooroffset = Vector(0, 0, 40)
 
 function ENT:Think()
 	if self.MoveState == MOVE_ARRIVING then

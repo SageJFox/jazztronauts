@@ -54,7 +54,7 @@ end
 
 function ENT:Draw()
 	self:DrawRTScreen(self.dest)
-	render.MaterialOverrideByIndex(2, screen_rt:GetUnlitMaterial())
+	render.MaterialOverrideByIndex(1, screen_rt:GetUnlitMaterial())
 
 	local offset = self:GetStartOffset()
 	if offset < 0 then
@@ -66,7 +66,7 @@ function ENT:Draw()
 	end
 
 	self:DrawModel()
-	render.MaterialOverrideByIndex(1, nil)
+	render.MaterialOverrideByIndex(0, nil)
 end
 
 function ENT:Think()

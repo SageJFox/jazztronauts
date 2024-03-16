@@ -67,8 +67,8 @@ function ENT:Initialize()
 	self:SetTrigger(true) -- So we get 'touch' callbacks that fuck shit up
 	-- Setup seat offsets
 	for i=1, 8 do
-		self:AttachSeat(Vector(40, i * 40 - 180, 80), Angle(0, 180, 0))
-		self:AttachSeat(Vector(-40, i * 40 - 180, 80), Angle(0, 180, 0))
+		self:AttachSeat(Vector(40, i * 40 - 180, 70), Angle(0, 180, 0))
+		self:AttachSeat(Vector(-40, i * 40 - 180, 70), Angle(0, 180, 0))
 	end
 
 	self.StartPos = self:GetPos() + self:GetAngles():Right() * -1 * self.LeadUp + Vector(0, 0, 40)
