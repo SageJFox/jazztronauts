@@ -131,7 +131,7 @@ if CLIENT then
 		local scribed, numbah = 0, false
 		for char = 1, #text do
 			if self.transcribed[char] then scribed = scribed + 1 end
-			surface.SetFont((self.transcribed[char] or tonumber(text[char]) ) and "JazzStanMarkers" or "JazzStanMarkersSymbols")
+			surface.SetFont((self.transcribed[char] or tonumber(text[char]) or text[char] == " " or text[char] == "_" ) and "JazzStanMarkers" or "JazzStanMarkersSymbols")
 			--unfortunately, our rune font is only letters (and some character modifiers). This tries to at least somewhat handle the other stuff better
 			local drawtext = string.sub( text, char, char )
 			if not self.transcribed[char] then
@@ -144,8 +144,8 @@ if CLIENT then
 						drawtext = ""
 					end
 				-- turn underscores into spaces
-				elseif drawtext == "_" then
-					drawtext = " "
+				elseif drawtext == "_" or drawtext == " " then
+					drawtext = "  " --the spaces on Agathodaimon are huge, so we use two of the KG spaces in their place
 				-- convert our character to A-Z, in a way that is consistent per character
 				elseif string.find(drawtext,"%A") then
 					drawtext = utf8.char((utf8.codepoint(drawtext) % 26) + 65)
