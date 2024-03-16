@@ -433,6 +433,19 @@ function ENT:Think()
 			self:GetPhysicsObject():EnableMotion(false)
 			self:SetPos(self.GoalPos)
 			self.MoveState = MOVE_STATIONARY
+			self.TeleportLockOn = ents.Create("jazz_stanteleportmarker")
+			if IsValid(self.TeleportLockOn) then
+				--spawn this now so it's at a decent location relative to us
+				self.TeleportLockOn:SetDestination(self)
+				if SERVER then self.TeleportLockOn:SetName("jazz_bus_explore_teleportmarker") end
+				self.TeleportLockOn:SetDestinationName(jazzloc.Localize("jazz_bus_explore"))
+				local pos = Vector(self:GetPos())
+				pos:Add(flooroffset)
+				self.TeleportLockOn:SetPos(pos)
+				self.TeleportLockOn:SetParent(self)
+				self.TeleportLockOn:SetLevel(1)
+				self.TeleportLockOn:Spawn()
+			end
 
 			self.BrakeSound:FadeOut(0.2)
 

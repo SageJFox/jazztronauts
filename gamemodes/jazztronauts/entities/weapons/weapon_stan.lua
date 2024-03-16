@@ -831,6 +831,10 @@ function SWEP:Teleport()
 					target:Fire("TeleportEntity","!activator",0,owner,self)
 					self:TeleportFX(owner)
 				end
+				--we're teleporting to the bus, just get in an empty seat
+				if target:GetClass() == "jazz_bus_explore" and target:SitPlayer(owner) then
+					self:TeleportFX(owner)
+				end
 				--clear out tele destination (either we teleported or it failed)
 				self.TeleportDestTarget = nil
 				net.Start("JazzStanTeleportDestTarget")
