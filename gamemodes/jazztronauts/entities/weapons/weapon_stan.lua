@@ -275,7 +275,10 @@ function SWEP:Deploy()
 			worldmarker.SetRenderFunction(v, stanmarkerspin)
 			worldmarker.SetEnabled(v,true)
 			local pos = Vector(v:GetPos())
-			pos:Add(markerAdjust)
+			local bus = v:GetParent()
+			if not (IsValid(bus) and bus:GetClass() == "jazz_bus_explore") then
+				pos:Add(markerAdjust)
+			end
 			worldmarker.Update(v, pos)
 		end
 	end
@@ -311,7 +314,12 @@ function SWEP:SecondaryAttack()
 		for _, v in ipairs(ents.FindByClass("jazz_stanteleportmarker")) do
 			if v:GetLevel() > self.TeleportLockOnLevel or v:GetBusMarker() then continue end
 			local screenloc = v:GetPos()
-			screenloc:Add(markerAdjust)
+			
+			local bus = v:GetParent()
+			if not (IsValid(bus) and bus:GetClass() == "jazz_bus_explore") then
+				screenloc:Add(markerAdjust)
+			end
+
 			local telemark = screenloc:ToScreen()
 			if math.abs(ScrW() / 2 - telemark.x) <= 24 and math.abs(ScrH() / 2 - telemark.y) <= 24 then
 				if self.TeleportDestTarget == v then break end

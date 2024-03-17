@@ -423,7 +423,7 @@ function ENT:PhysicsSimulate( phys, deltatime )
 	phys:ComputeShadowControl( self.ShadowControl )
 end
 
-local flooroffset = Vector(0, 0, 40)
+local telemarkoffset = Vector(0, 0, 100)
 
 function ENT:Think()
 	if self.MoveState == MOVE_ARRIVING then
@@ -440,7 +440,7 @@ function ENT:Think()
 				if SERVER then self.TeleportLockOn:SetName("jazz_bus_explore_teleportmarker") end
 				self.TeleportLockOn:SetDestinationName(jazzloc.Localize("jazz_bus_explore"))
 				local pos = Vector(self:GetPos())
-				pos:Add(flooroffset)
+				pos:Add(telemarkoffset)
 				self.TeleportLockOn:SetPos(pos)
 				self.TeleportLockOn:SetParent(self)
 				self.TeleportLockOn:SetLevel(1)

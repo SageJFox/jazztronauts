@@ -60,7 +60,15 @@ if SERVER then
 		local spawns = {
 			ply -- Signifies default map spawn
 		}
-		table.Add(spawns, ents.FindByClass("jazz_bus_explore"))
+		for _, v in ipairs(ents.FindByClass("jazz_bus_explore")) do
+			if not IsValid(v) then continue end
+			if IsValid(v.TeleportLockOn) then
+				table.insert(spawns,v.TeleportLockOn)
+			else
+				table.insert(spawns,v)
+			end
+		end
+		--table.Add(spawns, ents.FindByClass("jazz_bus_explore"))
 
 		return spawns
 	end
@@ -148,8 +156,8 @@ if CLIENT then
 		if ent:IsPlayer() then return ent:GetName() end
 
 		local class = ent:GetClass()
-		if class == "jazz_bus_explore" then return jazzloc.Localize("jazz_bus_explore") end
-		return class
+		if class == "jazz_stanteleportmarker" then class = "jazz_bus_explore" end
+		return jazzloc.Localize(class)
 	end
 
 	hook.Add("HUDPaint", "JazzDrawSpectate", function()
