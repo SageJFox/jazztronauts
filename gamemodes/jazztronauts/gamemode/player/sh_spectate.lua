@@ -35,6 +35,10 @@ if SERVER then
 		local ent = ply.JazzSpawnEntity
 		if not IsValid(ent) then return end
 
+		if ent:GetClass() == "jazz_stanteleportmarker" and IsValid(ent:GetParent()) then
+			ent = ent:GetParent()
+		end
+
 		-- If they spawned on the bus, or spawned on a player sitting in a bus, spawn on the bus
 		local bus = ent:GetClass() == "jazz_bus_explore" and ent or nil
 		if not IsValid(bus) then
