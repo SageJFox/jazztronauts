@@ -35,12 +35,13 @@ function ENT:KeyValue(key, value)
 end
 
 function ENT:OnMapChanged(newmap, wsid) 
-	local bus = ents.Create( "jazz_bus_hub" )
+	local bus = ents.Create( "jazz_bus" )
 		bus:SetPos(self:GetPos())
 		bus:SetAngles(self:GetAngles())
 		bus:SetMap(newmap, wsid or "")
 		bus.TravelTime = self.TravelTime
 		bus.LeadUp = self.LeadUp
 		bus.TravelDist = self.TravelDist
+		bus:SetHubBus(true)
 		bus:Spawn()
 end

@@ -40,10 +40,10 @@ if SERVER then
 		end
 
 		-- If they spawned on the bus, or spawned on a player sitting in a bus, spawn on the bus
-		local bus = ent:GetClass() == "jazz_bus_explore" and ent or nil
+		local bus = ent:GetClass() == "jazz_bus" and ent or nil
 		if not IsValid(bus) then
 			local parent = ent:IsPlayer() and IsValid(ent:GetVehicle()) and ent:GetVehicle():GetParent()
-			bus = IsValid(parent) and parent:GetClass() == "jazz_bus_explore" and parent or nil
+			bus = IsValid(parent) and parent:GetClass() == "jazz_bus" and parent or nil
 		end
 
 		-- Sit em' down
@@ -64,15 +64,15 @@ if SERVER then
 		local spawns = {
 			ply -- Signifies default map spawn
 		}
-		for _, v in ipairs(ents.FindByClass("jazz_bus_explore")) do
-			if not IsValid(v) then continue end
+		for _, v in ipairs(ents.FindByClass("jazz_bus")) do
+			if not IsValid(v) or v:GetHubBus() then continue end
 			if IsValid(v.TeleportLockOn) then
 				table.insert(spawns,v.TeleportLockOn)
 			else
 				table.insert(spawns,v)
 			end
 		end
-		--table.Add(spawns, ents.FindByClass("jazz_bus_explore"))
+		--table.Add(spawns, ents.FindByClass("jazz_bus"))
 
 		return spawns
 	end
@@ -160,7 +160,7 @@ if CLIENT then
 		if ent:IsPlayer() then return ent:GetName() end
 
 		local class = ent:GetClass()
-		if class == "jazz_stanteleportmarker" then class = "jazz_bus_explore" end
+		if class == "jazz_stanteleportmarker" then class = "jazz_bus" end
 		return jazzloc.Localize(class)
 	end
 

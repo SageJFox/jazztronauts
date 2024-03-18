@@ -1,13 +1,139 @@
-include("shared.lua")
+AddCSLuaFile()
 
-ENT.ScreenHeight = 0
-ENT.ScreenWidth = ENT.ScreenHeight * 1.80
-ENT.ScreenScale = .1
+--sounds used
+sound.Add( {
+	name = "jazz_bus_accelerate",
+	channel = CHAN_AUTO,
+	volume = 1.0,
+	level = 80,
+	pitch = { 95, 110 },
+	sound = "vehicles/v8/v8_turbo_on_loop1.wav"
+} )
 
-ENT.CommentOffset = Vector(-160, 16, 0)
+sound.Add( {
+	name = "jazz_bus_accelerate2",
+	channel = CHAN_AUTO,
+	volume = 1.0,
+	level = 80,
+	pitch = { 95, 110 },
+	sound = "vehicles/v8/v8_rev_short_loop1.wav"
+} )
 
-ENT.BusWidth = 71
-ENT.BusLength = 280
+sound.Add( {
+	name = "jazz_bus_idle",
+	channel = CHAN_AUTO,
+	volume = 1.0,
+	level = 80,
+	pitch = { 95, 110 },
+	sound = "vehicles/v8/v8_start_loop1.wav"
+} )
+
+-- use this function to set up any variables you're going to need, or attach any other weird shit to your model
+function ENT:PreInit()
+	self.Model			= Model( "models/matt/jazz_trolley.mdl" )
+	self.HalfLength		= 300
+	self.JazzSpeed		= 800 -- How fast to explore the jazz dimension
+
+	self.RadioMusicName = "jazztronauts/music/que_chevere_radio_loop.wav"
+	self.RadioModel = "models/props_lab/citizenradio.mdl"
+
+	self.VoidMusicName = "jazztronauts/music/que_chevere_travel_fade.mp3"
+	self.VoidMusicPreroll = 2.9 -- how many seconds it takes to get to the chorus
+	self.VoidMusicFadeStart = 12.0
+	self.VoidMusicFadeEnd   = 19.0
+
+	self.SpectateCamOffset = Vector(0, 0, 100)
+
+	self.CrashSound = { "vehicles/v8/vehicle_impact_heavy1.wav", 90, 150 }
+	self.SkidSound = { "vehicles/v8/skid_normalfriction.wav", 90, 110 }
+	self.EngineOffSound = { "vehicles/v8/v8_stop1.wav", 90, 110 }
+	self.DingSound = { "jazztronauts/trolley/jazz_trolley_bell.wav", 90, 110 }
+
+	if CLIENT then
+		self.ScreenHeight = 0
+		self.ScreenWidth = self.ScreenHeight * 1.80
+		self.ScreenScale = .1
+
+		self.CommentOffset = Vector(-200, 12, 0)
+
+		self.BusWidth = 70
+		self.BusLength = 248
+	end
+end
+
+-- set up seats and their offsets.
+-- use self:AttachSeat( vector pos, angle ang, string [model, default airboat seat], bool [nodraw, default false] ) for each seat
+-- bus needs at least one seat!
+function ENT:AttachSeats()
+	for i=1, 8 do
+		self:AttachSeat(Vector(40, i * 40 - 180, 70), Angle(0, 180, 0))
+		self:AttachSeat(Vector(-40, i * 40 - 180, 70), Angle(0, 180, 0))
+	end
+end
+
+--play those funky tunes
+function ENT:AttachRadio()
+	if self:GetHubBus() then return end --you *can* put it on the hub trolley if you want
+
+	local pos = self:LocalToWorld(Vector(40, -190, 40))
+	local ang = self:LocalToWorldAngles(Angle(0, 150, 0))
+
+	-- Make a "fake" version of the radio, the "real" one can be stolen.
+	local ent = ents.Create("jazz_static_proxy")
+	if IsValid(ent) then
+		ent:SetModel(self.RadioModel)
+		ent:SetPos(pos)
+		ent:SetAngles(ang)
+		ent:SetParent(self)
+		ent:Spawn()
+		ent:Activate()
+		self.Radio = ent
+	end
+
+	local radio_ent = ents.Create("prop_dynamic")
+	if IsValid(radio_ent) then
+		radio_ent:SetModel(self.RadioModel)
+		radio_ent:SetPos(pos)
+		radio_ent:SetAngles(ang)
+		radio_ent:SetParent(ent)
+		radio_ent:Spawn()
+		radio_ent:Activate()
+		radio_ent:SetNoDraw(true)
+		self.RadioEnt = radio_ent
+
+		-- Attach a looping audiozone
+		if SERVER then
+			local rf = RecipientFilter()
+			rf:AddAllPlayers()
+			self.RadioMusic = CreateSound(ent, self.RadioMusicName, rf)
+			hook.Add("EntityRemoved", "JazzBusRadioCheck", function(removed)
+				if removed ~= radio_ent then return end
+				self.RadioMusic:Stop()
+				ent:Remove()
+			end)
+		end
+	end
+end
+
+--what direction is forward?
+function ENT:GetBusForward()
+	return self:GetAngles():Right()
+end
+-- what constitutes the front and rear sides of the bus
+function ENT:GetFront()
+	return self:GetPos() + self:GetBusForward() * self.HalfLength
+end
+
+function ENT:GetRear()
+	return self:GetPos() + self:GetBusForward() * -self.HalfLength
+end
+
+
+if SERVER then return end
+
+-------------------------------------------------------------------------------
+--------------------------------- CLIENT REALM---------------------------------
+-------------------------------------------------------------------------------
 
 surface.CreateFont( "SteamCommentFont", {
 	font	  = "KG Shake it Off Chunky",
@@ -30,78 +156,13 @@ surface.CreateFont( "JazzDestinationFont", {
 	antialias = true
 })
 
+-- drawing the destination
 local destRTWidth = 256
 local destRTHeight = 256
 local screen_rt = irt.New("jazz_bus_destination", destRTWidth, destRTHeight )
 
-function ENT:Initialize()
-	self:RefreshWorkshopInfo()
-end
-
-
-function ENT:StartLaunchEffects()
-	print("Starting clientside launch")
-	self.IsLaunching = true
-	self.StartLaunchTime = CurTime()
-	LocalPlayer().LaunchingBus = self
-end
-
--- Shared version of table.Random
-function ENT:TableSharedRandom(tbl, seedOffset )
-	local seed = self:GetCreationTime() + (seedOffset or 0)
-	local rand = util.SharedRandom("busRand", 1, table.Count(tbl), seed)
-	rand = math.Round(rand)
-	local i = 1
-	for k, v in pairs(tbl) do
-		if (i == rand) then return v, k end
-		i = i + 1
-	end
-end
-
-function ENT:RefreshWorkshopInfo()
-	if self:GetWorkshopID() == "" then return end
-
-	-- First download information about the given workshopid
-	steamworks.FileInfo( self:GetWorkshopID(), function( result )
-		if !IsValid(self) or !result then return end
-
-		self.Title = result.title
-
-		-- Try to get the comments for this workshop
-		workshop.FetchComments(result, function(comments)
-			if !self then return end
-			
-			local function parseComment(cmt, width)
-				if not cmt then return end
-
-				return markup.Parse(
-					"<font=SteamCommentFont>" .. cmt.message .. "</font>\n "
-					.."<font=SteamAuthorFont> -" .. cmt.author .. "</font>",
-				width)
-			end
-
-			-- Select 2 random comments for the side and back of the bus
-			self.Description = comments and parseComment(self:TableSharedRandom(comments), 1400)
-			self.BackBusComment = comments and parseComment(self:TableSharedRandom(comments, 1), 1400)
-		end )
-
-		-- Also try grabbing the thumbnail material
-		workshop.FetchThumbnail(result, function(material)
-			if !self then return end
-			self.ThumbnailMat = material
-		end )
-	end )
-end
-
-local function ProgressString(col, total)
-	if col == total then
-		return total == 1 and jazzloc.Localize("jazz.shards.all1",total) or jazzloc.Localize("jazz.shards.all",total)
-	end
-
-	return jazzloc.Localize("jazz.shards.partial",col,total)
-end
-
 function ENT:DrawRTScreen(dest)
+	local dest = dest or "LOL BROKE IT"
 	screen_rt:Render(function()
 		local c = HSVToColor(RealTime() * 20 % 360, .7, 0.4)
 		render.Clear(c.r, c.g, c.b, 255)
@@ -123,6 +184,14 @@ function ENT:DrawRTScreen(dest)
 	end)
 end
 
+local function ProgressString(col, total)
+	if col == total then
+		return total == 1 and jazzloc.Localize("jazz.shards.all1",total) or jazzloc.Localize("jazz.shards.all",total)
+	end
+
+	return jazzloc.Localize("jazz.shards.partial",col,total)
+end
+	
 function ENT:DrawSideInfo()
 	local ang = self.Entity:GetAngles()
 	local pos = self.Entity:GetPos() - ang:Forward() * self.BusWidth
@@ -191,35 +260,34 @@ function ENT:DrawRearInfo()
 	cam.End3D2D()
 end
 
+-- drawing the bus itself
 function ENT:Draw()
-	self:DrawRTScreen(self:GetDestination())
+	self:DrawRTScreen(self.dest)
 	render.MaterialOverrideByIndex(1, screen_rt:GetUnlitMaterial())
+
+	local offset = self:GetStartOffset()
+	if offset < 0 then
+		local offsetMat = Matrix()
+		offsetMat:Translate(Vector(0, -offset, 0))
+		self:EnableMatrix("RenderMultiply", offsetMat)
+	else
+		self:DisableMatrix("RenderMultiply")
+	end
+
 	self:DrawModel()
 	render.MaterialOverrideByIndex(0, nil)
 
-	self:DrawSideInfo()
-	self:DrawRearInfo()
-end
-
-function ENT:Think()
-	if self.IsLaunching then
-		local factor = (CurTime() -  self.StartLaunchTime) * 15
-		util.ScreenShake(LocalPlayer():GetPos(), factor, 5, 0.01, 100)
+	if self:GetHubBus() then
+		self:DrawSideInfo()
+		self:DrawRearInfo()
 	end
 end
 
-function ENT:OnRemove()
-	if self.IsLaunching then
-		if not IsValid(LocalPlayer()) then return end
-		LocalPlayer():SetDSP(25)
-		LocalPlayer():ScreenFade(SCREENFADE.STAYOUT, Color(0, 0, 0, 255), 0, 5)
-		LocalPlayer():EmitSound("ambient/explosions/exp4.wav", 100, 100)
-	end
-end
+--this is all hub bus from here
 
 hook.Add( "GetMotionBlurValues", "BusLaunchBlur", function( horiz, vert, fwd, rot)
 	local bus = LocalPlayer().LaunchingBus
-	if !IsValid(bus) then return end
+	if !IsValid(bus) or not bus:GetHubBus() then return end
 
 	fwd = fwd + (CurTime() - bus.StartLaunchTime) * 0.3
 	return horiz, vert, fwd, rot
@@ -227,7 +295,7 @@ end )
 
 hook.Add( "CalcView", "BusLaunchView", function(ply, pos, angles, fov )
 	local bus = LocalPlayer().LaunchingBus
-	if !IsValid(bus) then return end
+	if !IsValid(bus) or not bus:GetHubBus() then return end
 
 	local view = {}
 
@@ -252,7 +320,7 @@ local fadewhite = {
 
 hook.Add( "RenderScreenspaceEffects", "BusLaunchScreenspaceEffects", function()
 	local bus = LocalPlayer().LaunchingBus
-	if !IsValid(bus) then return end
+	if !IsValid(bus) or not bus:GetHubBus() then return end
 
 	local factor = math.max((CurTime() - bus.StartLaunchTime) * 0.2 - 0.2, 0)
 	fadewhite["$pp_colour_brightness"] = factor
@@ -262,7 +330,7 @@ end )
 
 net.Receive("jazz_bus_launcheffects", function(len, ply)
 	local busEnt = net.ReadEntity()
-	if IsValid(busEnt) then
+	if IsValid(busEnt) and busEnt:GetHubBus() then
 		busEnt:StartLaunchEffects()
 	end
 

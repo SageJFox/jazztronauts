@@ -224,7 +224,7 @@ end
 
 local function GetExitPortal()
 	local bus = IsValid(LocalPlayer():GetVehicle()) and LocalPlayer():GetVehicle():GetParent() or nil
-	if !IsValid(bus) or !bus:GetClass() == "jazz_bus_explore" then return nil end
+	if !IsValid(bus) or !bus:GetClass() == "jazz_bus" then return nil end
 
 	return bus.ExitPortal
 end

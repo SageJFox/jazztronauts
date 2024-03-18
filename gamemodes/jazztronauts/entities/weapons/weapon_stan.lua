@@ -276,7 +276,7 @@ function SWEP:Deploy()
 			worldmarker.SetEnabled(v,true)
 			local pos = Vector(v:GetPos())
 			local bus = v:GetParent()
-			if not (IsValid(bus) and bus:GetClass() == "jazz_bus_explore") then
+			if not (IsValid(bus) and bus:GetClass() == "jazz_bus") then
 				pos:Add(markerAdjust)
 			end
 			worldmarker.Update(v, pos)
@@ -316,7 +316,7 @@ function SWEP:SecondaryAttack()
 			local screenloc = v:GetPos()
 			
 			local bus = v:GetParent()
-			if not (IsValid(bus) and bus:GetClass() == "jazz_bus_explore") then
+			if not (IsValid(bus) and bus:GetClass() == "jazz_bus") then
 				screenloc:Add(markerAdjust)
 			end
 
@@ -840,7 +840,7 @@ function SWEP:Teleport()
 					self:TeleportFX(owner)
 				end
 				--we're teleporting to the bus, just get in an empty seat
-				if target:GetClass() == "jazz_bus_explore" and target:SitPlayer(owner) then
+				if target:GetClass() == "jazz_bus" and target:SitPlayer(owner) then
 					self:TeleportFX(owner)
 				end
 				--clear out tele destination (either we teleported or it failed)

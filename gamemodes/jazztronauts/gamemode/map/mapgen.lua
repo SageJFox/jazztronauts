@@ -114,7 +114,7 @@ function CanSnatch(ent)
 	if CLIENT and ent:IsWeapon() and ent:IsCarriedByLocalPlayer() then return false end
 
 	-- Everything that's parented to the bus itself.
-	if IsValid(ent:GetParent()) and string.find(ent:GetParent():GetClass(), "jazz_bus_") then return false end
+	if IsValid(ent:GetParent()) and string.find(ent:GetParent():GetClass(), "jazz_bus") then return false end
 
 	-- Vote podium
 	if ent_class == "prop_dynamic" and IsValid(ent:GetParent()) and ent:GetParent():GetClass() == "jazz_shard_podium" then return false end

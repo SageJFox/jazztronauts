@@ -54,7 +54,6 @@ if SERVER then
 		net.Broadcast()
 	end
 
-	local busNames = { "jazz_bus_explore", "jazz_bus_hub" }
 	local function IsInBus(ply)
 		if not IsValid(ply) then return false end
 
@@ -62,7 +61,7 @@ if SERVER then
 		if not IsValid(ply:GetVehicle()) then return false end
 		if not IsValid(vehicle:GetParent()) then return false end
 
-		return table.HasValue(busNames, vehicle:GetParent():GetClass())
+		return vehicle:GetParent():GetClass() == "jazz_bus"
 	end
 
 	-- Honk if the player presses left click while in a bus

@@ -3,6 +3,23 @@ AddCSLuaFile("shared.lua")
 
 include("shared.lua")
 
+local trolleyScript = CreateConVar("jazz_trolley", "default", FCVAR_ARCHIVE, "Alternate styles for the trolley can be created with a lua script, loaded here. Will take effect next map load.\n" ..
+"Don't mess with this unless you know what you're doing.")
+
+local _, _, setup = string.find( trolleyScript:GetString(), "(.-)%.?l?u?a?$" ) --let .lua be optional
+if setup then
+	setup = setup .. ".lua"
+else
+	ErrorNoHalt("File defined in jazz_trolley not found! Using default.lua")
+	setup = "default.lua"
+end
+--if file.Exists(setup,"GAME") then
+	AddCSLuaFile(setup)
+	include(setup)
+--else
+--	error("oh no")
+--end
+
 ENT.ShadowControl = {}
 ENT.ShadowControl.secondstoarrive  = 0.0000001
 ENT.ShadowControl.pos			  = Vector(0, 0, 0)
@@ -14,6 +31,7 @@ ENT.ShadowControl.maxangulardamp   = 1000000
 ENT.ShadowControl.dampfactor	   = 1
 ENT.ShadowControl.teleportdistance = 10
 ENT.ShadowControl.deltatime		= 0
+ENT.SpectateCamOffset			= Vector(0, 0, 64)
 
 -- Different movement states the bus can be in
 -- Wink wink nudge nudge zak's state machine library
@@ -41,6 +59,11 @@ ENT.BrakeSounds =
 	"jazztronauts/trolley/brake_2.wav",
 }
 
+ENT.CrashSound = { "vehicles/v8/vehicle_impact_heavy1.wav", 90, 150 }
+ENT.SkidSound = { "vehicles/v8/skid_normalfriction.wav", 90, 110 }
+ENT.EngineOffSound = { "vehicles/v8/v8_stop1.wav", 90, 110 }
+ENT.DingSound = { "jazztronauts/trolley/jazz_trolley_bell.wav", 90, 110 }
+
 local shockingisntit = {
 	"npc/roller/mine/rmine_explode_shock1.wav",
 	"npc/roller/mine/rmine_shockvehicle1.wav",
@@ -50,24 +73,32 @@ local shockingisntit = {
 }
 
 ENT.TravelTime = 1.5
+ENT.LeadUp = 2000
+ENT.TravelDist = 4500
+ENT.SkidPlayed = false
+ENT.EngineOffPlayed = false
 
 util.AddNetworkString("jazz_bus_explore_voideffects")
 
-function ENT:Initialize()
-	local target = self:GetTarget()
-	if not target or target == "<hub>" or target == "" then self:SetTarget(mapcontrol.GetHubMap()) end
+util.AddNetworkString("jazz_bus_launcheffects")
 
+function ENT:Initialize()
+	local target = self:GetDestination()
+	if not target or target == "<hub>" or target == "" then self:SetDestination(mapcontrol.GetHubMap()) end
+	if self.PreInit then self:PreInit() end
 	self:SetModel( self.Model )
 	self:PhysicsInit( SOLID_VPHYSICS )
 	self:SetMoveType( MOVETYPE_VPHYSICS )
 	self:SetSolid( SOLID_VPHYSICS )
 	self:SetTrigger(true) -- So we get 'touch' callbacks that fuck shit up
-	self:SetNoDraw(true)
+	if not self:GetHubBus() then
+		self:SetNoDraw(true)
+	end
 
 	hook.Add( "CanTool", "NoBusRemoval", function( ply, tr, toolname, tool )
 		if toolname ~= "remover" then return end
 		if !IsValid( tr.Entity ) then return end
-		if tr.Entity:GetClass() ~= "jazz_bus_explore" then return end
+		if tr.Entity:GetClass() ~= "jazz_bus" then return end
 
 		ply:Freeze(true)
 		ply:DropWeapon()
@@ -81,39 +112,64 @@ function ENT:Initialize()
 		return false
 	end )
 
-	-- Setup seat offsets
-	for i=1, 8 do
-		self:AttachSeat(Vector(40, i * 40 - 180, 70), Angle(0, 180, 0))
-		self:AttachSeat(Vector(-40, i * 40 - 180, 70), Angle(0, 180, 0))
+	self:AttachSeats()
+
+	if self:GetHubBus() then
+			
+		self.StartPos = self:GetPos() + self:GetBusForward() * -1 * self.LeadUp + Vector(0, 0, 40)
+		self.GoalPos = self:GetPos()
+		self.StartTime = CurTime()
+		self.StartAngles = self:GetAngles()
+
+		-- Start us off right at the start
+		self:SetPos(self.StartPos)
+
+		-- Setup shadow controller
+		self:StartMotionController()
+
+		self:EmitSound( unpack(self.CrashSound) )
+		self:EmitSound( "jazz_bus_idle", 90, 150 )
+
+		-- Hook into when the map is changed so this bus knows to leave
+		hook.Add("JazzMapRandomized", "JazzHubBusChange_" .. self:GetCreationID(), function(newmap)
+			if IsValid(self) and self:GetDestination() != newmap then
+				for i, v in ipairs( player.GetAll() ) do
+					print( v:ExitVehicle() )
+				end
+				self:LeaveStation()
+			end
+		end )
+
+	else
+
+		local spawnPos = self:GetPos()
+		self.StartPos = spawnPos + self:GetBusForward() * (-self.HalfLength - 20) + Vector(0, 0, 20)
+		self.GoalPos = self:GetFront()
+		self.StartAngles = self:GetAngles()
+		self.MoveState = MOVE_STATIONARY
+
+		-- Start us off right at the start
+		self:SetPos(self.StartPos)
+
+		-- Play an ominous sound that something's coming
+		local prelim = table.Random(self.PrelimSounds)
+		sound.Play(prelim.snd, spawnPos, 85, 100, 1)
+
+		-- Also setup the screetching sound
+		local rf = RecipientFilter()
+		rf:AddAllPlayers()
+		self.BrakeSound = CreateSound(self, table.Random(self.BrakeSounds), rf)
+		self.BrakeSound:SetSoundLevel(100)
+
+		-- Let it sink in
+		self:SetBreakTime(CurTime() + prelim.delay)
+		timer.Simple(prelim.delay, function()
+			if IsValid(self) then self:Arrive() end
+		end )
 	end
 
 	-- Setup radio
-	self:AttachRadio(Vector(40, -190, 40), Angle(0, 150, 0))
-
-	local spawnPos = self:GetPos()
-	self.StartPos = spawnPos + self:GetAngles():Right() * (-self.HalfLength - 20) + Vector(0, 0, 20)
-	self.GoalPos = self:GetFront()
-	self.StartAngles = self:GetAngles()
-	self.MoveState = MOVE_STATIONARY
-
-	-- Start us off right at the start
-	self:SetPos(self.StartPos)
-
-	-- Play an ominous sound that something's coming
-	local prelim = table.Random(self.PrelimSounds)
-	sound.Play(prelim.snd, spawnPos, 85, 100, 1)
-
-	-- Also setup the screetching sound
-	local rf = RecipientFilter()
-	rf:AddAllPlayers()
-	self.BrakeSound = CreateSound(self, table.Random(self.BrakeSounds), rf)
-	self.BrakeSound:SetSoundLevel(100)
-
-	-- Let it sink in
-	self:SetBreakTime(CurTime() + prelim.delay)
-	timer.Simple(prelim.delay, function()
-		if IsValid(self) then self:Arrive() end
-	end )
+	if self.AttachRadio then self:AttachRadio() end
 
 	if SERVER then
 		
@@ -147,25 +203,31 @@ function ENT:SitPlayer(ply)
 end
 
 function ENT:CheckLaunch()
-	if self.CommittedToLeaving then return end
+	if not self:GetHubBus() and self.CommittedToLeaving then return end
 
 	local filled, total = self:GetNumOccupants()
 	local required = math.min(player.GetCount(), total)
 
 	if filled >= required then
-		self.CommittedToLeaving = true
-		self:EmitSound( "jazz_bus_idle", 90, 150 )
-		util.ScreenShake(self:GetPos(), 10, 5, 1, 1000)
+		if not self:GetHubBus() then
+			self.CommittedToLeaving = true
+			-- Queue up the void music
+			self:QueueTimedMusic()
+		end
+		timer.Simple(1, function()
+			self.IsLaunching = true
+			if self:GetHubBus() then
+				self:LeaveStation()
 
-		-- Queue up the void music
-		self:QueueTimedMusic()
-
-		timer.Simple(self.BusLeaveDelay, function()
-			if IsValid(self) then
-				self.IsLaunching = true
+				net.Start("jazz_bus_launcheffects")
+					net.WriteEntity(self)
+				net.Broadcast()
+			else
 				self:Leave()
 			end
 		end )
+		self:EmitSound( "jazz_bus_idle", 90, 150 )
+		util.ScreenShake(self:GetPos(), 10, 5, 1, 1000)
 	end
 end
 
@@ -187,7 +249,7 @@ function ENT:Arrive()
 	end
 	for _, v in pairs(self.Seats) do
 		if IsValid(v) then
-			v:SetNoDraw(false)
+			v:SetNoDraw(v.NoDraw)
 		end
 	end
 
@@ -199,7 +261,7 @@ function ENT:Arrive()
 	-- Tweak the arrive position so we don't break the second barrier in a narrow space
 	if IsValid(self.ExitPortal) then
 		local MoveDistance = math.Clamp(self.ExitPortal:DistanceToVoid(self:GetFront(), true), 50, self.HalfLength*2)
-		self.GoalPos = self:GetPos() + self:GetAngles():Right() * MoveDistance
+		self.GoalPos = self:GetPos() + self:GetBusForward() * MoveDistance
 	end
 
 end
@@ -211,7 +273,7 @@ function ENT:Leave()
 
 	self.StartTime = CurTime()
 	self.StartPos = self:GetPos()
-	local BusAngle = self:GetAngles():Right()
+	local BusAngle = self:GetBusForward()
 	self.GoalPos = self.GoalPos + BusAngle * 2000
 
 	self.MoveState = MOVE_LEAVING
@@ -242,57 +304,43 @@ function ENT:Leave()
 
 end
 
-function ENT:AttachRadio(pos, ang)
-	pos = self:LocalToWorld(pos)
-	ang = self:LocalToWorldAngles(ang)
+--todo this is from hub bus, consolidate into Leave()
+function ENT:LeaveStation()
+	if self.Leaving then return end
 
-	-- Make a "fake" version of the radio, the "real" one can be stolen.
-	local ent = ents.Create("jazz_static_proxy")
-	if IsValid(ent) then
-		ent:SetModel(self.RadioModel)
-		ent:SetPos(pos)
-		ent:SetAngles(ang)
-		ent:SetParent(self)
-		ent:Spawn()
-		ent:Activate()
-		self.Radio = ent
-	end
+	self:EmitSound("jazz_bus_accelerate2")
 
-	local radio_ent = ents.Create("prop_dynamic")
-	if IsValid(radio_ent) then
-		radio_ent:SetModel(self.RadioModel)
-		radio_ent:SetPos(pos)
-		radio_ent:SetAngles(ang)
-		radio_ent:SetParent(ent)
-		radio_ent:Spawn()
-		radio_ent:Activate()
-		radio_ent:SetNoDraw(true)
-		self.RadioEnt = radio_ent
+	self.StartTime = CurTime()
+	self.StartPos = self:GetPos()
+	self.GoalPos = self.GoalPos + self:GetBusForward() * self.TravelDist
 
-		-- Attach a looping audiozone
-		self.RadioMusic = CreateSound(ent, self.RadioMusicName)
-		hook.Add("EntityRemoved", "JazzBusRadioCheck", function(removed)
-			if removed ~= radio_ent then return end
-			self.RadioMusic:Stop()
-			ent:Remove()
-		end)
-	end
+	self.Leaving = true
+	self:ResetTrigger("arrived")
+	self:GetPhysicsObject():EnableMotion(true)
+	self:GetPhysicsObject():Wake()
+
+	hook.Add("PlayerLeaveVehicle","JazzHoppedOffTheBus",function(ply,veh)
+		ply.LeftJazzBus = true
+	end)
 end
 
-function ENT:AttachSeat(pos, ang)
+function ENT:AttachSeat(pos, ang, mdl, nodraw)
 	pos = self:LocalToWorld(pos)
 	ang = self:LocalToWorldAngles(ang)
+	local mdl = mdl or "models/nova/airboat_seat.mdl"
+	local nodraw = nodraw or false
 
 	local ent = ents.Create("prop_vehicle_prisoner_pod")
 	if IsValid(ent) then
-		ent:SetModel("models/nova/airboat_seat.mdl")
+		ent:SetModel(mdl)
 		ent:SetKeyValue("vehiclescript","scripts/vehicles/prisoner_pod.txt")
 		ent:SetPos(pos)
 		ent:SetAngles(ang)
 		ent:SetParent(self)
 		ent:Spawn()
 		ent:Activate()
-		ent:SetNoDraw(true)
+		ent:SetNoDraw(not self:GetHubBus())
+		ent.NoDraw = nodraw
 
 		self.Seats = self.Seats or {}
 		table.insert(self.Seats, ent)
@@ -345,23 +393,41 @@ end
 
 function ENT:Touch(other)
 	if noMoveEntsConVar:GetBool() then return end
-	if self.MoveState == MOVE_STATIONARY then return end
-	if !IsValid(other:GetPhysicsObject()) then return end
-	if (other:GetClass() == self:GetClass()) then return end
-	if (other:IsPlayer() and table.HasValue(self.Seats, other:GetVehicle())) then return end
-	if (IsValid(other:GetParent()) and other:GetParent():GetClass() == self:GetClass()) then return end
+	if other:IsPlayer() and table.HasValue( self.Seats, other:GetVehicle() ) then return end
+	if not IsValid( other:GetPhysicsObject() ) then return end
+	if other:GetClass() == self:GetClass() then return end
+	if IsValid( other:GetParent() ) and other:GetParent():GetClass() == self:GetClass() then return end
 
+	if self:GetHubBus() then
+		local _, p = self:GetProgress()
+		if p > 1 and not self.IsLaunching then return end
+	else
+		if self.MoveState == MOVE_STATIONARY then return end
+	end
 	local front = self:GetFront()
-	local moveFwdAmt = (front - other:GetPos()):Dot(self:GetAngles():Right())
-	local velocity = self:GetAngles():Right() * 5000
-	other:GetPhysicsObject():SetVelocity(velocity)
-	other:SetPos(other:GetPos() + self:GetAngles():Right() * moveFwdAmt)
-	other:GetPhysicsObject():EnableMotion(true) -- Bus stops for nobody
+	local moveFwdAmt = (front - other:GetPos()):Dot(self:GetBusForward())
+	local velocity = self:GetHubBus() and self:GetVelocity() or self:GetBusForward() * 5000
+	
+	local phys = IsValid(other) and other:GetPhysicsObject()
+
+	if IsValid(phys) then
+		if self:GetHubBus() then
+			phys:EnableMotion(true)
+			phys:Wake()
+			phys:SetVelocity(self:GetBusForward() * 10000000)
+		else
+			phys:SetVelocity(velocity)
+			other:SetPos(other:GetPos() + self:GetBusForward() * moveFwdAmt)
+			phys:EnableMotion(true) -- Bus stops for nobody
+		end
+	end
 
 	local d = DamageInfo()
 	d:SetDamage((velocity - other:GetVelocity()):Length() )
 	d:SetAttacker(self)
+	d:SetInflictor(self)
 	d:SetDamageType(bit.bor(DMG_VEHICLE,DMG_CRUSH))
+	if self:GetHubBus() then velocity = self:GetBusForward() * velocity:Length() end
 	d:SetDamageForce(velocity * 10000) -- Just fuck them up
 
 	other:TakeDamageInfo( d )
@@ -410,22 +476,104 @@ function ENT:PhysicsLeavingPortal(phys, deltatime)
 end
 
 function ENT:PhysicsSimulate( phys, deltatime )
-	if self.MoveState == MOVE_STATIONARY then
-		self:PhysicsStationary(phys, deltatime)
-	elseif self.MoveState == MOVE_ARRIVING then
-		self:PhysicsArriving(phys, deltatime)
-	elseif self.MoveState == MOVE_LEAVING then
-		self:PhysicsLeaving(phys, deltatime)
-	elseif self.MoveState == MOVE_LEAVING_PORTAL then
-		self:PhysicsLeavingPortal(phys, deltatime)
+	--todo could probably move the hub bus onto the state system... eventually
+	if self:GetHubBus() then
+		local t, perc = self:GetProgress()
+		local rotAng = 0
+
+		if self.Leaving then
+			p = math.pow(perc, 2)
+
+			-- Bus is speeding up, rotate backward a bit
+			rotAng = math.Clamp(perc * 16, 0, 1) * -3.5
+		else
+			p = math.EaseInOut(math.Clamp(perc, 0, 1), 1, 1)
+
+			-- Bus slowing down, rotate forwards
+			rotAng = math.Clamp(1.2 - perc, 0, 1) * 3.5
+		end
+
+		self.ShadowControl.pos = LerpVector(p, self.StartPos, self.GoalPos)
+		self.ShadowControl.angle = Angle(self.StartAngles)
+		self.ShadowControl.angle:RotateAroundAxis(self.StartAngles:Forward(), rotAng)
+	else
+		if self.MoveState == MOVE_STATIONARY then
+			self:PhysicsStationary(phys, deltatime)
+		elseif self.MoveState == MOVE_ARRIVING then
+			self:PhysicsArriving(phys, deltatime)
+		elseif self.MoveState == MOVE_LEAVING then
+			self:PhysicsLeaving(phys, deltatime)
+		elseif self.MoveState == MOVE_LEAVING_PORTAL then
+			self:PhysicsLeavingPortal(phys, deltatime)
+		end
 	end
 
 	phys:ComputeShadowControl( self.ShadowControl )
 end
 
-local telemarkoffset = Vector(0, 0, 100)
+function ENT:TriggerAt(name, time, func)
+	local t, p = self:GetProgress()
+	local fullname = name .. "_Trigger"
+	//print(t, t)
+	if t > time and not self[fullname] then
+		self[fullname] = true
+		func()
+	end
+end
+
+function ENT:ResetTrigger(name)
+	local fullname = name .. "_Trigger"
+	self[fullname] = false
+end
 
 function ENT:Think()
+
+	if self:GetHubBus() then
+		local t, p = self:GetProgress()
+	
+		-- Keep the bus awake while it should be moving
+		if p < 1 and self:GetPhysicsObject():IsAsleep() then
+			self:GetPhysicsObject():Wake()
+		end
+	
+		if self.Leaving then
+			self:TriggerAt("accelturbo", 0.4, function()
+				self:EmitSound( "jazz_bus_accelerate", 90, 150 )
+			end )
+		end
+	
+		-- Skid sound when stopping
+		self:TriggerAt("stopslide", 0.7, function()
+			self:EmitSound( unpack(self.SkidSound) )
+		end )
+	
+		self:TriggerAt("engineoff", 1.5, function()
+			self:EmitSound( unpack(self.EngineOffSound) )
+			self:StopSound("jazz_bus_idle")
+		end )
+	
+		self:TriggerAt("dingding", self.TravelTime - 0.2, function()
+			self:EmitSound( unpack(self.DingSound) )
+		end )
+	
+		-- Allow the bus to settle into its spot before stopping movement
+		local endTime = self.IsLaunching and 1.2 or 0
+		self:TriggerAt("arrived", self.TravelTime + endTime, function()
+			self:GetPhysicsObject():EnableMotion(false)
+			self:SetPos(self.GoalPos)
+			self:SetAngles(self.StartAngles)
+	
+			if self.Leaving then
+				self:Remove()
+			end
+		end )
+
+		if self.RadioMusic then self.RadioMusic:Play() end
+
+		return
+		
+	end
+
 	if self.MoveState == MOVE_ARRIVING then
 		local t, perc = self:GetProgress()
 		if perc > 1 && !self:GetPhysicsObject():IsAsleep() then
@@ -437,10 +585,10 @@ function ENT:Think()
 			if IsValid(self.TeleportLockOn) then
 				--spawn this now so it's at a decent location relative to us
 				self.TeleportLockOn:SetDestination(self)
-				if SERVER then self.TeleportLockOn:SetName("jazz_bus_explore_teleportmarker") end
-				self.TeleportLockOn:SetDestinationName(jazzloc.Localize("jazz_bus_explore"))
+				if SERVER then self.TeleportLockOn:SetName("jazz_bus_teleportmarker") end
+				self.TeleportLockOn:SetDestinationName(jazzloc.Localize("jazz_bus"))
 				local pos = Vector(self:GetPos())
-				pos:Add(telemarkoffset)
+				pos:Add(LocalToWorld(self.SpectateCamOffset,angle_zero,vector_origin,self:GetAngles()))
 				self.TeleportLockOn:SetPos(pos)
 				self.TeleportLockOn:SetParent(self)
 				self.TeleportLockOn:SetLevel(1)
@@ -449,8 +597,9 @@ function ENT:Think()
 
 			self.BrakeSound:FadeOut(0.2)
 
-			if self.RadioMusic then self.RadioMusic:Play() end
 		end
+
+		if self.RadioMusic then self.RadioMusic:Play() end
 	end
 
 	if IsValid(self.ExitPortal) then
@@ -476,7 +625,7 @@ function ENT:Think()
 	-- Changelevel at the end
 	if self.ChangelevelTime and CurTime() > self.ChangelevelTime then
 		--if self:GetNumOccupants() >= player.GetCount() then
-			local map = self:GetTarget()
+			local map = self:GetDestination()
 			if map == "" or map == "<hub>" then map = mapcontrol.GetHubMap() end
 			progress.RoadtripSetNext(map)
 			mapcontrol.Launch(map)
@@ -489,10 +638,22 @@ function ENT:OnRemove()
 	self:StopSound("jazz_bus_accelerate2")
 	self:StopSound("jazz_bus_idle")
 
-	for _, v in pairs(self.Seats) do
-		if IsValid(v) then v:Remove() end
+	if self.Seats then
+		for _, v in pairs(self.Seats) do
+			if IsValid(v) then v:Remove() end
+		end
 	end
 
 	if self.RadioMusic then self.RadioMusic:Stop() end
 	if IsValid(self.Radio) then self.Radio:Remove() end
+
+	if not self:GetHubBus() then return end
+
+	-- Tastefully wait just a bit to let the players know they fucked up when they wanted to travel by cat
+	if self.IsLaunching then
+		local mapname = self:GetDestination()
+		timer.Simple(2, function()
+			mapcontrol.Launch(mapname)
+		end )
+	end
 end

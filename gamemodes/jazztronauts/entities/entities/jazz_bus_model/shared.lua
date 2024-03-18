@@ -5,7 +5,7 @@ AddCSLuaFile()
 ENT.Type = "anim"
 ENT.Base = "base_entity"
 
-ENT.PrintName		= "#jazz_bus_hub"
+ENT.PrintName		= "#jazz_bus"
 ENT.Author			= ""
 ENT.Information		= ""
 ENT.Category		= "#jazz.weapon.category"

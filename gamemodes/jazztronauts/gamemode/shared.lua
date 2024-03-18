@@ -63,7 +63,7 @@ function GM:CanProperty(ply, prop, ent)
 	if mapcontrol.IsInGamemodeMap() then return false end
 	if prop == "persist" then return false end
 
-	if IsValid(ent) and IsValid(ent:GetParent()) and ent:GetParent():GetClass() == "jazz_bus_explore" then
+	if IsValid(ent) and IsValid(ent:GetParent()) and ent:GetParent():GetClass() == "jazz_bus" then
 		return false
 	end
 

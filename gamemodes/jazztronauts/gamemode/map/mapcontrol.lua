@@ -37,7 +37,7 @@ function voteToLeave(vote)
 	local summoners = 0 --total number of bus summoners with player owners (not all players might have/be able to get summoners if we're near edict limit)
 	for _, ent in ents.Iterator() do
 		if IsValid(ent) then
-			if ent:GetClass() == "jazz_bus_explore" then return end --we have a bus, that'll handle leaving
+			if ent:GetClass() == "jazz_bus" then return end --we have a bus, that'll handle leaving
 			if ent:GetClass() == "weapon_buscaller" and IsValid(ent:GetOwner()) and ent:GetOwner():IsPlayer() then
 				summoners = summoners + 1
 			end
@@ -410,14 +410,15 @@ if SERVER then
 		end
  		--delay the bus so crazy physics has a chance to turn off before it spawns in and just gets removed anyway
 		timer.Simple(0, function()
-			local bus = ents.Create("jazz_bus_explore")
+			local bus = ents.Create("jazz_bus")
 			if IsValid(bus) then
 				-- Remove last ones
 				for _, v in pairs(lastBusEnts) do SafeRemoveEntityDelayed(v, 5) end
 
 				bus:SetPos(spawnpos)
 				bus:SetAngles(spawnang)
-				bus:SetTarget(target)
+				bus:SetDestination(target)
+				bus:SetHubBus(false)
 				bus:Spawn()
 				bus:Activate()
 				table.insert(lastBusEnts, bus)
@@ -448,7 +449,7 @@ if SERVER then
 				local oldbus = nil
 				if #lastBusEnts > 0 then
 					for _, ent in ipairs(lastBusEnts) do
-						if IsValid(ent) and ent:GetClass() == "jazz_bus_explore" then
+						if IsValid(ent) and ent:GetClass() == "jazz_bus" then
 							oldbus = ent
 							break
 						end
