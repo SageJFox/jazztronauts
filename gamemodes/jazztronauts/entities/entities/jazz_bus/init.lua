@@ -6,19 +6,21 @@ include("shared.lua")
 local trolleyScript = CreateConVar("jazz_trolley", "default", FCVAR_ARCHIVE, "Alternate styles for the trolley can be created with a lua script, loaded here. Will take effect next map load.\n" ..
 "Don't mess with this unless you know what you're doing.")
 
-local _, _, setup = string.find( trolleyScript:GetString(), "(.-)%.?l?u?a?$" ) --let .lua be optional
+local _, _, setup = string.find( trolleyScript:GetString(), "(%S*)%.?l?L?u?U?a?A?$" ) --let .lua be optional
 if setup then
 	setup = setup .. ".lua"
 else
 	ErrorNoHalt("File defined in jazz_trolley not found! Using default.lua")
 	setup = "default.lua"
 end
---if file.Exists(setup,"GAME") then
+if file.Exists(setup,"THIRDPARTY") or file.Exists(setup,"LUA") or file.Exists("gamemodes/jazztronauts/entities/entities/jazz_bus/"..setup,"THIRDPARTY") then
 	AddCSLuaFile(setup)
 	include(setup)
---else
---	error("oh no")
---end
+else
+	ErrorNoHalt("File defined in jazz_trolley not found! Using default.lua\n")
+	AddCSLuaFile("default.lua")
+	include("default.lua")
+end
 
 ENT.ShadowControl = {}
 ENT.ShadowControl.secondstoarrive  = 0.0000001
@@ -112,7 +114,12 @@ function ENT:Initialize()
 		return false
 	end )
 
-	self:AttachSeats()
+	if self.AttachSeats then
+		self:AttachSeats()
+	else
+		--we need at least one seat, make sure we have one
+		self:AttachSeat(vector_origin,angle_zero)
+	end
 
 	if self:GetHubBus() then
 			
