@@ -373,7 +373,6 @@ if SERVER then
 		local spawnpos = pos
 		local spawnang = Angle(ang)
 		spawnang:RotateAroundAxis(spawnang:Up(), 90)
-		spawnpos = spawnpos - spawnang:Up() * 184/2
 
 		-- Do a trace forward to where the bus will exit
 		local tr = util.TraceLine( {
@@ -385,7 +384,6 @@ if SERVER then
 		local pos2 = tr.HitPos
 		local ang2 = tr.HitNormal:Angle(spawnang:Up())
 		ang2:RotateAroundAxis(ang2:Up(), 90)
-		pos2 = pos2 - ang2:Up() * 184/2
 
 		--if we're summoning the bus towards the edges of the map grid, crazy physics detection could dick us over
 
@@ -414,7 +412,6 @@ if SERVER then
 			if IsValid(bus) then
 				-- Remove last ones
 				for _, v in pairs(lastBusEnts) do SafeRemoveEntityDelayed(v, 5) end
-
 				bus:SetPos(spawnpos)
 				bus:SetAngles(spawnang)
 				bus:SetDestination(target)

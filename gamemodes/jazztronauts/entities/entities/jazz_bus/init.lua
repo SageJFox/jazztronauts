@@ -121,15 +121,15 @@ function ENT:Initialize()
 		self:AttachSeat(vector_origin,angle_zero)
 	end
 
-	if self:GetHubBus() then
-			
-		self.StartPos = self:GetPos() + self:GetBusForward() * -1 * self.LeadUp + Vector(0, 0, 40)
-		self.GoalPos = self:GetPos()
-		self.StartTime = CurTime()
-		self.StartAngles = self:GetAngles()
+	self.StartPos = self.SpawnOffset and self:SpawnOffset(self:GetPos()) or self:GetPos()
+	self.GoalPos = self.GoalOffset and self:GoalOffset(self:GetPos()) or self:GetPos()
+	self.StartAngles = self:GetAngles()
+	self.StartTime = CurTime()
 
-		-- Start us off right at the start
-		self:SetPos(self.StartPos)
+	-- Start us off right at the start
+	self:SetPos(self.StartPos)
+
+	if self:GetHubBus() then
 
 		-- Setup shadow controller
 		self:StartMotionController()
@@ -143,24 +143,16 @@ function ENT:Initialize()
 				for i, v in ipairs( player.GetAll() ) do
 					print( v:ExitVehicle() )
 				end
-				self:LeaveStation()
+				self:Leave()
 			end
 		end )
 
 	else
-
-		local spawnPos = self:GetPos()
-		self.StartPos = spawnPos + self:GetBusForward() * (-self.HalfLength - 20) + Vector(0, 0, 20)
-		self.GoalPos = self:GetFront()
-		self.StartAngles = self:GetAngles()
 		self.MoveState = MOVE_STATIONARY
-
-		-- Start us off right at the start
-		self:SetPos(self.StartPos)
 
 		-- Play an ominous sound that something's coming
 		local prelim = table.Random(self.PrelimSounds)
-		sound.Play(prelim.snd, spawnPos, 85, 100, 1)
+		sound.Play(prelim.snd, self.StartPos, 85, 100, 1)
 
 		-- Also setup the screetching sound
 		local rf = RecipientFilter()
@@ -223,14 +215,11 @@ function ENT:CheckLaunch()
 		end
 		timer.Simple(1, function()
 			self.IsLaunching = true
+			self:Leave()
 			if self:GetHubBus() then
-				self:LeaveStation()
-
 				net.Start("jazz_bus_launcheffects")
 					net.WriteEntity(self)
 				net.Broadcast()
-			else
-				self:Leave()
 			end
 		end )
 		self:EmitSound( "jazz_bus_idle", 90, 150 )
@@ -281,47 +270,10 @@ function ENT:Leave()
 	self.StartTime = CurTime()
 	self.StartPos = self:GetPos()
 	local BusAngle = self:GetBusForward()
-	self.GoalPos = self.GoalPos + BusAngle * 2000
+	self.GoalPos = self:GetHubBus() and self.GoalPos + self:GetBusForward() * self.TravelDist or self.GoalPos + BusAngle * 2000
 
 	self.MoveState = MOVE_LEAVING
-	self:GetPhysicsObject():EnableMotion(true)
-	self:GetPhysicsObject():Wake()
 
-	hook.Add( "PlayerLeaveVehicle", "VoidEjection", function( ply )
-		ply.LeftJazzBus = true
-		timer.Create( "VoidEjectTimer", 0, 1, function() -- timer prevents crash
-			if not IsValid(self) then return end
-			local repcount = 0
-			local BehindBus = self:GetPos() + Vector(0, 0, 50) + BusAngle * -150
-			repeat
-				repcount = repcount + 1
-				BehindBus = BehindBus + BusAngle * -100
-				ply:SetPos(BehindBus)
-			until ( ply:IsInWorld( BehindBus ) or repcount > 20 )
-
-			local EjectSpeed = Vector(0, 0, 0) + BusAngle * -2000
-			ply:SetVelocity(EjectSpeed)
-			ply:Kill()
-			ply:Spectate(OBS_MODE_DEATHCAM)
-			hook.Add( "PlayerSpawn", "VoidEjectedRespawn", function()
-				self:SitPlayer(ply)
-			end )
-		end )
-	end )
-
-end
-
---todo this is from hub bus, consolidate into Leave()
-function ENT:LeaveStation()
-	if self.Leaving then return end
-
-	self:EmitSound("jazz_bus_accelerate2")
-
-	self.StartTime = CurTime()
-	self.StartPos = self:GetPos()
-	self.GoalPos = self.GoalPos + self:GetBusForward() * self.TravelDist
-
-	self.Leaving = true
 	self:ResetTrigger("arrived")
 	self:GetPhysicsObject():EnableMotion(true)
 	self:GetPhysicsObject():Wake()
@@ -329,6 +281,29 @@ function ENT:LeaveStation()
 	hook.Add("PlayerLeaveVehicle","JazzHoppedOffTheBus",function(ply,veh)
 		ply.LeftJazzBus = true
 	end)
+	
+	if not self:GetHubBus() then
+		hook.Add( "PlayerLeaveVehicle", "VoidEjection", function( ply )
+			timer.Create( "VoidEjectTimer", 0, 1, function() -- timer prevents crash
+				if not IsValid(self) then return end
+				local repcount = 0
+				local BehindBus = self:GetPos() + Vector(0, 0, 50) + BusAngle * -150
+				repeat
+					repcount = repcount + 1
+					BehindBus = BehindBus + BusAngle * -100
+					ply:SetPos(BehindBus)
+				until ( ply:IsInWorld( BehindBus ) or repcount > 20 )
+
+				local EjectSpeed = Vector(0, 0, 0) + BusAngle * -2000
+				ply:SetVelocity(EjectSpeed)
+				ply:Kill()
+				ply:Spectate(OBS_MODE_DEATHCAM)
+				hook.Add( "PlayerSpawn", "VoidEjectedRespawn", function()
+					self:SitPlayer(ply)
+				end )
+			end )
+		end )
+	end
 end
 
 function ENT:AttachSeat(pos, ang, mdl, nodraw)
@@ -488,7 +463,7 @@ function ENT:PhysicsSimulate( phys, deltatime )
 		local t, perc = self:GetProgress()
 		local rotAng = 0
 
-		if self.Leaving then
+		if self.MoveState == MOVE_LEAVING then
 			p = math.pow(perc, 2)
 
 			-- Bus is speeding up, rotate backward a bit
@@ -529,6 +504,7 @@ function ENT:TriggerAt(name, time, func)
 end
 
 function ENT:ResetTrigger(name)
+	if not self:GetHubBus() then return end
 	local fullname = name .. "_Trigger"
 	self[fullname] = false
 end
@@ -543,7 +519,7 @@ function ENT:Think()
 			self:GetPhysicsObject():Wake()
 		end
 	
-		if self.Leaving then
+		if self.MoveState == MOVE_LEAVING then
 			self:TriggerAt("accelturbo", 0.4, function()
 				self:EmitSound( "jazz_bus_accelerate", 90, 150 )
 			end )
@@ -570,7 +546,7 @@ function ENT:Think()
 			self:SetPos(self.GoalPos)
 			self:SetAngles(self.StartAngles)
 	
-			if self.Leaving then
+			if self.MoveState == MOVE_LEAVING then
 				self:Remove()
 			end
 		end )

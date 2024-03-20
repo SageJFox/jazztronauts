@@ -128,6 +128,30 @@ function ENT:GetRear()
 	return self:GetPos() + self:GetBusForward() * -self.HalfLength
 end
 
+--given this angle for our spawn portals, return a rotation that puts us facing the right direction
+function ENT:SpawnRotation(spawnang)
+	if not isangle(spawnang) then return angle_zero end
+	return spawnang
+end
+
+--how our position needs to be adjusted when spawning
+function ENT:SpawnOffset(start)
+	if self:GetHubBus() then
+		return start + self:GetBusForward() * -1 * self.LeadUp + Vector(0, 0, 40)
+	else
+		local spawnPos = start + LocalToWorld(Vector(0,0,-92),self:GetAngles(),vector_origin,angle_zero) --adjust from center of bus portal
+		spawnPos = spawnPos + self:GetBusForward() * (-self.HalfLength - 20) + Vector(0, 0, 20) --stick us back into the wall
+		return spawnPos
+	end
+end
+--how our position needs to be adjusted for our initial goal
+function ENT:GoalOffset(start)
+	if self:GetHubBus() then
+		return start
+	else
+		return self:GetFront()
+	end
+end
 
 if SERVER then return end
 

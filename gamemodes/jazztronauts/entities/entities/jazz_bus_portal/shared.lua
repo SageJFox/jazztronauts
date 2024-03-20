@@ -37,9 +37,8 @@ ENT.RTSize = 1024
 ENT.Size = 184
 
 local zbumpMat = Matrix()
-zbumpMat:Translate(Vector(0, -2, 184/2))
+zbumpMat:Translate(Vector(0, -2, 0))
 zbumpMat:Scale(Vector(1, 1, 1) * .9)
-zbumpMat:Translate(Vector(0, 0, -184/2))
 ENT.ZBump = zbumpMat
 
 if SERVER then
@@ -162,7 +161,7 @@ if SERVER then return end
 function ENT:StoreSurfaceMaterial()
 
 	-- If the surface material is already a special material, set ourselves to it
-	local tr = util.QuickTrace(self:GetPos() + self:GetAngles():Up() * self.Size / 2, self:GetAngles():Right() * -10, self)
+	local tr = util.QuickTrace(self:GetPos(), self:GetAngles():Right() * -10, self)
 	if tr.HitWorld then
 
 		-- Lookup to see if this brushid has been taken
@@ -197,7 +196,7 @@ function ENT:StoreSurfaceMaterial()
 
 		-- Render away
 		render.RenderView( {
-			origin = self:GetPos() + viewang:Forward() * -5 + viewang:Up() * pos,
+			origin = self:GetPos() + viewang:Forward() * -5,
 			angles = viewang,
 			drawviewmodel = false,
 			x = 0,
@@ -298,7 +297,7 @@ function ENT:GetPortalPosAng()
 		angles = bang
 	end
 
-	local pos = self:GetPos() + self:GetAngles():Up() * self.Size/2 + angles:Up() * -self.Size/2
+	local pos = self:GetPos()
 
 	return pos, angles
 end
@@ -329,7 +328,7 @@ function ENT:DrawInsidePortal()
 	self:SetupVoidLighting()
 
 	local portalPos, portalAng = self:GetPortalPosAng()
-	local center = self:GetPos() + portalAng:Up() * self.Size/2
+	local center = self:GetPos() --+ portalAng:Up() * self.Size/2
 	local ang = Angle(portalAng)
 	ang:RotateAroundAxis(ang:Up(), -90)
 
@@ -396,7 +395,7 @@ function ENT:DrawInteriorDoubles()
 	-- Draw background
 	render.FogMode(MATERIAL_FOG_NONE) -- Disable fog so we can get those deep colors
 
-	self.VoidTunnel:SetPos(portalPos)
+	self.VoidTunnel:SetPos(portalPos - portalAng:Up() * self.Size/2)
 	self.VoidTunnel:SetAngles(portalAng)
 	self.VoidTunnel:SetupBones()
 	self.VoidTunnel:SetModelScale(0.34)
@@ -442,7 +441,7 @@ function ENT:DrawInteriorDoubles()
 	render.FogMode(MATERIAL_FOG_LINEAR)
 
 	-- Draw the wiggly wobbly road into the distance
-	self.VoidRoad:SetPos(portalPos)
+	self.VoidRoad:SetPos(portalPos - portalAng:Up() * self.Size/2)
 	self.VoidRoad:SetAngles(portalAng)
 	self.VoidRoad:SetupBones()
 	self.VoidRoad:DrawModel()
@@ -454,7 +453,7 @@ function ENT:DrawInteriorDoubles()
 		mat:SetScale(Vector(8, 1, 8))
 		local SpeedTunnel = ManagedCSEnt("bus_portal_speedtunnel", self.VoidSpeedTunnelModel)
 		SpeedTunnel:SetNoDraw(true)
-		SpeedTunnel:SetPos(portalPos)
+		SpeedTunnel:SetPos(portalPos - portalAng:Up() * self.Size/2)
 		SpeedTunnel:SetAngles(portalAng)
 		SpeedTunnel:EnableMatrix("RenderMultiply", mat)
 		SpeedTunnel:DrawModel()
@@ -529,7 +528,7 @@ function ENT:OnBroken()
 	end
 
 	-- Effects
-	local center = self:GetPos() + self:GetAngles():Up() * self.Size/2
+	local center = self:GetPos() --+ self:GetAngles():Up() * self.Size/2
 	local ang = self:GetAngles()
 	ang:RotateAroundAxis(ang:Right(), 90)
 
