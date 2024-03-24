@@ -36,6 +36,7 @@ end
 
 function ENT:OnMapChanged(newmap, wsid) 
 	local bus = ents.Create( "jazz_bus" )
+	if not IsValid(bus) then return end
 		bus:SetPos(self:GetPos())
 		bus:SetAngles(self:GetAngles())
 		bus:SetMap(newmap, wsid or "")

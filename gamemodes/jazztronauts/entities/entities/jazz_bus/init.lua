@@ -121,9 +121,11 @@ function ENT:Initialize()
 		self:AttachSeat(vector_origin,angle_zero)
 	end
 
+	self.StartAngles = self.SpawnRotation and self:SpawnRotation(self:GetAngles()) or self:GetAngles()
+	self:SetAngles(self.StartAngles) --fix our orientation
+
 	self.StartPos = self.SpawnOffset and self:SpawnOffset(self:GetPos()) or self:GetPos()
 	self.GoalPos = self.GoalOffset and self:GoalOffset(self:GetPos()) or self:GetPos()
-	self.StartAngles = self:GetAngles()
 	self.StartTime = CurTime()
 
 	-- Start us off right at the start
@@ -467,17 +469,17 @@ function ENT:PhysicsSimulate( phys, deltatime )
 			p = math.pow(perc, 2)
 
 			-- Bus is speeding up, rotate backward a bit
-			rotAng = math.Clamp(perc * 16, 0, 1) * -3.5
+			rotAng = math.Clamp(perc * 16, 0, 1) * 3.5
 		else
 			p = math.EaseInOut(math.Clamp(perc, 0, 1), 1, 1)
 
 			-- Bus slowing down, rotate forwards
-			rotAng = math.Clamp(1.2 - perc, 0, 1) * 3.5
+			rotAng = math.Clamp(1.2 - perc, 0, 1) * -3.5
 		end
 
 		self.ShadowControl.pos = LerpVector(p, self.StartPos, self.GoalPos)
 		self.ShadowControl.angle = Angle(self.StartAngles)
-		self.ShadowControl.angle:RotateAroundAxis(self.StartAngles:Forward(), rotAng)
+		self.ShadowControl.angle:RotateAroundAxis(self:GetBusForward():Angle():Right(), rotAng)
 	else
 		if self.MoveState == MOVE_STATIONARY then
 			self:PhysicsStationary(phys, deltatime)

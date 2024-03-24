@@ -308,12 +308,13 @@ end
 function ENT:GetPortalPosAng()
 	local angles = self:GetAngles()
 	if IsValid(self:GetBus()) then
-		local bang = self:GetBus():GetAngles()
+		local bang = self:GetBus():GetBusForward():Angle()
+		bang:RotateAroundAxis(angles:Up(),90)
 		if self:GetIsExit() then
-			bang:RotateAroundAxis(bang:Up(), 180)
+			bang:RotateAroundAxis(angles:Up(), 180)
+			angles = bang
 		end
 
-		angles = bang
 	end
 
 	local pos = self:GetPos()

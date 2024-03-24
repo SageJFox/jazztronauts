@@ -137,9 +137,9 @@ end
 --how our position needs to be adjusted when spawning
 function ENT:SpawnOffset(start)
 	if self:GetHubBus() then
-		return start + self:GetBusForward() * -1 * self.LeadUp + Vector(0, 0, 40)
+		return start + self:GetBusForward() * -self.LeadUp + Vector(0, 0, 40)
 	else
-		local spawnPos = start + LocalToWorld(Vector(0,0,-92),self:GetAngles(),vector_origin,angle_zero) --adjust from center of bus portal
+		local spawnPos = start + LocalToWorld(Vector(0,0,-92),angle_zero,vector_origin,self:GetAngles()) --adjust from center of bus portal
 		spawnPos = spawnPos + self:GetBusForward() * (-self.HalfLength - 20) + Vector(0, 0, 20) --stick us back into the wall
 		return spawnPos
 	end
