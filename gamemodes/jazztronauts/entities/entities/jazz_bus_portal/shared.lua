@@ -226,7 +226,12 @@ function ENT:StoreSurfaceMaterial()
 			tab.origin = self:GetPos() + viewang:Forward() * -64
 			tab.fov = 110
 		end
+		--don't draw stops on the RT
+		local stops = ents.FindByClass("jazz_bus_marker")
+		for _, v in ipairs(stops) do if not IsValid(v) then return end v:SetNoDraw(true) end
 		render.RenderView( tab )
+		--we *could* store its initial state and restore that, but, we never mess with nodraw elsewhere, so why bother
+		for _, v in ipairs(stops) do if not IsValid(v) then return end  v:SetNoDraw(false) end
 	end )
 
 	local wallMaterial = CreateMaterial(matname, "UnlitGeneric", { ["$nocull"] = 1})
