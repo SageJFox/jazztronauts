@@ -203,7 +203,7 @@ function ENT:StoreSurfaceMaterial()
 		debugoverlay.Cross(self:GetPos() - viewang:Up() * pos,5,20,Color(0,255,255),true)
 		debugoverlay.Cross(self:GetPos() + viewang:Up() * pos,5,20,Color(128,0,255),true)
 		-- Render away
-		render.RenderView( {
+		local tab = {
 			origin = self:GetPos() + viewang:Forward() * -5,
 			angles = viewang,
 			drawviewmodel = false,
@@ -217,7 +217,16 @@ function ENT:StoreSurfaceMaterial()
 				bottom = pos },
 			bloomtone = false,
 			dopostprocess = false,
-		} )
+		}
+		--TODO FIXME BUGBUG WORKAROUND check for GMod updates fixing this issue in future
+		if BRANCH == "x86-64" and viewang:Forward():Dot(-tab.origin) > 0 then --64-bit branch has a bug with ortho cameras and the map origin being in view, don't use that
+			-- a rough, non-orthographic approximation of something halfway decent
+			print((self:GetIsExit() and "Exit RT" or "Entrance RT") .. " switched to non-orthographic")
+			tab.ortho = nil
+			tab.origin = self:GetPos() + viewang:Forward() * -64
+			tab.fov = 110
+		end
+		render.RenderView( tab )
 	end )
 
 	local wallMaterial = CreateMaterial(matname, "UnlitGeneric", { ["$nocull"] = 1})
