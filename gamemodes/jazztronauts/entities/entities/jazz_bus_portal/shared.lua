@@ -157,6 +157,8 @@ end
 
 if SERVER then return end
 
+local buscount = 0
+
 -- Render the wall we're right next to so we can break it
 function ENT:StoreSurfaceMaterial()
 
@@ -183,7 +185,8 @@ function ENT:StoreSurfaceMaterial()
 	end
 
 	-- Create (or retrieve) the render target
-	local matname = "bus_wall" .. (self:GetIsExit() and "_exit" or "")
+	local matname = "bus" .. (buscount % 2 == 0 and "" or "2") .. "_wall" .. (self:GetIsExit() and "_exit" or "")
+	if not self:GetIsExit() then buscount = buscount + 1 end
 	local voidrt = irt.New(matname, self.RTSize, self.RTSize)
 	voidrt:EnableDepth(true, true)
 	voidrt:EnableMipmap(true)
@@ -193,7 +196,12 @@ function ENT:StoreSurfaceMaterial()
 		local pos = self.Size / 2
 		local viewang = self:GetAngles()
 		viewang:RotateAroundAxis(viewang:Up(), 90)
-
+		debugoverlay.Axis(self:GetPos() + viewang:Forward() * -5,viewang,16,20,true)
+		debugoverlay.Cross(self:GetPos(),5,20,Color(255,255,255),true)
+		debugoverlay.Cross(self:GetPos() - viewang:Right() * pos,5,20,Color(255,0,255),true)
+		debugoverlay.Cross(self:GetPos() + viewang:Right() * pos,5,20,Color(255,255,0),true)
+		debugoverlay.Cross(self:GetPos() - viewang:Up() * pos,5,20,Color(0,255,255),true)
+		debugoverlay.Cross(self:GetPos() + viewang:Up() * pos,5,20,Color(128,0,255),true)
 		-- Render away
 		render.RenderView( {
 			origin = self:GetPos() + viewang:Forward() * -5,
@@ -203,18 +211,15 @@ function ENT:StoreSurfaceMaterial()
 			y = 0,
 			w = ScrW(),
 			h = ScrH(),
-			ortholeft = -pos,
-			orthoright = pos,
-			orthotop = -pos,
-			orthobottom = pos,
-			ortho = true,
+			ortho = { left = -pos,
+				right = pos,
+				top = -pos,
+				bottom = pos },
 			bloomtone = false,
 			dopostprocess = false,
 		} )
 	end )
 
-	-- Note we just keep reusing "bus_wall_material". If we wanted multiple buses at the same time,
-	-- then we'll need a unique name for each material. But not yet.
 	local wallMaterial = CreateMaterial(matname, "UnlitGeneric", { ["$nocull"] = 1})
 	wallMaterial:SetTexture("$basetexture", voidrt:GetTarget())
 	self.WallMaterial = "!" .. wallMaterial:GetName()
