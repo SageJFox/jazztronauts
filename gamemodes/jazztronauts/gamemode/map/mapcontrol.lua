@@ -382,8 +382,8 @@ if SERVER then
 		} )
 
 		local pos2 = tr.HitPos
-		local ang2 = tr.HitNormal:Angle(spawnang:Up())
-		ang2:RotateAroundAxis(ang2:Up(), 90)
+		local ang2 = Angle(ang)
+		ang2:RotateAroundAxis(ang2:Up(), -90)
 
 		--if we're summoning the bus towards the edges of the map grid, crazy physics detection could dick us over
 

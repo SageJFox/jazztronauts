@@ -63,6 +63,14 @@ function ENT:Initialize()
 	end
 
 	self:DrawShadow(false)
+	-- portals straight up and down flip opposite one another, flip the exit back
+	if self:GetIsExit() then
+		local adjust = self:GetAngles()
+		if adjust.z % 360 == 90 then
+			adjust.y = adjust.y + 180
+			self:SetAngles(adjust)
+		end
+	end
 
 	if CLIENT then
 
@@ -307,15 +315,6 @@ end
 
 function ENT:GetPortalPosAng()
 	local angles = self:GetAngles()
-	if IsValid(self:GetBus()) then
-		local bang = self:GetBus():GetBusForward():Angle()
-		bang:RotateAroundAxis(angles:Up(),90)
-		if self:GetIsExit() then
-			bang:RotateAroundAxis(angles:Up(), 180)
-			angles = bang
-		end
-
-	end
 
 	local pos = self:GetPos()
 
@@ -524,7 +523,7 @@ end
 function ENT:GetJazzVoidView()
 	local bus = self:GetBus()
 	if !IsValid(bus) then return Vector() end
-	return bus:GetAngles():Right() * self:GetJazzVoidViewDistance()
+	return bus:GetBusForward() * self:GetJazzVoidViewDistance()
 end
 
 function ENT:OnBroken()
@@ -548,7 +547,7 @@ function ENT:OnBroken()
 	end
 
 	-- Effects
-	local center = self:GetPos() --+ self:GetAngles():Up() * self.Size/2
+	local center = self:GetPos()
 	local ang = self:GetAngles()
 	ang:RotateAroundAxis(ang:Right(), 90)
 
