@@ -112,6 +112,7 @@ function ENT:Initialize()
 
 		self.VoidRoad = ManagedCSEnt("jazz_void_road", self.VoidRoadModel)
 		self.VoidRoad:SetNoDraw(true)
+		self.VoidRoad:SetSkin(1)
 		self.VoidRoad:Spawn()
 
 		self.VoidTunnel = ManagedCSEnt("jazz_void_tunnel", self.VoidTunnelModel)
@@ -123,6 +124,17 @@ function ENT:Initialize()
 		-- Hook into when the void renders so we can insert our props into it
 		hook.Add("JazzDrawVoid", self, function(self) self:OnPortalRendered() end)
 		hook.Add("JazzDrawVoidOffset", self, function(self) self:OnPortalRenderedOffset() end)
+
+		timer.Simple(0,function() -- wait a tick to make sure the other part's valid
+			if not IsValid(self) or not self:GetIsExit() then return end
+			for _, v in ipairs(ents.FindByClass("jazz_bus_portal")) do
+				if not IsValid(v) or v == self then continue end
+				if not v:GetIsExit() and math.abs( self:GetCreationTime() - v:GetCreationTime() ) < 0.1 then
+					self.roadDist = self:GetPos():Distance(v:GetPos())
+					break
+				end
+			end
+		end)
 	end
 end
 
@@ -402,8 +414,30 @@ function ENT:DrawInsidePortal()
 	render.SuppressEngineLighting(false)
 end
 
+--vertices of road edges, relative to road's origin
+
+local vertices = {
+	[1] = Vector(77.1566,0,0), --topsides
+	--[2] = Vector(-77.1566,0,0),
+	[3] = Vector(-77.1566 * 2,0,2.03954), --undersides (originally meant these to be, y'know, sane, but whatever)
+	--[4] = Vector(77.1566,0,-2.03954),
+	[5] = 77.1566 * 2	--width
+}
+
+local UVs = {
+	[1] = 0.00387, --U
+	[2] = 0.99613,
+	[3] = 1, --V
+	[4] = 0
+}
+
+local roadMat = Material("models/sunabouzu/jazzroad_static")
+local roadMatUnder = Material("models/sunabouzu/jazzroad02")
+local roadMatMove = Material("models/sunabouzu/jazzroad")
+
 -- Draws doubles of things that are in the normal world too
 -- (eg. the Bus, seats, other players, etc.)
+
 function ENT:DrawInteriorDoubles()
 	local portalPos, portalAng = self:GetPortalPosAng()
 
@@ -464,6 +498,36 @@ function ENT:DrawInteriorDoubles()
 	self.VoidRoad:SetAngles(portalAng)
 	self.VoidRoad:SetupBones()
 	self.VoidRoad:DrawModel()
+
+	--Draw a connection between the two roads
+
+	if IsValid(self.VoidRoad) and isnumber(self.roadDist) then
+		local pos, ang = self.VoidRoad:GetPos(), self.VoidRoad:GetAngles()
+		pos:Sub( LocalToWorld( vertices[1], angle_zero, vector_origin, self:GetAngles() ) )
+	
+		--topside
+		cam.Start3D2D( pos, ang, 1 )
+			surface.SetMaterial( self.Broken and IsValid(self:GetBus()) and self:GetBus().IsLaunching and roadMatMove or roadMat )
+			surface.SetDrawColor( color_white )
+			surface.DrawTexturedRectUV( 0, 0, vertices[5], self.roadDist, UVs[1], UVs[3], UVs[2], -self.roadDist / vertices[5] )
+			--debugoverlay.Axis( self.VoidRoad:GetPos(), self.VoidRoad:GetAngles(), 32, 1, true )
+			--debugoverlay.Axis( pos, ang, 100, 1, true )
+		cam.End3D2D()
+		
+		--bottom
+		pos:Sub( LocalToWorld( vertices[3], angle_zero, vector_origin, self:GetAngles() ) )
+		ang:RotateAroundAxis(self.VoidRoad:GetAngles():Forward(),180)
+		ang:RotateAroundAxis(self.VoidRoad:GetAngles():Up(),180)
+		cam.Start3D2D( pos, ang, 1 )
+			surface.SetMaterial( roadMatUnder )
+			surface.SetDrawColor( color_white )
+			surface.DrawTexturedRectUV( 0, 0, vertices[5], self.roadDist, UVs[1], UVs[3], UVs[2], -self.roadDist / vertices[5] )
+			--debugoverlay.Axis( self.VoidRoad:GetPos(), self.VoidRoad:GetAngles(), 32, 1, true )
+			--debugoverlay.Axis( pos, ang, 100, 1, true )
+		cam.End3D2D()
+
+
+	end
 
 
 	-- Render speedy tunnel
@@ -668,6 +732,9 @@ hook.Add("PreDrawEffects", "JazzDrawPortalWorld", function()
 	jazzvoid.void_view_offset = Vector()
 	local exitPortal = GetExitPortal()
 	if !IsValid(exitPortal) then return end
+
+	--start rolling
+	if IsValid(exitPortal.VoidRoad) and exitPortal.VoidRoad:GetSkin() == 1 then exitPortal.VoidRoad:SetSkin(0) end
 
 	-- If the local player's view is past the portal 'plane', ONLY render the jazz dimension
 	local origin = EyePos()
