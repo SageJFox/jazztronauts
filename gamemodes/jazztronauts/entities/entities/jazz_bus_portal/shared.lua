@@ -417,18 +417,17 @@ end
 --vertices of road edges, relative to road's origin
 
 local vertices = {
-	[1] = Vector(77.1566,0,0), --topsides
-	--[2] = Vector(-77.1566,0,0),
-	[3] = Vector(-77.1566 * 2,0,2.03954), --undersides (originally meant these to be, y'know, sane, but whatever)
-	--[4] = Vector(77.1566,0,-2.03954),
-	[5] = 77.1566 * 2	--width
+	[1] = Vector(-77.1566,0,0), --topside
+	[2] = Vector(77.1566,0,-2.03954), --underside
+	--note: this number is getting rounded when the actual quads are being drawn, however, our refraction effect makes it pretty much impossible to see this slight mismatch
+	[3] = 77.1566 * 2	--width
 }
 
 local UVs = {
-	[1] = 0.00387, --U
-	[2] = 0.99613,
-	[3] = 1, --V
-	[4] = 0
+	[1] = 0.00387, --U start
+	[2] = 1, --V start
+	[3] = 0.99613, --U end
+	--[4] = 0 --V end (determined by segment length)
 }
 
 local roadMat = Material("models/sunabouzu/jazzroad_static")
@@ -502,30 +501,29 @@ function ENT:DrawInteriorDoubles()
 	--Draw a connection between the two roads
 
 	if IsValid(self.VoidRoad) and isnumber(self.roadDist) then
-		local pos, ang = self.VoidRoad:GetPos(), self.VoidRoad:GetAngles()
-		pos:Sub( LocalToWorld( vertices[1], angle_zero, vector_origin, self:GetAngles() ) )
-	
 		--topside
+		local pos, ang = self.VoidRoad:LocalToWorld( vertices[1] ), self.VoidRoad:GetAngles()
+	
 		cam.Start3D2D( pos, ang, 1 )
 			surface.SetMaterial( self.Broken and IsValid(self:GetBus()) and self:GetBus().IsLaunching and roadMatMove or roadMat )
 			surface.SetDrawColor( color_white )
-			surface.DrawTexturedRectUV( 0, 0, vertices[5], self.roadDist, UVs[1], UVs[3], UVs[2], -self.roadDist / vertices[5] )
+			surface.DrawTexturedRectUV( 0, 0, vertices[3], self.roadDist, UVs[1], UVs[2], UVs[3], -self.roadDist / vertices[3] )
 			--debugoverlay.Axis( self.VoidRoad:GetPos(), self.VoidRoad:GetAngles(), 32, 1, true )
 			--debugoverlay.Axis( pos, ang, 100, 1, true )
 		cam.End3D2D()
 		
 		--bottom
-		pos:Sub( LocalToWorld( vertices[3], angle_zero, vector_origin, self:GetAngles() ) )
+		pos = self.VoidRoad:LocalToWorld( vertices[2] )
 		ang:RotateAroundAxis(self.VoidRoad:GetAngles():Forward(),180)
 		ang:RotateAroundAxis(self.VoidRoad:GetAngles():Up(),180)
+
 		cam.Start3D2D( pos, ang, 1 )
 			surface.SetMaterial( roadMatUnder )
 			surface.SetDrawColor( color_white )
-			surface.DrawTexturedRectUV( 0, 0, vertices[5], self.roadDist, UVs[1], UVs[3], UVs[2], -self.roadDist / vertices[5] )
+			surface.DrawTexturedRectUV( 0, 0, vertices[3], self.roadDist, UVs[1], UVs[2], UVs[3], -self.roadDist / vertices[3] )
 			--debugoverlay.Axis( self.VoidRoad:GetPos(), self.VoidRoad:GetAngles(), 32, 1, true )
 			--debugoverlay.Axis( pos, ang, 100, 1, true )
 		cam.End3D2D()
-
 
 	end
 
