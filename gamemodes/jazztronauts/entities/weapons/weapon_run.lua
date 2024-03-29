@@ -166,7 +166,9 @@ function SWEP:Deploy()
 		if IsValid(owner) then
 			self:SetOldRunSpeed( owner:GetRunSpeed() )
 			self:SetOldWalkSpeed( owner:GetWalkSpeed() )
-			self:SetOldJumpPower( owner:GetJumpPower() )
+			self:SetOldRunSpeed( owner:GetRunSpeed() / (owner.JazzSizeMultiplier or 1) )
+			self:SetOldWalkSpeed( owner:GetWalkSpeed() / (owner.JazzSizeMultiplier or 1) )
+			self:SetOldJumpPower( owner:GetJumpPower() / ( math.min( 1, (owner.JazzSizeMultiplier and owner.JazzSizeMultiplier * 2) or 1 ) ) )
 		end
 	else
 		self.ChargeSound:SetSoundLevel(75)
@@ -185,10 +187,11 @@ end
 function SWEP:Cleanup()
 
 	local owner = self:GetOwner()
-	if SERVER and self:GetOldRunSpeed() ~= 0 and IsValid(owner) then
-		owner:SetRunSpeed( self:GetOldRunSpeed() )
-		owner:SetWalkSpeed( self:GetOldWalkSpeed() )
-		owner:SetJumpPower( self:GetOldJumpPower() )
+
+	if self:GetOldRunSpeed() ~= 0 and IsValid(owner) then
+		owner:SetRunSpeed( self:GetOldRunSpeed() * (owner.JazzSizeMultiplier or 1) )
+		owner:SetWalkSpeed( self:GetOldWalkSpeed() * (owner.JazzSizeMultiplier or 1) )
+		owner:SetJumpPower( self:GetOldJumpPower() * ( math.min( 1, (owner.JazzSizeMultiplier and owner.JazzSizeMultiplier * 2) or 1 ) ) )
 	end
 	
 	if CLIENT and IsValid(owner) then
@@ -352,10 +355,10 @@ function SWEP:Think()
 			end
 		end
 		local runspeed = (self:GetWalkingToggle() ~= owner:KeyDown(IN_SPEED)) and self:GetOldWalkSpeed() or 800 --let player hold sprint to go at regular speed
-		owner:SetWalkSpeed( runspeed )
-		owner:SetRunSpeed( runspeed )
+		owner:SetWalkSpeed( runspeed * (owner.JazzSizeMultiplier or 1) )
+		owner:SetRunSpeed( runspeed * (owner.JazzSizeMultiplier or 1) )
 		--print(self.CrouchTime, self.JumpMultiplier)
-		owner:SetJumpPower( 500 * self.JumpMultiplier )
+		owner:SetJumpPower( 500 * self.JumpMultiplier  * ( math.min( 1, ( owner.JazzSizeMultiplier and owner.JazzSizeMultiplier * 4) or 1) ) )
 	end
 	self.LastThink = CurTime()
 end
