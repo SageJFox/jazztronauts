@@ -5,7 +5,6 @@ ENT.Base = "base_anim"
 ENT.RenderGroup = RENDERGROUP_OPAQUE
 ENT.AutomaticFrameAdvance = true
 ENT.Model			= "models/sunabouzu/jazzportal.mdl"
-ENT.HubName			= "jazz_bar"
 
 local IDLE_HUM_SOUND        = Sound("ambient/machines/thumper_amb.wav")
 local FAIL_SOUND            = Sound("coast.thumper_shutdown")
@@ -43,15 +42,6 @@ function ENT:Initialize()
 		self:SetUseType(SIMPLE_USE)
 	end
 end
-
-hook.Add("InitPostEntity","JazzHubMapName",function()
-	for _, v in ipairs(ents.FindByClass("jazz_hub_selector")) do
-		if IsValid(v) then
-			v.HubName = string.lower(game.GetMap())
-			--if not v:GetTrolley() or v:GetTrolley() == "" then v:SetTrolley("default") end
-		end
-	end
-end)
 
 function ENT:SetPortalSequence(seqName, noreset)
 	local sequence = self:LookupSequence(seqName)

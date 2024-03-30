@@ -242,7 +242,7 @@ local conditionEnv =
 			if not IsValid(selector) then return false, false end --no selector means this isn't a valid map, don't let them change to this
 			local selectorTrolley = selector:GetTrolley()
 			if selectorTrolley == "" then selectorTrolley = "default" end
-			return v:GetHub() ~= selector.HubName, v:GetTrolley() ~= selectorTrolley
+			return v:GetHub() ~= game.GetMap(), v:GetTrolley() ~= selectorTrolley
 		end
 	end,
 }

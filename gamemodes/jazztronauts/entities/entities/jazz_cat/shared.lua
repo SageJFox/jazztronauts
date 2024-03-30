@@ -34,7 +34,7 @@ function ENT:SetupChatTables()
 		if not IsValid(selector) or not hubtrolleybugme:GetBool() then return end
 		local selectorTrolley = selector:GetTrolley()
 		if selectorTrolley == "" then selectorTrolley = "default" end
-		if selector.HubName ~= self:GetHub() or self:GetTrolley() ~= selectorTrolley then
+		if game.GetMap() ~= self:GetHub() or self:GetTrolley() ~= selectorTrolley then
 			chatmenu.AddChoice(self.ChatChoices, "#jazz.store.hub", function(self, ply)
 				local script = "hub.begin"
 				if SERVER then

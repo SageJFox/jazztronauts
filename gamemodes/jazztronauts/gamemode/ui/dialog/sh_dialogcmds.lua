@@ -196,8 +196,8 @@ dialog.RegisterFunc("setconvar", function(d, convar, value)
 			end
 		end
 
-		if convar == "jazz_hub" and selector.HubName ~= "" then
-			value = selector.HubName
+		if convar == "jazz_hub" then
+			value = game.GetMap()
 			bartender:SetHub(value)
 		end
 
