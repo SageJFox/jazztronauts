@@ -2,6 +2,11 @@ AddCSLuaFile()
 
 module("dialog", package.seeall)
 
+local hubtrolleybugme = CreateConVar("jazz_barhop_allow",1,bit.bor(FCVAR_ARCHIVE,FCVAR_REPLICATED),"Allow dialog prompt for a Barhop.\n"..
+"A Barhop is available when the server gets onto a valid Jazztronauts hub map with settings defined that don't match the server's setup.\n"..
+"For example, if a hub map was found on the level browser and visited, or if a custom trolley is defined that doesn't match the current hub.\n"..
+"When enabled and appropriate, the Bartender will have a dialog option to switch the various settings in-line with the map's.\n"..
+"(Note that users must be super admins to actually act on this dialog.) Set to 0 if you don't want this option present.")
 
 -- Use of the map trigger command must be on entity names prefixed with this
 local mapTriggerPrefix = "jazzio_"
@@ -33,6 +38,44 @@ if SERVER then
 		for _, v in pairs(entities) do
 			v:Fire(inp, param, delay)
 		end
+	end )
+
+	util.AddNetworkString( "dialog_requestsetconvar" )
+
+	--only act on these convars, anything else is off limits!
+	local convaraccepted = {
+		["jazz_hub"] = true,
+		["jazz_trolley"] = true,
+	}
+
+	net.Receive("dialog_requestsetconvar", function(len, ply)
+		if not hubtrolleybugme:GetBool() then return end
+		if not IsValid(ply) then return end
+
+		--script tries to prevent non-admins from using this, but if they get cheeky with jazz_debug_runscript stop'em
+		local admin = net.ReadEntity()
+		if not IsValid(admin) or not admin:IsPlayer() or not admin:IsSuperAdmin() then
+			ErrorNoHalt("Convars can only be set by super admins!")
+			return
+		end
+		-- only do this once (i.e. on the player who sent it)
+		if ply ~= admin then return end
+
+		local command = net.ReadString()
+		local value = net.ReadString()
+
+		--At least pretend like we're doing this safely (let's be real if someone wants to fuck your server up, they probably aren't doing it here)
+		if not convaraccepted[command] then
+			ErrorNoHalt("Script attempted to request illegal convar!")
+			return
+		end
+
+		if not ConVarExists(command) then
+			ErrorNoHalt("Convar \"" .. command .. "\" doesn't exist!")
+			return
+		end
+		local convar = GetConVar(command)
+		convar:SetString(value)
 	end )
 
 	util.AddNetworkString( "dialog_requestpvs" )
@@ -121,6 +164,56 @@ dialog.RegisterFunc("fire", function(d, entityName, inputName, delay, fireParams
 		net.WriteFloat(delay or 0)
 		net.WriteString(fireParams or "")
 	net.SendToServer()
+end)
+
+
+local convardefaults = {
+	["jazz_hub"] = "jazz_bar",
+	["jazz_trolley"] = "default",
+}
+-- Requests a convar change for the server
+-- Playing with fire
+dialog.RegisterFunc("setconvar", function(d, convar, value)
+
+	if not hubtrolleybugme:GetBool() then return end
+
+	local convar = isstring(convar) and string.lower(convar) or ""
+
+	local value = value
+	if not value or value == "" then 
+		value = convardefaults[convar] or ""
+		--get the value we want
+		local selector = ents.FindByClass("jazz_hub_selector")[1]
+		if not IsValid(selector) then return end
+		local selectorTrolley = selector:GetTrolley()
+		if convar == "jazz_trolley" and selectorTrolley == "" then selectorTrolley = "default" end
+		--get the bartender to update the value she's currently holding
+		local cats, bartender = ents.FindByClass("jazz_cat"), nil
+		for _, v in ipairs(cats) do
+			if IsValid(v) and v:GetNPCID() == missions.NPC_CAT_BAR then
+				bartender = v
+				break
+			end
+		end
+
+		if convar == "jazz_hub" and selector.HubName ~= "" then
+			value = selector.HubName
+			bartender:SetHub(value)
+		end
+
+		if convar == "jazz_trolley" and selectorTrolley ~= "" then
+			value = selectorTrolley
+			bartender:SetTrolley(value)
+		end
+
+	end
+	--send it over
+	net.Start("dialog_requestsetconvar")
+		net.WriteEntity(LocalPlayer())
+		net.WriteString(convar)
+		net.WriteString(value)
+	net.SendToServer()
+
 end)
 
 local function parsePosAng(...)

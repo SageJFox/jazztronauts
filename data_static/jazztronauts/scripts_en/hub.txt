@@ -1,0 +1,89 @@
+#HIDE_MOUSE = true
+PRINT_RATE = 0.9
+
+begin:
+	spawnnarrator()
+	*setauto 0*
+	condition:
+		&bar_admin:
+			return superadmin()
+		&bar_normal:
+			return true
+
+bar_normal:
+	*setauto*
+	Sorry,% you'll need higher permissions to use this option.%% 
+	Ask a Super Admin!
+	&exit
+
+bar_admin:
+	*setauto*
+	Ah,% so you noticed!%% We may have done a little renovating.%%
+	condition:
+		&bar_isdiff:
+			local t, _ \= bartrolleydiff()
+			return t
+		&trolley:
+			local _, t \= bartrolleydiff()
+			return t
+		&bar_end:
+			return true
+
+bar_isdiff:
+	If you like it,% we could leave things like this for a while!
+	player:
+		&bar_yes:
+			Yeah,% let's use this new decor. *c 0*(Use this map as the server's hub)*c*
+		&bar_no:
+			Nah,% I liked the old look. *c 0*(Keep current hub map)*c*
+
+bar_no:
+	*setspeaker*
+	Ah,% I understand.%% No worries,% next time you come back to the bar,% 
+	it'll look exactly how you remembered it.
+	&bar_end
+
+bar_yes:
+	*setspeaker*
+	Excellent!%% We have a few more things to set up,% 
+	we should be all ready by the time you get back.*setconvar jazz_hub*
+	condition:
+		&trolley:
+			local _, t \= bartrolleydiff()
+			return t
+		&bar_end:
+			return true
+
+trolley:
+	*setspeaker*
+	Oh,% that's right,% we have some tweaks to the trolley we could make,% 
+	if you would like!
+	player:
+		&trolley_yes:
+			Pimp my ride. *c 0*(Use this map's defined custom trolley)*c*
+		&trolley_no:
+			That thing's,% like,% a classic,% man. *c 0*(Keep current trolley appearance)*c*
+
+trolley_yes:
+	*setspeaker*
+	That's the spirit!%% Variety is the spice of life.%% 
+	Let me find my toolbox%.%.%.*setconvar jazz_trolley*
+	&bar_end
+
+trolley_no:
+	*setspeaker*
+	Alright%, though I can't guarantee things will go smoothly with the 
+	new layout%.%.%.
+	&bar_end
+
+bar_end:
+	If you ever want to change things up,% you can talk with me again,% 
+	or feel free to send an order form!%% 
+	&bar_end2
+bar_end2:
+	*setspeaker narrator*
+	*OOC*You can use the *c NGPLUSCOLOR*jazz_hub*OOC* and *c NGPLUSCOLOR*jazz_trolley*OOC* console commands
+	to manually set any hub map or trolley appearance that you please.%%
+	Set *c NGPLUSCOLOR*jazz_barhop_allow*OOC* to 0 to hide this dialog option in future.%%
+	These convars may require a map change to take effect!*c*
+	&exit

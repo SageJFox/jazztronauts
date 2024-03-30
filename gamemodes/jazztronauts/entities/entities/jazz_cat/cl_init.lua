@@ -23,13 +23,6 @@ local SF_NOHEADTRACK = 1
 local SF_PHYSICSLUL = 2
 
 function ENT:Initialize()
-	self:SetupChatTables()
-
-	-- Allow mouse clicks on the chat menu (and make it so clicking doesn't shoot their weapon)
-	if self.ChatChoices and #self.ChatChoices > 0 then
-		hook.Add("KeyPress", self, function(self, ply, key) return self:OnMouseClicked(ply, key) end )
-		hook.Add("KeyRelease", self, function(self, ply, key) return self:OnMouseReleased(ply, key) end)
-	end
 
 	worldmarker.Register(self, self.AttentionMarker, 20)
 	
@@ -40,7 +33,15 @@ function ENT:Initialize()
 
 	worldmarker.SetEnabled(false)
 	timer.Simple(0,function()
-		if IsValid(self) and self:GetSequence() == self:LookupSequence("pose_hangingout") then self.UpsideDown = true end
+		if not IsValid(self) then return end
+		if self:GetSequence() == self:LookupSequence("pose_hangingout") then self.UpsideDown = true end
+		self:SetupChatTables()
+
+		-- Allow mouse clicks on the chat menu (and make it so clicking doesn't shoot their weapon)
+		if self.ChatChoices and #self.ChatChoices > 0 then
+			hook.Add("KeyPress", self, function(self, ply, key) return self:OnMouseClicked(ply, key) end )
+			hook.Add("KeyRelease", self, function(self, ply, key) return self:OnMouseReleased(ply, key) end)
+		end
 	end)
 end
 

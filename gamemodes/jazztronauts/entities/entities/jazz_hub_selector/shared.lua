@@ -5,6 +5,7 @@ ENT.Base = "base_anim"
 ENT.RenderGroup = RENDERGROUP_OPAQUE
 ENT.AutomaticFrameAdvance = true
 ENT.Model			= "models/sunabouzu/jazzportal.mdl"
+ENT.HubName			= "jazz_bar"
 
 local IDLE_HUM_SOUND        = Sound("ambient/machines/thumper_amb.wav")
 local FAIL_SOUND            = Sound("coast.thumper_shutdown")
@@ -43,6 +44,15 @@ function ENT:Initialize()
 	end
 end
 
+hook.Add("InitPostEntity","JazzHubMapName",function()
+	for _, v in ipairs(ents.FindByClass("jazz_hub_selector")) do
+		if IsValid(v) then
+			v.HubName = string.lower(game.GetMap())
+			--if not v:GetTrolley() or v:GetTrolley() == "" then v:SetTrolley("default") end
+		end
+	end
+end)
+
 function ENT:SetPortalSequence(seqName, noreset)
 	local sequence = self:LookupSequence(seqName)
 
@@ -56,17 +66,20 @@ function ENT:SetPortalSequence(seqName, noreset)
 end
 
 function ENT:SetupDataTables()
-	self:NetworkVar("String", 0, "SelectedDestinationID")
-	self:NetworkVar("Int", 0, "ScanState")
-	self:NetworkVar("Int", 1, "FreezeTime")
-	self:NetworkVar("Int", 2, "Facing")
+	self:NetworkVar("String", "SelectedDestinationID")
+	self:NetworkVar("String", "Trolley")
+	self:NetworkVar("Int", "ScanState")
+	self:NetworkVar("Int", "FreezeTime")
+	self:NetworkVar("Int", "Facing")
 end
 
 function ENT:KeyValue( key, value )
-
 	if key == "facing" then
 		self:SetFacing(tonumber(value) or 0)
+	elseif key == "trolley" then
+		self:SetTrolley(value and string.lower(value) or "default")
 	end
+	--print("jazz_hub_selector","KeyValue","Trolley value:",self:GetTrolley())
 
 	if table.HasValue(outputs, key) then
 		self:StoreOutput(key, value)

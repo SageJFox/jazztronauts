@@ -221,9 +221,11 @@ function ENT:DrawChoice(choice, centerX, centerY, highlighted, ang, scale, scale
 	scale = scale or 1
 	scaleBump = scaleBump or 1
 	local rot = -ang + 180
-	if ang > 0 then
+	if ang % 90 > 0 then
 		-- Slightly rotate a bit more to not be as sideways
 		rot = math.NormalizeAngle(rot + 90) * 1.3 + 90
+	else
+		rot = -90
 	end
 
 	local pX = math.cos(math.rad(ang)) * chatmenu.scaleW * scaleBump + centerX
@@ -290,7 +292,7 @@ function ENT:DrawDialogEntry(choices, showperc)
 		-- Draw the choice options + highlight nearby one
 		for i=1, #choices do
 			local drawCenter = #choices == 1
-			local ang = (i * 1.0 / 3) * 360 - 90
+			local ang = (i / #choices) * 360 - 90
 			if drawCenter then ang = -85 end
 			self:DrawChoice(choices[i], 0, self.RadialOffset, i == hitoption, ang, drawCenter and 2.5, drawCenter and 0.5)
 		end

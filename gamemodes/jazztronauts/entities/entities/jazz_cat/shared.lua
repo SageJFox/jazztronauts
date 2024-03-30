@@ -8,10 +8,18 @@ ENT.AutomaticFrameAdvance = true
 ENT.Model = "models/andy/cats/cat_bartender.mdl"
 ENT.IdleAnim = "idle"
 
+if SERVER then
+	util.AddNetworkString("JazzPlayScript")
+end
+
+local hubtrolleybugme = GetConVar("jazz_barhop_allow")
+
 local function ClientRun(ply, str) if SERVER then ply:SendLua(str) else RunString(str, "JazzChatMenu") end end
 
 function ENT:SetupDataTables()
-	self:NetworkVar("Int", 0, "NPCID")
+	self:NetworkVar("Int", "NPCID")
+	self:NetworkVar("String", "Hub")
+	self:NetworkVar("String", "Trolley")
 end
 
 function ENT:SetupChatTables()
@@ -21,11 +29,40 @@ function ENT:SetupChatTables()
 		chatmenu.AddChoice(self.ChatChoices, "#jazz.store.upgrade", function(self, ply) ClientRun(ply, "jstore.OpenUpgradeStore()") end)
 		chatmenu.AddChoice(self.ChatChoices, "#jazz.store.store", function(self, ply) ClientRun(ply, "jstore.OpenStore()") end)
 		chatmenu.AddChoice(self.ChatChoices, "#jazz.store.chat", function(self, ply) self:StartChat(ply) end)
+		--add option for switching this map to be the hub
+		local selector = ents.FindByClass("jazz_hub_selector")[1]
+		if not IsValid(selector) or not hubtrolleybugme:GetBool() then return end
+		local selectorTrolley = selector:GetTrolley()
+		if selectorTrolley == "" then selectorTrolley = "default" end
+		if selector.HubName ~= self:GetHub() or self:GetTrolley() ~= selectorTrolley then
+			chatmenu.AddChoice(self.ChatChoices, "#jazz.store.hub", function(self, ply)
+				local script = "hub.begin"
+				if SERVER then
+					dialog.Dispatch(script, ply, self)
+				else
+					net.Start("JazzPlayScript")
+						net.WriteEntity(self)
+						net.WriteString(script)
+					net.SendToServer()
+				end
+			end)
+		else
+			--print("but this is our house! :(")
+		end
 	else
 		--self.ChatChoices.WelcomeText = ""
 		--chatmenu.AddChoice(self.ChatChoices, "Let's chat!", function(self, ply) self:StartChat(ply) end)
 	end
 end
+
+net.Receive("JazzPlayScript", function(len, ply)
+	local cat = net.ReadEntity()
+	local script = net.ReadString()
+
+	if IsValid(cat) then
+		dialog.Dispatch(script, ply, cat)
+	end
+end )
 
 function ENT:GetIdleScript()
 	local npcidle = "idle.begin" .. self.NPCID

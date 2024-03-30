@@ -232,12 +232,24 @@ local conditionEnv =
 	time = os.time,
 	date = os.date,
 	multiplayer = function() return tobool(player.GetCount() - 1) end,
-	maybe = function(odds, test) return math.Round(util.SharedRandom("shared", 1, odds, FrameNumber())) == test end
+	maybe = function(odds, test) return math.Round(util.SharedRandom("shared", 1, odds, FrameNumber())) == test end,
+	superadmin = function() return LocalPlayer():IsSuperAdmin() end,
+	--check if jazz_bar or jazz_trolley settings are different from this map's
+	bartrolleydiff = function()
+		for _, v in ipairs(ents.FindByClass("jazz_cat")) do
+			if not IsValid(v) or v:GetNPCID() ~= missions.NPC_CAT_BAR then continue end
+			local selector = ents.FindByClass("jazz_hub_selector")[1]
+			if not IsValid(selector) then return false, false end --no selector means this isn't a valid map, don't let them change to this
+			local selectorTrolley = selector:GetTrolley()
+			if selectorTrolley == "" then selectorTrolley = "default" end
+			return v:GetHub() ~= selector.HubName, v:GetTrolley() ~= selectorTrolley
+		end
+	end,
 }
 
 local function ProcessConditionalOptions(data)
 
-	for k, v in ipairs(data) do
+	for _, v in ipairs(data) do
 		local func = CompileString(v.data[1].data, "dialog_conditional")
 		if not func then continue end
 
