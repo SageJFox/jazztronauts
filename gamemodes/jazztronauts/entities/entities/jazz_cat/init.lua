@@ -54,8 +54,10 @@ function ENT:Initialize()
 
 	self:SetNPCID(self.NPCID or missions.NPC_CAT_BAR)
 	if self:GetNPCID() == missions.NPC_CAT_BAR then
-		self:SetHub(string.lower(GetConVar("jazz_hub"):GetString()))
-		self:SetTrolley(string.lower(GetConVar("jazz_trolley"):GetString()))
+		self:SetHubInfo( string.lower( GetConVar("jazz_hub"):GetString() ..":"..
+		GetConVar("jazz_hub_outro"):GetString() ..":"..
+		GetConVar("jazz_hub_outro2"):GetString() ..":"..
+		GetConVar("jazz_trolley"):GetString() ) )
 	end
 	self:SetupChatTables()
 

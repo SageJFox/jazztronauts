@@ -21,11 +21,11 @@ bar_admin:
 	Ah,% so you noticed!%% We may have done a little renovating.%%
 	condition:
 		&bar_isdiff:
-			local t, _ \= bartrolleydiff()
-			return t
+			local t \= bartrolleydiff()
+			return t[1] or t[2] or t[3]
 		&trolley:
-			local _, t \= bartrolleydiff()
-			return t
+			local t \= bartrolleydiff()
+			return t[4]
 		&bar_end:
 			return true
 
@@ -46,11 +46,15 @@ bar_no:
 bar_yes:
 	*setspeaker*
 	Excellent!%% We have a few more things to set up,% 
-	we should be all ready by the time you get back.*setconvar jazz_hub*
+	we should be all ready by the time you get back.*BLOCKSTART*
+		*setconvar jazz_hub*
+		*setconvar jazz_hub_outro*
+		*setconvar jazz_hub_outro2*
+	*BLOCKEND*
 	condition:
 		&trolley:
-			local _, t \= bartrolleydiff()
-			return t
+			local t \= bartrolleydiff()
+			return t[4]
 		&bar_end:
 			return true
 
@@ -82,8 +86,8 @@ bar_end:
 	&bar_end2
 bar_end2:
 	*setspeaker narrator*
-	*OOC*You can use the *c NGPLUSCOLOR*jazz_hub*OOC* and *c NGPLUSCOLOR*jazz_trolley*OOC* console commands
-	to manually set any hub map or trolley appearance that you please.%%
+	*OOC*You can use the *c NGPLUSCOLOR*jazz_hub...*OOC* and *c NGPLUSCOLOR*jazz_trolley*OOC* console commands
+	to manually set any hub maps or trolley appearance that you please.%%
 	Set *c NGPLUSCOLOR*jazz_barhop_allow*OOC* to 0 to hide this dialog option in future.%%
 	These convars may require a map change to take effect!*c*
 	&exit

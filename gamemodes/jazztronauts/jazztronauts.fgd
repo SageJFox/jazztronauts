@@ -104,8 +104,10 @@
 		2 : "Rotate Yaw"
 		3 : "Rotate Roll"
 	]
-	trolley(string) : "Trolley Script File" : "default" : "If a custom trolley script is expected to go with this hub map, define it here. Path is typically relative to lua folder." 
-
+	outro(string) : "Normal Ending Map" : "jazz_outro" : "The name of the map this hub wants to use for its Normal Ending. No '.bsp' extension"
+	outro2(string) : "True Ending Map" : "jazz_outro2" : "The name of the map this hub wants to use for its True Ending. No '.bsp' extension"
+	trolley(string) : "Trolley Script File" : "default" : "If a custom trolley script is expected to go with this hub map, define it here. Path is typically relative to either the lua folder, or to 'gamemodes/jazztronauts/entities/entities/jazz_bus'" 
+	
 	output OnMapSelected(void) : "Fires when a map has been selected and is starting the download process."
 	output OnMapDownloaded(integer) : "Fires when a map has finished downloading and is ready to be analyzed. 1 means successful, 0 means failure."
 	output OnMapAnalyzed(void) : "Fires when a map has finished being analyzed and facts have been extracted."

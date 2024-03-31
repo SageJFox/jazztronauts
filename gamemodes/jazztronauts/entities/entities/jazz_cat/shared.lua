@@ -18,8 +18,7 @@ local function ClientRun(ply, str) if SERVER then ply:SendLua(str) else RunStrin
 
 function ENT:SetupDataTables()
 	self:NetworkVar("Int", "NPCID")
-	self:NetworkVar("String", "Hub")
-	self:NetworkVar("String", "Trolley")
+	self:NetworkVar("String", "HubInfo")
 end
 
 function ENT:SetupChatTables()
@@ -32,9 +31,8 @@ function ENT:SetupChatTables()
 		--add option for switching this map to be the hub
 		local selector = ents.FindByClass("jazz_hub_selector")[1]
 		if not IsValid(selector) or not hubtrolleybugme:GetBool() then return end
-		local selectorTrolley = selector:GetTrolley()
-		if selectorTrolley == "" then selectorTrolley = "default" end
-		if game.GetMap() ~= self:GetHub() or self:GetTrolley() ~= selectorTrolley then
+		
+		if self:GetHubInfo() ~= selector:GetHubInfo() then
 			chatmenu.AddChoice(self.ChatChoices, "#jazz.store.hub", function(self, ply)
 				local script = "hub.begin"
 				if SERVER then

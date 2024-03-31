@@ -16,6 +16,8 @@ local includeExternalHost = CreateConVar("jazz_include_external_host", defaultMa
 	.. "Or a workshop collection ID itself.")
 
 local hubmap = CreateConVar("jazz_hub", "jazz_bar",bit.bor(FCVAR_ARCHIVE,FCVAR_PRINTABLEONLY),"Name of the map to use as a hub.")
+local outromap = CreateConVar("jazz_hub_outro", "jazz_outro",bit.bor(FCVAR_ARCHIVE,FCVAR_PRINTABLEONLY),"Name of the map to use for normal ending.")
+local outro2map = CreateConVar("jazz_hub_outro2", "jazz_outro2",bit.bor(FCVAR_ARCHIVE,FCVAR_PRINTABLEONLY),"Name of the map to use for true ending.")
 
 concommand.Add("jazz_clear_cache", function()
 	ClearCache()
@@ -95,7 +97,10 @@ function GetEncounterMap()
 end
 
 function GetEndMaps()
-	return { "jazz_outro", "jazz_outro2" }
+	local outro, outro2 = outromap:GetString(), outro2map:GetString()
+	if outro == nil or outro == "" then return "jazz_outro" end
+	if outro2 == nil or outro2 == "" then return "jazz_outro2" end
+	return { outro, outro2 }
 end
 
 function GetNextEncounter()

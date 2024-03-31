@@ -16,6 +16,14 @@ local RUN_CONVERSION = true
 
 local maxLocalesUInt = 3 -- 2^3 = 8 max locales
 
+--only act on these convars, anything else is off limits!
+local convaraccepted = {
+	["jazz_hub"] = 1,
+	["jazz_hub_outro"] = 2,
+	["jazz_hub_outro2"] = 3,
+	["jazz_trolley"] = 4,
+}
+
 if SERVER then
 	util.AddNetworkString( "dialog_requestcommand" )
 
@@ -42,11 +50,6 @@ if SERVER then
 
 	util.AddNetworkString( "dialog_requestsetconvar" )
 
-	--only act on these convars, anything else is off limits!
-	local convaraccepted = {
-		["jazz_hub"] = true,
-		["jazz_trolley"] = true,
-	}
 
 	net.Receive("dialog_requestsetconvar", function(len, ply)
 		if not hubtrolleybugme:GetBool() then return end
@@ -65,8 +68,8 @@ if SERVER then
 		local value = net.ReadString()
 
 		--At least pretend like we're doing this safely (let's be real if someone wants to fuck your server up, they probably aren't doing it here)
-		if not convaraccepted[command] then
-			ErrorNoHalt("Script attempted to request illegal convar!")
+		if not isnumber(convaraccepted[command]) then
+			ErrorNoHalt("Script attempted to request illegal convar \"" .. command .. "\"!")
 			return
 		end
 
@@ -169,44 +172,49 @@ end)
 
 local convardefaults = {
 	["jazz_hub"] = "jazz_bar",
+	["jazz_hub_outro"] = "jazz_outro",
+	["jazz_hub_outro2"] = "jazz_outro2",
 	["jazz_trolley"] = "default",
 }
 -- Requests a convar change for the server
 -- Playing with fire
-dialog.RegisterFunc("setconvar", function(d, convar, value)
+dialog.RegisterFunc("setconvar", function(d, convar, ...)
 
 	if not hubtrolleybugme:GetBool() then return end
 
 	local convar = isstring(convar) and string.lower(convar) or ""
 
-	local value = value
-	if not value or value == "" then 
-		value = convardefaults[convar] or ""
-		--get the value we want
-		local selector = ents.FindByClass("jazz_hub_selector")[1]
-		if not IsValid(selector) then return end
-		local selectorTrolley = selector:GetTrolley()
-		if convar == "jazz_trolley" and selectorTrolley == "" then selectorTrolley = "default" end
-		--get the bartender to update the value she's currently holding
-		local cats, bartender = ents.FindByClass("jazz_cat"), nil
-		for _, v in ipairs(cats) do
-			if IsValid(v) and v:GetNPCID() == missions.NPC_CAT_BAR then
-				bartender = v
-				break
-			end
-		end
+	local value = next({ ... }) ~= nil and table.concat({ ... }, " ") or ""
 
-		if convar == "jazz_hub" then
-			value = game.GetMap()
-			bartender:SetHub(value)
-		end
+	--get the value we want
+	local selector = ents.FindByClass("jazz_hub_selector")[1]
+	if not IsValid(selector) then return end
+	local selectorHubInfo = string.Split(selector:GetHubInfo(),":")
 
-		if convar == "jazz_trolley" and selectorTrolley ~= "" then
-			value = selectorTrolley
-			bartender:SetTrolley(value)
+	--find the bartender
+	local cats, bartender = ents.FindByClass("jazz_cat"), nil
+	for _, v in ipairs(cats) do
+		if IsValid(v) and v:GetNPCID() == missions.NPC_CAT_BAR then
+			bartender = v
+			break
 		end
-
 	end
+
+	--get the bartender to update the value she's currently holding
+	local oldHubInfo = string.Split(bartender:GetHubInfo(),":")
+	for k, v in pairs(convaraccepted) do
+		if convar == k then
+			if not value or value == "" then --no value provided, use selector's
+				value = selectorHubInfo[v]
+				if not value or value == "" then value = convardefaults[k] end --no selector's, use defaults
+			end
+			oldHubInfo[v] = value
+			break
+		end
+	end
+
+	bartender:SetHubInfo(table.concat(oldHubInfo,":"))
+
 	--send it over
 	net.Start("dialog_requestsetconvar")
 		net.WriteEntity(LocalPlayer())

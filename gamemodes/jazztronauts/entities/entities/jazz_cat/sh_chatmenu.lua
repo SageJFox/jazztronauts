@@ -293,6 +293,7 @@ function ENT:DrawDialogEntry(choices, showperc)
 		for i=1, #choices do
 			local drawCenter = #choices == 1
 			local ang = (i / #choices) * 360 - 90
+			if #choices > 3 then chatmenu.scaleH = 80 else chatmenu.scaleH = 60 end
 			if drawCenter then ang = -85 end
 			self:DrawChoice(choices[i], 0, self.RadialOffset, i == hitoption, ang, drawCenter and 2.5, drawCenter and 0.5)
 		end

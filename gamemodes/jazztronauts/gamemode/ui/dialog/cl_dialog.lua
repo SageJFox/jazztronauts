@@ -237,12 +237,21 @@ local conditionEnv =
 	--check if jazz_bar or jazz_trolley settings are different from this map's
 	bartrolleydiff = function()
 		for _, v in ipairs(ents.FindByClass("jazz_cat")) do
+
 			if not IsValid(v) or v:GetNPCID() ~= missions.NPC_CAT_BAR then continue end
+
 			local selector = ents.FindByClass("jazz_hub_selector")[1]
-			if not IsValid(selector) then return false, false end --no selector means this isn't a valid map, don't let them change to this
-			local selectorTrolley = selector:GetTrolley()
-			if selectorTrolley == "" then selectorTrolley = "default" end
-			return v:GetHub() ~= game.GetMap(), v:GetTrolley() ~= selectorTrolley
+			--no selector means this isn't a valid map, don't let them change to this
+			if not IsValid(selector) then return { false, false, false, false } end
+
+			local selectorHubInfo = string.Split(selector:GetHubInfo(),":")
+			local serverHubInfo = string.Split(v:GetHubInfo(),":")
+			local diffs = {}
+
+			for k, v in ipairs(serverHubInfo) do
+				diffs[k] = selectorHubInfo[k] ~= v
+			end
+			return diffs
 		end
 	end,
 }

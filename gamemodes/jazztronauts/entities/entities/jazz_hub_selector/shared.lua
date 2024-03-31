@@ -40,13 +40,23 @@ function ENT:Initialize()
 	-- Hook into map change events
 	if SERVER then
 		self:SetUseType(SIMPLE_USE)
+		timer.Simple(0,function()
+			if not IsValid(self) then return end
+			if not self.outro then self.outro = "jazz_outro" end
+			if not self.outro2 then self.outro2 = "jazz_outro2" end
+			if not self.trolley then self.trolley = "default" end
+			self:SetHubInfo(string.lower( game.GetMap() ..":"..
+				self.outro ..":"..
+				self.outro2 ..":"..
+				self.trolley ) )
+		end)
 	end
 end
 
 function ENT:SetPortalSequence(seqName, noreset)
 	local sequence = self:LookupSequence(seqName)
 
-	if (self:GetSequence() != sequence ) then
+	if ( self:GetSequence() != sequence ) then
 		if not noreset then
 			self:ResetSequence(sequence)
 		end
@@ -57,7 +67,7 @@ end
 
 function ENT:SetupDataTables()
 	self:NetworkVar("String", "SelectedDestinationID")
-	self:NetworkVar("String", "Trolley")
+	self:NetworkVar("String", "HubInfo")
 	self:NetworkVar("Int", "ScanState")
 	self:NetworkVar("Int", "FreezeTime")
 	self:NetworkVar("Int", "Facing")
@@ -66,10 +76,13 @@ end
 function ENT:KeyValue( key, value )
 	if key == "facing" then
 		self:SetFacing(tonumber(value) or 0)
+	elseif key == "outro" then
+		self.outro = value ~= "" and string.lower(value) or "jazz_outro"
+	elseif key == "outro2" then
+		self.outro2 = value ~= "" and string.lower(value) or "jazz_outro2"
 	elseif key == "trolley" then
-		self:SetTrolley(value and string.lower(value) or "default")
+		self.trolley = value ~= "" and string.lower(value) or "default"
 	end
-	--print("jazz_hub_selector","KeyValue","Trolley value:",self:GetTrolley())
 
 	if table.HasValue(outputs, key) then
 		self:StoreOutput(key, value)
