@@ -6,8 +6,8 @@ begin:
 		*txout*
 		#spawngang()
 		spawncatsrooted(scene_stage)
-		*layer 0 LAYER_BELOW*	#BIG TODO - get locale entities going for this instead!
-		*zsnap 64 LAYER_BELOW*	#BIG TODO - get locale entities going for this instead!
+		*layer 0 LAYER_BELOW scene_stage*	#TODO - remove on next jazz_bar update
+		*zsnap 64 LAYER_BELOW scene_stage*	#TODO - ''
 		*setlayer player LAYER_BELOW*
 		#*setposang player setpos -4225.765137 2946.239258 -47;setang -1.082015 89.332123 0.000000*
 		#*setposang cat_bar setpos -4225.146973 3315.263672 0;setang -90 180 0.000000*

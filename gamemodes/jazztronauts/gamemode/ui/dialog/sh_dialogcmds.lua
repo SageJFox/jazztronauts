@@ -131,15 +131,19 @@ if SERVER then
 			pos = ent:GetPos()
 			ang = ent:GetAngles()
 			if istable(ent.Layers) then
+				--print(locale)
 				for k, v in ipairs(ent.Layers) do
 					if not istable(v) then print("Layers table entry "..tostring(k).." not a table!") continue end
 					layers[k] = v.z
 					zSnap[k] = v.zsnap
+					--print(k,":")
+					--PrintTable(v,1)
+					--print("\n")
 				end
-				print("layers:")
-				PrintTable(layers)
-				print("zSnap:")
-				PrintTable(zSnap)
+				--print("layers:")
+				--PrintTable(layers,1)
+				--print("zSnap:")
+				--PrintTable(zSnap,1)
 			end
 		end
 
@@ -278,13 +282,14 @@ local defaultRoot = nil
 -- locales are points defined in the hub map. This list keeps track of the ones we're using in the current scene.
 local sceneLocales = {}
 -- z snap is how far up or down a character will be adjusted on the Z axis in order to appear standing on the ground. 0 or less to disable
-local zSnap = {64}
---[[ layers are different heights for potentially different ground levels. They each have their own zsnap.
+local zSnap = { {64} }
+--[[ layers are different heights for potentially different ground levels. They each have their own zSnap.
 	This allows us to, say, put one character on top of the bar while another character is seated at it.
-	z snap on its own would either put both characters on top of the bar or both below it depending on how large it was set.
-	layers are defined by the locale entity in order to remain flexible for map makers. If a necessary layer isn't defined there, it is assumed zero. 
+	(zSnap on its own would either put both characters on top of the bar or both below it depending on how large it was set)
+	layers are defined by the locale entity in order to remain flexible for map makers. If a necessary layer isn't defined there, it is assumed 0. 
 	The first layer is always defined by the position of the locale entity (and is thus always 0). The rest are defined in relation to it. ]]
-local layers = {0}
+local layers = { {0} }
+--TODO - cleanup: zSnap and layers are always utilized in matching pairs, should probably eventually put them together into one table of tables... of tables.
 
 local function FindByName(name,skipPlayerCreate)
 	local skipPlayerCreate = skipPlayerCreate or false
@@ -317,19 +322,30 @@ dialog.RegisterFunc("sceneroot", function(d, name)
 	defaultRoot = sceneModels[name] or nil
 end)
 
---these next two are more "in-dev" commands than actually meant to stay used. Should eventually get these values from the maps themselves.
-dialog.RegisterFunc("zsnap", function(d, amount, layer)
+--these next two are more "in-dev" commands than actually meant to stay used. Ideally we get these values from the maps themselves.
+--set force *only* for dev stuff, it overrides the values from the map!
+dialog.RegisterFunc("zsnap", function(d, amount, layer, locale, force)
 	local layer = tonumber(layer) or 1
-	zSnap[layer] = tonumber(amount) or 0
-	layers[layer] = layers[layer] or 0
-	--print("Wow look we set zSnap at layer "..layer.." to "..zSnap[layer])
+	local locale = locale or 1
+	if not zSnap[locale] then zSnap[locale] = {} end
+	if force or not zSnap[locale][layer] or zSnap[locale][layer] == 64 then
+		zSnap[locale][layer] = tonumber(amount) or 0
+	end
+	if not layers[locale] then layers[locale] = {} end
+	layers[locale][layer] = layers[locale][layer] or 0
+	--print("Wow look we set zSnap on layer "..layer.." at locale "..tostring(locale).." to "..zSnap[locale][layer])
 end)
 
-dialog.RegisterFunc("layer", function(d, depth, layer)
+dialog.RegisterFunc("layer", function(d, depth, layer, locale, force)
 	local layer = tonumber(layer) or 2
-	layers[layer] = tonumber(depth) or 0
-	zSnap[layer] = zSnap[layer] or 64
-	--print("Wow look we set layer "..layer.." at "..layers[layer])
+	local locale = locale or 1
+	if not layers[locale] then layers[locale] = {} end
+	if force or not layers[locale][layer] or layers[locale][layer] == 0 then
+		layers[locale][layer] = tonumber(depth) or 0
+	end
+	if not zSnap[locale] then zSnap[locale] = {} end
+	zSnap[locale][layer] = zSnap[locale][layer] or 64
+	--print("Wow look we set layer "..layer.." at "..layers[locale][layer].." at locale "..tostring(locale))
 end)
 
 dialog.RegisterFunc("setgravity",function(d, ...)
@@ -760,13 +776,14 @@ local function WorldToSceneRootCam(set)
 	return tab
 end
 
-local function groundAdjust(vec,pos,layer)
+local function groundAdjust(vec,root,pos,layer)
+	local root = root or 1
 	local pos = pos or vector_origin
 	local layer = layer or 1
 	
 	local tr = util.TraceLine( {
-		start = vec + Vector(0,0,zSnap[layer]),
-		endpos = vec - Vector(0,0,zSnap[layer]),
+		start = vec + Vector(0,0,zSnap[root][layer]),
+		endpos = vec - Vector(0,0,zSnap[root][layer]),
 		--using a function here is expensive let's gooo
 		filter = function(ent)
 			if ent:IsPlayer() then return false end
@@ -810,10 +827,20 @@ local function SceneRootToWorld(name, set)
 		rootpos = root:GetPos()
 		rootang = root:GetAngles()
 	end
+
+	local parent = root
+	local localename = parent and parent.Locale or 1
+
+	--go up the parent chain to find our locale
+	while localename == 1 and parent ~= nil do
+		parent = sceneRoots[parent]
+		localename = parent and parent.Locale or 1
+	end
+
 	--compare it to its layer
 	--print("root to world before: ".. rootpos.z)
 	if prop.layer and prop.layer > 1 then
-		rootpos.z = rootpos.z + (layers[prop.layer] or 0)
+		rootpos.z = rootpos.z + ( istable( layers[localename] ) and layers[localename][prop.layer] or 0 )
 		--print("after: ".. rootpos.z)
 	end
 
@@ -825,7 +852,7 @@ local function SceneRootToWorld(name, set)
 
 	--ground work
 	--print("Hey this is a funny number:",prop.layer,zSnap[prop.layer])
-	if prop.gravity and zSnap[prop.layer or 1] > 0 then tab.pos = groundAdjust(tab.pos,pos,prop.layer) end
+	if prop.gravity and istable( zSnap[localename] ) and zSnap[localename][prop.layer or 1] > 0 then tab.pos = groundAdjust(tab.pos,localename,pos,prop.layer) end
 
 	--we want to set the prop's position in the world, rather than return the values
 	if set then
@@ -868,10 +895,20 @@ local function WorldToSceneRoot(name, set)
 		rootpos = root:GetPos()
 		rootang = root:GetAngles()
 	end
+
+	local parent = root
+	local localename = parent and parent.Locale or 1
+
+	--go up the parent chain to find our locale
+	while localename == 1 and parent ~= nil do
+		parent = sceneRoots[parent]
+		localename = parent and parent.Locale or 1
+	end
+
 	--compare it to its layer
 	--print("world to root before: ".. rootpos.z)
 	if prop.layer and prop.layer > 1 then
-		rootpos.z = rootpos.z - (layers[prop.layer] or 0)
+		rootpos.z = rootpos.z - ( istable( layers[localename] ) and layers[localename][prop.layer] or 0 )
 		--print("after: ".. rootpos.z)
 	end
 
@@ -1008,11 +1045,14 @@ net.Receive("dialog_returnlocale", function(len, ply)
 	local newzSnap = net.ReadTable()
 
 	for k, v in ipairs(newlayers) do
-		layers[k] = (layers[k] == nil or layers[k] == 0) and v or layers[k]
+		if not layers[locale] then layers[locale] = {} end
+		layers[locale][k] = v
 	end
 
+
 	for k, v in ipairs(newzSnap) do
-		zSnap[k] = (zSnap[k] == nil or zSnap[k] == 64) and v or zSnap[k]
+		if not zSnap[locale] then zSnap[locale] = {} end
+		zSnap[locale][k] = v
 	end
 
 	sceneLocales[locale.."pos"] = pos
@@ -1023,6 +1063,7 @@ net.Receive("dialog_returnlocale", function(len, ply)
 	if IsValid(ent) then
 		ent:SetPos(sceneLocales[locale.."pos"])
 		ent:SetAngles(sceneLocales[locale.."ang"])
+		ent.Locale = locale
 		ent:SetupBones()
 		WorldToSceneRoot(name,true)
 	end
@@ -1055,6 +1096,7 @@ dialog.RegisterFunc("setlocale", function(d, name, ...)
 		if IsValid(ent) then
 			ent:SetPos(sceneLocales[localetest[gotone].."pos"])
 			ent:SetAngles(sceneLocales[localetest[gotone].."ang"])
+			ent.Locale = localetest[gotone]
 			ent:SetupBones()
 			WorldToSceneRoot(name,true)
 		end
@@ -1621,6 +1663,8 @@ function ResetScene()
 	sceneRoots = {}
 	defaultRoot = nil
 	sceneLocales = {}
+	zSnap = { {64} }
+	layers = { {0} }
 end
 
 function ResetView(instant)
@@ -1663,7 +1707,17 @@ local function getTweenValues(obj)
 			if obj.goaloffset then
 				--obj.startpos = obj:GetPos()
 				obj.goalpos, _ = LocalToWorld(obj.goaloffset, obj.goalrot or obj.goalang, rootpos, rootang)
-				if obj.gravity and zSnap[obj.layer or 1] > 0 then obj.goalpos = groundAdjust(obj.goalpos,obj.goaloffset,obj.layer) end
+
+				local parent = sceneRoots[obj]
+				local localename = parent and parent.Locale or 1
+
+				--go up the parent chain to find our locale
+				while localename == 1 and parent ~= nil do
+					parent = sceneRoots[parent]
+					localename = parent and parent.Locale or 1
+				end
+
+				if obj.gravity and zSnap[localename][obj.layer or 1] > 0 then obj.goalpos = groundAdjust(obj.goalpos,localename,obj.goaloffset,obj.layer) end
 			end
 
 			if obj.goalrot then
