@@ -851,8 +851,10 @@ local function SceneRootToWorld(name, set)
 	tab.pos,tab.ang = LocalToWorld(pos,ang,rootpos,rootang)
 
 	--ground work
-	--print("Hey this is a funny number:",prop.layer,zSnap[prop.layer])
-	if prop.gravity and istable( zSnap[localename] ) and zSnap[localename][prop.layer or 1] > 0 then tab.pos = groundAdjust(tab.pos,localename,pos,prop.layer) end
+	if prop.gravity and istable( zSnap[localename] ) and (zSnap[localename][prop.layer or 1]) or 0 > 0 then
+		--print("Hey this is a funny number:",prop.layer,zSnap[localename][prop.layer or 1])
+		tab.pos = groundAdjust(tab.pos,localename,pos,prop.layer)
+	end
 
 	--we want to set the prop's position in the world, rather than return the values
 	if set then
