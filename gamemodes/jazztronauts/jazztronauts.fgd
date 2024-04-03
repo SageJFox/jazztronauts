@@ -314,6 +314,15 @@
 	tweentime(float) : "Tween Time" : "5.0" : "Time to spend tweening"
 ]
 
+@PointClass base(Targetname, Angles) iconsprite("editor/jazz_scenelocale.vmt") = jazz_scenelocale : "Landmark for Jazztronauts scenes"
+[
+	zsnap1(float) : "Default Zsnap" : "64" : "Default Layer's Zsnap. Zsnap is a +/-range around a layer in which a scene object will attempt to find the floor when its gravity is enabled."
+	layer2(float) : "Upper Layer" : "0" : "Standardized upper layer, i.e. average height from the floor to the top of the bar's overhang"
+	zsnap2(float) : "Upper Zsnap" : "64" : "Zsnap for standardized upper layer"
+	layer3(float) : "Lower Layer" : "0" : "Standardized lower layer"
+	zsnap3(float) : "Lower Zsnap" : "64" : "Zsnap for standardized lower layer"
+]
+
 @PointClass base(Targetname) iconsprite("editor/jazz_pvs_occupation.vmt") = jazz_pvs_occupation : "Keep track of an area's PVS state"
 [
 	initialstate(choices) : "Initial State" : 0 : "The state this entity is expected to be in when the first player spawns into the level. Occupied prevents initial OnOccupied output from firing on first player spawn." =

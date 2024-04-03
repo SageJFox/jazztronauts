@@ -124,9 +124,23 @@ if SERVER then
 		local pos = vector_origin
 		local ang = angle_zero
 
+		local layers = {0}
+		local zSnap = {64}
+
 		if IsValid(ent) then
 			pos = ent:GetPos()
 			ang = ent:GetAngles()
+			if istable(ent.Layers) then
+				for k, v in ipairs(ent.Layers) do
+					if not istable(v) then print("Layers table entry "..tostring(k).." not a table!") continue end
+					layers[k] = v.z
+					zSnap[k] = v.zsnap
+				end
+				print("layers:")
+				PrintTable(layers)
+				print("zSnap:")
+				PrintTable(zSnap)
+			end
 		end
 
 		net.Start("dialog_returnlocale")
@@ -135,6 +149,8 @@ if SERVER then
 			--net.WriteEntity(ent)
 			net.WriteVector(pos)
 			net.WriteAngle(ang)
+			net.WriteTable(layers)
+			net.WriteTable(zSnap)
 		net.Send(ply)
 	end )
 
@@ -305,12 +321,14 @@ end)
 dialog.RegisterFunc("zsnap", function(d, amount, layer)
 	local layer = tonumber(layer) or 1
 	zSnap[layer] = tonumber(amount) or 0
+	layers[layer] = layers[layer] or 0
 	--print("Wow look we set zSnap at layer "..layer.." to "..zSnap[layer])
 end)
 
 dialog.RegisterFunc("layer", function(d, depth, layer)
 	local layer = tonumber(layer) or 2
 	layers[layer] = tonumber(depth) or 0
+	zSnap[layer] = zSnap[layer] or 64
 	--print("Wow look we set layer "..layer.." at "..layers[layer])
 end)
 
@@ -986,6 +1004,16 @@ net.Receive("dialog_returnlocale", function(len, ply)
 	--local ent = net.ReadEntity()
 	local pos = net.ReadVector()
 	local ang = net.ReadAngle()
+	local newlayers = net.ReadTable()
+	local newzSnap = net.ReadTable()
+
+	for k, v in ipairs(newlayers) do
+		layers[k] = (layers[k] == nil or layers[k] == 0) and v or layers[k]
+	end
+
+	for k, v in ipairs(newzSnap) do
+		zSnap[k] = (zSnap[k] == nil or zSnap[k] == 64) and v or zSnap[k]
+	end
 
 	sceneLocales[locale.."pos"] = pos
 	sceneLocales[locale.."ang"] = ang
