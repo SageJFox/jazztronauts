@@ -54,10 +54,10 @@ function ENT:PreInit()
 		self.ScreenWidth = self.ScreenHeight * 1.80
 		self.ScreenScale = .1
 
-		self.CommentOffset = Vector(-200, 12, 0)
+		self.CommentOffset = Vector(-160, 16, 0)
 
-		self.BusWidth = 70
-		self.BusLength = 248
+		self.BusWidth = 71
+		self.BusLength = 280
 	end
 end
 
