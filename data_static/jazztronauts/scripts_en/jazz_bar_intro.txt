@@ -463,11 +463,11 @@ a27:
 		newsceneroot(cameraroot,scene_playercamp)
 		*setcamroot cameraroot setpos 313.635864 -98.462128 34.458557;setang -4.835 155.989 0.000*
 		#*setcam setpos 1401.635864 413.537872 34.458557;setang -4.835499 155.988861 0.000000*
+		#*tweencam 40 setpos 1128.569458 535.177490 59.747105;setang -4.835499 155.988861 0.00000*
+		*tweencamoffset 40 setpos 40.569458 23.177490 59.747105;setang -4.835 155.989 0.000*
 		*setspeaker cat_piano*
 		*JAB(cat_piano)*
 	*BLOCKEND*
-	#*tweencam 40 setpos 1128.569458 535.177490 59.747105;setang -4.835499 155.988861 0.00000*
-	*tweencamoffset 40 setpos 40.569458 23.177490 59.747105;setang -4.835 155.989 0.000*
 	A little past the depot is the camp you'll be living in,% 
 	and the machine that lets you find new worlds to break into.%%%*DISAGREE(cat_piano)* 
 	Don't worry, it's pretty simple to operate.
@@ -496,7 +496,7 @@ a29:
 
 remote:
 	*setspeaker cat_cello*
-	oh yeah% and i found the remote*LAUGH(cat_cello)*%%
+	oh yeah% and i found the remote%%
 	use that if you accidentally skip a map you liked the look of
 	&a30
 
@@ -665,9 +665,9 @@ a47:
 a48:
 	*BLOCKSTART*
 		*setcamroot cameraroot setpos 324.771240 146.281677 128.230713;setang 12.734 -158.357 0.000*
-		*tweencamoffset 40 setpos 195.574951 95.016235 96.820892;setang 12.734 -158.357 0.000*
 		#*setcam setpos 941.718323 668.771240 128.230713;setang 12.733686 -68.356812 0.000000*
 		#*tweencam 40 setpos 992.983765 539.574951 96.820892;setang 12.733686 -68.356812 0.000000*
+		*tweencamoffset 40 setpos 195.574951 95.016235 96.820892;setang 12.734 -158.357 0.000*
 		*AGREE(cat_bar)*
 	*BLOCKEND*
 	We need you to hunt for objects we call shards in each level you 

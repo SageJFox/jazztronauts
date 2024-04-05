@@ -28,6 +28,8 @@ begin:
 		#*setcamroot narrator*
 		#*setcam setpos -7283.202148 -1279.565552 3168.028809;setang 9.796160 -88.578621 0.000000*
 		*setcamroot narrator setpos 192.434448 0.202148 -159.971191;setang 9.796 -178.579 0.000*
+		#*tweencam 1.5 setpos -7285.830078 -1363.527954 3217.524658;setang -30.879200 -91.719673 0.000000*
+		*tweencamoffset 1.5 setpos 108.472046 2.830078 -110.475342;setang -30.879 178.280 0.000*
 
 		*spawn podge models/sunabouzu/band/guitar.mdl nil*
 		*setname podge Podge*
@@ -51,8 +53,6 @@ begin:
 		*setlocale nirvana scene_nirvana*
 		#*setcamroot nirvana*
 	*BLOCKEND*
-	#*tweencam 1.5 setpos -7285.830078 -1363.527954 3217.524658;setang -30.879200 -91.719673 0.000000*
-	*tweencamoffset 1.5 setpos 108.472046 2.830078 -110.475342;setang -30.879 178.280 0.000*
 	> %.%.%.%it's completely black%.%.%.%.%%*tweencamoffsetroot 10 nirvana setpos 3.601563 -178.186035 1.063965;setang -0.266 90.840 0.000*#*tweencam 10 setpos -7292.398438 5197.813965 3329.063965;setang -0.266206 90.840118 0.000000*
 	%.%.%.%wait,% there's something here.%%%
 	&oops
@@ -70,11 +70,11 @@ oops:
 		*setlocale narrator scene_band*
 		#*setcam setpos 2280.806152 2822.042969 4085.338379;setang 2.422391 -31.177280 0.000000*
 		*setcamroot narrator setpos 4887.193359 -2822.043457 437.338379;setang 2.422 148.823 0.000*
+		#*tweencam 10 setpos 5083.206055 1130.038086 3927.410645;setang 1.570549 -30.911079 0.000000*
+		*tweencamoffset 10 setpos 2084.793945 -1130.038208 279.410645;setang 1.571 149.089 0.000*
 		*remove nirvana*
 		*show*
 	*BLOCKEND*
-	#*tweencam 10 setpos 5083.206055 1130.038086 3927.410645;setang 1.570549 -30.911079 0.000000*
-	*tweencamoffset 10 setpos 2084.793945 -1130.038208 279.410645;setang 1.571 149.089 0.000*
 	> %.%.%.%a platform floats in the void%.%.%.%%% 
 	you can see figures in the center of it.
 	&a1

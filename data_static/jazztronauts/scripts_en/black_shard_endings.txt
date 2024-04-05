@@ -13,8 +13,6 @@ begin:
 		*setcamroot cat_void setpos 5624.406250 -1776.792603 923.832031;setang 10.488 161.583 0.000*
 		#*setcam setpos 1563.870972 1781.132080 4507.894531;setang 10.488383 -18.416737 0.000000*
 		*bgmplay sound/jazztronauts/blackshard_hum.wav .6 10*
-	*BLOCKEND*
-	*BLOCKSTART*
 		*tweencamoffset 10 setpos 1100.083984 -477.107788 288.652100;setang 12.884 156.419 0.000*
 		#*tweencam 10 setpos 6088.193359 481.446808 3872.714600;setang 12.884171 -23.581017 0.000000*
 		*wait 5*

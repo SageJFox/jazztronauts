@@ -46,14 +46,14 @@ begin:
 		#*setcamroot cat_bar*
 		#*setcam setpos -2478.000977 372.681641 16.944340;setang 7.223375 22.772840 0.000000 fov70*
 		*setcamroot cat_bar setpos 293.787109 143.954376 80.944336;setang 7.223 -157.227 0.000 fov70*
+		#*tweencam 40 setpos -2690.671875 283.400543 46.178429;setang 7.223375 22.772840 0.000000*
+		*tweencamoffset 40 setpos 506.458008 233.235504 110.178429;setang 7.223 -157.227 0.000*
 
 		*bgmplay sound/jazztronauts/music/events/pariah.mp3 .75 2.0*
 		*txin*
 		*wait .15*
 		*show cat_bar*
 	*BLOCKEND*
-	#*tweencam 40 setpos -2690.671875 283.400543 46.178429;setang 7.223375 22.772840 0.000000*
-	*tweencamoffset 40 setpos 506.458008 233.235504 110.178429;setang 7.223 -157.227 0.000*
 	Alright.%%% Now,% breathe in.%%%% One,%% two,%% three,%% four.
 	&a2
 

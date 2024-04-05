@@ -868,6 +868,7 @@ local function SceneRootToWorld(name, set)
 					SceneRootToWorldCam(true)
 				else
 					SceneRootToWorld(k,true)
+					v:SetupBones()
 				end
 			end
 		end
@@ -932,6 +933,7 @@ local function WorldToSceneRoot(name, set)
 					SceneRootToWorldCam(true)
 				else
 					SceneRootToWorld(k,true)
+					v:SetupBones()
 				end
 			end
 		end
@@ -1492,76 +1494,84 @@ end)
 dialog.RegisterFunc("tweencamoffset", function(d, time, ...)
 	local time = tonumber(time)
 	local posang = parsePosAng(...)
+	local actiontime = CurTime()
 
-	local rootpos = vector_origin
-	local rootang = angle_zero
-	local root = sceneRoots[view]
-	if IsValid(root) then
-		rootpos = root:GetPos()
-		rootang = root:GetAngles()
-	end
+	timer.Simple(0,function()
+		local rootpos = vector_origin
+		local rootang = angle_zero
+		local root = sceneRoots[view]
+		if IsValid(root) then
+			root:SetupBones()
+			rootpos = root:GetPos()
+			rootang = root:GetAngles()
+		end
 
-	if !posang.pos or !posang.ang then return end
+		if !posang.pos or !posang.ang then return end
 
-	if view then
-		view.goalpos,view.goalang = LocalToWorld(posang.pos,posang.ang,rootpos,rootang)
-		view.startpos = view.curpos
-		view.goaloffset = posang.pos
+		if view then
+			view.goalpos,view.goalang = LocalToWorld(posang.pos,posang.ang,rootpos,rootang)
+			view.startpos = view.curpos
+			view.goaloffset = posang.pos
 
-		view.startang = view.curang
-		view.goalrot = posang.ang
+			view.startang = view.curang
+			view.goalrot = posang.ang
 
-		view.endtime = CurTime() + time
-		view.tweenlen = time
-	else
-		view = {}
-		view.curpos = posang.pos
-		view.curang = posang.ang
-		WorldToSceneRootCam(true)
-	end
+			view.endtime = actiontime + time
+			view.tweenlen = time
+		else
+			view = {}
+			view.curpos = posang.pos
+			view.curang = posang.ang
+			WorldToSceneRootCam(true)
+		end
+	end)
 end)
 
 --same thing, but we want to tween to a new root
 dialog.RegisterFunc("tweencamoffsetroot", function(d, time, newroot, ...)
 	local time = tonumber(time)
 	local posang = parsePosAng(...)
+	local actiontime = CurTime()
 
-	local oldroot = sceneRoots[view]
-	sceneRoots[view] = FindByName(newroot)
+	timer.Simple(0,function()
+		local oldroot = sceneRoots[view]
+		sceneRoots[view] = FindByName(newroot)
 
-	if IsValid(oldroot) and sceneRoots[view] == oldroot then
-		camrootcount = camrootcount + 1
-	else
-		camrootcount = 0
-	end
+		if IsValid(oldroot) and sceneRoots[view] == oldroot then
+			camrootcount = camrootcount + 1
+		else
+			camrootcount = 0
+		end
 
 
-	local rootpos = vector_origin
-	local rootang = angle_zero
-	local root = sceneRoots[view]
-	if IsValid(root) then
-		rootpos = root:GetPos()
-		rootang = root:GetAngles()
-	end
+		local rootpos = vector_origin
+		local rootang = angle_zero
+		local root = sceneRoots[view]
+		if IsValid(root) then
+			root:SetupBones()
+			rootpos = root:GetPos()
+			rootang = root:GetAngles()
+		end
 
-	if !posang.pos or !posang.ang then return end
+		if !posang.pos or !posang.ang then return end
 
-	if view then
-		view.goalpos,view.goalang = LocalToWorld(posang.pos,posang.ang,rootpos,rootang)
-		view.startpos = view.curpos
-		view.goaloffset = posang.pos
+		if view then
+			view.goalpos,view.goalang = LocalToWorld(posang.pos,posang.ang,rootpos,rootang)
+			view.startpos = view.curpos
+			view.goaloffset = posang.pos
 
-		view.startang = view.curang
-		view.goalrot = posang.ang
+			view.startang = view.curang
+			view.goalrot = posang.ang
 
-		view.endtime = CurTime() + time
-		view.tweenlen = time
-	else
-		view = {}
-		view.curpos = posang.pos
-		view.curang = posang.ang
-		WorldToSceneRootCam(true)
-	end
+			view.endtime = actiontime + time
+			view.tweenlen = time
+		else
+			view = {}
+			view.curpos = posang.pos
+			view.curang = posang.ang
+			WorldToSceneRootCam(true)
+		end
+	end)
 end)
 
 

@@ -4,6 +4,7 @@ HIDE_MOUSE = true
 PRINT_RATE = 0.7
 AUTO_ADVANCE = 1.5
 RENDER_REALCATS = false
+SKIP_OPEN = true
 
 begin:
 	*BLOCKSTART*
@@ -37,7 +38,7 @@ begin:
 		*setoffset goop3 setpos -38.634216 51.865730 0.000000;setang -0.000 178.619 0.000*
 		*setoffset goop4 setpos -38.634216 100.643524 0.000000;setang -0.000 127.456 0.000*
 		*setoffset goop5 setpos -32.643494 -3.167294 0.000000;setang -0.000 178.619 0.000*
-		*setspeaker cat_bar*
+		*show cat_bar*
 	*BLOCKEND*
 	Ah!% *shardtotal* Shards!% Fantastic work,% everyone!%
 	Now we can begin the Festival.

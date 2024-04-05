@@ -1,5 +1,5 @@
 ﻿PRINT_RATE = 0.7 # Default print rate for this file. 1 = normal speed, 0.5 half speed, 2 = double speed, etc.
-#SKIP_OPEN = true # Setup scene before opening the dialog. Opened manually.
+SKIP_OPEN = true # Setup scene before opening the dialog. Opened manually.
 NO_FREEZE = true
 HIDE_MOUSE = true
 AUTO_ADVANCE = 0.5
@@ -18,7 +18,7 @@ begin:
 		*setoffset cat_bar setpos 1372.219238 -141.141693 0;setang 0.000 178.751 0.000*
 		*setoffset cat_cello setpos 559.766602 486.078156 0;setang 0.000 73.123 0.000*
 		*setoffset cat_piano setpos 649.004883 -403.150940 0;setang 0.000 204.670 0.000*
-		*setspeaker cat_bar*
+		*show cat_bar*
 	*BLOCKEND*
 	That's it! The void shell is collapsing!%%%
 	&a1
