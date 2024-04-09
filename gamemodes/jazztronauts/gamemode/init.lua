@@ -176,6 +176,100 @@ function GM:JazzMapStarted()
 
 end
 
+--just spawning in a model for the entity
+local basicMdl = function( tab, default, anim )
+	local prop = ents.Create("prop_dynamic")
+	local anim = anim or "idle"
+	if IsValid(prop) then
+		prop:SetModel((tab.model and tab.model ~= "") and tab.model or default)
+		prop:SetPos(Vector(tab.origin or "0 0 0"))
+		prop:SetAngles(Angle(tab.angles or "0 0 0"))
+		prop:SetSkin(tonumber(tab.skin) or 0)
+		prop:Spawn()
+		timer.Simple( 0, function() if IsValid(prop) then prop:ResetSequenceInfo() prop:ResetSequence( anim ) end end )
+		return prop
+	end
+	return nil
+end
+
+--just spawning in a physics prop for the entity
+local basicPhys = function( tab, default )
+	local prop = ents.Create("prop_physics")
+	if IsValid(prop) then
+		prop:SetModel((tab.model and tab.model ~= "") and tab.model or default)
+		prop:SetPos(Vector(tab.origin or "0 0 0"))
+		prop:SetAngles(Angle(tab.angles or "0 0 0"))
+		prop:SetSkin(tonumber(tab.skin) or 0)
+		prop:PhysicsInit(SOLID_VPHYSICS)
+		prop:Spawn()
+		return prop
+	end
+	return nil
+end
+
+replacements = {
+	----------------------------------TF2--------------------------------------
+	["item_healthkit_full"] = function(tab) return basicMdl(tab, "models/items/medkit_large.mdl") end, --todo birthday mode/halloween versions when appropriate
+	["item_healthkit_medium"] = function(tab) return basicMdl(tab, "models/items/medkit_medium.mdl") end,
+	["item_healthkit_small"] = function(tab) return basicMdl(tab, "models/items/medkit_small.mdl") end,
+	["item_ammopack_full"] = function(tab) return basicMdl(tab, "models/items/ammopack_large.mdl") end,
+	["item_ammopack_medium"] = function(tab) return basicMdl(tab, "models/items/ammopack_medium.mdl") end,
+	["item_ammopack_small"] = function(tab) return basicMdl(tab, "models/items/ammopack_small.mdl") end,
+	["tf_pumpkin_bomb"] = function(tab) return basicMdl(tab, "models/props_halloween/pumpkin_explode.mdl") end,
+	["tf_generic_bomb"] = function(tab) return basicMdl(tab, "models/props_halloween/pumpkin_explode.mdl") end,
+	["team_control_point"] = function(tab)
+		local prop = basicMdl(tab, "models/effects/cappoint_hologram.mdl")
+		if IsValid(prop) then
+			prop:SetBodygroup(0,tonumber(tab.point_default_owner) or 0)
+			return prop
+		end
+		return nil
+	end,
+	["item_teamflag"] = function(tab)
+		local prop = basicMdl(tab, "models/flag/briefcase.mdl","spin")
+		if IsValid(prop) then
+			prop:SetModel((tab.flag_model and tab.flag_model ~= "") and tab.flag_model or "models/flag/briefcase.mdl")
+			local teamskin = tonumber(tab.TeamNum) or 0 --teams are 0 neutral, 1 spectator, 2 RED, 3 BLU while skins are 0 RED, 1 BLU, 2 Neutral
+			if teamskin == 2 then teamskin = 0 elseif teamskin == 3 then teamskin = 1 else teamskin = 2 end
+			prop:SetSkin(teamskin)
+			return prop
+		end
+		return nil
+	end,
+	["tf_spell_pickup"] = function(tab)
+		local prop = basicMdl(tab, "models/props_halloween/hwn_spellbook_upright.mdl")
+		if IsValid(prop) then
+			prop:SetModel( ( tab.powerup_model and tab.powerup_model ~= "" ) and tab.powerup_model or
+			( tobool(tab.tier) and "models/props_halloween/hwn_spellbook_upright_major.mdl" or "models/props_halloween/hwn_spellbook_upright.mdl" ) )
+			--todo spawn particles for the book as well?
+			return prop
+		end
+		return nil
+	end,
+	["entity_spawn_point"] = function(tab,enttab) --todo manager.entity_count to limit number spawned?
+		local manager = nil
+		for _, v in ipairs(enttab) do
+			if v.targetname == tab.spawn_manager_name then manager = v break end
+		end
+		if istable(manager) then
+			if replacements[manager.entity_name] then
+				local prop = replacements[manager.entity_name](tab)
+				if IsValid(prop) then
+					if tobool(manager.random_rotation) then prop:SetAngles(Angle(0,math.Rand(0,360),0)) end
+					if tobool(manager.drop_to_ground) then
+						local startpos, endpos = prop:GetPos(), prop:GetPos()
+						endpos.z = -16384
+						local tr = util.TraceLine({["start"] = startpos, ["endpos"] = endpos})
+						if tr.Hit then prop:SetPos(tr.HitPos) end
+					end
+					return prop
+				end
+			end
+		end
+		return nil
+	end,
+}
+
 function GM:GenerateJazzEntities(noshards)
 
 	if not mapcontrol.IsInHub() then
@@ -227,33 +321,47 @@ function GM:GenerateJazzEntities(noshards)
 			if (map.corrupt > progress.CORRUPT_NONE) then
 				mapgen.GenerateBlackShard(map.seed)
 			end
-
-			--spawn markers for Roadtrips
-			for _, v in ipairs(ents.FindByClass("*_changelevel")) do
-
-				local destname = string.Trim( utf8.char( unpack( v:GetInternalVariable( "m_szMapName" ) ) ), "\0" )
-				if string.lower(destname) == string.lower(game.GetMap()) then continue end --Seriously Valve what the fuck
-
-				local ent = nil
-				--fine Valve, use the same name for other ents
-				for _, v in ipairs(ents.FindByName( string.Trim( utf8.char( unpack( v:GetInternalVariable( "m_szLandmarkName" ) ) ), "\0" ) )) do
-					if IsValid(v) and v:GetClass() == "info_landmark" then ent = v break end
+			
+			-- Put in entity proxies
+			local bsp = bsp2.LoadBSP( game.GetMap(), nil, { bsp3.LUMP_ENTITIES, bsp3.LUMP_BRUSHES, bsp3.LUMP_GAME_LUMP, bsp3.LUMP_MODELS } )
+			if bsp ~= nil then
+				task.Await(bsp:GetLoadTask())
+				
+				--PrintTable(bsp.entities or {})
+				for _, v in ipairs(bsp.entities) do
+					if replacements[v.classname] then replacements[v.classname](v,bsp.entities) end
 				end
-				local busmark = ents.Create("jazz_stanteleportmarker")
 
-				if not IsValid(ent) or not IsValid(busmark) then continue end
+				--spawn markers for Roadtrips
+				for _, v in ipairs(ents.FindByClass("*_changelevel")) do
 
-				busmark:SetPos(ent:GetPos())
-				--busmark:SetAngles( Angle( 0, 0, ent:GetAngles().z ) ) --just kidding no angles on landmarks
-				busmark:SetBusMarker(true)
-				busmark:SetDestinationName(destname .. ":" .. game.GetMap()) --map names can't have a colon, so we use that as a separator
-				busmark:SetDestination(ent)
-				busmark:SetLevel(99)
-				busmark:Spawn()
+					local destname = string.Trim( utf8.char( unpack( v:GetInternalVariable( "m_szMapName" ) ) ), "\0" )
+					if string.lower(destname) == string.lower(game.GetMap()) then continue end --Seriously Valve what the fuck
 
-				v:Remove() --changelevels on at least Ep1/Ep2 maps completely lock up the player, even after respawn. How fun!
+					local ent = nil
+					--fine Valve, use the same name for other ents
+					for _, v in ipairs(ents.FindByName( string.Trim( utf8.char( unpack( v:GetInternalVariable( "m_szLandmarkName" ) ) ), "\0" ) )) do
+						if IsValid(v) and v:GetClass() == "info_landmark" then ent = v break end
+					end
+					local busmark = ents.Create("jazz_stanteleportmarker")
+
+					if not IsValid(ent) or not IsValid(busmark) then continue end
+
+					busmark:SetPos(ent:GetPos())
+					--busmark:SetAngles( Angle( 0, 0, ent:GetAngles().z ) ) --just kidding no angles on landmarks
+					busmark:SetBusMarker(true)
+					busmark:SetDestinationName(destname .. ":" .. game.GetMap()) --map names can't have a colon, so we use that as a separator
+					busmark:SetDestination(ent)
+					busmark:SetLevel(99)
+					busmark:Spawn()
+
+					v:Remove() --changelevels on at least Ep1/Ep2 maps completely lock up the player, even after respawn. How fun!
+
+				end
 
 			end
+
+
 		end
 
 		-- Spawn static prop proxy entities
