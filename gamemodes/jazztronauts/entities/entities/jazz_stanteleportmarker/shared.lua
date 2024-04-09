@@ -162,6 +162,8 @@ if CLIENT then
 		["^INVASION$"] = true,
 		["^SNOWY$"] = true,
 		["^WINTER$"] = true,
+		--misc custom
+		["^HRCS$"] = true,
 	}
 
 	--processing the map name for use with our font
@@ -190,15 +192,49 @@ if CLIENT then
 		end
 
 		--the actual processing, checking the first and last bits for prefix/suffix
-		local prefix1 = checkchunk(tab[1], prefix, 3)
+		local prefix1, suffix1 = checkchunk(tab[1], prefix, 3), checkchunk(tab[#tab],suffix,2)
+		--if we have more than three map chunks, we'll try them all
+		local foundstart, foundend = false, false
+		if #tab > 3 then
+			if tab[1] ~= prefix1 then
+				--print(#tab,"total chunks")
+				for i = 2, #tab - 1 do
+					local try = checkchunk(tab[i], prefix, 3)
+					if tab[i] == try then break end
+					--print("prefix:",tab[i],try)
+					tab[i] = try
+				end
+			end
+			if tab[#tab] ~= suffix1 then
+				for i = 2, #tab - 1 do
+					local try = checkchunk(tab[#tab + 1 - i], suffix, 2)
+					if tab[#tab + 1 - i] == try then break end
+					--print(i,"suffix:",#tab + 1 - i,tab[#tab + 1 - i],try)
+					tab[#tab + 1 - i] = try
+				end
+			end
+		end
 		--if we have three or more chunks, or our first chunk wasn't a prefix, try suffix
-		if #tab > 2 or tab[1] == prefix1 then tab[#tab] = checkchunk(tab[#tab],suffix,2) end
+		if #tab > 2 or tab[1] == prefix1 then tab[#tab] = suffix1 end
 		tab[1] = prefix1
 
 		--slap it back together
 		return table.concat(tab," ")
 	end
 
+	-- local test = {
+	-- 	"dm_juicyasszone",
+	-- 	"gm_the_book_of_henry_v2c",
+	-- 	"koth_sawmill_final2",
+	-- 	"nobody told me this was a map",
+	-- 	"jazz_pyramid_head",
+	-- 	"diprip_vroom_vroom_v8",
+	-- 	"the best map ever a4c",
+	-- 	"the best map ever v2 a4c",
+	-- }
+	-- for _, v in ipairs(test) do
+	-- 	print(v,ProcessMapName(v))
+	-- end
 	
 	local material = Material( "sprites/light_glow02_add_noz" )
 	local red = Color( 255, 0, 0 )
