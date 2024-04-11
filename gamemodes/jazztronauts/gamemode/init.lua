@@ -512,7 +512,13 @@ function GM:GenerateJazzEntities(noshards)
 				local ladorig = #ents.FindByClass("func_useableladder")
 				--PrintTable(bsp.entities or {})
 				for k, v in ipairs(bsp.entities) do
-					if replacements[v.classname] then replacements[v.classname](v,k,bsp.entities) end
+					if replacements[v.classname] then
+						if #ents.FindByClass(v.classname) == 0 then
+							replacements[v.classname](v,k,bsp.entities)
+						else
+							print(v.classname.." exists! Stand-in not needed")
+						end
+					end
 					--if v.classname == "func_simpleladder" then print(k) PrintTable(v) end
 				end
 
