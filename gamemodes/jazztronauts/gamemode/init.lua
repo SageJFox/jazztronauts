@@ -181,10 +181,16 @@ local basicMdl = function( tab, default, anim )
 	local prop = ents.Create("prop_dynamic")
 	local anim = anim or "idle"
 	if IsValid(prop) then
+		for k, v in pairs(tab) do
+			if not isstring(v) or k == "classname" then continue end
+			prop:SetKeyValue(k,v)
+		end
 		prop:SetModel((tab.model and tab.model ~= "") and tab.model or default)
 		prop:SetPos(Vector(tab.origin or "0 0 0"))
 		prop:SetAngles(Angle(tab.angles or "0 0 0"))
 		prop:SetSkin(tonumber(tab.skin) or 0)
+		local col = string.Split(tab.rendercolor or ""," ")
+		if #col == 3 then prop:SetColor(Color( tonumber(col[1]) or 255, tonumber(col[2]) or 255, tonumber(col[3]) or 255, 255 )) end
 		prop:Spawn()
 		timer.Simple( 0, function() if IsValid(prop) then prop:ResetSequenceInfo() prop:ResetSequence( anim ) end end )
 		return prop
@@ -196,10 +202,17 @@ end
 local basicPhys = function( tab, default )
 	local prop = ents.Create("prop_physics")
 	if IsValid(prop) then
+		for k, v in pairs(tab) do
+			if not isstring(v) or k == "classname" then continue end
+			prop:SetKeyValue(k,v)
+		end
 		prop:SetModel((tab.model and tab.model ~= "") and tab.model or default)
 		prop:SetPos(Vector(tab.origin or "0 0 0"))
 		prop:SetAngles(Angle(tab.angles or "0 0 0"))
 		prop:SetSkin(tonumber(tab.skin) or 0)
+		local col = string.Split(tab.rendercolor or ""," ")
+		if #col == 3 then prop:SetColor(Color( tonumber(col[1]) or 255, tonumber(col[2]) or 255, tonumber(col[3]) or 255, 255 )) end
+		--todo: check for motion disabled, etc.?
 		prop:PhysicsInit(SOLID_VPHYSICS)
 		prop:Spawn()
 		return prop
@@ -391,6 +404,110 @@ replacements = {
 		end
 		return nil
 	end,
+	["weapon_melee_spawn"] = function(tab)
+		local models = {
+			["baseball_bat"] = "models/weapons/melee/w_bat.mdl",
+			["cricket_bat"] = "models/weapons/melee/w_cricket_bat.mdl",
+			["crowbar"] = "models/weapons/melee/w_crowbar.mdl",
+			["electric_guitar"] = "models/weapons/melee/w_electric_guitar.mdl",
+			["fireaxe"] = "models/weapons/melee/w_fireaxe.mdl",
+			["frying_pan"] = "models/weapons/melee/w_frying_pan.mdl",
+			["golfclub"] = "models/weapons/melee/w_golfclub.mdl",
+			["katana"] = "models/weapons/melee/w_katana.mdl",
+			["knife"] = "models/weapons/melee/w_knife_t.mdl",
+			["machete"] = "models/weapons/melee/w_machete.mdl",
+			["pitchfork"] = "models/weapons/melee/w_pitchfork.mdl",
+			["shovel"] = "models/weapons/melee/w_shovel.mdl",
+			["tonfa"] = "models/weapons/melee/w_tonfa.mdl",
+		}
+		models.Any = table.Random(models)
+		local wep = table.Random(string.Split(tab.melee_weapon,","))
+		return basicPhys( tab, models[wep] or models.Any )
+	end,
+	["prop_door_rotating_checkpoint"] = function(tab)
+		local door = ents.Create("prop_door_rotating")
+		if IsValid(door) then
+			for k, v in pairs(tab) do
+				if not isstring(v) or k == "classname" then continue end
+				door:SetKeyValue(k,v)
+			end
+			door:SetPos(Vector(tab.origin or "0 0 0"))
+			door:SetAngles(Angle(tab.angles or "0 0 0"))
+			--door:SetSkin(tonumber(tab.skin) or 0)
+			door:PhysicsInit(SOLID_VPHYSICS)
+			door:Spawn()
+			return door
+		end
+		return nil
+	end,
+	["info_survivor_position"] = function(tab)
+		local spawn = ents.Create("info_player_start")
+		if IsValid(spawn) then
+			spawn:SetPos(Vector(tab.origin or "0 0 0"))
+			spawn:SetAngles(Angle(tab.angles or "0 0 0"))
+			if tab.targetname and tab.targetname ~= "" then spawn:SetName(tab.targetname) end
+			spawn:Spawn() --ha
+			return spawn
+		end
+		return nil
+	end,
+	["prop_car_alarm"] = function(tab)
+		local car = basicPhys(tab, "models/props_vehicles/cara_69sedan.mdl")
+		if IsValid(car) then
+			local phy = car:GetPhysicsObject()
+			if IsValid(phy) then
+				--freeze it for a bit so the glass has time to adhere
+				phy:EnableMotion(false)
+				timer.Simple(1,function() if IsValid(phy) then phy:EnableMotion(true) end end) --todo: maybe check if it was intentionally motion disabled (flag #8)
+			end
+		end
+	end,
+	["prop_car_glass"] = function(tab)
+		local glass = basicMdl(tab, "models/props_vehicles/cara_69sedan_glass.mdl")
+		--attach it tah its cah (give said cah time tah spawn)
+		timer.Simple(0,function()
+			if IsValid(glass) then
+				local car = ents.FindByName(tab.parentname)[1]
+				if IsValid(car) then glass:SetParent(car) end
+			end
+		end)
+	end,
+	["weapon_ammo_spawn"] = function(tab) return basicMdl(tab, "models/props/terror/ammo_stack.mdl") end,
+	["upgrade_laser_sight"] = function(tab) return basicMdl(tab, "models/w_models/weapons/w_laser_sights.mdl") end,
+	["upgrade_ammo_explosive"] = function(tab) return basicMdl(tab, "models/props/terror/exploding_ammo.mdl") end,
+	["upgrade_ammo_incendiary"] = function(tab) return basicMdl(tab, "models/props/terror/incendiary_ammo.mdl") end,
+	["prop_minigun"] = function(tab) return basicMdl(tab, "models/w_models/weapons/w_minigun.mdl") end,
+	["prop_minigun_l4d1"] = function(tab) return basicMdl(tab, "models/w_models/weapons/w_minigun.mdl") end,
+	["prop_mounted_machine_gun"] = function(tab) return basicMdl(tab, "models/w_models/weapons/50cal.mdl") end,
+	["weapon_pistol_spawn"] = function(tab) return basicPhys(tab, IsMounted(550) and "models/w_models/weapons/w_pistol_a.mdl" or "models/w_models/weapons/w_pistol_1911.mdl") end,
+	["weapon_pistol_magnum_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_desert_eagle.mdl") end,
+	["weapon_smg_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_smg_uzi.mdl") end,
+	["weapon_smg_silenced_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_smg_a.mdl") end,
+	["weapon_smg_mp5_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_smg_mp5.mdl") end,
+	["weapon_rifle_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_rifle_m16a2.mdl") end,
+	["weapon_rifle_ak47_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_rifle_ak47.mdl") end,
+	["weapon_rifle_desert_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_desert_rifle.mdl") end,
+	["weapon_rifle_m60_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_m60.mdl") end,
+	["weapon_rifle_sg552_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_rifle_sg552.mdl") end,
+	["weapon_hunting_rifle_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_sniper_mini14.mdl") end,
+	["weapon_sniper_military_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_sniper_military.mdl") end,
+	["weapon_sniper_awp_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_sniper_awp.mdl") end,
+	["weapon_sniper_scout_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_sniper_scout.mdl") end,
+	["weapon_pumpshotgun_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_shotgun.mdl") end,
+	["weapon_shotgun_chrome_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_pumpshotgun_a.mdl") end,
+	["weapon_autoshotgun_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_autoshot_m4super.mdl") end,
+	["weapon_shotgun_spas_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_shotgun_spas.mdl") end,
+	["weapon_grenade_launcher_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_grenade_launcher.mdl") end,
+	["weapon_pipe_bomb_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_eq_pipebomb.mdl") end,
+	["weapon_molotov_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_eq_molotov.mdl") end,
+	["weapon_vomitjar_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_eq_bile_flask.mdl") end,
+	["weapon_pain_pills_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_eq_painpills.mdl") end,
+	["weapon_adrenaline_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_eq_adrenaline.mdl") end,
+	["weapon_first_aid_kit_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_eq_medkit.mdl") end,
+	["weapon_defibrillator_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_eq_defibrillator.mdl") end,
+	["weapon_upgradepack_explosive_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_eq_explosive_ammopack.mdl") end,
+	["weapon_upgradepack_incendiary_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_eq_incendiary_ammopack.mdl") end,
+	["weapon_gascan_spawn"] = function(tab) return basicPhys(tab, "models/props_junk/gascan001a.mdl") end,
 	------------------------------------TF2------------------------------------
 	["item_healthkit_full"] = function(tab) return basicMdl(tab, "models/items/medkit_large.mdl") end, --todo birthday mode/halloween versions when appropriate
 	["item_healthkit_medium"] = function(tab) return basicMdl(tab, "models/items/medkit_medium.mdl") end,
