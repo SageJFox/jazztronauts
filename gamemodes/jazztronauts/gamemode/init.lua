@@ -220,189 +220,36 @@ local basicPhys = function( tab, default )
 	return nil
 end
 
---spawn three dismount points, in a 270 degree arc in front of the given ladder point
-local threefront = function(normal,ladderEndPoint,ladderName)
-	local dismount = { ents.Create("info_ladder_dismount"), ents.Create("info_ladder_dismount"), ents.Create("info_ladder_dismount") }
-	local tr = {}
-	local normal = Vector(normal)
-	if not isvector(ladderEndPoint) then return { nil }, { nil } end
-	for i = 1, 3 do
-		
-		local dismountPos = Vector( ladderEndPoint.x + normal.x * 33,  ladderEndPoint.y + normal.y * 33, ladderEndPoint.z - 16 )
-		local dismountTry = Vector(dismountPos)
-		dismountTry.z = dismountTry.z + 48
-		tr[i] = util.TraceHull( {
-			["mins"] = Vector( -17, -17, 0 ),
-			["maxs"] = Vector( 17, 17, 37 ),
-			["mask"] = MASK_PLAYERSOLID_BRUSHONLY,
-			["start"] = dismountTry,
-			["endpos"] = dismountPos
-		} )
-		--PrintTable(tr[i])
-		if IsValid(dismount[i]) then
-			if not tr[i].StartSolid then --todo: test if needed
-				dismountPos.z = dismountTry.z - ( 48 * tr[i].Fraction )
-			end
-			dismount[i]:SetPos(dismountPos)
-			if ladderName then dismount[i]:SetKeyValue("target",ladderName) end
-			dismount[i]:Spawn()
-			--if it's stuck in a solid, remove it
-			if tr[i].AllSolid then
-				dismount[i]:Remove()
-			end
-		end
-
-		normal:Rotate(Angle(0,90 * i,0)) --will rotate 90 after the first, then 180
-
-	end
-	return dismount, tr
-end
-
 replacements = {
 	-----------------------------------L4D/2-----------------------------------
 	["func_simpleladder"] = function(tab,entnum)
-		
-		if not istable(tab.bmodel) then print("func_simpleladder with no brush model! BSP corrupted?") return nil end
-		--get the origin of the ladder brush
-		local origin = Vector(tab.bmodel.maxs)
-		origin:Add(Vector(tab.bmodel.mins))
-		origin:Mul(0.5)
-
-		if tonumber(tab["normal.z"]) < 1 then
-			--we can only handle straight up and down ladders for now, so, apologize for that
-			if tonumber(tab["normal.z"]) ~= 0 then
-				MsgC(Color(224,186,0),"BSP entity #"..tostring(entnum)..": slanted ladder!\n")
+		local ladder = ents.Create("func_wall")
+		if IsValid(ladder) then
+			local origin = Vector(tab.origin or "0 0 0")
+			--push grid-aligned ladders just a smidge, in case they have clip brushes around them
+			if math.abs(tonumber(tab["normal.x"])) == 1 or math.abs(tonumber(tab["normal.y"])) == 1 then
+				origin:Add(Vector( tonumber(tab["normal.x"]), tonumber(tab["normal.y"]), 0 ))
+			end
+			ladder:SetPos(origin)
+			ladder:SetAngles(Angle(tab.angles or "0 0 0"))
+			ladder:SetModel(tab.model)
+			ladder:Spawn()
+			if tonumber(tab["normal.z"]) == 1 then
 				local message = ents.Create("point_message")
 				if IsValid(message) then
+					local originm = Vector(tab.bmodel.maxs)
+					originm:Add(Vector(tab.bmodel.mins))
+					originm:Mul(0.5)
 					message:SetKeyValue("developeronly","0")
-					message:SetKeyValue("message","(#"..tostring(entnum)..") Sorry, slanted ladders aren't supported yet!")
+					message:SetKeyValue("message","(#"..entnum..") ".."Sorry if this ladder's seemingly broken, blame Valve")
 					message:SetKeyValue("radius","160")
-					message:SetPos(origin)
+					message:SetPos(originm)
 					message:Spawn()
 					message:Activate()
 				end
-				return message
 			end
-
-			--grab the reach of the ladder brush, as well as its normal
-			--we'll use these to figure out where the front of the ladder is.
-			local reach = Vector(tab.bmodel.maxs)
-			reach:Add(-Vector(tab.bmodel.mins))
-			reach:Mul(0.5)
-			
-			local normal = Vector(tab["normal.x"],tab["normal.y"],tab["normal.z"])
-			normal:Normalize()
-
-			--we're spawning a useableladder, which is gonna have to exist in the space in front of this
-			local ladp0 = Vector(origin)
-
-			--move the ladder outside of any geometry it's intersecting, in the direction of its normal
-			local scoot = util.TraceHull( { ["mins"] = Vector( -17, -17, 0 ), ["maxs"] = Vector( 17, 17, 73 ), ["mask"] = MASK_PLAYERSOLID_BRUSHONLY,
-				["start"] = ladp0 + (normal * 28), ["endpos"] = ladp0 } ) --24 is just a hair under the max length the hull would need to clear the origin at 45 degrees, so give it about an extra 4
-			ladp0.x = scoot.HitPos.x
-			ladp0.y = scoot.HitPos.y
-			ladp0.z = math.ceil( origin.z + reach.z )
-
-			--make sure we don't get stuck in the world above/below the ladder (displacements, mostly)
-			local tr = util.TraceHull( { ["mins"] = Vector( -17, -17, 0 ), ["maxs"] = Vector( 17, 17, 73 ), ["mask"] = MASK_PLAYERSOLID_BRUSHONLY,
-				["start"] = ladp0, ["endpos"] = Vector( ladp0.x, ladp0.y, origin.z - reach.z - 16 ) } )
-			if tr.StartSolid then ladp0.z = ladp0.z - ( reach.z * 2 * tr.FractionLeftSolid ) end
-			local ladp1 = Vector(tr.HitPos)
-			ladp1.z = math.ceil(ladp1.z)
-
-			--if the whole trace was solid or the ladder is gonna be shorter than regular step-height, don't bother
-			if not tr.AllSolid and math.abs( ladp0.z - ladp1.z ) >= 18 then
-				local ladder = ents.Create("func_useableladder")
-				if IsValid(ladder) then
-					ladder:SetKeyValue("point0",tostring(ladp0))
-					ladder:SetKeyValue("point1",tostring(ladp1))
-					ladder:SetPos(origin)
-					ladder:SetName("jazz_added_ladder_"..tostring(entnum))
-					ladder:Spawn()
-
-					--ladder dismount points
-					--not strictly necessary but make nagivating the ladder much easier
-
-					--top one. This one's important as we use it as a sorta "probe" for if an infected-only ladder is worth keeping
-					--(L4D uses playerclip as survivor-only, while in GMod it's all players, so if the top is clipped off the player can't do anything with it anyway)
-					local laddertop = ents.Create("info_ladder_dismount")
-					local laddertoppos = Vector( origin.x - normal.x * (reach.x + 17),  origin.y - normal.y * (reach.y + 17), ladp0.z + 1 )
-					local laddertoptry = Vector(laddertoppos)
-					laddertoptry.z = laddertoptry.z + 48
-					local tr2 = util.TraceHull( { ["mins"] = Vector( -17, -17, 0 ), ["maxs"] = Vector( 17, 17, 37 ), ["mask"] = MASK_PLAYERSOLID_BRUSHONLY,
-						["start"] = laddertoptry, ["endpos"] = laddertoppos } )
-					--PrintTable(tr2)
-					if IsValid(laddertop) then
-						if not tr2.StartSolid then laddertoppos.z = laddertoptry.z - ( 48 * tr2.Fraction ) end
-						laddertop:SetPos(laddertoppos)
-						laddertop:SetKeyValue("target",ladder:GetName())
-						laddertop:Spawn()
-						if tr2.AllSolid then
-							laddertop:Remove()
-						end
-					end
-
-					--others on top
-					local laddertop3, laddertoptr = threefront( normal, ladp0, ladder:GetName() )
-					--if it's floating, remove it
-					for k, v in ipairs(laddertop3) do
-						if IsValid(v) and istable(laddertoptr[k]) and not laddertoptr[k].Hit then
-							v:Remove()
-						end
-					end
-
-					--bottom ones
-					local ladderbot = threefront( normal, ladp1, ladder:GetName() )
-					-- if it's more than a quarter of the way up the ladder, remove it
-					for _, v in ipairs(ladderbot) do
-						if IsValid(v) and math.abs(v:GetPos().z - ladp1.z) * 4 > math.abs(ladp0.z - ladp1.z) then
-							v:Remove()
-						end
-					end
-
-
-					ladder:Activate()
-					--infected-only ladders
-					if tonumber(tab.team) == 2 then
-						if tr2.AllSolid then --if top was blocked, it probably goes nowhere, just remove it
-							ladder:Remove()
-							return nil
-						else --add visualizers
-							local visual = ents.Create("func_illusionary")
-							if IsValid(visual) then
-								visual:SetModel(tab.model)
-								visual:Spawn()
-							end
-						end
-					end
-					return ladder
-				end
-			else
-				local message = ents.Create("point_message")
-				if IsValid(message) then
-					message:SetKeyValue("developeronly","0")
-					message:SetKeyValue("message","Ladder (#"..tostring(entnum)..") blocked!")
-					message:SetKeyValue("radius","160")
-					message:SetPos(origin)
-					message:Spawn()
-					message:Activate()
-				end
-				return message
-			end
-		else
-			MsgC(Color(255,0,0),"BSP entity #"..tostring(entnum)..": bad ladder normals!\n")
-			local message = ents.Create("point_message")
-			if IsValid(message) then
-				message:SetKeyValue("developeronly","0")
-				message:SetKeyValue("message","Sorry, this ladder (#"..tostring(entnum)..") had bad data in the BSP!")
-				message:SetKeyValue("radius","160")
-				message:SetPos(origin)
-				message:Spawn()
-				message:Activate()
-				return message
-			end
+			return ladder
 		end
-		return nil
 	end,
 	["weapon_melee_spawn"] = function(tab)
 		local models = {
@@ -626,7 +473,6 @@ function GM:GenerateJazzEntities(noshards)
 			local bsp = bsp2.LoadBSP( game.GetMap(), nil, { bsp3.LUMP_ENTITIES, bsp3.LUMP_BRUSHES, bsp3.LUMP_GAME_LUMP, bsp3.LUMP_MODELS } )
 			if bsp ~= nil then
 				task.Await(bsp:GetLoadTask())
-				local ladorig = #ents.FindByClass("func_useableladder")
 				--PrintTable(bsp.entities or {})
 				for k, v in ipairs(bsp.entities) do
 					if replacements[v.classname] then
@@ -638,10 +484,6 @@ function GM:GenerateJazzEntities(noshards)
 					end
 					--if v.classname == "func_simpleladder" then print(k) PrintTable(v) end
 				end
-
-				timer.Simple(0,function()
-					MsgC(Color(0,255,0),"Ladders created: "..tostring(#ents.FindByClass("func_useableladder") - ladorig).."\n")
-				end)
 
 				--spawn markers for Roadtrips
 				for _, v in ipairs(ents.FindByClass("*_changelevel")) do
