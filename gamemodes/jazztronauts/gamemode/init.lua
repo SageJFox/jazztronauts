@@ -215,6 +215,24 @@ local basicPhys = function( tab, default )
 		--todo: check for motion disabled, etc.?
 		prop:PhysicsInit(SOLID_VPHYSICS)
 		prop:Spawn()
+		prop:PhysWake()
+		return prop
+	end
+	return nil
+end
+
+--just spawning in another entity for the entity
+local basicEnt = function( tab, entname )
+	local prop = ents.Create(entname)
+	if IsValid(prop) then
+		for k, v in pairs(tab) do
+			if not isstring(v) or k == "classname" then continue end
+			prop:SetKeyValue(k,v)
+		end
+		prop:SetPos(Vector(tab.origin or "0 0 0"))
+		prop:SetAngles(Angle(tab.angles or "0 0 0"))
+		prop:Spawn()
+		prop:Activate()
 		return prop
 	end
 	return nil
@@ -440,6 +458,97 @@ replacements = {
 			end
 		end
 		return nil
+	end,
+	------------------------------------TTT------------------------------------
+	["weapon_ttt_beacon"] = function(tab) return basicPhys(tab, "models/props_lab/reciever01b.mdl") end,
+	["ttt_beacon"] = function(tab) return basicPhys(tab, "models/props_lab/reciever01b.mdl") end,
+	["weapon_ttt_binoculars"] = function(tab) return basicPhys(tab, "models/props/cs_office/paper_towels.mdl") end,
+	["weapon_ttt_c4"] = function(tab) return basicPhys(tab, "models/weapons/w_c4.mdl") end,
+	["weapon_ttt_confgrenade"] = function(tab) return basicPhys(tab, "models/weapons/w_eq_fraggrenade.mdl") end,
+	["ttt_confgrenade_proj"] = function(tab) return basicPhys(tab, "models/weapons/w_eq_fraggrenade.mdl") end,
+	["weapon_ttt_cse"] = function(tab) return basicPhys(tab, "models/Items/battery.mdl") end,
+	["ttt_cse_proj"] = function(tab) return basicPhys(tab, "models/Items/battery.mdl") end,
+	["weapon_ttt_decoy"] = function(tab) return basicPhys(tab, "models/props_lab/reciever01b.mdl") end,
+	["ttt_decoy"] = function(tab) return basicPhys(tab, "models/props_lab/reciever01b.mdl") end,
+	["weapon_ttt_defuser"] = function(tab) return basicPhys(tab, "models/weapons/w_defuser.mdl") end,
+	["weapon_ttt_flaregun"] = function(tab) return basicPhys(tab, "models/weapons/w_357.mdl") end,
+	["weapon_ttt_glock"] = function(tab) return basicPhys(tab, "models/weapons/w_pist_glock18.mdl") end,
+	["weapon_ttt_health_station"] = function(tab) return basicPhys(tab, "models/props/cs_office/microwave.mdl") end,
+	["ttt_health_station"] = function(tab) return basicPhys(tab, "models/props/cs_office/microwave.mdl") end,
+	["weapon_ttt_knife"] = function(tab) return basicPhys(tab, "models/weapons/w_knife_t.mdl") end,
+	["ttt_knife_proj"] = function(tab) return basicPhys(tab, "models/weapons/w_knife_t.mdl") end,
+	["weapon_ttt_m16"] = function(tab) return basicPhys(tab, "models/weapons/w_rif_m4a1.mdl") end,
+	["weapon_ttt_phammer"] = function(tab) return basicPhys(tab, "models/weapons/w_IRifle.mdl") end,
+	["ttt_physhammer"] = function(tab) return basicPhys(tab, "models/Items/combine_rifle_ammo01.mdl") end,
+	["weapon_ttt_push"] = function(tab) return basicPhys(tab, "models/weapons/w_physics.mdl") end,
+	["weapon_ttt_radio"] = function(tab) return basicPhys(tab, "models/props/cs_office/radio.mdl") end,
+	["ttt_radio"] = function(tab) return basicPhys(tab, "models/props/cs_office/radio.mdl") end,
+	["weapon_ttt_sipistol"] = function(tab) return basicPhys(tab, "models/weapons/w_pist_usp_silencer.mdl") end,
+	["weapon_ttt_smokegrenade"] = function(tab) return basicPhys(tab, "models/weapons/w_eq_smokegrenade.mdl") end,
+	["ttt_smokegrenade_proj"] = function(tab) return basicPhys(tab, "models/weapons/w_eq_smokegrenade.mdl") end,
+	["weapon_ttt_stungun"] = function(tab) return basicPhys(tab, "models/weapons/w_smg_ump45.mdl") end,
+	["weapon_ttt_teleport"] = function(tab) return basicPhys(tab, "models/weapons/w_slam.mdl") end,
+	["weapon_ttt_unarmed"] = function(tab) return basicPhys(tab, "models/weapons/w_crowbar.mdl") end,
+	["weapon_ttt_wtester"] = function(tab) return basicPhys(tab, "models/props_lab/huladoll.mdl") end,
+	["weapon_zm_carry"] = function(tab) return basicPhys(tab, "models/weapons/w_stunbaton.mdl") end,
+	["weapon_zm_improvised"] = function(tab) return basicPhys(tab, "models/weapons/w_crowbar.mdl") end,
+	["weapon_zm_mac10"] = function(tab) return basicPhys(tab, "models/weapons/w_smg_mac10.mdl") end,
+	["weapon_zm_molotov"] = function(tab) return basicPhys(tab, "models/weapons/w_eq_flashbang.mdl") end,
+	["ttt_firegrenade_proj"] = function(tab) return basicPhys(tab, "models/weapons/w_eq_flashbang.mdl") end,
+	["weapon_zm_pistol"] = function(tab) return basicPhys(tab, "models/weapons/w_pist_fiveseven.mdl") end,
+	["weapon_zm_revolver"] = function(tab) return basicPhys(tab, "models/weapons/w_pist_deagle.mdl") end,
+	["weapon_zm_rifle"] = function(tab) return basicPhys(tab, "models/weapons/w_snip_scout.mdl") end,
+	["weapon_zm_shotgun"] = function(tab) return basicPhys(tab, "models/weapons/w_shot_xm1014.mdl") end,
+	["weapon_zm_sledge"] = function(tab) return basicPhys(tab, "models/weapons/w_mach_m249para.mdl") end,
+	["ttt_random_weapon"] = function(tab)
+		local ktab = {
+			{ "weapon_ttt_glock", "item_ammo_pistol_ttt" },
+			{ "weapon_ttt_m16", "item_ammo_pistol_ttt" },
+			{ "weapon_ttt_smokegrenade" },
+			{ "weapon_zm_mac10", "item_ammo_smg1_ttt" },
+			{ "weapon_zm_molotov" },
+			{ "weapon_zm_pistol", "item_ammo_pistol_ttt" },
+			{ "weapon_zm_revolver", "item_ammo_revolver_ttt" },
+			{ "weapon_zm_rifle", "item_ammo_357_ttt" },
+			{ "weapon_zm_shotgun", "item_box_buckshot_ttt" },
+			{ "weapon_zm_sledge" }
+		}
+		local pick = math.random(#ktab)
+		local ammospawns = tonumber(tab.auto_ammo)
+		if ammospawns and ammospawns > 0 then
+			for i = 1, ammospawns do
+				if ktab[pick][2] then
+					local ammo = replacements[ktab[pick][2]](tab)
+					if IsValid(ammo) then
+						local ammopos = ammo:GetPos()
+						ammopos.z = ammopos.z + 3 * i
+						ammo:SetPos(ammopos)
+						ammo:SetAngles(VectorRand():Angle())
+						ammo:PhysWake()
+					end
+				end
+			end
+		end
+		return replacements[ktab[pick][1]](tab)
+	end,
+	["item_ammo_357_ttt"] = function(tab) return basicEnt(tab, "item_ammo_357") end,
+	["item_ammo_pistol_ttt"] = function(tab) return basicEnt(tab, "item_ammo_pistol") end,
+	["item_ammo_revolver_ttt"] = function(tab)
+		local ammo = basicEnt(tab, "item_ammo_357")
+		if IsValid(ammo) then ammo:SetColor(Color( 255, 100, 100, 255 )) end
+		return ammo
+	end,
+	["item_ammo_smg1_ttt"] = function(tab) return basicEnt(tab, "item_ammo_smg1") end,
+	["item_box_buckshot_ttt"] = function(tab) return basicEnt(tab, "item_box_buckshot") end,
+	["ttt_random_ammo"] = function(tab)
+		local ktab = {
+			"item_ammo_357_ttt",
+			"item_ammo_pistol_ttt",
+			"item_ammo_revolver_ttt",
+			"item_ammo_smg1_ttt",
+			"item_box_buckshot_ttt"
+		}
+		return replacements[ktab[math.random(#ktab)]](tab)
 	end,
 }
 
