@@ -305,7 +305,7 @@ replacements = {
 			if IsValid(phy) then
 				--freeze it for a bit so the glass has time to adhere
 				phy:EnableMotion(false)
-				timer.Simple(1,function() if IsValid(phy) then phy:EnableMotion(true) end end) --todo: maybe check if it was intentionally motion disabled (flag #8)
+				timer.Simple(1,function() if IsValid(car) then phy:EnableMotion(true) phy:Wake() end end) --todo: maybe check if it was intentionally motion disabled (flag #8)
 			end
 		end
 	end,
@@ -362,8 +362,34 @@ replacements = {
 	["item_ammopack_full"] = function(tab) return basicMdl(tab, "models/items/ammopack_large.mdl") end,
 	["item_ammopack_medium"] = function(tab) return basicMdl(tab, "models/items/ammopack_medium.mdl") end,
 	["item_ammopack_small"] = function(tab) return basicMdl(tab, "models/items/ammopack_small.mdl") end,
-	["tf_pumpkin_bomb"] = function(tab) return basicMdl(tab, "models/props_halloween/pumpkin_explode.mdl") end,
-	["tf_generic_bomb"] = function(tab) return basicMdl(tab, "models/props_halloween/pumpkin_explode.mdl") end,
+	["tf_pumpkin_bomb"] = function(tab)
+		local bomb = basicMdl(tab, "models/props_halloween/pumpkin_explode.mdl")
+		if IsValid(bomb) then
+			bomb:PhysicsInit(SOLID_VPHYSICS)
+			local phy = bomb:GetPhysicsObject()
+			if IsValid(phy) then phy:EnableMotion(false) end
+			return bomb
+		end
+		return nil
+	end,
+	["tf_generic_bomb"] = function(tab)
+		local bomb = basicMdl(tab, "models/props_halloween/pumpkin_explode.mdl")
+		if IsValid(bomb) then
+			bomb:PhysicsInit(SOLID_VPHYSICS)
+			local phy = bomb:GetPhysicsObject()
+			if IsValid(phy) then phy:EnableMotion(false) end
+			return bomb
+		end
+		return nil
+	end,
+	["halloween_fortune_teller"] = function(tab)
+		local teller = basicMdl(tab, "models/bots/merasmus/merasmas_misfortune_teller.mdl")
+		if IsValid(teller) then
+			teller:DrawShadow(false)
+			return teller
+		end
+		return nil
+	end,
 	["team_control_point"] = function(tab)
 		local prop = basicMdl(tab, "models/effects/cappoint_hologram.mdl")
 		if IsValid(prop) then
