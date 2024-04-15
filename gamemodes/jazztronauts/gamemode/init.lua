@@ -238,6 +238,14 @@ local basicEnt = function( tab, entname )
 	return nil
 end
 
+local month = tonumber( os.date("%m",os.time()) )
+--July for Jazztronauts' workshop debut (Happy birthday Jazz! c: )
+if month == 7 then month = 12
+--December or "snowy" for gift wrap
+elseif string.find(game.GetMap(), "_snow") then month = 12
+--October, "event", or zombie survival for halloween (of course some of them are event for christmas, but, whatever)
+elseif string.find(game.GetMap(), "_event") or string.find(game.GetMap(), "^zi_") then month = 10 end
+
 replacements = {
 	-----------------------------------L4D/2-----------------------------------
 	["func_simpleladder"] = function(tab,entnum)
@@ -374,12 +382,12 @@ replacements = {
 	["weapon_upgradepack_incendiary_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_eq_incendiary_ammopack.mdl") end,
 	["weapon_gascan_spawn"] = function(tab) return basicPhys(tab, "models/props_junk/gascan001a.mdl") end,
 	------------------------------------TF2------------------------------------
-	["item_healthkit_full"] = function(tab) return basicMdl(tab, "models/items/medkit_large.mdl") end, --todo birthday mode/halloween versions when appropriate
-	["item_healthkit_medium"] = function(tab) return basicMdl(tab, "models/items/medkit_medium.mdl") end,
-	["item_healthkit_small"] = function(tab) return basicMdl(tab, "models/items/medkit_small.mdl") end,
-	["item_ammopack_full"] = function(tab) return basicMdl(tab, "models/items/ammopack_large.mdl") end,
-	["item_ammopack_medium"] = function(tab) return basicMdl(tab, "models/items/ammopack_medium.mdl") end,
-	["item_ammopack_small"] = function(tab) return basicMdl(tab, "models/items/ammopack_small.mdl") end,
+	["item_healthkit_full"] = function(tab) return basicMdl(tab, (month == 10 and "models/props_halloween/halloween_" or "models/items/") .. "medkit_large" .. (month == 12 and "_bday.mdl" or ".mdl")) end,
+	["item_healthkit_medium"] = function(tab) return basicMdl(tab, (month == 10 and "models/props_halloween/halloween_" or "models/items/") .. "medkit_medium" .. (month == 12 and "_bday.mdl" or ".mdl")) end,
+	["item_healthkit_small"] = function(tab) return basicMdl(tab, (month == 10 and "models/props_halloween/halloween_" or "models/items/") .. "medkit_small" .. (month == 12 and "_bday.mdl" or ".mdl")) end,
+	["item_ammopack_full"] = function(tab) return basicMdl(tab, "models/items/ammopack_large" .. (month == 12 and "_bday.mdl" or ".mdl")) end,
+	["item_ammopack_medium"] = function(tab) return basicMdl(tab, "models/items/ammopack_medium" .. (month == 12 and "_bday.mdl" or ".mdl")) end,
+	["item_ammopack_small"] = function(tab) return basicMdl(tab, "models/items/ammopack_small" .. (month == 12 and "_bday.mdl" or ".mdl")) end,
 	["tf_pumpkin_bomb"] = function(tab)
 		local bomb = basicMdl(tab, "models/props_halloween/pumpkin_explode.mdl")
 		if IsValid(bomb) then
@@ -442,19 +450,17 @@ replacements = {
 		for _, v in ipairs(enttab) do
 			if v.targetname == tab.spawn_manager_name then manager = v break end
 		end
-		if istable(manager) then
-			if replacements[manager.entity_name] then
-				local prop = replacements[manager.entity_name](tab)
-				if IsValid(prop) then
-					if tobool(manager.random_rotation) then prop:SetAngles(Angle(0,math.Rand(0,360),0)) end
-					if tobool(manager.drop_to_ground) then
-						local startpos, endpos = prop:GetPos(), prop:GetPos()
-						endpos.z = -16384
-						local tr = util.TraceLine({["start"] = startpos, ["endpos"] = endpos})
-						if tr.Hit then prop:SetPos(tr.HitPos) end
-					end
-					return prop
+		if istable(manager) and replacements[manager.entity_name] then
+			local prop = replacements[manager.entity_name](tab)
+			if IsValid(prop) then
+				if tobool(manager.random_rotation) then prop:SetAngles(Angle(0,math.Rand(0,360),0)) end
+				if tobool(manager.drop_to_ground) then
+					local startpos, endpos = prop:GetPos(), prop:GetPos()
+					endpos.z = -16384
+					local tr = util.TraceLine({["start"] = startpos, ["endpos"] = endpos})
+					if tr.Hit then prop:SetPos(tr.HitPos) end
 				end
+				return prop
 			end
 		end
 		return nil
@@ -466,8 +472,8 @@ replacements = {
 	["weapon_ttt_c4"] = function(tab) return basicPhys(tab, "models/weapons/w_c4.mdl") end,
 	["weapon_ttt_confgrenade"] = function(tab) return basicPhys(tab, "models/weapons/w_eq_fraggrenade.mdl") end,
 	["ttt_confgrenade_proj"] = function(tab) return basicPhys(tab, "models/weapons/w_eq_fraggrenade.mdl") end,
-	["weapon_ttt_cse"] = function(tab) return basicPhys(tab, "models/Items/battery.mdl") end,
-	["ttt_cse_proj"] = function(tab) return basicPhys(tab, "models/Items/battery.mdl") end,
+	["weapon_ttt_cse"] = function(tab) return basicPhys(tab, "models/items/battery.mdl") end,
+	["ttt_cse_proj"] = function(tab) return basicPhys(tab, "models/items/battery.mdl") end,
 	["weapon_ttt_decoy"] = function(tab) return basicPhys(tab, "models/props_lab/reciever01b.mdl") end,
 	["ttt_decoy"] = function(tab) return basicPhys(tab, "models/props_lab/reciever01b.mdl") end,
 	["weapon_ttt_defuser"] = function(tab) return basicPhys(tab, "models/weapons/w_defuser.mdl") end,
@@ -479,7 +485,7 @@ replacements = {
 	["ttt_knife_proj"] = function(tab) return basicPhys(tab, "models/weapons/w_knife_t.mdl") end,
 	["weapon_ttt_m16"] = function(tab) return basicPhys(tab, "models/weapons/w_rif_m4a1.mdl") end,
 	["weapon_ttt_phammer"] = function(tab) return basicPhys(tab, "models/weapons/w_IRifle.mdl") end,
-	["ttt_physhammer"] = function(tab) return basicPhys(tab, "models/Items/combine_rifle_ammo01.mdl") end,
+	["ttt_physhammer"] = function(tab) return basicPhys(tab, "models/items/combine_rifle_ammo01.mdl") end,
 	["weapon_ttt_push"] = function(tab) return basicPhys(tab, "models/weapons/w_physics.mdl") end,
 	["weapon_ttt_radio"] = function(tab) return basicPhys(tab, "models/props/cs_office/radio.mdl") end,
 	["ttt_radio"] = function(tab) return basicPhys(tab, "models/props/cs_office/radio.mdl") end,
@@ -515,17 +521,15 @@ replacements = {
 		}
 		local pick = math.random(#ktab)
 		local ammospawns = tonumber(tab.auto_ammo)
-		if ammospawns and ammospawns > 0 then
+		if ammospawns and ammospawns > 0 and ktab[pick][2] then
 			for i = 1, ammospawns do
-				if ktab[pick][2] then
-					local ammo = replacements[ktab[pick][2]](tab)
-					if IsValid(ammo) then
-						local ammopos = ammo:GetPos()
-						ammopos.z = ammopos.z + 3 * i
-						ammo:SetPos(ammopos)
-						ammo:SetAngles(VectorRand():Angle())
-						ammo:PhysWake()
-					end
+				local ammo = replacements[ktab[pick][2]](tab)
+				if IsValid(ammo) then
+					local ammopos = ammo:GetPos()
+					ammopos.z = ammopos.z + 3 * i
+					ammo:SetPos(ammopos)
+					ammo:SetAngles(VectorRand():Angle())
+					ammo:PhysWake()
 				end
 			end
 		end
