@@ -198,6 +198,18 @@ local basicMdl = function( tab, default, anim )
 	return nil
 end
 
+--just spawning in a solid model for the entity
+local basicMdlSolid = function( tab, default, anim )
+	local prop = basicMdl(tab, default, anim)
+	if IsValid(prop) then
+		prop:PhysicsInit(SOLID_VPHYSICS)
+		local phy = prop:GetPhysicsObject()
+		if IsValid(phy) then phy:EnableMotion(false) end
+		return prop
+	end
+	return nil
+end
+
 --just spawning in a physics prop for the entity
 local basicPhys = function( tab, default )
 	local prop = ents.Create("prop_physics")
@@ -388,26 +400,8 @@ replacements = {
 	["item_ammopack_full"] = function(tab) return basicMdl(tab, "models/items/ammopack_large" .. (month == 12 and "_bday.mdl" or ".mdl")) end,
 	["item_ammopack_medium"] = function(tab) return basicMdl(tab, "models/items/ammopack_medium" .. (month == 12 and "_bday.mdl" or ".mdl")) end,
 	["item_ammopack_small"] = function(tab) return basicMdl(tab, "models/items/ammopack_small" .. (month == 12 and "_bday.mdl" or ".mdl")) end,
-	["tf_pumpkin_bomb"] = function(tab)
-		local bomb = basicMdl(tab, "models/props_halloween/pumpkin_explode.mdl")
-		if IsValid(bomb) then
-			bomb:PhysicsInit(SOLID_VPHYSICS)
-			local phy = bomb:GetPhysicsObject()
-			if IsValid(phy) then phy:EnableMotion(false) end
-			return bomb
-		end
-		return nil
-	end,
-	["tf_generic_bomb"] = function(tab)
-		local bomb = basicMdl(tab, "models/props_halloween/pumpkin_explode.mdl")
-		if IsValid(bomb) then
-			bomb:PhysicsInit(SOLID_VPHYSICS)
-			local phy = bomb:GetPhysicsObject()
-			if IsValid(phy) then phy:EnableMotion(false) end
-			return bomb
-		end
-		return nil
-	end,
+	["tf_pumpkin_bomb"] = function(tab) return basicMdlSolid(tab, "models/props_halloween/pumpkin_explode.mdl") end,
+	["tf_generic_bomb"] = function(tab) return basicMdlSolid(tab, "models/props_halloween/pumpkin_explode.mdl") end,
 	["halloween_fortune_teller"] = function(tab)
 		local teller = basicMdl(tab, "models/bots/merasmus/merasmas_misfortune_teller.mdl")
 		if IsValid(teller) then
@@ -554,6 +548,94 @@ replacements = {
 		}
 		return replacements[ktab[math.random(#ktab)]](tab)
 	end,
+	------------------------------------CSS------------------------------------
+	["weapon_c4"] = function(tab) return basicPhys(tab, "models/weapons/w_c4.mdl") end,
+	["planted_c4"] = function(tab) return basicMdl(tab, "models/weapons/w_c4.mdl") end,
+	["func_bomb_target"] = function(tab) --put a bomb in the middle of the target zone
+		local bomb = ents.Create("prop_physics")
+		if IsValid(bomb) then
+			local pos = Vector(tab.bmodel.maxs)
+			pos:Add(Vector(tab.bmodel.mins))
+			pos:Mul(0.5)
+			bomb:SetModel("models/weapons/w_c4.mdl")
+			bomb:SetPos(pos)
+			bomb:PhysicsInit(SOLID_VPHYSICS)
+			bomb:Spawn()
+			bomb:PhysWake()
+			return bomb
+		end
+		return nil
+	end,
+	["hostage_entity"] = function(tab)
+		local hostage = ents.Create("npc_citizen")
+		if IsValid(hostage) then
+			hostage:SetPos(Vector(tab.origin) or "0 0 0")
+			hostage:SetAngles(Angle(tab.angles) or "0 0 0")
+			hostage:SetKeyValue("citizentype", "4")
+			hostage:SetKeyValue("spawnflags", bit.bor( SF_CITIZEN_NOT_COMMANDABLE, SF_NPC_NO_PLAYER_PUSHAWAY, SF_NPC_GAG ))
+			hostage:SetModel("models/characters/hostage_0" .. tostring( #ents.FindByClass("npc_citizen") % 4 + 1 ) .. ".mdl")
+			hostage:Spawn()
+			return hostage
+		end
+		return nil
+	end,
+	-----------------------------------DoD:S-----------------------------------
+	["dod_bomb_target"] = function(tab) return basicMdl(tab, "models/weapons/w_tnt_red.mdl") end,
+	["dod_control_point"] = function(tab)
+		if bit.band(tonumber(tab.flags) or 0, 2) > 0 or string.find(tab.targetname,"fake") then return nil end --Spawnflag 2 - Start with model hidden
+		PrintTable(tab)
+		local flag = basicMdl(tab, "models/mapmodels/flags.mdl")
+		if IsValid(flag) then
+			local teams = {
+				[0] = "reset",
+				[2] = "allies",
+				[3] = "axis",
+			}
+			local tm = tonumber(tab.point_default_owner) or 0
+			flag:SetModel( tab["point_" .. teams[tm] .. "_model"] or "models/mapmodels/flags.mdl" )
+			flag:SetBodyGroups( tab["point_" .. teams[tm] .. "_model_bodygroup"] or "0" )
+		end
+		return flag
+	end,
+	------------------------------------FoF------------------------------------
+	["fof_crate"] = function(tab) return basicMdlSolid(tab, "models/items_fof/safe_crate.mdl") end,
+	["fof_crate_med"] = function(tab) return basicMdlSolid(tab, "models/items_fof/safe_crate_small.mdl") end,
+	["fof_crate_low"] = function(tab) return basicMdlSolid(tab, "models/items_fof/safe_crate_small.mdl") end,
+	["fof_cap_entity"] = function(tab) return basicMdl(tab, "models/props/cap_circle_512.mdl") end,
+	["fof_mobile_point"] = function(tab) return basicMdl(tab, "models/props/cap_circle_512.mdl") end,
+	["item_whiskey"] = function(tab) return basicPhys(tab, "models/weapons/w_whiskey.mdl") end, --pass the whiskey
+	["item_potion"] = function(tab) return basicPhys(tab, "models/props/potion_bottle.mdl") end,
+	["npc_horse"] = function(tab) return basicMdlSolid(tab, "models/horse/horse1.mdl") end,
+	["fof_horse"] = function(tab) return basicMdlSolid(tab, "models/horse/riding_horse.mdl") end,
+	["fof_cart_push"] = function(tab) return basicMdlSolid(tab, "models/horse/riding_horse.mdl") end,
+	["fof_cannon_ball"] = function(tab) return basicPhys(tab, "models/weapons/cannon_ball.mdl") end,
+	["weapon_knife"] = function(tab) return basicPhys(tab, "models/weapons/w_knife.mdl") end,
+	["weapon_axe"] = function(tab) return basicPhys(tab, "models/weapons/w_axe.mdl") end,
+	["weapon_machete"] = function(tab) return basicPhys(tab, "models/weapons/w_machete.mdl") end,
+	["weapon_bow"] = function(tab) return basicPhys(tab, "models/weapons/w_bow.mdl") end,
+	["weapon_xbow"] = function(tab) return basicPhys(tab, "models/weapons/w_xbow.mdl") end,
+	["weapon_carbine"] = function(tab) return basicPhys(tab, "models/weapons/w_carbine.mdl") end,
+	["weapon_coachgun"] = function(tab) return basicPhys(tab, "models/weapons/w_coachgun.mdl") end,
+	["weapon_coltnavy"] = function(tab) return basicPhys(tab, "models/weapons/w_coltnavy.mdl") end,
+	["weapon_volcanic"] = function(tab) return basicPhys(tab, "models/weapons/w_volcanic.mdl") end,
+	["weapon_deringer"] = function(tab) return basicPhys(tab, "models/weapons/w_deringer.mdl") end,
+	["weapon_dynamite"] = function(tab) return basicPhys(tab, "models/weapons/w_dynamite.mdl") end,
+	["weapon_dynamite_black"] = function(tab) return basicPhys(tab, "models/weapons/w_dynamite_black.mdl") end,
+	["weapon_henryrifle"] = function(tab) return basicPhys(tab, "models/weapons/w_henryrifle.mdl") end,
+	["weapon_peacemaker"] = function(tab) return basicPhys(tab, "models/weapons/w_peacemaker.mdl") end,
+	["weapon_maresleg"] = function(tab) return basicPhys(tab, "models/weapons/w_maresleg.mdl") end,
+	["weapon_walker"] = function(tab) return basicPhys(tab, "models/weapons/w_walker.mdl") end,
+	["weapon_schofield"] = function(tab) return basicPhys(tab, "models/weapons/w_schofield.mdl") end,
+	["weapon_sharps"] = function(tab) return basicPhys(tab, "models/weapons/w_sharps.mdl") end,
+	["weapon_sawedoff_shotgun"] = function(tab) return basicPhys(tab, "models/weapons/w_sawed_shotgun.mdl") end,
+	["weapon_whiskey"] = function(tab) return basicPhys(tab, "models/weapons/w_whiskey.mdl") end,
+	["weapon_bow_black"] = function(tab) return basicPhys(tab, "models/weapons/w_bow_black.mdl") end,
+	["weapon_dynamite_belt"] = function(tab) return basicPhys(tab, "models/weapons/w_dynamite_yellow.mdl") end,
+	["weapon_ghostgun"] = function(tab) return basicPhys(tab, "models/weapons/w_ghostgun.mdl") end,
+	["weapon_hammerless"] = function(tab) return basicPhys(tab, "models/weapons/w_hammerless.mdl") end,
+	["weapon_remington_army"] = function(tab) return basicPhys(tab, "models/weapons/w_remington_army.mdl") end,
+	["weapon_spencer"] = function(tab) return basicPhys(tab, "models/weapons/w_spencer.mdl") end,
+	["trigger_hurt_fof"] = function(tab) return basicEnt(tab, "trigger_hurt") end,
 }
 
 function GM:GenerateJazzEntities(noshards)
