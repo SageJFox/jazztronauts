@@ -341,12 +341,12 @@ if CLIENT then
 		local attachIdx = self.AttachIdx or 1
 
 		if attachIdx > 0 then
-			attach = self:GetAttachment(attachIdx).Pos -- World model position, at very least
+			local attachInfo = self:GetAttachment(attachIdx) -- World model position, at very least
 			local vm = ply:GetViewModel()
 			if self:IsCarriedByLocalPlayer() and IsValid(vm) then
-				local attachInfo = vm:GetAttachment(attachIdx)
-				if attachInfo then attach = attachInfo.Pos end -- View model position
+				attachInfo = vm:GetAttachment(attachIdx) or attachInfo -- View model position
 			end
+			if istable(attachInfo) then attach = attachInfo.Pos end
 		end
 		
 		-- Draw beam

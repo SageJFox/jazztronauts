@@ -621,10 +621,14 @@ function SWEP:DrawHUD()
 
 		-- Render a bounding box over the selected prop
 		if IsValid(ent) then
-			local srcPos = self:GetAttachment( 1 ).Pos
+			local attachInfo = self:GetAttachment( 1 )
+			
+			local srcPos = owner:GetShootPos()
 			if !LocalPlayer():ShouldDrawLocalPlayer() then
-				srcPos = LocalPlayer():GetViewModel():GetAttachment( 1 ).Pos
+				local vm = LocalPlayer():GetViewModel()
+				if IsValid(vm) then attachInfo = vm:GetAttachment( 1 ) or attachInfo end
 			end
+			srcPos = istable(attachInfo) and attachInfo.Pos or srcPos
 
 			JazzRenderGrabEffect(ent, nil, srcPos)
 		end
