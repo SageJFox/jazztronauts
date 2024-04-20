@@ -393,6 +393,25 @@ replacements = {
 	["weapon_upgradepack_explosive_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_eq_explosive_ammopack.mdl") end,
 	["weapon_upgradepack_incendiary_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_eq_incendiary_ammopack.mdl") end,
 	["weapon_gascan_spawn"] = function(tab) return basicPhys(tab, "models/props_junk/gascan001a.mdl") end,
+	["prop_health_cabinet"] = function(tab)
+		local cabinet = basicMdlSolid(tab, "models/props_interiors/medicalcabinet02.mdl","open") --start it open (don't wanna bother setting up the ability for it to be opened)
+		if IsValid(cabinet) then
+			for i = 1, (tonumber(tab.HealthCount) or 2) do
+				local attach = cabinet:GetAttachment(cabinet:LookupAttachment("item" .. tostring(i))) 
+				if istable(attach) then
+					local prop = replacements[ math.random(2) == 1 and "weapon_first_aid_kit_spawn" or "weapon_pain_pills_spawn"]({})
+					if IsValid(prop) then
+						local phys = prop:GetPhysicsObject()
+						if IsValid(phys) then phys:Sleep() end
+						prop:SetPos(attach.Pos)
+						prop:SetAngles(attach.Ang)
+					end
+				end
+			end
+			return cabinet
+		end
+		return nil
+	end,
 	------------------------------------TF2------------------------------------
 	["item_healthkit_full"] = function(tab) return basicMdl(tab, (month == 10 and "models/props_halloween/halloween_" or "models/items/") .. "medkit_large" .. (month == 12 and "_bday.mdl" or ".mdl")) end,
 	["item_healthkit_medium"] = function(tab) return basicMdl(tab, (month == 10 and "models/props_halloween/halloween_" or "models/items/") .. "medkit_medium" .. (month == 12 and "_bday.mdl" or ".mdl")) end,
@@ -605,8 +624,8 @@ replacements = {
 	["fof_mobile_point"] = function(tab) return basicMdl(tab, "models/props/cap_circle_512.mdl") end,
 	["item_whiskey"] = function(tab) return basicPhys(tab, "models/weapons/w_whiskey.mdl") end, --pass the whiskey
 	["item_potion"] = function(tab) return basicPhys(tab, "models/props/potion_bottle.mdl") end,
-	["npc_horse"] = function(tab) return basicMdlSolid(tab, "models/horse/horse1.mdl") end,
-	["fof_horse"] = function(tab) return basicMdlSolid(tab, "models/horse/riding_horse.mdl") end,
+	["npc_horse"] = function(tab) return basicMdl(tab, "models/horse/horse1.mdl", "idle1") end,
+	["fof_horse"] = function(tab) return basicMdl(tab, "models/horse/riding_horse.mdl", "idle") end,
 	["fof_cart_push"] = function(tab) return basicMdlSolid(tab, "models/horse/riding_horse.mdl") end,
 	["fof_cannon_ball"] = function(tab) return basicPhys(tab, "models/weapons/cannon_ball.mdl") end,
 	["weapon_knife"] = function(tab) return basicPhys(tab, "models/weapons/w_knife.mdl") end,
