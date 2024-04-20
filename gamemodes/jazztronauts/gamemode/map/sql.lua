@@ -366,14 +366,20 @@ function RoadtripTotals()
 	return collected, total
 end
 
+function RoadtripAddAllowedMap(mapName)
+	local insrt = "INSERT INTO jazz_roadtrip_next (filename,unlocked) " ..
+					string.format("VALUES (%s,%s)",mapNameCleanup(mapName),"0")
+	Query(insrt)
+end
+
 --figure out which maps we're allowed to go to to keep our multiplier up
 function RoadtripGetNextMaps(unlock)
 	local unlock = unlock
 	if unlock ~= nil then unlock = unlock and "1" or "0" end --allow it to be expressly nil
 
 	local changelevels = ents.FindByClass("*_changelevel")
-	
-	if table.IsEmpty(changelevels) then EndRoadtrip() return false end --there's no chain of maps here, we can't do a roadtrip
+	--handled in gamemode init
+	--if table.IsEmpty(changelevels) then EndRoadtrip() return false end --there's no chain of maps here, we can't do a roadtrip
 
 	--first things first, add this map to the table and unlock it (if the server goes down we wanna be able to continue a roadtrip from this map, at minimum)
 	local insrt = "INSERT INTO jazz_roadtrip_next (filename,unlocked) " ..

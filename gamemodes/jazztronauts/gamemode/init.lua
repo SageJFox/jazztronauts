@@ -643,6 +643,7 @@ function GM:GenerateJazzEntities(noshards)
 	if not mapcontrol.IsInHub() then
 		if not noshards then
 			local bcollected, brequired = mapgen.GetTotalCollectedBlackShards(), mapgen.GetTotalRequiredBlackShards()
+			local roadtripAdded = false
 
 			-- Add current map to list of 'started' maps
 			local map = progress.GetMap(game.GetMap())
@@ -696,6 +697,7 @@ function GM:GenerateJazzEntities(noshards)
 				task.Await(bsp:GetLoadTask())
 				--PrintTable(bsp.entities or {})
 				for k, v in ipairs(bsp.entities) do
+
 					if replacements[v.classname] then
 						if #ents.FindByClass(v.classname) == 0 then
 							replacements[v.classname](v,k,bsp.entities)
@@ -703,41 +705,44 @@ function GM:GenerateJazzEntities(noshards)
 							print(v.classname.." exists! Stand-in not needed")
 						end
 					end
-					--if v.classname == "func_simpleladder" then print(k) PrintTable(v) end
-				end
 
-				--spawn markers for Roadtrips
-				for _, v in ipairs(ents.FindByClass("*_changelevel")) do
+					--spawn markers for Roadtrips
+					if string.find(v.classname,"_changelevel") then
+						
+						local destname = v.map or string.lower(game.GetMap())
+						if string.lower(destname) == string.lower(game.GetMap()) then continue end --Seriously Valve what the fuck
 
-					local destname = string.Trim( utf8.char( unpack( v:GetInternalVariable( "m_szMapName" ) ) ), "\0" )
-					if string.lower(destname) == string.lower(game.GetMap()) then continue end --Seriously Valve what the fuck
+						local ent = nil
+						--fine Valve, use the same name for other ents
+						for _, v in ipairs(ents.FindByName(v.landmark)) do
+							if IsValid(v) and v:GetClass() == "info_landmark" then print(v) ent = v break end
+						end
+						local busmark = ents.Create("jazz_stanteleportmarker")
 
-					local ent = nil
-					--fine Valve, use the same name for other ents
-					for _, v in ipairs(ents.FindByName( string.Trim( utf8.char( unpack( v:GetInternalVariable( "m_szLandmarkName" ) ) ), "\0" ) )) do
-						if IsValid(v) and v:GetClass() == "info_landmark" then ent = v break end
+						if not IsValid(ent) or not IsValid(busmark) then continue end
+
+						roadtripAdded = true
+						progress.RoadtripSetNext(game.GetMap()) --make sure this current map is on the list
+						progress.RoadtripAddAllowedMap(destname)
+
+						busmark:SetPos(ent:GetPos())
+						busmark:SetAngles( Angle( 0, ent:GetAngles().y, 0 ) ) --just kidding no angles on landmarks
+						busmark:SetBusMarker(true)
+						busmark:SetDestinationName(destname .. ":" .. game.GetMap()) --map names can't have a colon, so we use that as a separator
+						busmark:SetDestination(ent)
+						busmark:SetLevel(99)
+						busmark:Spawn()
+
 					end
-					local busmark = ents.Create("jazz_stanteleportmarker")
-
-					if not IsValid(ent) or not IsValid(busmark) then continue end
-
-					busmark:SetPos(ent:GetPos())
-					--busmark:SetAngles( Angle( 0, 0, ent:GetAngles().z ) ) --just kidding no angles on landmarks
-					busmark:SetBusMarker(true)
-					busmark:SetDestinationName(destname .. ":" .. game.GetMap()) --map names can't have a colon, so we use that as a separator
-					busmark:SetDestination(ent)
-					busmark:SetLevel(99)
-					busmark:Spawn()
-
-					v:Remove() --changelevels on at least Ep1/Ep2 maps completely lock up the player, even after respawn. How fun!
-
 				end
-
+				if not roadtripAdded then progress.EndRoadtrip() end
 			end
-
-
+			
 		end
 
+		-- Changelevels on at least Ep1/Ep2 maps completely lock up the player, even after respawn. How fun!
+		for _, v in ipairs(ents.FindByClass("*_changelevel")) do v:Remove() end
+		
 		-- Spawn static prop proxy entities
 		snatch.SpawnProxies()
 
