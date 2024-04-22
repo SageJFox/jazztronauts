@@ -1,0 +1,13 @@
+"VertexLitGeneric"
+{
+	$basetexture "models/krio/velvetrope_diffuse"
+	"$basemapalphaphongmask"	"1"
+	"$phong" "1"
+	"$phongexponent" "1"
+	"$phongboost" "0.2"
+	"$phongfresnelranges"	"[.2 .2 .2]"
+//	"$lightwarptexture" "krio/lightwarp"
+	"$rimlight" "1"
+	"$rimlightboost" "0"
+	"$rimlightexponent" "1"
+}

@@ -1,0 +1,14 @@
+"VertexLitGeneric"
+{
+	$basetexture "models/krio/velvetrope_diffuse"
+	"$envmap" "krio/cubemap_gold001"
+	"$envmaptint" "[.05 .04 .04]"
+	"$basealphaenvmapmask" "1"
+
+	"$phong" "1"
+	"$phongexponent" "12"
+	"$phongboost" "4"
+	"$phongfresnelranges"	"[.2 1 4]"
+	"$lightwarptexture" "krio/lightwarp"
+
+}
