@@ -9,6 +9,9 @@ ENT.OnSound = Sound("jazztronauts/tv_on.wav")
 ENT.OffSound = Sound("buttons/lightswitch2.wav")
 ENT.History = {}
 
+local SF_NOUSE = 1 --disable +USE activating this browser (will need a button of some sort)
+local SF_NONSOLID = 2 --disable collisions (note that +USE can't be used)
+
 local historyslots = 5 --the number of previously rolled addons we'll remember/be able to access
 
 local outputs =
@@ -28,17 +31,19 @@ if SERVER then
 end
 
 function ENT:Initialize()
-	self:SetModel( self.Model )
-	self:PhysicsInit( SOLID_VPHYSICS )
-	self:SetMoveType( MOVETYPE_NONE )
-
-	local phys = self:GetPhysicsObject()
-	if IsValid( phys ) then
-		phys:EnableMotion( false )
-	end
-
-	-- Hook into map change events
 	if SERVER then
+		self:SetModel( self.Model )
+		if not self:HasSpawnFlags(SF_NONSOLID) then
+			self:PhysicsInit( SOLID_VPHYSICS )
+			self:SetMoveType( MOVETYPE_NONE )
+		end
+
+		local phys = self:GetPhysicsObject()
+		if IsValid( phys ) then
+			phys:EnableMotion( false )
+		end
+
+		-- Hook into map change events
 		self:SetUseType(SIMPLE_USE)
 
 		-- Turn on the tv
@@ -57,16 +62,29 @@ function ENT:Initialize()
 				end
 			end
 		end )
+	else
+		self.RTMat = self:GetRTMat() --not changing once set so no need to constantly fetch this
 	end
-
 end
+
 
 function ENT:SetupDataTables()
 	self:NetworkVar("String", 0, "DestinationID")
 	self:NetworkVar("Bool", 0, "IsOn")
+	self:NetworkVar("Int", "RTMat")
+	if SERVER then
+		self:SetRTMat(3)
+	end
 end
 
 function ENT:KeyValue( key, value )
+	if key == "model" then
+		self.Model = value
+	elseif key == "skin" then
+		self:SetSkin(tonumber(value))
+	elseif key == "rtmat" then
+		self:SetRTMat(tonumber(value))
+	end
 
 	if table.HasValue(outputs, key) then
 		self:StoreOutput(key, value)
@@ -192,8 +210,9 @@ function ENT:SetOn(isOn)
 end
 
 function ENT:Use(activator, caller)
-
-	self:RollWorkshop()
+	if not self:HasSpawnFlags(SF_NOUSE) then
+		self:RollWorkshop()
+	end
 end
 
 if SERVER then return end
@@ -387,7 +406,7 @@ function ENT:ChangeChannel(dest)
 end
 
 function ENT:Draw()
-	render.MaterialOverrideByIndex(1, rt_pass:GetUnlitMaterial())
+	render.MaterialOverrideByIndex(self.RTMat, rt_pass:GetUnlitMaterial())
 	self:DrawModel()
-	render.MaterialOverrideByIndex(1, nil)
+	render.MaterialOverrideByIndex(self.RTMat, nil)
 end

@@ -76,8 +76,12 @@
 	input StopVomit(void)  : "Stop vomiting props"
 ]
 
-@PointClass base(Targetname, Angles) studioprop("models/sunabouzu/jazzbigtv.mdl") = jazz_hub_browser : "Jazz Addon Browser"
+@PointClass base(Targetname, Angles) studioprop() = jazz_hub_browser : "Jazz Addon Browser"
 [
+	model(studio) : "World Model" : "models/sunabouzu/jazzbigtv.mdl"
+	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
+	rtmat(integer) : "RT Material Index" : 3 : "Which material index (starting from 0) will act as the model's RT screen?"
+
 	output OnMapRolled(void) : "Fires when a map has been successfully rolled"
 	output OnAddonSelected(void) : "Fires when an addon has been selected and we should switch modes"
 
@@ -93,10 +97,19 @@
 	input SwitchToHistory5(void)	: "Switch to the fifth entry in our History"
 	input HistoryUp(void)			: "Shift items in history up one slot"
 	input HistoryDown(void)			: "Shift items in history down one slot"
+
+	spawnflags(flags) =
+	[
+		1 : "Ignore +USE"   : 0
+		2 : "Disable Collisions (+USE can't be used without collisions)" : 0
+	]
 ]
 
-@PointClass base(Targetname, Angles) studioprop("models/sunabouzu/jazzportal.mdl") = jazz_hub_selector : "Jazz Map Selector"
+@PointClass base(Targetname, Angles) studioprop() = jazz_hub_selector : "Jazz Map Selector"
 [
+	model(studio) : "World Model" : "models/sunabouzu/jazzportal.mdl"
+	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
+	rtmat(integer) : "RT Material Index" : 0 : "Which material index (starting from 0) will act as the model's RT screen?"
 	facing(choices) : "Facing Axis" : 2 : "Should we rotate to face the player?" = 
 	[
 		0 : "No rotation"
@@ -116,6 +129,13 @@
 
 	input SelectAddon(void)  : "Select the currently-browsed addon. Begins downloading and mounting the map"
 	input CancelAddon(void)  : "Turn off the selector, switching off all the fact screens."
+
+	spawnflags(flags) =
+	[
+		1 : "Ignore +USE"   : 0
+		2 : "Disable Collisions (+USE can't be used without collisions)" : 0
+		4 : "Render When Off" : 0
+	]
 ]
 
 @PointClass base(Targetname, Angles) studioprop("models/editor/cat_start.mdl") = jazz_cat : "Jazz Cat"

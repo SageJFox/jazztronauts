@@ -2,8 +2,9 @@
 {
 	"$basetexture" "models/sunabouzu/jazzbigtv_A"
 	"$bumpmap" "models/sunabouzu/jazzbigtv_N"
+	$color2		"[.625 .625 .625]"
 	"$phong" "1"
-	"$phongexponent" "1"
+	"$phongexponent" "15"
 	"$phongboost" "3"
 	$phongfresnelranges		"[ .25 .5 .5]"
 	$halflambert 1

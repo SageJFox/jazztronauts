@@ -314,7 +314,7 @@ function ENT:VomitProp()
 
 	-- Don't do it _every_ time, but adjustable odds
 	if lastPropName != prop.propname then
-		if math.Rand(0, 1) <= 0.75 then
+		if math.Rand(0, 1) <= math.min( 0.75, 1.5 / self.VomitSpeed ) then --decrease chance of gibs as speed increases todo: move this to client and have it affected by prop percentage
 			self:SpawnRandomGibs(pos, ang)
 		end
 

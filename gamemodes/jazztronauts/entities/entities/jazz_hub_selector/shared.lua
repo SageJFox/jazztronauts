@@ -6,6 +6,10 @@ ENT.RenderGroup = RENDERGROUP_OPAQUE
 ENT.AutomaticFrameAdvance = true
 ENT.Model			= "models/sunabouzu/jazzportal.mdl"
 
+local SF_NOUSE = 1 --disable +USE activating this browser (will need a button of some sort)
+local SF_NONSOLID = 2 --disable collisions (note that +USE can't be used without physmodel)
+local SF_RENDERWHENOFF = 4 --render the selector's model when inactive
+
 local IDLE_HUM_SOUND        = Sound("ambient/machines/thumper_amb.wav")
 local FAIL_SOUND            = Sound("coast.thumper_shutdown")
 local DOWNLOAD_START_SOUND  = Sound("coast.thumper_startup")
@@ -28,17 +32,18 @@ local outputs =
 }
 
 function ENT:Initialize()
-	self:SetModel( self.Model )
-	self:PhysicsInit( SOLID_VPHYSICS )
-	self:SetMoveType( MOVETYPE_NONE )
-
-	local phys = self:GetPhysicsObject()
-	if IsValid( phys ) then
-		phys:EnableMotion( false )
-	end
+	if SERVER then
+		self:SetModel( self.Model )
+		if not self:HasSpawnFlags(SF_NONSOLID) then
+			self:PhysicsInit( SOLID_VPHYSICS )
+			self:SetMoveType( MOVETYPE_NONE )
+		end
+		local phys = self:GetPhysicsObject()
+		if IsValid( phys ) then
+			phys:EnableMotion( false )
+		end
 
 	-- Hook into map change events
-	if SERVER then
 		self:SetUseType(SIMPLE_USE)
 		timer.Simple(0,function()
 			if not IsValid(self) then return end
@@ -50,7 +55,10 @@ function ENT:Initialize()
 				self.outro2 ..":"..
 				self.trolley ) )
 		end)
+	else
+		self.RTMat = self:GetRTMat() --not changing once set so no need to constantly fetch this
 	end
+	self:DrawShadow(false)
 end
 
 function ENT:SetPortalSequence(seqName, noreset)
@@ -71,10 +79,17 @@ function ENT:SetupDataTables()
 	self:NetworkVar("Int", "ScanState")
 	self:NetworkVar("Int", "FreezeTime")
 	self:NetworkVar("Int", "Facing")
+	self:NetworkVar("Int", "RTMat")
 end
 
 function ENT:KeyValue( key, value )
-	if key == "facing" then
+	if key == "model" then
+		self.Model = value
+	elseif key == "skin" then
+		self:SetSkin(tonumber(value))
+	elseif key == "rtmat" then
+		self:SetRTMat(tonumber(value))
+	elseif key == "facing" then
 		self:SetFacing(tonumber(value) or 0)
 	elseif key == "outro" then
 		self.outro = value ~= "" and string.lower(value) or "jazz_outro"
@@ -228,15 +243,15 @@ function ENT:SelectDestination(dest)
 end
 
 function ENT:Use(activator, caller)
-
-	timer.Simple(0, function()
-		if #self:GetSelectedDestinationID() > 0 then
-			self:CancelAddon()
-		else
-			ents.FindByClass("jazz_hub_browser")[1]:SelectCurrentAddon()
-		end
-	end)
-
+	if not self:HasSpawnFlags(SF_NOUSE) then
+		timer.Simple(0, function()
+			if #self:GetSelectedDestinationID() > 0 then
+				self:CancelAddon()
+			else
+				ents.FindByClass("jazz_hub_browser")[1]:SelectCurrentAddon()
+			end
+		end)
+	end
 end
 
 function ENT:GetScanStateString()
@@ -382,10 +397,20 @@ function ENT:Draw()
 	self.LastOpacity = self.LastOpacity or goal
 	self.LastOpacity = math.Approach(self.LastOpacity, goal, FrameTime())
 
-	render.SetBlend(self.LastOpacity)
-	render.MaterialOverrideByIndex(0, rt:GetUnlitMaterial(true))
+	if not self:HasSpawnFlags(SF_RENDERWHENOFF) then
+		if self.LastOpacity <= 0 then
+			return --don't bother rendering if we're completely invisible
+		elseif self.LastOpacity < 1 then
+			render.OverrideColorWriteEnable( true, false )
+			self:DrawModel()
+			render.OverrideColorWriteEnable( false, false )
+		end
+	end
+
+	if not self:HasSpawnFlags(SF_RENDERWHENOFF) then render.SetBlend(self.LastOpacity) end
+	if (not self:HasSpawnFlags(SF_RENDERWHENOFF)) or goal > 0 then render.MaterialOverrideByIndex(self.RTMat, rt:GetUnlitMaterial(true)) end
 	self:DrawModel()
-	render.MaterialOverrideByIndex(0, nil)
+	render.MaterialOverrideByIndex(self.RTMat, nil)
 	render.SetBlend(1)
 end
 

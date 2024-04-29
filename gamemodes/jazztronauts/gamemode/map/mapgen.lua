@@ -589,7 +589,7 @@ if SERVER then
 			counts[k] = counts[k] + 1
 		end
 
-		PrintTable(counts)
+		--PrintTable(counts)
 
 		for _, v in pairs(props) do
 			local count = counts[getKey(v)]
