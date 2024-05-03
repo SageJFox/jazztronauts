@@ -594,18 +594,21 @@ function ENT:OnBroken()
 	-- Draw and wake up every gib
 	for _, gib in pairs(self.Gibs) do
 
+		local phys = gib:GetPhysicsObject()
+
 		-- Gibs are manually drawn for exit portal (they're in the void)
 		if !self:GetIsExit() then
 			gib:SetNoDraw(false)
-		else
-			gib:GetPhysicsObject():EnableGravity(false)
+		elseif IsValid(phys) then
+			phys:EnableGravity(false)
 		end
-
-		gib:GetPhysicsObject():Wake()
-		local mult = self:GetIsExit() and -2 or 1 -- Break INTO the void, not out of
-		local force = math.random(400, 900) * mult
-		gib:GetPhysicsObject():SetVelocity(self:GetAngles():Right() * force + VectorRand() * 100)
-		gib:GetPhysicsObject():AddAngleVelocity(VectorRand() * 100)
+		if IsValid(phys) then
+			phys:Wake()
+			local mult = self:GetIsExit() and -2 or 1 -- Break INTO the void, not out of
+			local force = math.random(400, 900) * mult
+			phys:SetVelocity(self:GetAngles():Right() * force + VectorRand() * 100)
+			phys:AddAngleVelocity(VectorRand() * 100)
+		end
 	end
 
 	-- Effects
