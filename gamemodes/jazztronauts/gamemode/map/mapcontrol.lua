@@ -224,10 +224,23 @@ if SERVER then
 
 
 	function Launch(mapname)
-		newgame.SetGlobal("last_map", game.GetMap())
+		local lastmap = game.GetMap()
+		newgame.SetGlobal("last_map", lastmap)
 		playerwait.SavePlayers()
 		launched = true
 		RunConsoleCommand("changelevel", mapname)
+		--if the map launch fails, go back to hub
+		timer.Simple(1,function()
+			--if lastmap == game.GetMap() then --fun fact this check doesn't matter, if the level change succeeded this code doesn't run at all
+				RunConsoleCommand("changelevel", GetHubMap())
+				--if hub try fails (bad concommand), go back specifically to the bar
+				timer.Simple(1,function()
+					--if lastmap == game.GetMap() then
+						RunConsoleCommand("changelevel", "jazz_bar")
+					--end
+				end)
+			--end
+		end)
 	end
 
 	function IsLaunching()
