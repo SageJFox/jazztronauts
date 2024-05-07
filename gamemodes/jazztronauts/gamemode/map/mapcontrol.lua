@@ -68,6 +68,11 @@ curSelected = curSelected or {}
 addonList = addonList or {}
 
 local function jazzmap(mapname)
+	--these initial checks allow maps to be used as hubs that don't have jazz prefix
+	if IsInHub() --[[or IsInEncounter()]] then return true end
+	local endmaps = GetEndMaps()
+	if endmaps[1] == mapname or endmaps[2] == mapname then return true end
+
 	local pref = string.Split(mapname, "_")[1]
 	return pref == "jazz"
 end
