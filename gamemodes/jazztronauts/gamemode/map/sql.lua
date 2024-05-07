@@ -408,7 +408,7 @@ end
 --call on map load
 function RoadtripMapLoad()
 	--don't bother in hub, etc.
-	if mapcontrol.IsInGamemodeMap() then EndRoadtrip() return end
+	if mapcontrol.IsInGamemodeMap() then return end
 
 	local mapname = game.GetMap()
 
