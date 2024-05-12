@@ -7,7 +7,7 @@ ENT.Base = "base_anim"
 ENT.RenderGroup = RENDERGROUP_OPAQUE
 ENT.Model =  "models/sunabouzu/jazz_tv01.mdl"
 
-local SF_VISIBLE_WHEN_OFF = 1
+local SF_INVISIBLE_WHEN_OFF = 1
 
 function ENT:SetupDataTables()
 	self:NetworkVar("Int", 0, "FactID")
@@ -257,7 +257,7 @@ function ENT:Initialize()
 end
 
 function ENT:ShouldShowTestPattern()
-	return (not self.CurrentFactMaterial) and self:HasSpawnFlags(SF_VISIBLE_WHEN_OFF)
+	return (not self.CurrentFactMaterial) and (not self:HasSpawnFlags(SF_INVISIBLE_WHEN_OFF))
 end
 
 function ENT:Think()

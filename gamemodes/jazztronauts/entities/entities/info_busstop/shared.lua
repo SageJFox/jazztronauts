@@ -8,6 +8,8 @@ ENT.TravelTime = 2.5
 ENT.LeadUp = 2000
 ENT.TravelDist = 4500
 
+local SF_NEWPOS = 1
+
 function ENT:Initialize()
 
 	-- Hook into map change events
@@ -37,7 +39,9 @@ end
 function ENT:OnMapChanged(newmap, wsid) 
 	local bus = ents.Create( "jazz_bus" )
 	if not IsValid(bus) then return end
-		bus:SetPos(self:GetPos())
+		local pos = self:GetPos()
+		if not self:HasSpawnFlags(SF_NEWPOS) then pos:Add(Vector(90, 230, 0)) end -- Fallback for older maps: Add offset for old spawns
+		bus:SetPos(pos)
 		bus:SetAngles(self:GetAngles())
 		bus:SetMap(newmap, wsid or "")
 		bus.TravelTime = self.TravelTime

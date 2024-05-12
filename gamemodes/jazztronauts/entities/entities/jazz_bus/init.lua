@@ -1,5 +1,6 @@
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
+AddCSLuaFile("default.lua")
 
 include("shared.lua")
 
@@ -18,7 +19,6 @@ if file.Exists(setup,"THIRDPARTY") or file.Exists(setup,"LUA") or file.Exists("g
 	include(setup)
 else
 	ErrorNoHalt("File defined in jazz_trolley not found! Using default.lua\n")
-	AddCSLuaFile("default.lua")
 	include("default.lua")
 end
 

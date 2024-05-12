@@ -161,6 +161,7 @@
 	[
 		1 : "Disable Head Tracking"   : 0
 		2 : "Enable Physics (lul)"    : 0
+		4 : "Uses New Angles (Don't Change)"    : 1
 	]
 ]
 
@@ -263,7 +264,7 @@
 	]
 	spawnflags(flags) =
 	[
-		1 : "Visible When Off"   : 1
+		1 : "Invisible When Off" : 0
 	]
 ]
 
@@ -363,6 +364,11 @@
 	traveltime(float) : "Exit Time" : "2.5" : "How long the trolley takes to travel to the end of its path."
 	leadup(integer) : "Entrance Distance" : 2000 : "How far the trolley travels after spawning to reach its idle position. Can be negative to go backwards!"
 	traveldist(integer) : "Exit Distance" : 4500 : "How far the trolley travels when exiting the hub. Can be negative to go backwards!"
+
+	spawnflags(flags) =
+	[
+		1 : "Use True Position (Don't Change)" : 1
+	]
 ]
 
 @PointClass base(Targetname, Angles, Parentname) studioprop("models/matt/jazz_trolley.mdl") = jazz_bus_model : "Dummy model for putting text on the bus"

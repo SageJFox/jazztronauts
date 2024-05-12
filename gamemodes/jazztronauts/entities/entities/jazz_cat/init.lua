@@ -11,6 +11,7 @@ ENT.Multiplier = 1
 
 local SF_NOHEADTRACK = 1
 local SF_PHYSICSLUL = 2
+local SF_NEWANGLES = 4
 
 
 local outputs =
@@ -37,6 +38,13 @@ function ENT:Initialize()
 	-- Lookup corresponding npc model
 	local npcinfo = missions.GetNPCInfo(self.NPCID)
 	self:SetModel(npcinfo and npcinfo.model or self.Model)
+
+	-- Fallback for older maps: Rotate so new models align right on old spawns
+	if not self:HasSpawnFlags(SF_NEWANGLES) then
+		local ang = self:GetAngles()
+		ang:Add(Angle( 90, 90, 0 ))
+		self:SetAngles( ang )
+	end
 
 	self:SetIdleAnim(self.IdleAnim)
 
