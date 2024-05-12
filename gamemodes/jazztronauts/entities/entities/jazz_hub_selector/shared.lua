@@ -80,17 +80,24 @@ function ENT:SetupDataTables()
 	self:NetworkVar("Int", "FreezeTime")
 	self:NetworkVar("Int", "Facing")
 	self:NetworkVar("Int", "RTMat")
+	if SERVER then
+		self:SetRTMat(0)
+		self:SetFacing(2)
+		self.outro = "jazz_outro"
+		self.outro2 = "jazz_outro2"
+		self.trolley = "default"
+	end
 end
 
 function ENT:KeyValue( key, value )
 	if key == "model" then
 		self.Model = value
 	elseif key == "skin" then
-		self:SetSkin(tonumber(value))
+		self:SetSkin(tonumber(value) or 0)
 	elseif key == "rtmat" then
-		self:SetRTMat(tonumber(value))
+		self:SetRTMat(tonumber(value) or 0)
 	elseif key == "facing" then
-		self:SetFacing(tonumber(value) or 0)
+		self:SetFacing(tonumber(value) or 2)
 	elseif key == "outro" then
 		self.outro = value ~= "" and string.lower(value) or "jazz_outro"
 	elseif key == "outro2" then
@@ -367,8 +374,8 @@ function ENT:Think()
 		m:Rotate(Angle(0, r.y - self:GetAngles().y, 0))
 		self:EnableMatrix("RenderMultiply", m)
 
-		self:UpdateRenderTarget()
 	end
+	self:UpdateRenderTarget()
 end
 
 function ENT:RefreshThumbnail(dest)
