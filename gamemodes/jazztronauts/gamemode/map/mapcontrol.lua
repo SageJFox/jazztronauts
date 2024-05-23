@@ -40,7 +40,7 @@ function voteToLeave(vote)
 	for _, ent in ents.Iterator() do
 		if IsValid(ent) then
 			if ent:GetClass() == "jazz_bus" then return end --we have a bus, that'll handle leaving
-			if ent:GetClass() == "weapon_buscaller" and IsValid(ent:GetOwner()) and ent:GetOwner():IsPlayer() then
+			if ent:GetClass() == "weapon_buscaller" and IsValid(ent:GetOwner()) and ent:GetOwner():IsPlayer() and not ent.JazzAFK then
 				summoners = summoners + 1
 			end
 		end

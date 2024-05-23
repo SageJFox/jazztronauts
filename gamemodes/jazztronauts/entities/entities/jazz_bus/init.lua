@@ -131,6 +131,8 @@ function ENT:Initialize()
 	-- Start us off right at the start
 	self:SetPos(self.StartPos)
 
+	self.LongThinkTime = CurTime() + 60 --think in a minute
+
 	if self:GetHubBus() then
 
 		-- Setup shadow controller
@@ -348,6 +350,22 @@ function ENT:GetNumOccupants()
 	return count, total
 end
 
+function ENT:GetOccupants()
+	if not self.Seats then return {} end
+
+	local players = {}
+	for _, v in pairs(self.Seats) do
+		if IsValid(v) then
+			local ply = v:GetDriver()
+			if IsValid(ply) and ply:IsPlayer() then
+				table.insert(players,ply)
+			end
+		end
+	end
+
+	return players
+end
+
 -- Predict when we'll blast into the jazz dimension
 -- This is so we can 'preroll' some shnazzy music that blasts into high gear right when it gets going
 function ENT:QueueTimedMusic()
@@ -513,6 +531,30 @@ end
 
 function ENT:Think()
 
+	--afk checking. If someone's holding up the show, get their ass into a seat
+	if self.LongThinkTime and CurTime() > self.LongThinkTime then
+		--don't start forcing people on if no one's gotten in the bus yet
+		if self:GetNumOccupants() > 0 then
+			self.LongThinkTime = CurTime() + 10 --think again in ten seconds
+
+			local checkPlayers = player.GetHumans()
+			--don't bother checking players who are already seated
+			for _, v in ipairs(self:GetOccupants()) do
+				table.RemoveByValue(checkPlayers,v)
+			end
+
+			for _, v in ipairs(checkPlayers) do
+				if IsValid(v) and v.JazzAFK then
+					if not v:Alive() then v:Spawn() end
+					--wait a tick so they could respawn if needed
+					timer.Simple(0,function() if IsValid(self) and IsValid(v) then self:SitPlayer(v) end end)
+				end
+			end
+		else
+			self.LongThinkTime = CurTime() + 30 --try again in 30 seconds
+		end
+	end
+
 	if self:GetHubBus() then
 		local t, p = self:GetProgress()
 	
@@ -616,6 +658,7 @@ function ENT:Think()
 			mapcontrol.Launch(map)
 		--end
 	end
+
 end
 
 function ENT:OnRemove()

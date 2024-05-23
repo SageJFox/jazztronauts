@@ -68,7 +68,7 @@ function ENT:SpawnShardCount()
 		table.insert(self.CandleEnts, candle)
 
 		hook.Add("JazzNoDrawInScene",candle,function()
-			if (LocalPlayer().InScene and dialog.GetParam("RENDER_DYNAMICENTS") ~= "true") or dialog.GetParam("RENDER_DYNAMICENTS") == "false" then
+			if (LocalPlayer():GetInScene() and dialog.GetParam("RENDER_DYNAMICENTS") ~= "true") or dialog.GetParam("RENDER_DYNAMICENTS") == "false" then
 				candle:SetNoDraw(true)
 			else
 				candle:SetNoDraw(false)
@@ -81,7 +81,7 @@ function ENT:SpawnShardCount()
 			table.insert(self.CandleFX, candlefx)
 
 			hook.Add("JazzNoDrawInScene",candlefx,function()
-				if (LocalPlayer().InScene and dialog.GetParam("RENDER_DYNAMICENTS") ~= "true") or dialog.GetParam("RENDER_DYNAMICENTS") == "false" then
+				if (LocalPlayer():GetInScene() and dialog.GetParam("RENDER_DYNAMICENTS") ~= "true") or dialog.GetParam("RENDER_DYNAMICENTS") == "false" then
 					candlefx:SetShouldDraw(false)
 				else
 					candlefx:SetShouldDraw(true)
@@ -107,15 +107,15 @@ function ENT:Think()
 
 	self:SetNextClientThink(CurTime() + 2)
 
-	if oldSceneStatus ~= LocalPlayer().InScene then
-		if (LocalPlayer().InScene and dialog.GetParam("RENDER_DYNAMICENTS") ~= "true") or dialog.GetParam("RENDER_DYNAMICENTS") == "false" then
+	if oldSceneStatus ~= LocalPlayer():GetInScene() then
+		if (LocalPlayer():GetInScene() and dialog.GetParam("RENDER_DYNAMICENTS") ~= "true") or dialog.GetParam("RENDER_DYNAMICENTS") == "false" then
 			self:StopSound(self.HumSoundPath)
 		else
 			self:EmitSound(self.HumSoundPath, 75, 25, 1)
 		end
 	end
 
-	oldSceneStatus = LocalPlayer().InScene
+	oldSceneStatus = LocalPlayer():GetInScene()
 
 	return true
 end
@@ -130,7 +130,7 @@ end
 
 function ENT:Draw()
 
-	if (LocalPlayer().InScene and dialog.GetParam("RENDER_DYNAMICENTS") ~= "true") or dialog.GetParam("RENDER_DYNAMICENTS") == "false" then return end
+	if (LocalPlayer():GetInScene() and dialog.GetParam("RENDER_DYNAMICENTS") ~= "true") or dialog.GetParam("RENDER_DYNAMICENTS") == "false" then return end
 
 	self:DrawModel()
 

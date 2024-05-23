@@ -23,7 +23,8 @@ PLAYER.AvoidPlayers			= false		-- Automatically swerves around other players
 
 function PLAYER:SetupDataTables()
 	BaseClass.SetupDataTables( self )
-	self.Player:NetworkVar( "Int", 0, "Notes" )
+	self.Player:NetworkVar( "Int", "Notes" )
+	self.Player:NetworkVar("Bool", "InScene")
 end
 
 function PLAYER:Spawn()
@@ -141,5 +142,61 @@ hook.Add("JazzPlayerOnPlayer", "JazzPlayerCollideUnstuck", function(ply1, spawn)
 		return false
 	end)
 end)
+
+if SERVER then
+	local jazzafktotaltime = CreateConVar("jazz_afk_time",90,FCVAR_ARCHIVE,"How long (in seconds) a player can be idle before a trolley will consider them AFK and force them into a seat if other players are waiting. Set to 0 or below to disable.\n"
+	.."Note: This time is doubled for players currently in scenes")
+	
+	--clear AFK marks if it's been disabled
+	cvars.AddChangeCallback("jazz_afk_time", function(name, old, value)
+		if tonumber(value) <= 0 then
+			for _, v in ipairs(player.GetHumans()) do
+				v.JazzAFK = nil
+			end
+		end
+	end)
+	
+	--should we make this networked and do Clientside stuff like "OnKeyCodeReleased" (for panels) or "ChatTextChanged"?
+	JazzAFKThinkTime = CurTime()
+	--player has pushed/released a button, they can't be afk
+	hook.Add("PlayerButtonDown","JazzAFKChecker",function(ply,button)
+		ply.JazzAFKTime = CurTime()
+		ply.JazzAFK = nil
+	end)
+	hook.Add("PlayerButtonUp","JazzAFKChecker",function(ply,button)
+		ply.JazzAFKTime = CurTime()
+		ply.JazzAFK = nil
+	end)
+	
+	--player has chatted, they can't be afk
+	hook.Add("PlayerSay","JazzAFKChecker",function(ply,text,teamChat)
+		ply.JazzAFKTime = CurTime()
+		ply.JazzAFK = nil
+	end)
+
+	hook.Add("Think","JazzAFKChecker",function()
+		if CurTime() - JazzAFKThinkTime < .1 then return end --only run 10/sec max
+		JazzAFKThinkTime = CurTime()
+
+		for _, v in ipairs(player.GetHumans()) do
+			if not v.JazzAFKTime then v.JazzAFKTime = CurTime() continue end
+			--check if their view has changed since the last check (mouse movement, as best as we can get it)
+			if isvector(v.LastFrameAim) and not v.LastFrameAim:IsEqualTol(v:GetAimVector(),0.001) then
+				v.JazzAFKTime = CurTime()
+				v.JazzAFK = nil
+				v.LastFrameAim = v:GetAimVector()
+				continue
+			end
+			v.LastFrameAim = v:GetAimVector()
+
+			--if none of our non-afk checks have happened in the past X seconds, they're afk
+			--give double the time limit to players in scenes (they won't be moving their view at all, and might not be pushing buttons for longer)
+			if CurTime() - v.JazzAFKTime - ( v:GetInScene() and jazzafktotaltime:GetFloat() or 0 ) > jazzafktotaltime:GetFloat() then
+				v.JazzAFK = true
+			end
+			--print(v.JazzAFK)
+		end
+	end)
+end
 
 player_manager.RegisterClass( "player_hub", PLAYER, "player_default" )

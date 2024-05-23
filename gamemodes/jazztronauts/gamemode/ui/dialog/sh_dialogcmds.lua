@@ -169,6 +169,13 @@ if SERVER then
 		end
 	end )
 
+	--set player in scene
+	util.AddNetworkString("JazzPlayerInScene")
+
+	net.Receive("JazzPlayerInScene", function(len, ply)
+		ply:SetInScene(net.ReadBool(ply.InScene))
+	end)
+
 end
 
 if not CLIENT then return end
@@ -1759,12 +1766,27 @@ hook.Add("CalcView", "JazzDialogView", function(ply, origin, angles, fov, znear,
 	
 	hook.Run("JazzNoDrawInScene") --big ol' todo: find somewhere else to run this for checking if we're out of a scene
 
+	--storing a copy local to prevent network spamming
+	if ply.InScene == nil then ply.InScene = ply:GetInScene() end
+
 	if not viewOverwritten() then 
-		ply.InScene = false
+		if ply.InScene then
+			ply.InScene = false
+			net.Start("JazzPlayerInScene")
+				net.WriteBool(ply.InScene)
+			net.SendToServer()
+
+		end
 		return 
 	end
 
-	ply.InScene = true
+	if not ply.InScene then
+		ply.InScene = true
+		ply:SetInScene(true)
+		net.Start("JazzPlayerInScene")
+			net.WriteBool(ply.InScene)
+		net.SendToServer()
+	end
 
 	-- I don't feel like re-simulating screen shake/view punch
 	-- So just copy the difference between what would've been the player view and their actual eye pos
