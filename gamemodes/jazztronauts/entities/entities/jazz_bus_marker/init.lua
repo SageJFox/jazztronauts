@@ -17,7 +17,16 @@ function ENT:ValidPlayer(ply)
 end
 
 function ENT:HasEnoughPlayers()
-	return #self.PlayerList > player.GetCount() / 2
+	local playerCount = 0
+
+	--ignore AFK players
+	for _, v in ipairs(player.GetAll()) do
+		if IsValid(v) and not v.JazzAFK then
+			playerCount = playerCount + 1
+		end
+	end
+
+	return #self.PlayerList > playerCount / 2
 end
 
 function ENT:ActivateMarker()
