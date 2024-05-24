@@ -86,7 +86,7 @@ local function DrawStatusOverlay()
 	draw.SimpleText(jazzloc.Localize("jazz.hud.waiting"), "JazzWaitingCountdown", ScrW() / 2, 0, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
 	local w, h = surface.GetTextSize("W")
 	local offset = h
-	local num = 0
+	local num = 1
 	for k, v in pairs(GAMEMODE:GetConnectingPlayers()) do
 		local w, h = surface.GetTextSize(v)
 		draw.SimpleText(v, "JazzWaitingCountdownPlayer", ScrW() / 2, 0 + h * num + offset, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)

@@ -35,15 +35,21 @@ if SERVER then
 	local shouldWaitConvar = CreateConVar("jazz_wait_enable", "1", FCVAR_ARCHIVE,
 			"Should we bother waiting for players to join, or just jump straight into the game.")
 
+	local shouldWaitTimeConvar = CreateConVar("jazz_wait_timeout", "45", FCVAR_ARCHIVE,
+			"If we're waiting for a player/players and most others have joined, automatically force wait time to expire after this many seconds. Set to 0 or below to disable timeout.\n" .. 
+			"Note: Counts from when half of players have joined.")
+
 	concommand.Add("jazz_wait_force", function(ply, cmd, args)
 		if IsValid(ply) and not ply:IsAdmin() then return end
 
 		GAMEMODE.JazzForceNoWait = true
-	end )
+	end, nil, 
+	"Admin command. Forces wait time to expire." )
 
 	nettable.Create(tblName)
 	local playerList = nettable.Get(tblName)
 	local tempPlayers = {}
+	local halfPlayersLoadedTime = 0
 
 	-- You might be asking wtf
 	-- I want to network a SINGLE float, and DTvars/net library is overkill
@@ -90,7 +96,18 @@ if SERVER then
 	end
 
 	function GM:EnoughPlayersToStart()
-		if PlayersStillConnecting() then return false end
+		if PlayersStillConnecting() then 
+
+			-- Don't hold us hostage if someone's taking forever to join
+			if player.GetCount() / math.max( 1, table.Count(playerList) ) >= 0.5 then
+				if halfPlayersLoadedTime <= 0 then
+					halfPlayersLoadedTime = CurTime()
+				end
+				local timeout = shouldWaitTimeConvar:GetFloat()
+				if timeout > 0 and math.max( halfPlayersLoadedTime + timeout, 120 - math.max( 0, countdownConvar:GetFloat() ) ) <= CurTime() then return true end
+			end
+			return false
+		end
 
 		return true
 	end
