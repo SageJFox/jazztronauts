@@ -241,22 +241,24 @@ else
 		--agh, you've killed me!
 		elseif IsValid(attacker) or attackclass ~= "" then
 
+			--pick a random damage type from the list
 			local damtab = getDamageTypes(dmg)
+			local damtype = jazzloc.Localize("jazz.dmg." .. damtab[ math.random( #damtab ) ] )
+
 			local killedby = jazzloc.Localize(attackclass)
 			if attacker:IsPlayer() then killedby = attacker:Nick() end
 			--projectiles
 			if IsValid(inflictor) and inflictor ~= attacker then
-				killedby = jazzloc.Localize("jazz.death.weapon",killedby,jazzloc.Localize(inflictor:GetClass()))
+				killedby = jazzloc.Localize("jazz.death.weapon",killedby,jazzloc.LocalizeNoArticle(inflictor:GetClass()))
 			--weapons
 			elseif IsValid(weapon) then
-				killedby = jazzloc.Localize("jazz.death.weapon",killedby,jazzloc.Localize(weapon:GetClass()))
+				killedby = jazzloc.Localize("jazz.death.weapon",killedby,jazzloc.LocalizeNoArticle(weapon:GetClass()))
 			end
-			--put it all together, with picking a random damage type from the list
-			ev:Title(jazzloc.Localize("jazz.death.killer","%name",jazzloc.Localize("jazz.dmg." .. damtab[ math.random( #damtab ) ] ),"%killer"),
-				{ name = name, killer = killedby },
-				{ killer = "red_name" }
+			--put it all together
+			ev:Title(jazzloc.Localize("jazz.death.killer","%name","%killer","%damtype" ),
+				{ name = name, killer = killedby, damtype = damtype },
+				{ killer = "red_name", damtype = "damage" }
 			)
-
 		else
 
 			ev:Title(jazzloc.Localize("jazz.death.generic","%name"),

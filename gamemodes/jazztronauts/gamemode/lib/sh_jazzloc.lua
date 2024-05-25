@@ -39,6 +39,28 @@ if CLIENT then
 		
 	end
 
+	local articlesEN = {
+		"a ",
+		"an ",
+		"the ",
+	}
+
+	--strip the leading article from a localization
+	LocalizeNoArticle = function(...)
+		local basestr = jazzloc.Localize(...)
+		local lang = GetConVar("gmod_language"):GetString()
+		if lang == "en" or lang == "en-pt" or GetConVar("english"):GetBool() then
+			for _, v in ipairs(articlesEN) do
+				local start, fin, _ = string.find(string.lower(basestr),"^"..v)
+				if start ~= nil then
+					basestr = string.sub(basestr,fin+1)
+					break
+				end
+			end
+			return basestr
+		end
+	end
+
 	local function loadTexture(texturepath)
 		DummyTestMaterial:SetTexture("$basetexture", texturepath)
 		local texture = DummyTestMaterial:GetTexture("$basetexture")

@@ -157,6 +157,7 @@ local event_style0 = styler.New({
 	["prop"] = styler.Font( "PropFeed_Name" ),
 	["red_name"] = styler.Font( "PropFeed_Name" ) + styler.Color( color_text_prop2 ),
 	["green_name"] = styler.Font( "PropFeed_Name" ) + styler.Color( color_text_prop1 ),
+	["damage"] = styler.Color( color_text_name2 ),
 })
 
 local dark_style_override = {
