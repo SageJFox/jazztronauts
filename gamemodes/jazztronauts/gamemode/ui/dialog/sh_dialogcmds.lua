@@ -1775,7 +1775,6 @@ hook.Add("CalcView", "JazzDialogView", function(ply, origin, angles, fov, znear,
 			net.Start("JazzPlayerInScene")
 				net.WriteBool(ply.InScene)
 			net.SendToServer()
-
 		end
 		return 
 	end

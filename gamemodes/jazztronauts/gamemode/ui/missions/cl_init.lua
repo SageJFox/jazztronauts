@@ -88,11 +88,12 @@ local function DrawMission(mission, x, y)
 	animclip.w = animclip.w * dt
 	animclip:SetClip(true)
 
+	local missionstr = jazzloc.Localize(minfo.Instructions,minfo.Count)
 
-	local tr = TextRect( minfo.Instructions, font ):Dock( rect, DOCK_TOP + DOCK_LEFT):Inset(ScreenScale(2))
+	local tr = TextRect( missionstr, font ):Dock( rect, DOCK_TOP + DOCK_LEFT):Inset(ScreenScale(2))
 
 	draw.RoundedBox(5, x, y, width, height, Color(255 - bumpdt*255, bumpdt*255, 255 - bumpdt*255, math.max(CurAlpha - 155, 0)))
-	draw.SimpleText(minfo.Instructions, font, tr.x + ScreenScale(1), tr.y, Color(255 - bumpdt*255,255,255 - bumpdt*255, CurAlpha))
+	draw.SimpleText( missionstr, font, tr.x + ScreenScale(1), tr.y, Color(255 - bumpdt*255,255,255 - bumpdt*255, CurAlpha))
 
 	font = "Mission_ProgressPercent"
 
