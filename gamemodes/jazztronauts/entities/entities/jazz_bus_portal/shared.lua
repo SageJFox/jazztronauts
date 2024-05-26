@@ -308,23 +308,6 @@ function ENT:Think()
 	table.insert(ply.ActiveBusPortals, self)
 end
 
-function ENT:SetupVoidLighting()
-
-	render.SetModelLighting(BOX_FRONT, 100/255.0, 0, 244/255.0)
-	render.SetModelLighting(BOX_BACK, 150/255.0, 0, 234/255.0)
-	render.SetModelLighting(BOX_LEFT, 40/255.0, 0, 144/255.0)
-	render.SetModelLighting(BOX_RIGHT, 100/255.0, 0, 244/255.0)
-	render.SetModelLighting(BOX_TOP, 255/255.0, 1, 255/255.0)
-	render.SetModelLighting(BOX_BOTTOM, 20/255.0, 0, 45/255.0)
-
-	local fogOffset = EyePos():Distance(self:GetPos())
-	render.FogMode(MATERIAL_FOG_LINEAR)
-	render.FogStart(100 + fogOffset)
-	render.FogEnd(20000 + fogOffset)
-	render.FogMaxDensity(.35)
-	render.FogColor(180, 169, 224)
-end
-
 function ENT:GetPortalPosAng()
 	local angles = self:GetAngles()
 
@@ -356,7 +339,7 @@ function ENT:DrawInsidePortal()
 	-- Define our own lighting environment for this
 	render.SuppressEngineLighting(true)
 
-	self:SetupVoidLighting()
+	jazzvoid.SetupVoidLighting(self)
 
 	local portalPos, portalAng = self:GetPortalPosAng()
 	local center = self:GetPos() --+ portalAng:Up() * self.Size/2
@@ -442,7 +425,7 @@ function ENT:DrawInteriorDoubles()
 
 	-- Define our own lighting environment for this
 	render.SuppressEngineLighting(true)
-	self:SetupVoidLighting()
+	jazzvoid.SetupVoidLighting(self)
 
 	-- Draw background
 	render.FogMode(MATERIAL_FOG_NONE) -- Disable fog so we can get those deep colors

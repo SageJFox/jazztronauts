@@ -504,3 +504,22 @@ dialog.RegisterFunc("voidbreak", function(d)
 	SetOverlayRefract(0)
 	SetOverlayColor(Color(0, 0, 0))
 end )
+
+function SetupVoidLighting(ent,intensity)
+	local intensity = intensity or tonumber(ent) or 1
+	render.SuppressEngineLighting(true)
+	render.SetModelLighting(BOX_FRONT, 100/255.0 * intensity, 0, 244/255.0 * intensity)
+	render.SetModelLighting(BOX_BACK, 150/255.0 * intensity, 0, 234/255.0 * intensity)
+	render.SetModelLighting(BOX_LEFT, 40/255.0 * intensity, 0, 144/255.0 * intensity)
+	render.SetModelLighting(BOX_RIGHT, 100/255.0 * intensity, 0, 244/255.0 * intensity)
+	render.SetModelLighting(BOX_TOP, intensity, intensity, intensity)
+	render.SetModelLighting(BOX_BOTTOM, 20/255.0 * intensity, 0, 45/255.0 * intensity)
+
+	if not IsValid(ent) then return end
+	local fogOffset = EyePos():Distance(ent:GetPos())
+	render.FogMode(MATERIAL_FOG_LINEAR)
+	render.FogStart(100 + fogOffset)
+	render.FogEnd(20000 + fogOffset)
+	render.FogMaxDensity(.35)
+	render.FogColor(180, 169, 224)
+end
