@@ -41,7 +41,23 @@ function ENT:AddJazzRenderBeam(ply)
 end
 
 function ENT:Draw()
+	--SetupVoidLighting
+	render.SuppressEngineLighting(true)
+	render.SetModelLighting(BOX_FRONT, 100/255.0/2, 0, 244/255.0/2)
+	render.SetModelLighting(BOX_BACK, 150/255.0/2, 0, 234/255.0/2)
+	render.SetModelLighting(BOX_LEFT, 40/255.0/2, 0, 144/255.0/2)
+	render.SetModelLighting(BOX_RIGHT, 100/255.0/2, 0, 244/255.0/2)
+	render.SetModelLighting(BOX_TOP, 255/255.0/2, 1/2, 255/255.0/2)
+	render.SetModelLighting(BOX_BOTTOM, 20/255.0/2, 0, 45/255.0/2)
+
+	local fogOffset = EyePos():Distance(self:GetPos())
+	render.FogMode(MATERIAL_FOG_LINEAR)
+	render.FogStart(100 + fogOffset)
+	render.FogEnd(20000 + fogOffset)
+	render.FogMaxDensity(.35)
+	render.FogColor(180, 169, 224)
 	self:DrawModel()
+	render.SuppressEngineLighting(false)
 end
 
 local function drawSemiCircle(cx, cy, w, h, perc)
