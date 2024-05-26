@@ -126,6 +126,7 @@ function CanSnatch(ent)
 	if string.find(ent_class, "weapon_") ~= nil then return true end
 	if string.find(ent_class, "prop_vehicle") ~= nil then return true end
 	if string.find(ent_class, "item_") ~= nil then return true end
+	if string.find(ent_class, "ammo_") ~= nil then return true end
 
 	--Weapons not using "weapon_" in their name
 	if ent:IsWeapon() then return true end
