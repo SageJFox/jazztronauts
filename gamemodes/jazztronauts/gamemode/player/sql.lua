@@ -41,7 +41,7 @@ function money.ChangeNotes(ply64, delta, onlyearn)
 
 		-- Not enough money
 		local mon = money.GetNotes(ply64)
-		if (mon.earned - mon.spent) < delta then return false end
+		if (jazzmoney.IsShared() and money.GetTotalEarned() or mon.earned) - mon.spent < delta then return false end
 	end
 
 	local deltaStr = delta >= 0 and "+ " .. delta or tostring(delta)
@@ -87,8 +87,11 @@ end
 -- Retrieve the note count of a specific player
 function money.GetNotes(ply)
 	if isentity(ply) then
-		if ply:IsValid() then return nil end
-		ply = ply:SteamID64()
+		if ply:IsValid() then
+			ply = ply:SteamID64()
+		else
+			return nil
+		end
 	end
 
 	local sel = "SELECT * FROM jazz_player_money "
