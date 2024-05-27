@@ -602,7 +602,6 @@ replacements = {
 	["dod_bomb_target"] = function(tab) return basicMdl(tab, "models/weapons/w_tnt_red.mdl") end,
 	["dod_control_point"] = function(tab)
 		if bit.band(tonumber(tab.flags) or 0, 2) > 0 or string.find(tab.targetname,"fake") then return nil end --Spawnflag 2 - Start with model hidden
-		PrintTable(tab)
 		local flag = basicMdl(tab, "models/mapmodels/flags.mdl")
 		if IsValid(flag) then
 			local teams = {
@@ -760,7 +759,8 @@ function GM:GenerateJazzEntities(noshards)
 		end
 
 		-- Changelevels on at least Ep1/Ep2 maps completely lock up the player, even after respawn. How fun!
-		for _, v in ipairs(ents.FindByClass("*_changelevel")) do v:Remove() end
+		for _, v in ipairs(ents.FindByClass("trigger_changelevel")) do v:Remove() end
+		for _, v in ipairs(ents.FindByClass("info_changelevel")) do v:Remove() end
 		
 		-- Spawn static prop proxy entities
 		snatch.SpawnProxies()
@@ -933,7 +933,6 @@ function GM:CollectDisplacement(displacement, players)
 		end
 	end
 end
-
 
 function GM:JazzDialogFinished(ply, script, markseen)
 
