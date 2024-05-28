@@ -1,5 +1,54 @@
 module( "missions", package.seeall )
 
+concommand.Add("jazz_debug_checkmissionprop", function(ply, cmd, args, argStr)
+
+		if #args == 0 then
+			MsgC("Format is ",Color(100,255,100),"jazz_debug_checkmissionprop [optional missionID] propname\n")
+			Msg("Debug command for checking if a particular prop is accepted by any missions. Put in a mission ID to check a specific mission.\n" ..
+			"Use full prop name (including models/ and .mdl) for accurate results!\n")
+			return
+		end
+
+		local runtime = SysTime()
+		local specific = tonumber(args[1])
+		if specific then
+			local mission = missions.GetMissionInfo(specific)
+			local prop = string.lower(string.Trim(string.sub(argStr,5)))
+			if mission then
+				if mission.Filter(prop) then
+					Msg("Mission #", specific)
+					MsgC(Color(100,255,100), " accepts ")
+					Msg(prop,"\n")
+				else
+					Msg("Mission #", specific)
+					MsgC(Color(255,100,100), " doesn't accept ")
+					Msg(prop,"\n")
+				end
+			else
+				print("Invalid mission \"" .. specific .. "\"!")
+			end
+		else
+			local prop = string.lower(string.Trim(argStr))
+			local any = false
+			Msg(prop)
+			--PrintTable(missions.MissionList)
+			for k, _ in pairs(missions.MissionList) do
+				local minfo = GetMissionInfo(k)
+				--PrintTable(minfo)
+				if minfo.Filter(prop) then
+					if not any then Msg(":\n") end
+					MsgC(Color(100,255,100), "\t", minfo.Instructions, " (#", k, ") accepted!\n")
+					any = true
+				end
+			end
+			if not any then MsgC(Color(255,100,100), " not accepted by any mission!\n") end
+		end
+		print("Queue took ".. tostring((SysTime() - runtime) * 1000) .. "ms")
+	end,
+	nil, "Format is jazz_debug_checkmissionprop [optional missionID] propname\n" ..
+	"Debug command for checking if a particular prop is accepted by any missions. Put in a mission ID to check a specific mission.\n" ..
+	"Use full prop name (including models/ and .mdl) for accurate results!")
+
 ResetMissions()
 
 NPC_COMPUTER = 666
@@ -39,6 +88,16 @@ end
 local function MatchesAny(mdl, tbl)
 	for _, v in pairs(tbl) do
 		if string.lower(mdl) == string.lower(v) then
+			return true
+		end
+	end
+
+	return false
+end
+
+local function MatchesAnyPartial(mdl, tbl)
+	for _, v in pairs(tbl) do
+		if string.match( string.lower(mdl), string.lower(v) ) then
 			return true
 		end
 	end
@@ -98,15 +157,34 @@ local function beer(mdl)
 	}) or 
 	--bottle, without gibs, water bottle, or plastic bottle
 	(string.match(mdl, "bottle") and
-		not string.match(mdl, "chunk") and
-		not string.match(mdl, "break") and
-		not string.match(mdl, "water") and 
-		not string.match(mdl, "plastic") and 
-		not string.match(mdl, "frag")) or 
+		not MatchesAnyPartial(mdl,{
+			"chunk",
+			"break",
+			"water",
+			"pill",
+			"plastic",
+			"frag"
+		})
+	) or 
 	--beer cans
 	(string.match(mdl, "beer") and string.match(mdl, "can")) or
 	string.match(mdl, "molotov") or
-	string.match(mdl, "molly")
+	string.match(mdl, "molly") or
+	--pass the whiskey
+	string.match(mdl, "whiskey")
+
+end
+
+local function milk(mdl)
+	return (string.match(mdl, "milk") and not MatchesAnyPartial(mdl, { "hat", "crate" } )) or
+		   (string.match(mdl, "cow") and not MatchesAnyPartial(mdl,{ "cowboy", "cowl", "moscow", "cowmangler"})) or
+			--these composite props have milk cartons/jugs in them, and are a lot more likely to show up than the individual models
+			MatchesAny(mdl, {
+				"models/props_junk/garbage128_composite001a.mdl",
+				"models/props_junk/garbage128_composite001c.mdl",
+				"models/props_junk/garbage128_composite001d.mdl",
+				"models/props_junk/garbage256_composite001b.mdl"
+			})
 end
 
 AddMission(0, NPC_CAT_CELLO, {
@@ -157,26 +235,28 @@ AddMission(2, NPC_CAT_CELLO, {
 	Instructions = "jazz.mission.chems",
 	Filter = function(mdl)
 		return MatchesAny(mdl, {
-				--"models/props_junk/garbage_plasticbottle001a.mdl",
-				--"models/props_junk/garbage_plasticbottle002a.mdl",
-				--"models/props_junk/garbage_plasticbottle003a.mdl",
-				"models/props_junk/plasticbucket001a.mdl",
-				"models/props_junk/glassjug01.mdl",
-				"models/props_lab/crematorcase.mdl",
-				--"models/props_lab/jar01a.mdl",
-				--"models/props_lab/jar01b.mdl",
-				"models/props/de_train/biohazardtank.mdl",
-				"models/props/de_train/biohazardtank_dm_10.mdl"
-			}) or
-			(string.match(mdl, "jar") and 
-				not string.match(mdl,"_ajar")) or
-			(string.match(mdl, "bottle") and
-				(string.match(mdl, "plastic") or
-				 string.match(mdl, "flask") or
-				 string.match(mdl, "pill"))) or
-			propane(mdl) or
-			--ASW
-			string.match(mdl, "biomass") 
+			--"models/props_junk/garbage_plasticbottle001a.mdl",
+			--"models/props_junk/garbage_plasticbottle002a.mdl",
+			--"models/props_junk/garbage_plasticbottle003a.mdl",
+			"models/props_junk/plasticbucket001a.mdl",
+			"models/props_junk/glassjug01.mdl",
+			"models/props_lab/crematorcase.mdl",
+			--"models/props_lab/jar01a.mdl",
+			--"models/props_lab/jar01b.mdl",
+			"models/props/de_train/biohazardtank.mdl",
+			"models/props/de_train/biohazardtank_dm_10.mdl",
+			--TF2
+			"models/props_farm/shelf_props01.mdl",
+			"models/props_gameplay/foot_spray_can01.mdl",
+		}) or
+		MatchesAnyPartial(mdl,{
+			"oil",
+		}) or
+		(string.match(mdl, "jar") and not string.match(mdl, "_ajar") ) or
+		(string.match(mdl, "bottle") and MatchesAnyPartial(mdl, { "plastic", "flask", "pill" } ) ) or
+		propane(mdl) or
+		--ASW
+		string.match(mdl, "biomass") 
 	end,
 	Count = 10,
 	Prerequisites = { IndexToMID(1, NPC_CAT_CELLO)  },
@@ -190,10 +270,8 @@ AddMission(3, NPC_CAT_CELLO, {
 	-- The accept function for what props count towards the mission
 	-- Can be as broad or as specific as you want
 	Filter = function(mdl)
-		return string.match(mdl, "paint") and
-					(string.match(mdl, "can") or
-					 string.match(mdl, "bucket") or
-					 string.match(mdl, "tool"))
+		--paintcan, paint bucket, paint tool
+		return string.match(mdl, "paint") and MatchesAnyPartial(mdl, { "can", "bucket", "tool" } )
 	end,
 
 	-- They need to collect 1 of em' to complete the mission.
@@ -233,23 +311,7 @@ AddMission(5, NPC_CAT_CELLO, {
 
 AddMission(5, NPC_CAT_CELLO, {
 	Instructions = "jazz.mission.milk",
-	Filter = function(mdl)
-		return (string.match(mdl, "milk") and 
-				not string.match(mdl, "hat") and 
-				not string.match(mdl, "crate")) or
-			(string.match(mdl,"cow") and 
-				not string.match(mdl,"cowboy") and 
-				not string.match(mdl,"cowl") and 
-				not string.match(mdl,"moscow") and 
-				not string.match(mdl,"cowmangler")) or
-			--these composite props have milk cartons/jugs in them, and are a lot more likely to show up than the individual models
-			MatchesAny(mdl, {
-				"models/props_junk/garbage128_composite001a.mdl",
-				"models/props_junk/garbage128_composite001c.mdl",
-				"models/props_junk/garbage128_composite001d.mdl",
-				"models/props_junk/garbage256_composite001b.mdl"
-			})
-	end,
+	Filter = function(mdl) return milk(mdl) end,
 	Count = 10,
 	Prerequisites = { IndexToMID(4, NPC_CAT_CELLO)  },
 	OnCompleted = GrantMoney(30000)
@@ -263,10 +325,7 @@ AddMission(5, NPC_CAT_CELLO, {
 AddMission(0, NPC_CAT_BAR, {
 	Instructions = "jazz.mission.crates",
 	Filter = function(mdl)
-		return string.match(mdl, "crate") and
-			not string.match(mdl, "chunk") and
-			not string.match(mdl, "gib") and
-			not string.match(mdl, "_p%d+") -- CSS crates_fruit_p<N>
+		return string.match(mdl, "crate") and not MatchesAnyPartial(mdl, { "chunk", "gib", "_p%d+" } ) -- CSS crates_fruit_p<N>
 	end,
 	Count = 10,
 	Prerequisites = nil,
@@ -277,69 +336,101 @@ AddMission(1, NPC_CAT_BAR, {
 	Instructions = "jazz.mission.cars",
 	Filter = function(mdl)
 		return MatchesAny(mdl, {
-				"models/buggy.mdl",
-				"models/vehicle.mdl",
-				--APCs
-				"models/combine_apc.mdl",
-				"models/combine_apc_dynamic.mdl",
-				"models/combine_apc_wheelcollision.mdl",
-				"models/combine_apc_destroyed_gib01.mdl",
-				"models/props_vehicles/apc001.mdl",
-				"models/props/de_piranesi/pi_apc.mdl",
-				--we'll allow engines, Bartender wants parts afterall
-				"models/props_c17/trappropeller_engine.mdl",
-				"models/vehicle/vehicle_engine_block.mdl",
-				--Ep1
-				"models/vehicles/vehicle_van.mdl",
-				--L4D
-				"models/props_vehicles/trafficjam01.mdl",
-				"models/props_waterfront/tour_bus.mdl",
-				--Us!
-				"models/sunabouzu/mg_tank.mdl"
-			}) or
-			((string.match(mdl, "car00") or
-			string.match(mdl, "van00") or
-			string.match(mdl, "car_nuke") or
-			string.match(mdl, "car_militia") or
-			string.match(mdl, "hatchback") or
-			string.match(mdl, "sedan") or
-			string.match(mdl, "bus0") or
-			string.match(mdl, "tractor") or --technically includes portal 2 tractor beam stuff, but honestly if you're finding that you deserve it. Bartender *would* want those parts
-			string.match(mdl, "ambulance") or
-			string.match(mdl, "vehicles/222") or
-			string.match(mdl, "jeep_us") or
-			string.match(mdl, "kubelwagen") or
-			string.match(mdl, "front_loader") or
-			string.match(mdl, "hmmwv") or
-			string.match(mdl, "humvee") or
-			string.match(mdl, "suv") or
-			string.match(mdl, "zapastl") or
-			--fuck it, tanks too
-			string.match(mdl, "boss_tank") or
-			string.match(mdl, "taunts/tank") or
-			string.match(mdl, "sherman_tank") or
-			string.match(mdl, "tiger_tank") or
-			--police car, race car
-			(string.match(mdl, "car") and 
-				(string.match(mdl, "police") or
-				 string.match(mdl, "race"))) or
-			--truck, not truck sign or handtruck
-			(string.match(mdl, "truck") and 
-				not (string.match(mdl, "sign") or
-					 string.match(mdl, "hand"))) or
-			--pickup, not powerup or item or etc.
-			(string.match(mdl, "pickup") and 
-				not (string.match(mdl, "powerup") or
-					 string.match(mdl, "item") or
-					 string.match(mdl, "emitter") or
-					 string.match(mdl, "load") or
-					 string.match(mdl, "swarm")))) and
+			"models/buggy.mdl",
+			"models/vehicle.mdl",
+			--APCs
+			"models/combine_apc.mdl",
+			"models/combine_apc_dynamic.mdl",
+			"models/combine_apc_wheelcollision.mdl",
+			"models/combine_apc_destroyed_gib01.mdl",
+			"models/props_vehicles/apc001.mdl",
+			"models/props/de_piranesi/pi_apc.mdl",
+			--we'll allow engines, Bartender wants parts afterall
+			"models/props_c17/trappropeller_engine.mdl",
+			"models/vehicle/vehicle_engine_block.mdl",
+			--Ep1
+			"models/vehicles/vehicle_van.mdl",
+			--L4D
+			"models/props_vehicles/trafficjam01.mdl",
+			"models/props_waterfront/tour_bus.mdl",
+			"models/destruction_tanker/destruction_tanker_cab.mdl",
+			"models/destruction_tanker/pre_destruction_tanker_trailer.mdl",
+			"models/destruction_tanker/destruction_tanker_front.mdl",
+			"models/props_fairgrounds/kiddyland_ridecar.mdl",
+			--Us!
+			"models/sunabouzu/mg_tank.mdl"
+		}) or
+		(
+			(
+				MatchesAnyPartial(mdl, {
+					--"car00",
+					"van00",
+					--"car_nuke",
+					--"car_militia",
+					"hatchback",
+					"sedan",
+					"bus0",
+					"tractor", --technically includes portal 2 tractor beam stuff, but honestly if you're finding that you deserve it. Bartender *would* want those parts
+					"ambulance",
+					"vehicles/222",
+					"jeep_us",
+					"kubelwagen",
+					"front_loader",
+					"hmmwv", "humvee",
+					"suv",
+					"zapastl",
+					"campervan",
+					--fuck it, tanks too
+					"boss_tank",
+					"taunts/tank",
+					"sherman_tank",
+					"tiger_tank",
+				} ) or
+				--tanker, no train, destruction, etc.
+				(string.match(mdl, "tanker") and not MatchesAnyPartial(mdl, { "train", "destruction", "debris", "boots" } ) ) or
+				--police car, race car
+				--(string.match(mdl, "car") and 
+				--	(string.match(mdl, "police") or
+				--	 string.match(mdl, "race"))) or
+				--are we gonna regret this? probably
+				(string.match(mdl,"car") and 
+					not MatchesAnyPartial(mdl, {
+						"cart",
+						"card",
+						"cargo",
+						"carton",
+						"carousel", "carosel",
+						"carnival",
+						"carved",
+						"scarf",
+						"carriage",
+						"boxcar",
+						"carb",
+						"scare", "scary",
+						"carentan",
+						"carl",
+						"toy",
+						"coaster",
+						"seat",
+						"subway",
+						"train",
+						"tram",
+						"mining",
+						"bumper",
+						"lift",
+						"tarp",
+						"c1_chargerexit",
+						"car_int_dest", "car_wrecked_dest", "car_wrecked_dest", "cara_dest"
+					})
+				) or
+				--truck, not truck sign or handtruck
+				(string.match(mdl, "truck") and not MatchesAnyPartial(mdl, { "sign", "hand" } ) ) or
+				--pickup, not powerup or item or etc.
+				(string.match(mdl, "pickup") and not MatchesAnyPartial(mdl, { "powerup", "item", "emitter", "load", "swarm" } ) ) 
+			) and
 			--no glass/window/tire/wheel/gib
-			not (string.match(mdl, "window") or
-				 string.match(mdl, "tire") or
-				 string.match(mdl, "wheel") or
-				 string.match(mdl, "glass") or
-				 string.match(mdl, "gib")))
+			not MatchesAnyPartial(mdl, { "window", "tire", "wheel", "glass", "gib" } )
+		)
 	end,
 	Count = 10,
 	Prerequisites = { IndexToMID(0, NPC_CAT_BAR)  },
@@ -369,18 +460,13 @@ AddMission(3, NPC_CAT_BAR, {
 AddMission(4, NPC_CAT_BAR, {
 	Instructions = "jazz.mission.washers",
 	Filter = function(mdl)
-		return --[[MatchesAny(mdl, {
-			"models/props_c17/furniturewashingmachine001a.mdl",
-			--"models/props_wasteland/laundry_washer001a.mdl",
-			--"models/props_wasteland/laundry_dryer002.mdl"
-		}) or ]]
+		return 
 		--wash, without dishwasher or washington
-		(string.match(mdl, "wash") and 
-			mdl ~= "models/props_street/window_washer_button.mdl" and 
-			not string.match(mdl, "dish") and
-			not string.match(mdl, "washington")) or
-		(string.match(mdl, "dryer") and 
-			mdl ~= "models/props_pipes/brick_dryer_pipes.mdl")
+		(string.match(mdl, "wash") and
+			not MatchesAnyPartial(mdl, { "dish", "washington" } ) and 
+			mdl ~= "models/props_street/window_washer_button.mdl"
+		) or
+		(string.match(mdl, "dryer") and mdl ~= "models/props_pipes/brick_dryer_pipes.mdl")
 	end,
 	Count = 5,
 	Prerequisites = { IndexToMID(3, NPC_CAT_BAR)  },
@@ -394,7 +480,8 @@ AddMission(5, NPC_CAT_BAR, {
 			"models/antlion.mdl",
 			"models/antlion_worker.mdl",
 			"models/antlion_guard.mdl",
-			"models/antlion_grub.mdl"
+			"models/antlion_grub.mdl",
+			"models/props_wasteland/antlionhill.mdl"
 		}) or 
 		string.match(mdl, "hive/nest")
 	end,
@@ -413,10 +500,7 @@ AddMission(5, NPC_CAT_BAR, {
 AddMission(0, NPC_CAT_PIANO, {
 	Instructions = "jazz.mission.chairs",
 	Filter = function(mdl)
-		return ((string.match(mdl, "chair") or string.match(mdl, "bench")) and
-				not string.match(mdl, "chunk") and
-				not string.match(mdl, "gib") and
-				not string.match(mdl, "damage")) or 
+		return ((string.match(mdl, "chair") or string.match(mdl, "bench")) and not MatchesAnyPartial(mdl, { "chunk", "gib", "damage" })) or 
 				 string.match(mdl, "seat") or
 				(string.match(mdl, "stool") and not string.match(mdl, "toadstool")) or
 				 string.match(mdl, "couch")
@@ -485,17 +569,25 @@ AddMission(2, NPC_CAT_PIANO, {
 				"models/props_halloween/pumpkin_loot.mdl",
 				"models/props_medieval/medieval_meat.mdl"
 			}) or
-			string.match(mdl, "food") or --gets a couple weird models like "boothfastfood" and "handrail_foodcourt" but noth worth filtering out these exact specific one-offs
-			string.match(mdl, "carton") or --includes milk cartons, cats love milk!
-			--string.match(mdl, "fruit") or --includes a lot of wood gibs from the orange crates
-			string.match(mdl, "italy/orange") or
-			string.match(mdl, "banan") or -- TF2 "banana" and CSS "bananna"
-			string.match(mdl, "sandwich") or
-			string.match(mdl, "chocolate") or
-			string.match(mdl, "lunch") or
-			string.match(mdl, "halloween_medkit") or
-			string.match(mdl, "treat") or
-			string.match(mdl, "popcorn")
+			MatchesAnyPartial(mdl, {
+				"food", --gets a couple weird models like "boothfastfood" and "handrail_foodcourt" but noth worth filtering out these exact specific one-offs
+				"carton", --includes milk cartons, cats love milk!
+				--"fruit", --includes a lot of wood gibs from the orange crates
+				"italy/orange",
+				"banan", -- TF2 "banana" and CSS "bananna"
+				"sandwich",
+				"chocolate",
+				"lunch",
+				"halloween_medkit",
+				"treat",
+				"popcorn"
+			}) or 
+			(string.match(mdl, "items") and string.match(mdl, "plate")) or
+			(string.match(mdl, "fridge") and not MatchesAnyPartial(mdl, { "door", "damaged" } ) ) or
+			(string.match(mdl, "frige") and not MatchesAnyPartial(mdl, { "door", "damaged" } ) ) or --thanks Valve
+			(string.match(mdl, "bread") and not MatchesAnyPartial(mdl, { "space", "spatula", "placement" } )
+			) or
+			milk(mdl) --see previous comment about cats and milk
 	end,
 	Count = 20,
 	Prerequisites = { IndexToMID(1, NPC_CAT_PIANO)  },
@@ -545,19 +637,17 @@ AddMission(5, NPC_CAT_PIANO, {
 AddMission(0, NPC_CAT_SING, {
 	Instructions = "jazz.mission.documents",
 	Filter = function(mdl)
-		return	string.match(mdl, "binder") or
-				string.match(mdl, "file") or
-				string.match(mdl, "filing") or --not used in Valve props, but could be in custom stuff
-				string.match(mdl, "folder") or
+		return MatchesAnyPartial(mdl, {
+				"binder",
+				"file",
+				"filing", --not used in Valve props, but could be in custom stuff
+				"folder",
+				"mail"
+			}) or
 			--Too many "bookshelf" or "bookcase" have books to feel right excluding them
-			   (string.match(mdl, "book") and 
-				not string.match(mdl, "sign") and
-				not string.match(mdl, "stand")) or
+			(string.match(mdl, "book") and not MatchesAnyPartial(mdl, { "sign","stand" } ) ) or
 			--Paper, not toilet paper, paper towel, or paper plate
-			   (string.match(mdl, "paper") and 
-				not string.match(mdl, "toilet") and
-				not string.match(mdl, "towel") and
-				not string.match(mdl, "plate"))
+			(string.match(mdl, "paper") and not MatchesAnyPartial(mdl, { "toilet", "towel", "plate" } ) )
 	end,
 	Count = 10,
 	Prerequisites = nil,
@@ -566,18 +656,10 @@ AddMission(0, NPC_CAT_SING, {
 
 AddMission(1, NPC_CAT_SING, {
 	Instructions = "jazz.mission.dolls",
-	Filter = function(mdl)
-		--[[return MatchesAny(mdl, {
-			"models/props_lab/huladoll.mdl",
-			"models/props_c17/doll01.mdl",
-			"models/maxofs2d/companion_doll.mdl",
-			"models/props_unique/doll01.mdl", --L4D
-		}) or]] 
+	Filter = function(mdl) 
 		--doll, not ragdoll or dollar
-		return (string.match(mdl, "doll") and 
-			not (string.match(mdl, "ragdoll") or 
-				 string.match(mdl, "dollar"))) or
-		string.match(mdl, "teddy")
+		return (string.match(mdl, "doll") and not MatchesAnyPartial(mdl, { "ragdoll", "dollar" } ) ) or
+				string.match(mdl, "teddy")
 	end,
 	Count = 5,
 	Prerequisites = { IndexToMID(0, NPC_CAT_SING)  },
@@ -642,20 +724,13 @@ AddMission(4, NPC_CAT_SING, {
 AddMission(5, NPC_CAT_SING, {
 	Instructions = "jazz.mission.radios",
 	Filter = function(mdl)
-		--[[return MatchesAny(mdl, {
-			"models/infra/props_clutter/cheap_radio.mdl",
-			"models/infra/props_clutter/radiophone.mdl",
-			"models/props/cs_office/radio.mdl",
-			"models/props_lab/citizenradio.mdl",
-			"models/props_radiostation/radio_antenna01.mdl"
-		})]]
-		return mdl == "models/props_radiostation/radio_antenna01.mdl" or
-			--radio, without station or radioactive
-			(string.match(mdl, "radio") and
-				not (string.match(mdl, "station") or
-					 string.match(mdl, "radioactive"))) or 
-			--get jukeboxes in here too
-			(string.match(mdl, "juke") and string.match(mdl, "box"))
+		return MatchesAny(mdl, {
+			"models/props_radiostation/radio_antenna01.mdl",
+		} ) or
+		--radio, without station or radioactive
+		(string.match(mdl, "radio") and not (MatchesAnyPartial(mdl, { "station", "radioactive", "radiology" } ) ) ) or 
+		--get jukeboxes in here too
+		(string.match(mdl, "juke") and string.match(mdl, "box"))
 	end,
 	Count = 10,
 	Prerequisites = { IndexToMID(4, NPC_CAT_SING)  },
