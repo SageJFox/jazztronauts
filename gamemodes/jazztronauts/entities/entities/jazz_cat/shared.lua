@@ -29,24 +29,24 @@ function ENT:SetupChatTables()
 		chatmenu.AddChoice(self.ChatChoices, "#jazz.store.store", function(self, ply) ClientRun(ply, "jstore.OpenStore()") end)
 		chatmenu.AddChoice(self.ChatChoices, "#jazz.store.chat", function(self, ply) self:StartChat(ply) end)
 		--add option for switching this map to be the hub
-		local selector = ents.FindByClass("jazz_hub_selector")[1]
-		if not IsValid(selector) or not hubtrolleybugme:GetBool() then return end
-		
-		if self:GetHubInfo() ~= selector:GetHubInfo() then
-			chatmenu.AddChoice(self.ChatChoices, "#jazz.store.hub", function(self, ply)
-				local script = "hub.begin"
-				if SERVER then
-					dialog.Dispatch(script, ply, self)
-				else
-					net.Start("JazzPlayScript")
-						net.WriteEntity(self)
-						net.WriteString(script)
-					net.SendToServer()
-				end
-			end)
-		else
-			--print("but this is our house! :(")
-		end
+		timer.Simple(1, function()
+			local selector = ents.FindByClass("jazz_hub_selector")[1]
+			if not IsValid(self) or not IsValid(selector) or not hubtrolleybugme:GetBool() then return end
+			
+			if self:GetHubInfo() ~= selector:GetHubInfo() then
+				chatmenu.AddChoice(self.ChatChoices, "#jazz.store.hub", function(self, ply)
+					local script = "hub.begin"
+					if SERVER then
+						dialog.Dispatch(script, ply, self)
+					else
+						net.Start("JazzPlayScript")
+							net.WriteEntity(self)
+							net.WriteString(script)
+						net.SendToServer()
+					end
+				end)
+			end
+		end)
 	else
 		--self.ChatChoices.WelcomeText = ""
 		--chatmenu.AddChoice(self.ChatChoices, "Let's chat!", function(self, ply) self:StartChat(ply) end)

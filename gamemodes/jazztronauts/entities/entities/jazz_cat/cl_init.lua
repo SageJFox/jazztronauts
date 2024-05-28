@@ -32,17 +32,14 @@ function ENT:Initialize()
 	worldmarker.Update(self, markerpos)
 
 	worldmarker.SetEnabled(false)
-	timer.Simple(0,function()
-		if not IsValid(self) then return end
-		if self:GetSequence() == self:LookupSequence("pose_hangingout") then self.UpsideDown = true end
-		self:SetupChatTables()
+	if self:GetSequence() == self:LookupSequence("pose_hangingout") then self.UpsideDown = true end
+	self:SetupChatTables()
 
-		-- Allow mouse clicks on the chat menu (and make it so clicking doesn't shoot their weapon)
-		if self.ChatChoices and #self.ChatChoices > 0 then
-			hook.Add("KeyPress", self, function(self, ply, key) return self:OnMouseClicked(ply, key) end )
-			hook.Add("KeyRelease", self, function(self, ply, key) return self:OnMouseReleased(ply, key) end)
-		end
-	end)
+	-- Allow mouse clicks on the chat menu (and make it so clicking doesn't shoot their weapon)
+	if self.ChatChoices and #self.ChatChoices > 0 then
+		hook.Add("KeyPress", self, function(self, ply, key) return self:OnMouseClicked(ply, key) end )
+		hook.Add("KeyRelease", self, function(self, ply, key) return self:OnMouseReleased(ply, key) end)
+	end
 end
 
 function ENT:OnMouseClicked(ply, key)
