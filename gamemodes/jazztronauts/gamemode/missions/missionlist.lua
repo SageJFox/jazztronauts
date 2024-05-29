@@ -260,7 +260,7 @@ AddMission(2, NPC_CAT_CELLO, {
 	end,
 	Count = 10,
 	Prerequisites = { IndexToMID(1, NPC_CAT_CELLO)  },
-	OnCompleted = GrantMoney(20000)
+	OnCompleted = GrantMoney(15000)
 })
 
 AddMission(3, NPC_CAT_CELLO, {
@@ -282,7 +282,7 @@ AddMission(3, NPC_CAT_CELLO, {
 
 	-- When they finish the mission, this function is called to give out a reward
 	-- The 'GrantMoney' function returns a function that gives money
-	OnCompleted = GrantMoney(15000)
+	OnCompleted = GrantMoney(20000)
 })
 
 AddMission(4, NPC_CAT_CELLO, {
