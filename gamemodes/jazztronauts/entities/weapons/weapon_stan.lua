@@ -170,8 +170,37 @@ if CLIENT then
 		end
 	end
 
+	net.Receive("JazzStanSpawnTeleFXModel",function(len, ply)
+		--local isRagdoll = net.ReadBool()
+		local spawnpos, spawnang = net.ReadVector(), net.ReadAngle()
+		local skull = --[[isRagdoll and ClientsideRagdoll( "models/player/skeleton.mdl" ) or]] ents.CreateClientProp("models/Gibs/HGIBS.mdl")
+		if IsValid(skull) then
+			skull:SetPos(spawnpos)
+			skull:SetAngles(spawnang)
+			--if isRagdoll then 
+			--	print("Ragdoll!")
+			--	skull:SetNoDraw(false)
+			--	skull:DrawShadow(true)
+			--else
+				skull:SetHealth(1000)
+			--end
+			skull:Spawn()
+			skull:PhysWake()
+			--toss the skull up and back a bit
+			--if not isRagdoll then
+				local phys = skull:GetPhysicsObject()
+				if IsValid(phys) then
+					phys:ApplyForceCenter(spawnang:Forward() * -250 + Vector(0,0,250))
+				end
+			--end
+			timer.Simple(10,function() if IsValid(skull) then skull:Remove() end end)
+		end
+	end)
+
 else
 	util.AddNetworkString("JazzStanTeleportDestTarget")
+	util.PrecacheModel("models/player/skeleton.mdl")
+	util.AddNetworkString("JazzStanSpawnTeleFXModel")
 end
 
 net.Receive("JazzStanTeleportDestTarget",function(len,ply)
@@ -795,6 +824,33 @@ end
 function SWEP:TeleportFX(owner)
 	owner:EmitSound( Sound( "beams/beamstart5.wav" ), 100, 70 )
 	owner:EmitSound( Sound( "beamstart7.wav" ), 70, 40 )
+	--chance to spawn a skull at their old location
+	if math.random(3) == 1 then
+		local spawnpos = owner:GetPos()
+		local spawnang = owner:GetAngles()
+		--local isragdoll = false
+
+		--much rarer chance to spawn a whole skeleton
+		if math.random(10) == 1 then
+			--isragdoll = true --OKAY SO ClientsideRagdoll is a bitch to work with, so we're getting around it here
+			local boneman = ents.Create("npc_citizen")
+			boneman:SetModel("models/player/skeleton.mdl")
+			boneman:SetPos(spawnpos)
+			boneman:SetAngles(spawnang)
+			boneman:SetKeyValue( "spawnflags", bit.bor( SF_NPC_NO_WEAPON_DROP, SF_CITIZEN_NOT_COMMANDABLE, SF_NPC_FADE_CORPSE, SF_NPC_GAG, SF_NPC_WAIT_FOR_SCRIPT ) )
+			boneman:SetKeyValue( "citizentype", "4" )
+			boneman:Spawn()
+			timer.Simple(0,function() if IsValid(boneman) then boneman:Fire("BecomeRagdoll",nil,0) end end) --omg that's so funny I'm literally dead
+		else
+			spawnpos:Add(Vector(0,0,owner:Crouching() and 32 or 64))
+			net.Start("JazzStanSpawnTeleFXModel",true)
+				--net.WriteBool(isragdoll)
+				net.WriteVector(spawnpos)
+				net.WriteAngle(spawnang)
+			net.SendPVS(spawnpos)
+		end
+
+	end
 	self:SetTeleSuccess(true)
 end
 
@@ -832,12 +888,12 @@ function SWEP:Teleport()
 				if self:TestPlayerLocation(target:GetPos()) or
 					target:GetClass() == "info_teleport_destination" or --sometimes the location check fails, but if it's one of these it should be valid anyway
 					self.TeleportDestTarget:GetLevel() > 1 then --these are spawns and sky_camera, both of which should just be clear
-						owner:SetPos( target:GetPos() )
 						self:TeleportFX(owner)
+						owner:SetPos( target:GetPos() )
 				end
 				if self.TeleportDestTarget:GetDucked() then --let the entity handle this for us
-					target:Fire("TeleportEntity","!activator",0,owner,self)
 					self:TeleportFX(owner)
+					target:Fire("TeleportEntity","!activator",0,owner,self)
 				end
 				--we're teleporting to the bus, just get in an empty seat
 				if target:GetClass() == "jazz_bus" and target:SitPlayer(owner) then
@@ -852,8 +908,8 @@ function SWEP:Teleport()
 				if self:GetTeleSuccess() then return end
 			end
 		elseif #fragments == 3 then
-			owner:SetPos( fragments[3].endpos )
 			self:TeleportFX(owner)
+			owner:SetPos( fragments[3].endpos )
 			return
 		end
 		self:TeleportFailedFX(owner) --no teleport happened, we got got
