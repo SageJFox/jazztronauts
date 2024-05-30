@@ -838,9 +838,9 @@ function SWEP:TeleportFX(owner)
 			boneman:SetPos(spawnpos)
 			boneman:SetAngles(spawnang)
 			boneman:SetKeyValue( "spawnflags", bit.bor( SF_NPC_NO_WEAPON_DROP, SF_CITIZEN_NOT_COMMANDABLE, SF_NPC_FADE_CORPSE, SF_NPC_GAG, SF_NPC_WAIT_FOR_SCRIPT ) )
-			boneman:SetKeyValue( "citizentype", "4" )
+			boneman:SetKeyValue( "citizentype", "4" ) --"unique" citizen type, so it actually uses the set model
 			boneman:Spawn()
-			timer.Simple(0,function() if IsValid(boneman) then boneman:Fire("BecomeRagdoll",nil,0) end end) --omg that's so funny I'm literally dead
+			timer.Simple(0,function() if IsValid(boneman) then boneman:Fire("BecomeRagdoll",nil,0) end end) --dude that's so funny I'm literally dead
 		else
 			spawnpos:Add(Vector(0,0,owner:Crouching() and 32 or 64))
 			net.Start("JazzStanSpawnTeleFXModel",true)
