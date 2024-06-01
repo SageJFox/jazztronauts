@@ -799,6 +799,62 @@ if SERVER then
 		return ent
 	end
 
+	hook.Add("PlayerSpawn", "JazzPreventSpawnBlockers", function(ply,trans)
+		ply.JazzSpawnTime = CurTime()
+	end )
+
+	hook.Add("PlayerShouldTakeDamage", "JazzPreventSpawnBlockers", function(ply,attacker)
+		if CurTime() - ply.JazzSpawnTime <= 0.5 and attacker:GetClass() == "trigger_hurt" then
+			if IsValid(attacker) then
+				print("Preventing spawn blocker, " .. tostring(attacker) .. " killed!" )
+				attacker:Remove()
+			end
+			return false
+		end
+	end )
+
+	hook.Add("OnEntityCreated", "JazzPreventWeaponStrippers", function(ent)
+		timer.Simple(0, function() --give it a tick to figure out what it is
+			if IsValid(ent) then
+				local class = ent:GetClass()
+				if string.find(class, "weapon", 1, true) and string.find(class, "strip", 1, true) then
+					print("Preventing weapon stripping, " .. tostring(ent) .. " killed!")
+					ent:Remove()
+				end
+				--these could be paired with trigger_weapon_strip, and could have logic depending on supercharging a gravity gun to continue the map
+				if class == "trigger_weapon_dissolve" then
+					local MapLua = ents.Create( "lua_run" )
+					MapLua:SetName( "JazzWeaponDissolveHook" )
+					MapLua:Spawn()
+					ent:Fire("AddOutput", "OnStartTouch JazzWeaponDissolveHook:RunPassedCode:hook.Run( 'JazzWeaponDissolve' ):0:1")
+					ent:Fire("AddOutput", "OnStartTouch JazzWeaponDissolveHook:Kill::1:1")
+				end
+			end
+		end )
+	end )
+
+	--sort of relying on a lot of stuff to go right for this to work, but fuck it, it's a weird entity setup
+	hook.Add("JazzWeaponDissolve", "JazzGetMeAPhyscannon", function()
+		for _, v in ipairs(player.GetHumans()) do
+			local gravgun = ents.Create("weapon_physcannon")
+			if IsValid(gravgun) then
+				gravgun:SetKeyValue( "spawnflags", 2) --deny player pickup
+				gravgun.IgnoreForSnatch = true --"The game will crash if a weapon targeted for dissolving by this entity is removed by other means."
+				gravgun:SetPos(v:GetPos())
+				gravgun:Spawn()
+				--[[// HACK: This hack is required to allow weapons to be disintegrated
+					// in the citadel weapon-strip scene
+					// Make them not pick-uppable again. This also has the effect of allowing weapons
+					// to collide with triggers. ]]
+				gravgun:RemoveSolidFlags(FSOLID_TRIGGER)
+				local phys = gravgun:GetPhysicsObject()
+				if IsValid(phys) then phys:AddGameFlag(FVPHYSICS_NO_PLAYER_PICKUP) end
+				--don't leave it lying there
+				timer.Simple(20, function() if IsValid(gravgun) then gravgun:Remove() end end )
+			end
+		end
+	end )
+
 else //CLIENT
 	net.Receive("jazz_shardcollect", function(len, ply)
 		SpawnedShards = {}
