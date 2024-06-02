@@ -5,3 +5,8 @@ ENT.AutomaticFrameAdvance = true
 ENT.DelayTime = 0.75 //how long until the screen begins to fade
 ENT.FadeTime = 0.80 //how long it takes to fade completely
 ENT.WaitTime = 0.10 //period for it to stay completely black
+
+
+SF_STRIPWEAPONS = 1
+SF_NODRAW = 2
+SF_MINIONLY = 4

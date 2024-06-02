@@ -8,8 +8,6 @@ ENT.DoorOpen = Sound("doors/door1_move.wav")
 ENT.DoorClose = Sound("doors/door_wood_close1.wav")
 ENT.DoorLocked = Sound("krio/door_locked1.wav")
 
-local SF_STRIPWEAPONS = 1
-
 local outputs =
 {
 	"OnTeleport",
@@ -42,6 +40,9 @@ function ENT:Use(activator, caller)
 		end
 		return
 	end
+
+	--Minidoor, don't let fullsize players through
+	if self:HasSpawnFlags(SF_MINIONLY) and IsValid(activator) and (isnumber(activator.JazzSizeMultiplier) == false or activator.JazzSizeMultiplier >= 1) then return end
 
 	self:TriggerOutput("OnUse", activator)
 

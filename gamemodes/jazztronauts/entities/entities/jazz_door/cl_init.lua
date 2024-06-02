@@ -24,7 +24,9 @@ clr[ "$pp_colour_mulg" ]		= 0
 clr[ "$pp_colour_mulb" ]		= 0
 
 function ENT:Draw()
-	self:DrawModel()
+	if not self:HasSpawnFlags(SF_NODRAW) then
+		self:DrawModel()
+	end
 end
 
 //This usermessage is only sent to the player actually teleporting, so we should be good
