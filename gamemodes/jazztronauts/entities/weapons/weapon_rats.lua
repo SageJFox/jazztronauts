@@ -151,7 +151,7 @@ function SWEP:Think()
 				owner:SetRunSpeed(owner:GetRunSpeed()*8)
 				owner:SetWalkSpeed(owner:GetWalkSpeed()*8)
 				owner:SetSlowWalkSpeed(owner:GetSlowWalkSpeed()*8)
-				owner:SetFOV(self.FoV)
+				owner:SetFOV(0)
 			else
 				owner.JazzSizeMultiplier = self.SizeMultiplier
 				owner:SetHull(hullMins,hullMaxs)
