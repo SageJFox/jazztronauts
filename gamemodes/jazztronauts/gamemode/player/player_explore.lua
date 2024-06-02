@@ -18,25 +18,11 @@ PLAYER.StartHealth			= 100		-- How much health we start with
 PLAYER.StartArmor			= 0			-- How much armour we start with
 PLAYER.DropWeaponOnDie		= true		-- Do we drop our weapon when we die
 PLAYER.AvoidPlayers			= false		-- Automatically swerves around other players
-PLAYER.JazzSizeMultiplier	= 1			-- player size multiplier (Jazztronauts)
 
 
 function PLAYER:SetupDataTables()
 	BaseClass.SetupDataTables( self )
 end
-
-function PLAYER:Spawn()
-	self.Player.JazzSizeMultiplier = 1
-	BaseClass.Spawn(self)
-end
-
-function PLAYER:SetJazzSizeMultiplier(multi)
-	self.Player.JazzSizeMultiplier = multi
-end
-function PLAYER:GetJazzSizeMultiplier()
-	return self.Player.JazzSizeMultiplier
-end
-
 --
 -- Called on spawn to give the player their default loadout
 --

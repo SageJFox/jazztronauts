@@ -19,6 +19,7 @@ PLAYER.StartArmor			= 0			-- How much armour we start with
 PLAYER.DropWeaponOnDie		= false		-- Do we drop our weapon when we die
 PLAYER.TeammateNoCollide	= false		-- Overwritten in ShouldCollide. See hook for more info.
 PLAYER.AvoidPlayers			= false		-- Automatically swerves around other players
+PLAYER.JazzSizeMultiplier	= 1			-- player size multiplier (Jazztronauts)
 
 
 function PLAYER:SetupDataTables()
@@ -29,8 +30,17 @@ end
 
 function PLAYER:Spawn()
 	BaseClass.Spawn(self)
+	self.Player.JazzSizeMultiplier = 1
 	self.Player:SetCustomCollisionCheck(true)
 end
+
+function PLAYER:SetJazzSizeMultiplier(multi)
+	self.Player.JazzSizeMultiplier = multi
+end
+function PLAYER:GetJazzSizeMultiplier()
+	return self.Player.JazzSizeMultiplier
+end
+
 
 --
 -- Called on spawn to give the player their default loadout
