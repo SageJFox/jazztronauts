@@ -36,10 +36,10 @@ if SERVER then
 	function ENT:KeyValue(key, value)
 		if key == "model" then
 			self.Model = value
-		end
-
-		if key == "factname" then
+		elseif key == "factname" then
 			self.FactName = value
+		elseif key == "disableshadows" then
+			self:DrawShadow(not tobool(value))
 		end
 	end
 
