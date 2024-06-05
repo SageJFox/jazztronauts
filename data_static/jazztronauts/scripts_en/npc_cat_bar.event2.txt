@@ -20,7 +20,7 @@ begin:
 		#*setcam setpos -1828.895630 3177.182617 44.253838;setang 3.336848 -144.710831 0.000000 fov70* ###### ESTABLISHING SHOT
 		*SINGER_HAPPY*
 		#*setposang player setpos -2012.907837 2954.654785 16;setang 0 30 0.000000*
-		*setoffset player setpos -50.018433 41.181152 0;setang -0.000 0.000 0.000*
+		*setoffset player setpos -46.018433 41.181152 0;setang -0.000 0.000 0.000* #adjusted slightly from original value to not clip player in seat
 		*setanim player sit*
 		*txin*
 		*show narrator 0.5*
@@ -170,16 +170,16 @@ a13:
 	This will be interesting,%%%% if nothing else.
 	player:
 		&branch1:
-			*setcamroot player setpos 109.752075 13.430664 32.970943;setang 1.633 -173.167 0.000*
+			*setcamroot player setpos 105.752075 13.430664 32.939690;setang 1.633 -173.167 0.000*
 			#*setcam setpos -1924.575073 3021.162109 48.970943;setang 1.633228 -143.166870 0.000000*
 			Is that good?
 		&branch2:
-			*setcamroot player setpos 109.752075 13.430664 32.970943;setang 1.633 -173.167 0.000*
+			*setcamroot player setpos 105.752075 13.430664 32.939690;setang 1.633 -173.167 0.000*
 			#*setcam setpos -1924.575073 3021.162109 48.970943;setang 1.633228 -143.166870 0.000000* 
 			Cannon Films!? Please be the one 
 			where space vampires eat Picard.
 		&branch3:
-			*setcamroot player setpos 109.752075 13.430664 32.970943;setang 1.633 -173.167 0.000*
+			*setcamroot player setpos 105.752075 13.430664 32.939690;setang 1.633 -173.167 0.000*
 			#*setcam setpos -1924.575073 3021.162109 48.970943;setang 1.633228 -143.166870 0.000000*
 			Nope. I'm out. 
 			I know exactly where this is going. *c 0*(Exit)*c*

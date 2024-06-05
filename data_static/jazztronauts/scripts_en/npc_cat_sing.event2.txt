@@ -270,8 +270,6 @@ r3a8:
 	
 end:
 	*BLOCKSTART*
-		*layer 180 LAYER_ABOVE scene_bar_solo*	#TODO - remove on next jazz_bar update
-		*zsnap 64 LAYER_ABOVE scene_bar_solo*	#TODO - ''
 		*setlayer cat_singer LAYER_ABOVE*
 		#*setposang cat_singer setpos -2740.499756 3096.201172 180;setang -90 90 0.000000*
 		#*setoffset cat_singer setpos -144.201172 123.500244 0;setang 0.000 -90.000 0.000*

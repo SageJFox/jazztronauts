@@ -24,6 +24,7 @@ begin:
 		*spawn takeout4 models/props_junk/garbage_takeoutcarton001a.mdl*
 		*spawn milk1 models/props_junk/garbage_milkcarton002a.mdl*
 		*spawn bag1 models/props_junk/garbage_bag001a.mdl*
+		*setlayer takeout1 takeout2 takeout3 takeout4 milk1 bag1 LAYER_ABOVE*
 		#*setposang takeout1 setpos -1449.705078 3071.062744 37.156925;setang 0.040 30.773 0.916*
 		#*setposang takeout2 setpos -1463.008179 3084.820557 34.898376;setang 0.398 -21.165 -81.327*
 		#*setposang takeout3 setpos -1469.740356 3071.243652 37.065487;setang -0.667 -19.848 0.829*

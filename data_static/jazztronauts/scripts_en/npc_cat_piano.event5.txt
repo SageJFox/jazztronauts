@@ -92,6 +92,8 @@ m1:
 		#*setcam setpos -3951.872314 4698.228516 116.168732;setang 8.676914 109.575012 0.000000 fov70*
 		#*setposang player setpos -3863.479248 4857.957520 28;setang 0 134.195984 0.000000*
 		*setoffset player setpos 232.520752 -262.042480 0;setang -0.000 134.196 0.000*
+	*BLOCKEND*
+	*BLOCKSTART*
 		*txin*
 		*wait .15*
 	
