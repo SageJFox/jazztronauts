@@ -35,6 +35,8 @@
 	spawnflags(flags) =
 	[
 		1 : "Strip Weapons"   : 0
+		2 : "Don't Draw"   : 0
+		4 : "Minidoor"   : 0
 	]
 	
 	output OnTeleport(void) : "Fires on Teleport"
@@ -261,6 +263,11 @@
 		"static_props" : "prop_static Count"
 		"entity_count" : "Entity Count"
 		"map_name" : "Map Name"
+	]
+	disableshadows(choices) : "Disable Shadows" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
 	]
 	spawnflags(flags) =
 	[
