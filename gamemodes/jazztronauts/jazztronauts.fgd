@@ -263,6 +263,16 @@
 		"static_props" : "prop_static Count"
 		"entity_count" : "Entity Count"
 		"map_name" : "Map Name"
+		"comment0" : "Comment [Slot 1]"
+		"comment1" : "Comment [Slot 2]"
+		"comment2" : "Comment [Slot 3]"
+		"comment3" : "Comment [Slot 4]"
+		"comment4" : "Comment [Slot 5]"
+		"comment5" : "Comment [Slot 6]"
+		"comment6" : "Comment [Slot 7]"
+		"comment7" : "Comment [Slot 8]"
+		"comment8" : "Comment [Slot 9]"
+		"comment9" : "Comment [Slot 10]"
 	]
 	disableshadows(choices) : "Disable Shadows" : 0 =
 	[

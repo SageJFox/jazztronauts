@@ -25,7 +25,7 @@ if SERVER then
 
 		local id = math.random(1, 1000)
 		if self.FactName and self.FactName ~= "" then
-			id = factgen.GetFactIDByName(self.FactName, true)
+			id = factgen.GetFactIDByName(self.FactName .. (self.FactName == "comment" and tostring(self:EntIndex() % 10) or ""), true)
 		else
 			id = self:EntIndex()
 		end
@@ -59,9 +59,9 @@ if SERVER then
 	hook.Add("InitPostEntity", "InitFactscreenDelays", UpdateToggleDelay)
 	hook.Add("OnReloaded", "InitFactscreenDelaysReload", UpdateToggleDelay)
 	UpdateToggleDelay()
-end
 
-if SERVER then return end
+	return
+end
 
 local function randomlocalization(strang)
 	
@@ -232,7 +232,7 @@ local function updateFactMaterials()
 		if #v.fact == 0 then continue end
 
 		-- Allow certain facts to do fancy things
-		local loadFunc = factOverrides[v.name] or function(rt, f)
+		local loadFunc = factOverrides[v.name] or (string.find( v.name, "comment%d+" ) and factOverrides["comment"] ) or function(rt, f)
 			local title = string.Split(string.Split(f.fact, "\n")[1], ":")[1]
 			f.fact = string.sub(f.fact, (title and #title + 3 or 0))
 			renderFact(rt, f, title)

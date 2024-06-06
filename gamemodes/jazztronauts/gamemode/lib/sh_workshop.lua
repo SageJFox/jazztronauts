@@ -44,6 +44,13 @@ local function splitelements(block)
 	for _, v in pairs(commentStr) do
 		v = string.Replace(v, "<br>", "\n")
 		v = string.Replace(v, "</div></div>", "\n\n")
+		--pick up Steam emotes
+		local emotepattern	= "(<%s*img%s+src%s*=%s*\"https?://[%w%./\\_%-%%]-\"%s+alt%s*=%s*\")(:[%w_%-]-:)(\"%s+class%s*=%s*\"emoticon\"%s*>)"
+		
+		v = string.gsub(v, emotepattern, function(...)
+			local stuff = {...}
+			return stuff[2]
+		end)
 
 		local infoarr = {}
 		local info = {}

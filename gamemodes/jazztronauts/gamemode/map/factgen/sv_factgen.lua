@@ -35,8 +35,8 @@ local function getAddonTags(info)
 end
 
 local function getWorkshopFacts(wsid, addFact)
-	print("----------------------", wsid, addFact)
 	if not wsid or wsid == 0 then return end
+	print("----------------------", wsid, addFact)
 
 	-- Get workshop file info
 	local fileinfoTask = task.NewCallback(function(done)
@@ -65,8 +65,13 @@ local function getWorkshopFacts(wsid, addFact)
 
 		local comments = task.Await(commentTask)
 		if #comments > 0 then
-			local comm = table.remove(comments,math.random(#comments))
-			addFact("comment", string.Replace("“" .. comm.message .. "”\n-" .. comm.author,",","‚"))--replaces comma with U+201A "Single Low-9 Quotation Mark" (commas in comments break running through screen localization)
+			local total, count = 10, 0 --limit to 10 total possible comments (unless our fetching method changes or Valve puts a different number of comments per page we couldn't get more than this anyway)
+			while math.min( total, #comments ) > 0 do
+				local comm = table.remove(comments,math.random(#comments))
+				addFact("comment" .. tostring(count), string.Replace("“" .. comm.message .. "”\n-" .. comm.author,",","‚"))--replaces comma with U+201A "Single Low-9 Quotation Mark" (commas in comments break running through screen localization)
+				count = count + 1
+				total = total - 1
+			end
 		end
 	end
 end
