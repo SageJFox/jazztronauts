@@ -32,11 +32,12 @@
 		0 : "No"
 		1 : "Yes"
 	]
+	useablesizemin(float) : "Minimum Player Scale" : -1 : "Player must be at least this big to use this door (negative for no minimum size)"
+	useablesizemax(float) : "Maximum Player Scale" : -1 : "Player must be at least this small to use this door (negative for no maximum size)"
 	spawnflags(flags) =
 	[
 		1 : "Strip Weapons"   : 0
 		2 : "Don't Draw"   : 0
-		4 : "Minidoor"   : 0
 	]
 	
 	output OnTeleport(void) : "Fires on Teleport"
