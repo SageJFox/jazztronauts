@@ -7,6 +7,9 @@ AddCSLuaFile("cl_init.lua")
 ENT.DoorOpen = Sound("doors/door1_move.wav")
 ENT.DoorClose = Sound("doors/door_wood_close1.wav")
 ENT.DoorLocked = Sound("krio/door_locked1.wav")
+ENT.UseableSizeMin = -1
+ENT.UseableSizeMax = -1
+
 
 local outputs =
 {
@@ -41,8 +44,10 @@ function ENT:Use(activator, caller)
 		return
 	end
 
-	--Minidoor, don't let fullsize players through
-	if self:HasSpawnFlags(SF_MINIONLY) and IsValid(activator) and (isnumber(activator.JazzSizeMultiplier) == false or activator.JazzSizeMultiplier >= 1) then return end
+	--Compare user's size to ours
+	local usersize = IsValid(activator) and isnumber(activator.JazzSizeMultiplier) and activator.JazzSizeMultiplier or 1
+	if self.UseableSizeMin > 0 and self.UseableSizeMin > usersize then return end
+	if self.UseableSizeMax > 0 and self.UseableSizeMax < usersize then return end
 
 	self:TriggerOutput("OnUse", activator)
 
@@ -198,6 +203,10 @@ function ENT:KeyValue(key, value)
 			self:SetSkin(tonumber(value))
 		elseif key == "startlocked" then
 			self.StartLocked = tobool(value)
+		elseif key == "useablesizemin" then
+			self.UseableSizeMin = tonumber(value)
+		elseif key == "useablesizemax" then
+			self.UseableSizeMax = tonumber(value)
 		end
 	end
 end
