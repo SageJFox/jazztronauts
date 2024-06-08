@@ -29,7 +29,7 @@ function ENT:Think()
 	-- Approach spawn scale for a nice womp in
 	local goalScale = self.GetIsBeingDeleted and self:GetIsBeingDeleted() and 0 or 1
 	self.SpawnScale = math.Approach(self.SpawnScale, goalScale, FrameTime() * 5)
-	self:SetModelScale(self.SpawnScale)
+	self:SetModelScale(math.max( 0.001, self.SpawnScale ) )
 
 end
 

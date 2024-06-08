@@ -356,7 +356,7 @@ end
 local function PurgeRender()
 	local renderPurge = ManagedCSEnt("renderPurgeFix1", "models/hunter/blocks/cube025x025x025.mdl" ) //models/props_junk/PopCan01a.mdl, "models/hunter/blocks/cube025x025x025.mdl"
 	renderPurge:SetNoDraw(true)
-	renderPurge:SetModelScale(0)
+	--renderPurge:SetModelScale(0) --spams console now
 	renderPurge:DrawModel()
 end
 
@@ -390,7 +390,7 @@ hook.Add( "PostDrawOpaqueRenderables", "snatch_void", function(depth, sky)
 	render.SetColorModulation(overlayColor.r / 255.0, overlayColor.g / 255.0, overlayColor.b / 255.0)
 	//render.SetBlend((overlayColor.a or 255) / 255.0)
 
-	PurgeRender()
+	--PurgeRender() --doesn't seem to actually do anything?
 
 
 	for _, v in pairs(snatch.map_meshes) do
