@@ -123,15 +123,20 @@
 	outro(string) : "Normal Ending Map" : "jazz_outro" : "The name of the map this hub wants to use for its Normal Ending. No '.bsp' extension"
 	outro2(string) : "True Ending Map" : "jazz_outro2" : "The name of the map this hub wants to use for its True Ending. No '.bsp' extension"
 	trolley(string) : "Trolley Script File" : "default" : "If a custom trolley script is expected to go with this hub map, define it here. Path is typically relative to either the lua folder, or to 'gamemodes/jazztronauts/entities/entities/jazz_bus'" 
-	
+	voidrender(boolean) : "Render Void" : 0 : "Enable void rendering. Only enable in hub if you are using the void shell material, or you give the player the Prop Snatcher for some reason."
+
 	output OnMapSelected(void) : "Fires when a map has been selected and is starting the download process."
 	output OnMapDownloaded(integer) : "Fires when a map has finished downloading and is ready to be analyzed. 1 means successful, 0 means failure."
 	output OnMapAnalyzed(void) : "Fires when a map has finished being analyzed and facts have been extracted."
 	output OnMapDeselected(void) : "Fires when a map has been deselected."
 	output OnMapFailure(void) : "Fires when a map has failed to load."
 
-	input SelectAddon(void)  : "Select the currently-browsed addon. Begins downloading and mounting the map"
-	input CancelAddon(void)  : "Turn off the selector, switching off all the fact screens."
+	input SelectAddon(void)  		: "Select the currently-browsed addon. Begins downloading and mounting the map"
+	input CancelAddon(void)  		: "Turn off the selector, switching off all the fact screens."
+	input VoidRenderEnable(void)	: "Enable rendering the Void"
+	input VoidRenderDisable(void)	: "Disable rendering the Void"
+	input VoidRenderToggle(void)	: "Toggle rendering the Void"
+	input VoidRenderSet(bool)		: "Set rendering the Void"
 
 	spawnflags(flags) =
 	[

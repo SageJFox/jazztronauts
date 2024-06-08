@@ -31,6 +31,12 @@ local outputs =
 	"OnMapFailure"
 }
 
+if SERVER then
+	voidrender = CreateConVar("jazz_void_renderinhub", 0,
+	bit.bor(FCVAR_PROTECTED, FCVAR_REPLICATED, FCVAR_SERVER_CAN_EXECUTE, FCVAR_UNLOGGED, FCVAR_UNREGISTERED),
+	"Set by map, don't touch.", 0, 1)
+end
+
 function ENT:Initialize()
 	if SERVER then
 		self:SetModel( self.Model )
@@ -104,6 +110,8 @@ function ENT:KeyValue( key, value )
 		self.outro2 = value ~= "" and string.lower(value) or "jazz_outro2"
 	elseif key == "trolley" then
 		self.trolley = value ~= "" and string.lower(value) or "default"
+	elseif key == "voidrender" then
+		voidrender:SetBool(tobool(value))
 	end
 
 	if table.HasValue(outputs, key) then
@@ -119,6 +127,22 @@ function ENT:AcceptInput( name, activator, caller, data )
 	end
 	if name == "CancelAddon" then
 		self:CancelAddon()
+		return true
+	end
+	if name == "VoidRenderEnable" then
+		voidrender:SetBool(true)
+		return true
+	end
+	if name == "VoidRenderDisable" then
+		voidrender:SetBool(false)
+		return true
+	end
+	if name == "VoidRenderToggle" then
+		voidrender:SetBool(!voidrender:GetBool())
+		return true
+	end
+	if name == "VoidRenderSet" then
+		voidrender:SetBool(tobool(data))
 		return true
 	end
 

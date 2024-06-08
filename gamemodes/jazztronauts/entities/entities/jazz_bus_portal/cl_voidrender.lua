@@ -4,6 +4,8 @@ local refract = Material("effects/jazz_void_refract.vmt")
 void_mat = refract
 snatch.void_mat = void_mat
 
+should_render_hub = CreateConVar("jazz_void_renderinhub", 1, bit.bor(FCVAR_PROTECTED, FCVAR_REPLICATED, FCVAR_SERVER_CAN_EXECUTE, FCVAR_UNLOGGED, FCVAR_UNREGISTERED),"",0,1)
+
 should_render = should_render or true
 
 -- Performance convars
@@ -363,6 +365,8 @@ end
 hook.Add( "PostDrawOpaqueRenderables", "snatch_void", function(depth, sky)
 	if isInSky then return end
 	if not should_render then return end
+
+	if mapcontrol.IsInHub() and not should_render_hub:GetBool() then return end
 
 	-- Re-render this for every new scene if not drawing once
 	if not convar_drawonce:GetBool() then
