@@ -396,19 +396,19 @@ function ENT:ChangeChannel(dest)
 
 				self.ErrorChannel = material == nil
 				self.AddonThumb = material
-				self.GoalNoise = self.ErrorChannel and 1 or 0
 			end )
 		end )
 	else
-		local thumb, _ = Material("maps/thumb/" .. dest .. ".png","ignorez smooth")
+		self.ErrorChannel = false
+		local thumb = Material("maps/thumb/" .. dest .. ".png","ignorez smooth")
 		self.AddonThumb = thumb
-		if self.AddonThumb:IsError() then 
+		if self.AddonThumb:IsError() then
+			self.AddonThumb = Material("gui/noicon.png","ignorez smooth")
 			self.ErrorChannel = true
 		end
 		self.AddonName = dest
-		 --they're kinda low quality for the big screen, so, still give a wee bit o noise to help mask
-		self.GoalNoise = self.ErrorChannel and 1 or 0.1
 	end
+	self.GoalNoise = self.ErrorChannel and 1 or 0
 end
 
 function ENT:Draw()

@@ -421,8 +421,8 @@ function ENT:RefreshThumbnail(dest)
 	else
 		local thumb, _ = Material("maps/thumb/" .. dest .. ".png","ignorez smooth")
 		self.ThumbnailMat = thumb
-		if self.ThumbnailMat:IsError() then 
-			self.ThumbnailMat, _ = Material("gui/noicon.png","ignorez smooth") 
+		if self.ThumbnailMat:IsError() then
+			self.ThumbnailMat = Material("gui/noicon.png","ignorez smooth")
 		end
 	end
 end

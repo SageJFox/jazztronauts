@@ -233,10 +233,10 @@ function ENT:DrawSideInfo()
 
 	cam.Start3D2D(pos, ang, self.ScreenScale)
 		if not self.ThumbnailMat then
-			local thumb, _ = Material("maps/thumb/" .. self:GetDestination() .. ".png","ignorez smooth")
+			local thumb = Material("maps/thumb/" .. self:GetDestination() .. ".png","ignorez smooth")
 			self.ThumbnailMat = thumb
-			if self.ThumbnailMat:IsError() then 
-				self.ThumbnailMat, _ = Material("gui/noicon.png","ignorez smooth") 
+			if self.ThumbnailMat:IsError() then
+				self.ThumbnailMat = Material("gui/noicon.png","ignorez smooth")
 			end
 		end
 		if self.ThumbnailMat and not self.ThumbnailMat:IsError() then
