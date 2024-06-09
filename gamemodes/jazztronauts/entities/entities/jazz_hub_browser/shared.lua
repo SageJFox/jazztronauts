@@ -396,6 +396,7 @@ function ENT:ChangeChannel(dest)
 
 				self.ErrorChannel = material == nil
 				self.AddonThumb = material
+				self.GoalNoise = self.ErrorChannel and 1 or 0
 			end )
 		end )
 	else
@@ -406,9 +407,12 @@ function ENT:ChangeChannel(dest)
 			self.AddonThumb = Material("gui/noicon.png","ignorez smooth")
 			self.ErrorChannel = true
 		end
-		self.AddonName = dest
+		timer.Simple(0.375,function()
+			if not self then return end
+			self.AddonName = dest
+			self.GoalNoise = self.ErrorChannel and 1 or 0.0125
+		end)
 	end
-	self.GoalNoise = self.ErrorChannel and 1 or 0
 end
 
 function ENT:Draw()
