@@ -128,6 +128,42 @@ function FetchThumbnail(addon, func)
 	end
 end
 
+-- Async fetch the addon's images
+function FetchImages(addon, func)
+	local url = "https://steamcommunity.com/sharedfiles/filedetails/?id=%s"
+	url = string.format(url, addon.id)
+
+	http.Fetch(url,
+		function(body, len, headers, cod)
+			local _, start, _ = string.find(body,"var%s+rgScreenshotURLs")
+			if start then
+				local _, _, section = string.find(body,"{%s+(.-)%s+};",start)
+				if section then
+					local ret = string.Split(section,"\n")
+					if istable(ret) then
+						for k, v in ipairs(ret) do
+							local _, _, fixed = string.find(v,"'%d+'%s-:%s-'(.-)',") --string.find(v,"'%d+'%s-:%s-'(.-)%?.-',") --cuts off settings at end
+							if fixed and #fixed > 1 then
+								ret[k] = fixed
+							else
+								table.remove(ret,k)
+							end
+						end
+						func(ret)
+						return
+					end
+				end
+			end
+			print(url, body)
+			func({})
+		end,
+		function()
+			print("Failed to get workshop images")
+			func({})
+		end
+	)
+end
+
 
 -- Attempt to find the addon that 'owns' this map
 -- May be nil if the map is just loose in their folder

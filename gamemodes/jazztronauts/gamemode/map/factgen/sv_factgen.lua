@@ -44,7 +44,7 @@ local function getWorkshopFacts(wsid, addFact)
 	end)
 
 	local info = task.Await(fileinfoTask)
-	if info and info.result != 9 then
+	if info and info.result != 9 then --result 9: File was not found.
 		PrintTable(info)
 		addFact("ws_owner", info.owner)
 		addFact("ws_views", "jazz.fact.views,"..tostring(info.views))
@@ -55,10 +55,9 @@ local function getWorkshopFacts(wsid, addFact)
 		7 Year (two-digit), 8 Month (Name), 9 Month (Abbreviated), 10 Hour (12hr), 11 AM/PM, 12 Year (Roman Numerals)]]
 		addFact("ws_upload_date", "jazz.fact.uploaded,"..tostring(os.date("%Y,%m,%d,%H,%M,%S,%y,%B,%b,%I,%p,", tonumber(info.time_created) or 0) .. jazzloc.RomanNumerals(os.date("%Y", tonumber(info.time_created) or 0))))
 		addFact("ws_update_date", "jazz.fact.modified,"..tostring(os.date("%Y,%m,%d,%H,%M,%S,%y,%B,%b,%I,%p,", tonumber(info.time_updated) or 0) .. jazzloc.RomanNumerals(os.date("%Y", tonumber(info.time_created) or 0))))
-		addFact("ws_screenshots", info.preview_url) --#TODO: How to grab ALL preview images?
 		addFact("ws_tags", "jazz.fact.tags,"..tostring(getAddonTags(info)))
 
-		-- Fetch a random comment
+		-- Fetch first page of comments
 		local commentTask = task.NewCallback(function(done)
 			workshop.FetchComments(info, done)
 		end)
@@ -72,6 +71,22 @@ local function getWorkshopFacts(wsid, addFact)
 				count = count + 1
 				total = total - 1
 			end
+		end
+
+		-- Fetch images
+		local imageTask = task.NewCallback(function(done)
+			workshop.FetchImages(info, done)
+		end)
+
+		local images = task.Await(imageTask)
+		if images then
+			local imgstr = info.preview_url
+			for _, v in ipairs(images) do
+				if v and #v > 1 then
+					imgstr = imgstr .. "|" .. v
+				end
+			end
+			addFact("ws_screenshots", imgstr)
 		end
 	end
 end

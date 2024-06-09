@@ -175,7 +175,7 @@ local lastPic = nil
 local function renderSlideshow()
 	if not isOn or not slideshowRT or not jazzSlideshowDHTML then return end
 
-	local pic = slideshowPics[(math.Round(CurTime()) % #slideshowPics) + 1]
+	local pic = slideshowPics[(math.Round(CurTime() * 0.5) % #slideshowPics) + 1]
 	if lastPic != pic then
 		lastPic = pic
 		setDHTMLPic(jazzSlideshowDHTML, pic)
@@ -190,7 +190,7 @@ local function renderSlideshow()
 			surface.DrawRect(0, 0, RTWidth, RTHeight)
 
 			surface.SetMaterial(slideMat)
-			surface.DrawTexturedRectUV(0, RTHeight * 0.25, RTWidth,  RTHeight * 0.75,0,0,1,1.525)
+			surface.DrawTexturedRectUV(0, 0, RTWidth, RTHeight, 0, 0, 1, 1)
 
 		cam.End2D()
 	end)
