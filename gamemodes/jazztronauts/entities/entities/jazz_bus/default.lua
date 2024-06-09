@@ -232,7 +232,14 @@ function ENT:DrawSideInfo()
 	pos = pos - ang:Right() * self.ScreenScale * self.ScreenHeight / 2
 
 	cam.Start3D2D(pos, ang, self.ScreenScale)
-		if self.ThumbnailMat then
+		if not self.ThumbnailMat then
+			local thumb, _ = Material("maps/thumb/" .. self:GetDestination() .. ".png","ignorez smooth")
+			self.ThumbnailMat = thumb
+			if self.ThumbnailMat:IsError() then 
+				self.ThumbnailMat, _ = Material("gui/noicon.png","ignorez smooth") 
+			end
+		end
+		if self.ThumbnailMat and not self.ThumbnailMat:IsError() then
 			surface.SetMaterial(self.ThumbnailMat)
 			surface.SetDrawColor(255, 255, 255, 255)
 			surface.DrawTexturedRect(-156, 0, 356, 356)

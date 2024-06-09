@@ -400,8 +400,14 @@ function ENT:ChangeChannel(dest)
 			end )
 		end )
 	else
-		self.ErrorChannel = true
+		local thumb, _ = Material("maps/thumb/" .. dest .. ".png","ignorez smooth")
+		self.AddonThumb = thumb
+		if self.AddonThumb:IsError() then 
+			self.ErrorChannel = true
+		end
 		self.AddonName = dest
+		 --they're kinda low quality for the big screen, so, still give a wee bit o noise to help mask
+		self.GoalNoise = self.ErrorChannel and 1 or 0.1
 	end
 end
 
