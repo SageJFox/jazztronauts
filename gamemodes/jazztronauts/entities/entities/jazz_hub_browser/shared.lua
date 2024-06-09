@@ -300,7 +300,7 @@ function ENT:DrawScreenContents(rt)
 			draw.SimpleTextOutlined( self.AddonName, "JazzTVChannel", sizeX - 20, 100, Color(60,255,60), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 2, color_black )
 
 			if self.ErrorChannel then
-				draw.SimpleTextOutlined( "NO SIGNAL", "JazzTVChannel", sizeX/2, sizeY/2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, color_black )
+				draw.SimpleTextOutlined( jazzloc.Localize("jazz.levelselect.nothumb"), "JazzTVChannel", sizeX/2, sizeY/2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, color_black )
 			end
 		cam.End2D()
 end
