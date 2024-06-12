@@ -50,6 +50,7 @@ local bowelMovementSounds =
 local outputs =
 {
 	"OnVomitEnd",
+	"OnVomitEndEmpty",
 	"OnVomitStart",
 	"OnVomitStartEmpty"
 }
@@ -93,6 +94,12 @@ function ENT:KeyValue( key, value )
 	if key == "marker" then
 		local marker = Vector(value) or Vector(self:GetPos())
 		self:SetMarker(marker)
+	elseif key == "vomitmusic" then
+		self.VomitMusicFile = Sound(value)
+	elseif key == "vomitmusicfinish" then
+		self.VomitFinishFile = Sound(value)
+	elseif key == "vomitmusicempty" then
+		self.VomitEmptyFile = Sound(value)
 	end
 
 	if table.HasValue(outputs, key) then
@@ -106,7 +113,7 @@ function ENT:StopVomit()
 	self.IsStopping = true
 
 	timer.Simple(self.FinishDelay, function()
-		self:TriggerOutput("OnVomitEnd", self)
+		self:TriggerOutput(self.WasEmpty and "OnVomitEndEmpty" or "OnVomitEnd", self)
 		self.IsStopping = false
 	end )
 end
@@ -147,11 +154,10 @@ end
 function ENT:StartMusic(f)
 	self:StopMusic()
 
-	--local f = empty and self.VomitEmptyFile or self.VomitMusicFile
+	--local f = self.WasEmpty and self.VomitEmptyFile or self.VomitMusicFile
 	self.VomitMusic = CreateSound(self, f)
 	self.VomitMusic:SetSoundLevel(80)
 	self.VomitMusic:Play()
-	self.WasEmpty = empty
 end
 
 function ENT:VomitNewProps(ply)
@@ -191,8 +197,8 @@ function ENT:VomitNewProps(ply)
 		print("LOAD TOOK: " .. loadTime .. " seconds!")
 
 		-- Random chance for the pipe to be constipated
-		local empty = next(self.SpawnQueue) == nil
-		self.Constipated = not empty
+		self.WasEmpty = next(self.SpawnQueue) == nil
+		self.Constipated = not self.WasEmpty
 			and self.TotalCount > self.ConstipateMinProps
 			and math.random(0, self.ConstipateOdds) == 0
 
@@ -201,13 +207,13 @@ function ENT:VomitNewProps(ply)
 		end
 
 		-- Fire outputs
-		self:TriggerOutput(empty and "OnVomitStartEmpty" or "OnVomitStart", self)
+		self:TriggerOutput(self.WasEmpty and "OnVomitStartEmpty" or "OnVomitStart", self)
 
 		-- Start the music and away we go
 		local startDelay = self.StartDelay - loadTime
 		self.StartAt = CurTime() + self.MusicDelay + startDelay
 		timer.Simple(startDelay, function()
-			self:StartMusic(empty and self.VomitEmptyFile or self.VomitMusicFile)
+			self:StartMusic(self.WasEmpty and self.VomitEmptyFile or self.VomitMusicFile)
 		end )
 	end )
 end

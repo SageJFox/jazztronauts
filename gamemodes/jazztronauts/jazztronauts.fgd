@@ -57,8 +57,12 @@
 @PointClass base(Targetname) origin(marker) iconsprite("editor/env_shooter.vmt") = jazz_hub_propvomiter : "Prop Poop Chute"
 [
 	marker(vector) : "Marker" : : "Where the marker for this vomiter should be (typically above its activator)"
+	vomitmusic(sound) : "Vomit Music Loop" : "jazztronauts/music/trash_chute_music_loop.wav" : "Sound file played while vomiting props (expected to loop!)"
+	vomitmusicfinish(sound) : "Vomit Music Finish" : "jazztronauts/music/trash_chute_music_stop.wav" : "Sound file played once prop vomiting ends."
+	vomitmusicempty(sound) : "Vomit Music Empty" : "jazztronauts/music/trash_chute_music_empty.wav" : "Sound file played if player had no props to turn in."
 
 	output OnVomitEnd(void) : "Fires when props are finished vomiting"
+	output OnVomitEndEmpty(void) : "Fires on vomit fail music crescendo."
 	output OnVomitStart(void) : "Fires when there has been a successful pull of the lever. "
 	output OnVomitStartEmpty(void) : "Fires when there has been a successful pull of the lever, but the player had no props."
 
