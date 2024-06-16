@@ -348,6 +348,7 @@ DialogCallbacks.ListOptions = function(data)
 	frame:SetSize(ScreenScaleEx(400, 300))
 	frame:NoClipping(true)
 	frame:DockPadding(0, 20, 0, 20)
+	frame:SetKeyboardInputEnabled(true)
 	frame.Paint = function(self, w, h)
 
 		-- Rotated pink back box
@@ -365,10 +366,86 @@ DialogCallbacks.ListOptions = function(data)
 
 	end
 
+	--allow user to push number buttons to select branches
+	frame.OnKeyCodePressed = function( self, keyCode )
+		local child = self:Find("Option" .. tostring(keyCode - 1)) or self:Find("Option" .. tostring(keyCode - 37)) --regular numbers, numpad
+		local optionbutts = 0
+		for i = 1, self:ChildCount() do
+			local kid = self:GetChild(i)
+			if ispanel(kid) and string.find(kid:GetName(),"^Option%d$") then optionbutts = optionbutts + 1 end
+		end
+
+		if ispanel(child) then
+			for i = 1, self:ChildCount() do
+				local kid = self:GetChild(i)
+				if ispanel(kid) and kid ~= child then kid.Hovered = false end
+			end 
+			child.Hovered = not child.Hovered
+		else --we pushed a different key, try scrolling
+			local current = nil
+			--figure out which button is currently selected, if any
+			for i = 1, self:ChildCount() do
+				local kid = self:GetChild(i)
+				if ispanel(kid) and kid.Hovered then
+					local _, _, curnum = string.find(kid:GetName(),"^Option(%d)$")
+					current = tonumber(curnum)
+					break
+				end
+			end
+			--want to move down, or pick first if we have no selection
+			if keyCode == KEY_DOWN or keyCode == KEY_PAGEDOWN or keyCode == KEY_S then --todo: check specifically for movement key binds, not just literally W and S
+				if not current then
+					local first = self:Find("Option1")
+					if ispanel(first) then
+						first.Hovered = true
+						current = 1
+					end
+					return
+				end
+				current = current + 1
+			--want to move up, or pick last if we have no selection
+			elseif keyCode == KEY_UP or keyCode == KEY_PAGEUP or keyCode == KEY_W then
+				if not current then
+					local last = self:Find("Option" .. tostring(optionbutts))
+					if ispanel(last) then
+						last.Hovered = true
+						current = optionbutts
+					end
+					return
+				end
+				current = current - 1
+			end
+			--wrapping
+			if not current then return end
+			if current <= 0 then current = optionbutts end
+			if current > optionbutts then current = 1 end
+
+			--actually move
+			for i = 1, self:ChildCount() do
+				local kid = self:GetChild(i)
+				if ispanel(kid) then
+					kid.Hovered = (kid == self:Find("Option" .. tostring(current))) and true or false
+				end
+			end
+		end
+	end
+
+	--making their choice (do on release so they don't autoskip immediately on the next dialog)
+	frame.OnKeyCodeReleased = function(self, keyCode)
+		if keyCode == KEY_ENTER or keyCode == KEY_SPACE or keyCode == KEY_PAD_ENTER then
+			for i = 1, self:ChildCount() do
+				local kid = self:GetChild(i)
+				if ispanel(kid) and kid.Hovered then
+					kid:DoClick()
+				end
+			end 
+		end
+	end
+
 	for k, v in ipairs(data.data) do
-		local btn = vgui.Create("DButton", frame)
+		local btn = vgui.Create("DButton", frame, "Option" .. tostring(k))
 		btn:SetFont("JazzDialogFont")
-		btn:SetText(v.data[1].data)
+		btn:SetText(jazzloc.Localize("jazz.dialog.option",tostring(k), v.data[1].data))
 		btn:SizeToContents()
 		btn:SizeToContentsY(ScreenScale(5))
 		btn:Dock(TOP)
