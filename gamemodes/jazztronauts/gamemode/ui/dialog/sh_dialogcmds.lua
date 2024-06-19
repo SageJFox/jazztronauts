@@ -1884,6 +1884,9 @@ end )
 
 
 -- Background music
+
+local bgmvolume = CreateClientConVar("jazz_music_volume", 1, true, false, "Controls music volume in Jazztroanuts cutscenes. 1 for full volume, 0 to mute.", 0, 1)
+
 local bgmeta = {}
 
 function bgmeta:OnReady(channel, err, errname)
@@ -1925,7 +1928,7 @@ function bgmeta:Update()
 	end
 
 	local focusmult = system.HasFocus() and 1 or 0
-	self.channel:SetVolume(math.Clamp(volume * focusmult, 0, 1))
+	self.channel:SetVolume(math.Clamp(volume * focusmult * bgmvolume:GetFloat(), 0, 1))
 	return true
 end
 
