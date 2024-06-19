@@ -39,6 +39,8 @@ function ENT:Initialize()
 	if self.PreInit then self:PreInit() end
 end
 
+local safety = GetConVar("jazz_safety_mode")
+
 function ENT:RefreshWorkshopInfo()
 	if self:GetWorkshopID() == "" then return end
 
@@ -55,9 +57,14 @@ function ENT:RefreshWorkshopInfo()
 			local function parseComment(cmt, width)
 				if not cmt then return end
 
+				local comm, auth = cmt.message, cmt.author
+
+				if math.Round(safety:GetFloat()) > 0 then auth = string.gsub(auth,"%S","█") end
+				if math.Round(safety:GetFloat()) == 2 then comm = string.gsub(comm,"%S","█") end
+
 				return markup.Parse(
-					"<font=SteamCommentFont>" .. cmt.message .. "</font>\n "
-					.."<font=SteamAuthorFont> -" .. cmt.author .. "</font>",
+					"<font=SteamCommentFont>" .. comm .. "</font>\n "
+					.."<font=SteamAuthorFont> -" .. auth .. "</font>",
 				width)
 			end
 

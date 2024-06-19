@@ -77,6 +77,12 @@ if SERVER then
 end
 
 if CLIENT then
+
+	CreateClientConVar("jazz_safety_mode", 0, true, true, "For the faint of heart (or possibly streamers). Prevents some Steam Community content from being displayed.\n" ..
+	"\t0: No filter applied. (Default)\n" ..
+	"\t1: Identity protection - usernames in comments/map authorship are censored.\n" ..
+	"\t2: Comments are also censored.", 0, 2)
+
 	Callbacks = Callbacks or {}
 	CombinedFacts = CombinedFacts or {}
 	ActiveFacts = ActiveFacts or {}

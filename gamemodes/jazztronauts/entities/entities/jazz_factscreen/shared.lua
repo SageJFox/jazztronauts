@@ -63,28 +63,6 @@ if SERVER then
 	return
 end
 
-local function randomlocalization(strang)
-	
-	if strang == nil then return nil end
-	
-	--TODO (maybe): all screens use the same instance of their fail text, this commented out code would want them all called individually
-
-	--[[if string.find(strang,"jazz.levelselect.fail",1,true) == nil then return strang end --we're not randomizing any other strings
-	strang = tostring(strang)
-	local localizationtable = {
-		".en",
-		".es",
-		".fr",
-		".jp",
-		".uk",
-	}
-	local localizationstrs = setmetatable(localizationtable, {__index = function() return "" end} )
-
-	return jazzloc.Localize(strang..localizationstrs[math.random(#localizationstrs+3)]) -- 3 (or more if it's present) times more likely to display our language, with others mixed in for flavor]]
-	
-	return jazzloc.Localize(strang)
-end
-
 local RTWidth = 512
 local RTHeight = 512
 local VisibleHeight = 0.5
@@ -131,7 +109,7 @@ local isOn = false
 local function renderFact(rt, f, title, bgcolor, font)
 
 	rt:Render( function()
-		local mostr = "<font=" .. (font or "FactScreenFont") ..">" .. randomlocalization(f.fact) .. "</font>"
+		local mostr = "<font=" .. (font or "FactScreenFont") ..">" .. jazzloc.Localize(f.fact) .. "</font>"
 		mostr = string.Replace(mostr,"‚",",") --replaces U+201A "Single Low-9 Quotation Mark" with comma (we're done with localization, commas are safe again)
 		local mo = markup.Parse(mostr, RTWidth * 0.98)
 
@@ -141,7 +119,7 @@ local function renderFact(rt, f, title, bgcolor, font)
 			surface.DrawRect(0, 0, 512, 512)
 			surface.SetTextColor(0, 0, 0)
 			surface.SetFont("FactScreenFont")
-			draw.SimpleText(randomlocalization(title) or "", "FactScreenTitle", RTWidth/2, RTHeight * 0.28, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
+			draw.SimpleText(jazzloc.Localize(title or ""), "FactScreenTitle", RTWidth/2, RTHeight * 0.28, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
 			mo:Draw(RTWidth/2 - mo:GetWidth()/2, VisibleHeight * RTHeight - mo:GetHeight()/2, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 		cam.End2D()
 	end )
@@ -206,18 +184,41 @@ local function loadMapScreenshots(rt, f)
 	jazzSlideshowDHTML:SetAlpha(0)
 end
 
+local safety = GetConVar("jazz_safety_mode")
+
 local function loadOwner(rt, f)
 	steamworks.RequestPlayerInfo(f.fact, function(name)
 		f.fact = name or f.fact
+		if math.Round(safety:GetFloat()) > 0 then f.fact = string.gsub(f.fact,"%S","█") end
 		renderFact(rt, f, "jazz.fact.owner")
 	end )
+end
+
+local commentformat = "^" .. string.Trim(jazzloc.Localize("jazz.fact.comment","(.-)","(.-)")) .. "$"
+
+local function commentfunc(rt, f)
+	if math.Round(safety:GetFloat()) <= 0 then renderFact(rt,f) end --skip processing if not needed
+	local newf = {
+		["id"] = f.id,
+		["name"] = f.name
+	}
+	local _, _, comm, auth = string.find(f.fact, commentformat)
+
+	if not (comm or auth) then renderFact(rt,f) end --abort!
+
+	if math.Round(safety:GetFloat()) == 2 then comm = string.gsub(comm,"%S","█") end
+	if math.Round(safety:GetFloat()) >= 1 then auth = string.gsub(auth,"%S","█") end
+
+	newf.fact = jazzloc.Localize("jazz.fact.comment", comm, auth)
+
+	renderFact(rt,newf)
 end
 
 -- Allow some fact names to override what it does when it would otherwise render
 local factOverrides = {
 	ws_screenshots = loadMapScreenshots,
 	ws_owner = loadOwner,
-	comment = function(rt, f) renderFact(rt, f) end,
+	comment = commentfunc,
 	failure = function(rt, f) renderFact(rt, f, nil, Color(136, 12, 12), "FactScreenError") end
 }
 

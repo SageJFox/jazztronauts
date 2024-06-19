@@ -67,7 +67,7 @@ local function getWorkshopFacts(wsid, addFact)
 			local total, count = 10, 0 --limit to 10 total possible comments (unless our fetching method changes or Valve puts a different number of comments per page we couldn't get more than this anyway)
 			while math.min( total, #comments ) > 0 do
 				local comm = table.remove(comments,math.random(#comments))
-				addFact("comment" .. tostring(count), string.Replace("“" .. comm.message .. "”\n-" .. comm.author,",","‚"))--replaces comma with U+201A "Single Low-9 Quotation Mark" (commas in comments break running through screen localization)
+				addFact("comment" .. tostring(count),"jazz.fact.comment," .. string.Replace(comm.message,",","‚").. "," .. string.Replace(comm.author,",","‚"))--replaces comma with U+201A "Single Low-9 Quotation Mark" (commas in comments break running through screen localization)
 				count = count + 1
 				total = total - 1
 			end
