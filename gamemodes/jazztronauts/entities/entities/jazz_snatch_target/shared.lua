@@ -15,9 +15,7 @@ JazzWorldSnatches[STEAL_BRUSH]	= JazzWorldSnatches[STEAL_BRUSH] or {}
 JazzWorldSnatches[STEAL_DISPL]	= JazzWorldSnatches[STEAL_DISPL] or {}
 
 
-local mask = bit.bor( MASK_SOLID, CONTENTS_DETAIL )
-mask = bit.bor( mask, CONTENTS_GRATE )
-mask = bit.bor( mask, CONTENTS_TRANSLUCENT )
+local mask = bit.bor( MASK_SOLID, MASK_WATER, CONTENTS_DETAIL, CONTENTS_WINDOW, CONTENTS_GRATE, CONTENTS_TRANSLUCENT )
 
 local function createMarkerForBrush(pos, ang, data, type, id)
 	local ent = ents.Create("jazz_snatch_target")
@@ -51,7 +49,7 @@ function snatch.FindOrCreateWorld(pos, dir, dist)
 		if not IsValid(JazzWorldSnatches[STEAL_BRUSH][res.Brush.id]) then
 			createMarkerForBrush(res.HitPos, res.HitNormal:Angle(), res.Brush, STEAL_BRUSH, res.Brush.id)
 		end
-
+		
 		return JazzWorldSnatches[STEAL_BRUSH][res.Brush.id]
 	end
 
@@ -60,8 +58,49 @@ function snatch.FindOrCreateWorld(pos, dir, dist)
 		if not IsValid(JazzWorldSnatches[STEAL_DISPL][res.Displacement]) then
 			createMarkerForBrush(res.HitPos, res.HitNormal:Angle(), map.displacements[res.Displacement], STEAL_DISPL, res.Displacement)
 		end
-
+		
 		return JazzWorldSnatches[STEAL_DISPL][res.Displacement]
+	end
+
+	--one more time, but try going through grates/transparency TODO: maybe try to make this not just copied code? Maybe?
+	if (res.Brush and snatch.removed_brushes[res.Brush.id]) or (res.Displacement and snatch.removed_displacements[res.Displacement]) then
+
+		local gothroughfilter = bit.bor(CONTENTS_WINDOW, CONTENTS_WATER, CONTENTS_SLIME, CONTENTS_GRATE, CONTENTS_TRANSLUCENT )
+		if res.Contents and bit.band( res.Contents, gothroughfilter ) == 0 then return nil end -- we hit a solid, no going through
+
+		local oldcontents = res.Contents or MASK_ALL
+		
+		res = map:Trace({
+			pos = pos,
+			dir = dir,
+			tmin = 0,
+			tmax = dist,
+			mask = bit.band( mask, bit.bnot( bit.band( oldcontents, gothroughfilter ) ) ),
+			ignoreents = true,
+			filter = { "func_dustmotes" }
+		})
+
+		-- Must have hit something
+		if not res or not res.Hit then return nil end
+
+		--print(res.mask)
+		-- Hit a brush?
+		if res.Brush and not snatch.removed_brushes[res.Brush.id] then
+			if not IsValid(JazzWorldSnatches[STEAL_BRUSH][res.Brush.id]) then
+				createMarkerForBrush(res.HitPos, res.HitNormal:Angle(), res.Brush, STEAL_BRUSH, res.Brush.id)
+			end
+			
+			return JazzWorldSnatches[STEAL_BRUSH][res.Brush.id]
+		end
+
+		-- Hit a displacement?
+		if res.Displacement and not snatch.removed_displacements[res.Displacement] then
+			if not IsValid(JazzWorldSnatches[STEAL_DISPL][res.Displacement]) then
+				createMarkerForBrush(res.HitPos, res.HitNormal:Angle(), map.displacements[res.Displacement], STEAL_DISPL, res.Displacement)
+			end
+			
+			return JazzWorldSnatches[STEAL_DISPL][res.Displacement]
+		end
 	end
 
 	return nil

@@ -170,7 +170,6 @@ function traceNode( node, tw )
 				local side, brush = traceBrushes( node, tw )
 
 				if side then
-					tw.hit = true
 					tw.leaf = node
 					tw.t = tw.tmin
 					tw.Hit = true
@@ -183,9 +182,8 @@ function traceNode( node, tw )
 
 			end
 
-			if not tw.hit and bit.band( node.contents, tw.mask ) ~= 0 then
+			if not tw.Hit and bit.band( node.contents, tw.mask ) ~= 0 then
 
-				tw.hit = true
 				tw.leaf = node
 				tw.t = tw.tmin
 				tw.Hit = true
@@ -197,7 +195,7 @@ function traceNode( node, tw )
 
 			end
 
-			if tw.hit == true then
+			if tw.Hit == true then
 
 				if tw.Side then
 					tw.HitNormal = Vector(tw.Side.plane.back.normal)
@@ -342,7 +340,7 @@ function meta:Trace( tdata)
 				traceNode( v.bmodel.headnode, d )
 				d.Steps = (res and (d.Steps + res.Steps)) or d.Steps
 				res = (res and res.t < d.t) and res or d
-				--print("yo: ", v.bmodel.id, tostring(v.origin), d.hit)
+				--print("yo: ", v.bmodel.id, tostring(v.origin), d.Hit)
 			end
 		end
 	end

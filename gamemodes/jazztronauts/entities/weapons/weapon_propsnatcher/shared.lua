@@ -211,7 +211,7 @@ function SWEP:ViewModelDrawn(viewmodel) end
 function SWEP:Think() end
 function SWEP:OnRemove() end
 
-function SWEP:AcceptEntity( ent )
+function SWEP:AcceptEntity( ent ) --TODO: network so we can use snatchable on client
 	return mapgen.CanSnatch(ent) and (not ent.JazzSnatchWait or CurTime() > ent.JazzSnatchWait)
 end
 
@@ -371,7 +371,7 @@ function SWEP:FindConeEntities()
 	local closest, closedist2
 	closedist2 = math.huge
 	if self:AcceptEntity(resAim.Entity) then
-		validAccept[resAim.Entity] = resAim.Entity
+		--validAccept[resAim.Entity] = resAim.Entity
 		closest = resAim.Entity
 		closedist2 = 0
 	end
@@ -412,10 +412,11 @@ function SWEP:FindConeEntities()
 		end )
 	end
 
-	local maxdist2 = self.MaxRange^2
-	local endPos = resAim.StartPos + resAim.Normal * self.MaxRange
+	--local maxdist2 = self.MaxRange^2
+	--local endPos = resAim.StartPos + resAim.Normal * self.MaxRange
 
 	-- Find closest entity to center of screen
+	--TODO: *maybe* do some sort of bounding box/radius check for really big props? Would non-centered offsets then make *that* feel fucked up and bad? 
 	if closedist2 > 0 then
 		for _, v in pairs(validAccept) do
 			if not IsValid(v) then continue end
