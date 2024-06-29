@@ -1,8 +1,4 @@
-local horse = CreateMaterial( "horse2", "UnlitGeneric",
-{
-	["$basetexture"] = "ui/transition_horse",
-	["$vertexcolor"] = true,
-})
+local horse = Material("ui/transition_horse.vmt")
 
 local starttime = CurTime()
 local transitioning = 0
@@ -92,11 +88,12 @@ local function drawHorse(amount)
 	render.OverrideBlendFunc( true, BLEND_ZERO, BLEND_SRC_COLOR )
 
 	surface.SetMaterial( horse )
-	surface.SetDrawColor(0,0,0,255)
+	surface.SetDrawColor(color_white)
 
 	surface.DrawTexturedRect(transitionrect:Unpack())
 
 
+	surface.SetDrawColor(color_black)
 	surface.DrawRect( -1, -1, box.x0 + 1, ScrH() + 1 )
 	surface.DrawRect( box.x0, -1, ScrW() - box.x0, box.y0 + 1 )
 	surface.DrawRect( box.x1, box.y0, ScrW() - box.x1, ScrH() - box.y0 )

@@ -129,6 +129,12 @@ local function addButton(parent, item)
 	img:DockMargin(uniPad, uniPad, uniPad, uniPad)
 	img:SetKeepAspect(true)
 	img:SetWidth(ScreenScale(32))
+	--give default icon a sort of "frosted window" look
+	if img:GetMaterial() == defaultIcon then
+		local iconColor = table.Copy(textColor)
+		iconColor.a = 200
+		img:SetImageColor(iconColor)
+	end
 
 	-- Optional "NEW" informative marker
 	local newImg = vgui.Create("DImage", img)
