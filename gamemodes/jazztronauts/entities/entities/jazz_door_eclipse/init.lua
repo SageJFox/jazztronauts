@@ -40,6 +40,7 @@ function ENT:Initialize()
 		votium:SetPos(self:GetPos() + self:GetAngles():Up() * -10)
 		votium:SetAngles(self:GetAngles())
 		votium:SetKeyValue("PodiumRadius", 85)
+		votium.RequiresPercentage = true
 		votium:Spawn()
 		votium:Activate()
 		votium:SetParent(self)

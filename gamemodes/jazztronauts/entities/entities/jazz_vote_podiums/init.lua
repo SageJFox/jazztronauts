@@ -11,6 +11,10 @@ ENT.ApproachRadius = 500
 ENT.PodiumRadius = 50
 ENT.PodiumSemiCircle = 2 * math.pi -- Which semicircle angle to spawn podiums in (2pi means all the way around)
 ENT.PodiumSemiAngle = nil -- Which angle represents the 'center' of the semicircle to spawn around. If nil, use approach angle
+ENT.RequiresPercentage = nil -- When all votes are cast, do we require at least jazz_vote_percentage of the server's total money earned to act?
+
+local percentage = CreateConVar( "jazz_vote_percentage", 0.51, FCVAR_ARCHIVE,
+	"When players vote to start an ending, the funds they've collected must add up to at least this percentage of the server total.", 0, 1)
 
 function ENT:Initialize()
 	self.podiums = {}
@@ -119,6 +123,31 @@ function ENT:MakePodium( ply, offset, angles )
 end
 
 function ENT:OnAllPodiumsUsed()
+
+	-- We probably don't want a new player to join a server solo and be able to initiate an ending,
+	-- so we make the voting players' play time this reset a factor. Easiest way to track that is how much money they earned (time is money, after all).
+	if self.RequiresPercentage then
+
+		-- Voting by shares, as it were
+		local votertotal = 0
+		for _, v in ipairs(player.GetHumans()) do
+			if IsValid(v) then
+				local plyamt = jazzmoney.GetPlayerMoney(v)
+				if not istable(plyamt) then continue end
+				votertotal = votertotal + (isnumber(plyamt.earned) and plyamt.earned or 0 )
+			end
+		end
+
+		--don't let cheated money block'em
+		local fakemoney = jazzmoney.GetPlayerMoney(-1)
+		if not istable(fakemoney) then fakemoney = { ["earned"] = 0 } end
+
+		--convert to percentage
+		votertotal = votertotal / ( jazzmoney.GetTotal(true) - ( isnumber(fakemoney.earned) and fakemoney.earned or 0 ) )
+
+		if percentage:GetFloat() > votertotal then return end
+
+	end
 
 	for _, ent in pairs( self.podiums ) do
 

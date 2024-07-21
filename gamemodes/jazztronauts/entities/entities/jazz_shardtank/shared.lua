@@ -38,6 +38,7 @@ if SERVER then
 			voter:SetPos(self:GetPos())
 			voter.PodiumSemiAngle = math.rad(self:GetAngles().y)
 			voter.PodiumSemiCircle = math.rad(130)
+			voter.RequiresPercentage = true
 			voter:Spawn()
 			voter:Activate()
 			voter:StoreActivatedCallback(function(who_found)
