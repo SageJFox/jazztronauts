@@ -368,11 +368,11 @@ DialogCallbacks.ListOptions = function(data)
 
 	--allow user to push number buttons to select branches
 	frame.OnKeyCodePressed = function( self, keyCode )
-		local child = self:Find("Option" .. tostring(keyCode - 1)) or self:Find("Option" .. tostring(keyCode - 37)) --regular numbers, numpad
+		local child = self:Find("Option" .. tostring(keyCode - 1)) or self:Find("Option" .. tostring(keyCode - 37)) or ((keyCode == KEY_0 or keyCode == KEY_PAD_0) and self:Find("Option10")) --regular numbers, numpad
 		local optionbutts = 0
 		for i = 1, self:ChildCount() do
 			local kid = self:GetChild(i)
-			if ispanel(kid) and string.find(kid:GetName(),"^Option%d$") then optionbutts = optionbutts + 1 end
+			if ispanel(kid) and string.find(kid:GetName(),"^Option%d*$") then optionbutts = optionbutts + 1 end
 		end
 
 		if ispanel(child) then
@@ -387,7 +387,7 @@ DialogCallbacks.ListOptions = function(data)
 			for i = 1, self:ChildCount() do
 				local kid = self:GetChild(i)
 				if ispanel(kid) and kid.Hovered then
-					local _, _, curnum = string.find(kid:GetName(),"^Option(%d)$")
+					local _, _, curnum = string.find(kid:GetName(),"^Option(%d*)$")
 					current = tonumber(curnum)
 					break
 				end
