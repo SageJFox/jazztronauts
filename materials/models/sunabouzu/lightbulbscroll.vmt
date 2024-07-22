@@ -1,13 +1,27 @@
-"UnlitGeneric"
+"VertexLitGeneric"
 {
-	"$basetexture" "models/sunabouzu/lightbulbscroll"
+	"$basetexture" "models/sunabouzu/jazzscreenglass"
+	$basemapalphaphongmask 1
+	$additive	1
 	"$nodecal" 1
+	"$detail" "models/sunabouzu/lightbulbscroll"
+	$detailscale	1
+	$detailblendfactor	1
+	$detailblendmode	5
+	
+	"$phong" 1
+	"$phongboost" "20.0"
+	"$phongexponent" "60"
+	"$phongfresnelranges" "[0.25 0.5 1.0]"
+	"$rimlight" 1
+	"$rimexponent" "2"
+	"$rimboost" "1"
 
 	"Proxies"
 	{
 		"TextureScroll"
 		{
-			"texturescrollvar" "$baseTextureTransform"
+			"texturescrollvar" "$detailtextureTransform"
 			"texturescrollrate" 5
 			"texturescrollangle" 45
 		}

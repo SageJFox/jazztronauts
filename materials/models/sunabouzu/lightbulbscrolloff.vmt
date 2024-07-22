@@ -1,7 +1,16 @@
-"UnlitGeneric"
+"VertexLitGeneric"
 {
-	"$basetexture" "tools/toolsblack"
-	$model 1
+	"$basetexture" "models/sunabouzu/jazzscreenglass"
+	$basemapalphaphongmask 1
 	"$nodecal" 1
+	$additive	1
+	
+	"$phong" 1
+	"$phongboost" "20.0"
+	"$phongexponent" "60"
+	"$phongfresnelranges" "[0.25 0.5 1.0]"
+	"$rimlight" 1
+	"$rimexponent" "2"
+	"$rimboost" "1"
 
 }
