@@ -27,11 +27,7 @@
 	lockdoorsound(sound) : "Door Locked sound" : : "The sound the door will make when it's attempted at while locked."
 //	unlockdoorsound(sound) : "Door Unlocked sound" : : "The sound the door will make when it's unlocked."
 //	loadingscreen(string) : "Loading Screen" : : "Overrides the random loading screen"
-	startlocked(choices) : "Start Locked" : 0 : "Whether or not this door should start locked" =
-	[
-		0 : "No"
-		1 : "Yes"
-	]
+	startlocked(boolean) : "Start Locked" : 0 : "Whether or not this door should start locked"
 	useablesizemin(float) : "Minimum Player Scale" : -1 : "Player must be at least this big to use this door (negative for no minimum size)"
 	useablesizemax(float) : "Maximum Player Scale" : -1 : "Player must be at least this small to use this door (negative for no maximum size)"
 	spawnflags(flags) =
@@ -284,11 +280,8 @@
 		"comment8" : "Comment [Slot 9]"
 		"comment9" : "Comment [Slot 10]"
 	]
-	disableshadows(choices) : "Disable Shadows" : 0 =
-	[
-		0 : "No"
-		1 : "Yes"
-	]
+	disableshadows(boolean) : "Disable Shadows" : 0
+
 	spawnflags(flags) =
 	[
 		1 : "Invisible When Off" : 0
@@ -405,3 +398,8 @@
 
 
 @PointClass base(Weapon) studioprop("models/weapons/w_stunbaton.mdl") = weapon_propsnatcher : "Prop Snatcher" []
+@PointClass base(Weapon) studioprop("models/weapons/w_bus_summoner.mdl") = weapon_buscaller : "Portable Bus Stop" []
+@PointClass base(Weapon) studioprop("models/weapons/w_run.mdl") = weapon_run : "Run" []
+@PointClass base(Weapon) studioprop("models/Gibs/HGIBS.mdl") = weapon_stan : "Stan" []
+@PointClass base(Weapon) studioprop("models/weapons/w_hackergoggles.mdl") = weapon_hacker : "Hacker Goggles" []
+@PointClass base(Weapon) studioprop("models/weapons/w_pistol.mdl") = weapon_rats : "Personal Shrink Ray" []
