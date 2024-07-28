@@ -10,7 +10,7 @@ jsql.Register("jazz_propdata",
 	total INT UNSIGNED NOT NULL DEFAULT 1,
 	recent INT UNSIGNED NOT NULL DEFAULT 1,
 	worth INT UNSIGNED NOT NULL DEFAULT 0,
-	PRIMARY KEY(steamid, mapname, propname, type)
+	PRIMARY KEY(steamid, mapname, propname, type, worth)
 ]])
 
 local Query = jsql.Query
@@ -94,7 +94,8 @@ function AddProp(ply, model, worth, type)
 		.. string.format("WHERE propname='%s' AND ", model)
 		.. string.format("steamid='%s' AND ", id)
 		.. string.format("mapname='%s' AND ", string.Replace(map,"'","''"))
-		.. string.format("type='%s' ", type)
+		.. string.format("type='%s' AND ", type)
+		.. string.format("worth='%d'", worth)
 	local insert = "INSERT OR IGNORE INTO jazz_propdata (steamid, mapname, propname, type, worth) "
 		.. string.format("VALUES ('%s', '%s', '%s', '%s', '%d')", id, string.Replace(map,"'","''"), model, type, worth)
 
