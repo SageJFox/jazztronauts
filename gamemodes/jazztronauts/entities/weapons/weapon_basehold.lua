@@ -176,8 +176,10 @@ end
 function SWEP:OnRemove()
 
 	-- Stop all firemodes from attacking
-	for k, _ in pairs(self.AttackStates) do
-		self:AnyStopAttack(k)
+	if self.AttackStates then
+		for k, _ in pairs(self.AttackStates) do
+			self:AnyStopAttack(k)
+		end
 	end
 
 	self:Cleanup()

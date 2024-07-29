@@ -69,6 +69,7 @@ local function getHeldMarker()
 end
 
 local function renderPlayerBeam(marker, ply)
+	if not IsValid(ply) then return false end
 	local wep = ply:GetActiveWeapon()
 	if not IsValid(wep) or wep:GetClass() != "weapon_buscaller" then return false end
 	if wep:GetBusMarker() != marker then return false end
@@ -78,7 +79,9 @@ local function renderPlayerBeam(marker, ply)
 	local attachIdx = wep.AttachIdx or 1
 
 	if attachIdx > 0 then
-		attach = wep:GetAttachment(attachIdx).Pos -- World model position, at very least
+		local wepattach = wep:GetAttachment(attachIdx)
+		if wepattach then attach = wepattach.Pos end-- World model position, at very least
+		
 		local vm = ply:GetViewModel()
 		if wep:IsCarriedByLocalPlayer() and IsValid(vm) then
 			local attachInfo = vm:GetAttachment(attachIdx)
@@ -108,8 +111,8 @@ local function drawdembeams()
 	for _, v in pairs(markers) do
 		-- Render the beams for each player
 		local activePlayers = v.BusCallerPlayers or {}
-		for __, ply in pairs(activePlayers) do
-			if !renderPlayerBeam(v, ply) then
+		for _, ply in pairs(activePlayers) do
+			if IsValid(ply) and !renderPlayerBeam(v, ply) then
 				v.BusCallerPlayers[ply:SteamID()] = nil
 			end
 		end
