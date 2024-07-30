@@ -1,19 +1,64 @@
 module( "snatch", package.seeall )
 
--- Per-player prop stealing data
-jsql.Register("jazz_propdata",
-[[
+local propdatastr = [[
 	steamid BIGINT NOT NULL,
-	mapname VARCHAR(64) NOT NULL,
 	propname VARCHAR(128) NOT NULL,
 	type VARCHAR(16) NOT NULL,
 	total INT UNSIGNED NOT NULL DEFAULT 1,
 	recent INT UNSIGNED NOT NULL DEFAULT 1,
 	worth INT UNSIGNED NOT NULL DEFAULT 0,
-	PRIMARY KEY(steamid, mapname, propname, type, worth)
-]])
+	PRIMARY KEY(steamid, propname, type, worth)
+]]
+
+-- Per-player prop stealing data
+jsql.Register("jazz_propdata", propdatastr)
 
 local Query = jsql.Query
+
+--[[
+	The previous version of the table had a fatal flaw
+	Its worth wasn't part of its primary key, so two of the same thing couldn't be worth different amounts when snatched
+	It mitigated this issue by storing the map name with it (with it being part of the primary key)
+	It worked for most things, but failed to factor for two scenarios:
+		-things being dynamically spawned vs mapper placed have different values (not typically a huge issue, would mostly be NPCs/item pickups)
+		-brushes (kind of a massive problem, the first brush of a certain material set the price for every one after it)
+	(I mean, it also made the roadtrip multiplier not work too but that didn't exist when this was made so not blaming anyone there)
+
+	Unfortunately if we don't manually go in and fix the old tables, it'll be broken in an even worse way for old games until the server hits a NG+ reset
+]]
+local function FixOld()
+	local testold = sql.Query("SELECT * FROM jazz_propdata WHERE mapname IS NOT NULL")
+
+	--old setup detected
+	if type(testold) == "table" and #testold > 0 then
+
+		--get it outta here
+		Query(string.format("DROP TABLE jazz_propdata; CREATE TABLE jazz_propdata (%s)",propdatastr))
+
+		--copy the old info into the new version of the table
+		for i=1, #testold do
+			
+			local insert = "INSERT OR IGNORE INTO jazz_propdata (steamid, propname, type, total, recent, worth) "
+				.. string.format("VALUES ('%s', '%s', '%s', '%s', '%s', '%s')", testold[i].steamid, testold[i].propname, testold[i].type, testold[i].total, testold[i].recent, testold[i].worth)
+			
+			local altr = "UPDATE jazz_propdata SET "
+				.. string.format("total = total + %s, ", testold[i].total)
+				.. string.format("recent = recent + %s ", testold[i].recent)
+				.. string.format("WHERE propname='%s' AND ", testold[i].propname)
+				.. string.format("steamid='%s' AND ", testold[i].steamid)
+				.. string.format("type='%s' AND ", testold[i].type)
+				.. string.format("worth='%s'", testold[i].worth)
+
+			-- Try an update, then an insert
+			if Query(altr) == false then return nil end
+			if Query(insert) == false then return nil end
+		end
+	end
+end
+
+--do you have a better idea?
+FixOld()
+
 
 -- Get the collected count of a specific model
 function GetPropCount(model)
@@ -86,18 +131,16 @@ end
 function AddProp(ply, model, worth, type)
 	if not model or #model == 0 or not IsValid(ply) then return nil end
 	local id = ply:SteamID64() or "0"
-	local map = game.GetMap()
 	type = type or "prop"
 
 	local altr = "UPDATE jazz_propdata SET total = total + 1, "
 		.. "recent = recent + 1 "
 		.. string.format("WHERE propname='%s' AND ", model)
 		.. string.format("steamid='%s' AND ", id)
-		.. string.format("mapname='%s' AND ", string.Replace(map,"'","''"))
 		.. string.format("type='%s' AND ", type)
 		.. string.format("worth='%d'", worth)
-	local insert = "INSERT OR IGNORE INTO jazz_propdata (steamid, mapname, propname, type, worth) "
-		.. string.format("VALUES ('%s', '%s', '%s', '%s', '%d')", id, string.Replace(map,"'","''"), model, type, worth)
+	local insert = "INSERT OR IGNORE INTO jazz_propdata (steamid, propname, type, worth) "
+		.. string.format("VALUES ('%s', '%s', '%s', '%d')", id, model, type, worth)
 
 	-- Try an update, then an insert
 	if Query(altr) == false then return nil end
@@ -110,12 +153,6 @@ end
 -- Usually happens when they pulled the trash chute
 function ClearRecentProps()
 	local altr = "UPDATE jazz_propdata SET recent = 0"
-	return Query(altr) != false
-end
-
-function ClearMapProps(mapname)
-	local altr = "DELETE FROM jazz_propdata WHERE "
-		.. string.format("mapname='%s' ", string.Replace(mapname,"'","''"))
 	return Query(altr) != false
 end
 
