@@ -396,7 +396,7 @@
 	destination(string) : "Destination Text" : "jazz.bus.bar" : "Text displayed for the destination sign. Can be a localization token."
 ]
 
-@PointClass base(Targetname) iconsprite("editor/jazz_logic_purchase.vmt") = jazz_logic_purchase : "Arbitrary money spending"
+@PointClass base(Targetname) origin(marker) iconsprite("editor/jazz_logic_purchase.vmt") = jazz_logic_purchase : "Arbitrary money spending"
 [
 	price(integer) : "Price" : 1 : "The base price of this purchase."
 	needfullvalue(boolean) : "Require Full Value" : 1 : "The player must have the full purchase amount to make this purchase (and be charged)."

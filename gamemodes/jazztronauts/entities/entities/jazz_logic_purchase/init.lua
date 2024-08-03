@@ -2,10 +2,11 @@
 AddCSLuaFile("cl_init.lua")
 
 ENT.Type = "point"
-ENT.Price = 1			--how much to charge
+ENT.BasePrice = 1			--how much to charge
 ENT.FullValue = true	--fail (and don't charge) if the player doesn't have enough money
 ENT.Multiplier = false 	--scale price with NG+ multiplier
 
+util.AddNetworkString("JazzLogicPurchaseInit")
 util.AddNetworkString("JazzLogicPurchaseChat")
 
 local outputs =
@@ -19,12 +20,13 @@ local outputs =
 function ENT:KeyValue(key, value)
 
 	if key == "price" then
-		self.Price = math.Round(tonumber(value)) --no partial money
+		self.BasePrice = math.Round(tonumber(value)) --no partial money
 	elseif key == "needfullvalue" then
 		self.FullValue = tobool(value)
 	elseif key == "usemultiplier" then
 		self.Multiplier = tobool(value)
-	--todo: add marker (vector or entity(s)?) location to display price when player is near.
+	elseif key == "marker" then
+		self.Marker = Vector(value) or Vector(self:GetPos())
 	end
 
 	if table.HasValue(outputs, key) then
@@ -32,6 +34,20 @@ function ENT:KeyValue(key, value)
 	end
 
 end
+
+function ENT:Initialize()
+	self.Price = self.BasePrice * -1
+	if self.Multiplier then self.Price = self.Price * (newgame.GetMultiplierBase() + 1) end
+end
+
+net.Receive("JazzLogicPurchaseInit",function(len, ply)
+	local self = net.ReadEntity()
+	net.Start("JazzLogicPurchaseInit")
+		net.WriteInt(self.Price * -1, 32)
+		net.WriteVector(self.Marker)
+		net.WriteBool(self.FullValue)
+	net.Send(ply)
+end)
 
 --player can +use these
 local directsources = {
@@ -60,12 +76,11 @@ function ENT:AcceptInput( name, activator, caller, data )
 
 			self:TriggerOutput( "OnPurchaseAttempted", activator )
 
-			local total, price = jazzmoney.GetNotes(activator), self.Price * -1
-			if self.Multiplier then price = price * (newgame.GetMultiplierBase() + 1) end
+			local total, price = jazzmoney.GetNotes(activator), self.Price
 
 			--weird but okay
 			if price == 0 then
-				self:TriggerOutput( "OnPurchased", activator )
+				self:TriggerOutput( "OnPurchased", activator, price )
 				return true
 			end
 
@@ -90,7 +105,7 @@ function ENT:AcceptInput( name, activator, caller, data )
 				--partial
 				if self.FullValue ~= true and total > 0 then
 					jazzmoney.ChangeNotes( activator, total * -1 ) --don't go below 0
-					self:TriggerOutput( "OnPartialFunds", activator ) --todo: should probably have this output the amount it actually took so logic can be based off of it
+					self:TriggerOutput( "OnPartialFunds", activator, total )
 				else
 					self:TriggerOutput( "OnInsufficientFunds", activator )
 				end
@@ -108,11 +123,15 @@ function ENT:AcceptInput( name, activator, caller, data )
 			end
 
 			jazzmoney.ChangeNotes( activator, price )
-			self:TriggerOutput( "OnPurchased", activator )
+			self:TriggerOutput( "OnPurchased", activator, price * -1 )
 
 			return true
 		end
 	end
 
 	return false
+end
+
+function ENT:UpdateTransmitState()
+	return TRANSMIT_PVS
 end
