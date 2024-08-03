@@ -396,6 +396,19 @@
 	destination(string) : "Destination Text" : "jazz.bus.bar" : "Text displayed for the destination sign. Can be a localization token."
 ]
 
+@PointClass base(Targetname) iconsprite("editor/jazz_logic_purchase.vmt") = jazz_logic_purchase : "Arbitrary money spending"
+[
+	price(integer) : "Price" : 1 : "The base price of this purchase."
+	needfullvalue(boolean) : "Require Full Value" : 1 : "The player must have the full purchase amount to make this purchase (and be charged)."
+	usemultiplier(boolean) : "Use Multiplier" : 0 : "Scale the price with the NG+ Multiplier."
+	
+	output OnPurchaseAttempt(void) : "Fired when the player has attempted to make a purchase."
+	output OnPurchased(void) : "Fired when the player is successfully charged."
+	output OnInsufficientFunds(void) : "Fired when the player does not have enough money for the purchase."
+	output OnPartialFunds(void) : "When partial charging is enabled, fired when the player has some money but not enough for the full amount."
+	
+	input AttemptPurchase(void) : "Attempt to make a purchase for the activating player."
+]
 
 @PointClass base(Weapon) studioprop("models/weapons/w_stunbaton.mdl") = weapon_propsnatcher : "Prop Snatcher" []
 @PointClass base(Weapon) studioprop("models/weapons/w_bus_summoner.mdl") = weapon_buscaller : "Portable Bus Stop" []
