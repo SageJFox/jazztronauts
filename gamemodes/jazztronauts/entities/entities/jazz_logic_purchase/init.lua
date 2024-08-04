@@ -92,7 +92,7 @@ function ENT:AcceptInput( name, activator, caller, data )
 				net.Start("JazzLogicPurchaseChat")
 					net.WriteString((price > 0) and "jazz.money.blockgive" or "jazz.money.blocktake")
 					net.WriteString( ( isstring(caller:GetName()) and caller:GetName() ~= "" ) and caller:GetName() or caller:GetClass() )
-					net.WriteUInt(math.abs(price), 32)
+					net.WriteUInt(math.abs(price), 31)
 				net.Send(activator)
 
 				--self:TriggerOutput( "OnInsufficientFunds", activator ) --maybe should? Iunno.
@@ -118,7 +118,7 @@ function ENT:AcceptInput( name, activator, caller, data )
 				net.Start("JazzLogicPurchaseChat")
 					net.WriteString("jazz.money.cheat")
 					net.WriteString("")
-					net.WriteUInt(0, 32)
+					net.WriteUInt(0, 31)
 				net.Send(activator)
 			end
 

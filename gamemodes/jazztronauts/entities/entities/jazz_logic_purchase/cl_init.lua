@@ -9,7 +9,7 @@ ENT.Type = "point"
 net.Receive("JazzLogicPurchaseChat",function()
 	local txt = net.ReadString()
 	local name = net.ReadString()
-	local amt = net.ReadUInt(32)
+	local amt = net.ReadUInt(31)
 	chat.AddText( amt ~= 0 and jazzloc.Localize( txt, name, amt ) or jazzloc.Localize(txt) )
 end)
 
