@@ -716,18 +716,27 @@ end
 
 if SERVER then
 	local ignorePickupClasses = {
-		"jazz_static_proxy",
-		"prop_physics",
-		"prop_physics_multiplayer",
-		"prop_dynamic",
-		"prop_dynamic_override"
+		["jazz_static_proxy"] = true,
+		["prop_physics"] = true,
+		["prop_physics_multiplayer"] = true,
+		["prop_dynamic"] = true,
+		["prop_dynamic_override"] = true,
+		["prop_ragdoll"] = true,
+		["prop_door_rotating"] = true,
+		["combine_mine"] = true, --it was funny while it lasted, but
+		["rpg_rocket"] = true,
+		["apc_missile"] = true,
+		["grenade_ar2"] = true, --will immediately explode regardless, but this at least gives us some breathing room
+		["grenade_mp5"] = true,
+		["prop_combine_ball"] = true,
+		["crossbow_bolt"] = true,
+		["npc_rollermine"] = true,
 	}
 
 	local function tryPickUp(ply, ent)
 		if not IsValid(ply) or not IsValid(ent) then return end
 		local class = ent:GetClass()
-		if table.HasValue(ignorePickupClasses, class) then return end
-
+		if ignorePickupClasses[class] then return end
 		ent:SetPos(ply:GetPos())
 	end
 
