@@ -390,7 +390,7 @@ hook.Add( "PostDrawOpaqueRenderables", "snatch_void", function(depth, sky)
 	render.SetColorModulation(overlayColor.r / 255.0, overlayColor.g / 255.0, overlayColor.b / 255.0)
 	//render.SetBlend((overlayColor.a or 255) / 255.0)
 
-	--PurgeRender() --doesn't seem to actually do anything?
+	PurgeRender()
 
 
 	for _, v in pairs(snatch.map_meshes) do
