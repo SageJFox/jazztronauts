@@ -880,7 +880,7 @@ function GM:GetPrimaryBrushMaterial(brush)
 end
 
 function GM:GetPrimaryDisplacementMaterial(displacement)
-	return displacement.face.texinfo.texdata.material
+	return string.lower(displacement.face.texinfo.texdata.material):gsub("_[+-]?%d+_[+-]?%d+_[+-]?%d+$",""):gsub("^maps/[%w_]+/","")
 end
 
 function GM:CollectBrush(brush, players)
