@@ -325,17 +325,6 @@ replacements = {
 		end
 		return nil
 	end,
-	["info_survivor_position"] = function(tab)
-		local spawn = ents.Create("info_player_start")
-		if IsValid(spawn) then
-			spawn:SetPos(Vector(tab.origin or "0 0 0"))
-			spawn:SetAngles(Angle(tab.angles or "0 0 0"))
-			if tab.targetname and tab.targetname ~= "" then spawn:SetName(tab.targetname) end
-			spawn:Spawn() --ha
-			return spawn
-		end
-		return nil
-	end,
 	["prop_car_alarm"] = function(tab)
 		local car = basicPhys(tab, "models/props_vehicles/cara_69sedan.mdl")
 		if IsValid(car) then
