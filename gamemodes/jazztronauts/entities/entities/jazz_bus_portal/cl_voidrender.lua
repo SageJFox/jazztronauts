@@ -356,7 +356,7 @@ end
 local function PurgeRender()
 	local renderPurge = ManagedCSEnt("renderPurgeFix1", "models/hunter/blocks/cube025x025x025.mdl" ) //models/props_junk/PopCan01a.mdl, "models/hunter/blocks/cube025x025x025.mdl"
 	renderPurge:SetNoDraw(true)
-	--renderPurge:SetModelScale(0) --spams console now
+	renderPurge:SetModelScale(0.0001) --0 spams console now
 	renderPurge:DrawModel()
 end
 
