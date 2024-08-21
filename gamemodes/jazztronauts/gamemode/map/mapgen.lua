@@ -280,6 +280,46 @@ if SERVER then
 		return false
 	end
 
+	local spawnpoints = {
+		"info_player_start",
+		"gmod_player_start",
+		--HL2:DM
+		"info_player_deathmatch",
+		"info_player_rebel",
+		"info_player_combine",
+		--CS:S
+		"info_player_counterterrorist",
+		"info_player_terrorist",
+		--DoD:S
+		"info_player_axis",
+		"info_player_allies",
+		--TF2
+		"info_player_teamspawn",
+		--Portal 2
+		"info_coop_spawn",
+		--misc.
+		"ins_spawnpoint",
+		"aoc_spawnpoint",
+		"dys_spawn_point",
+		"info_player_pirate",
+		"info_player_viking",
+		"info_player_knight",
+		"diprip_start_team_blue",
+		"diprip_start_team_red",
+		"info_player_red",
+		"info_player_blue",
+		"info_player_coop",
+		"info_player_human",
+		"info_player_zombie",
+		"info_player_zombiemaster",
+		--L4D/2
+		"info_survivor_position",
+		"info_survivor_rescue",
+		--Black Mesa
+		--"info_player_scientist",
+		--"info_player_marine",
+	}
+
 	-- Entities that facilitate transporting players
 	local teleports = {
 		["trigger_teleport"] = "target",
@@ -326,8 +366,8 @@ if SERVER then
 		local positions = {}
 
 		-- Spawnpoints
-		if istable(GAMEMODE.SpawnPoints) then
-			for _, v in ipairs(GAMEMODE.SpawnPoints) do
+		for _, pt in ipairs(spawnpoints) do
+			for _, v in ipairs(ents.FindByClass(pt)) do
 				if not IsValid(v) then continue end
 				positions[#positions + 1] = v:GetPos()
 				if not initialStanDestSpawned then CreateMarker(v,2,"spawn") end --using community localization tokens
