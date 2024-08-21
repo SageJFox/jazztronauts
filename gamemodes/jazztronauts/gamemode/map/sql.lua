@@ -312,7 +312,7 @@ end
 
 --roadtrip functions
 
---call when roadtrip has been ended (returned to hub or a new, non-sequential map has been put into the server. Store data in case session is interrupted but verify we're on that map again)
+--call when roadtrip has been ended (i.e. a new, non-sequential map has been put into the server. Store data in case session is interrupted but verify we're on that map again)
 function EndRoadtrip()
 	Query("DROP TABLE jazz_roadtrip;" ..
 		"DROP TABLE jazz_roadtrip_next")
@@ -392,7 +392,7 @@ function RoadtripGetNextMaps(unlock)
 
 		local mapname = string.Trim( utf8.char( unpack( v:GetInternalVariable( "m_szMapName" ) ) ), "\0" ) --*God*
 		--MsgC(Color(0,255,0),mapname,"\n")
-		if not isstring(mapname) or mapname == "" then return false end
+		if not isstring(mapname) or mapname == "" then continue end
 
 		insrt = "INSERT INTO jazz_roadtrip_next (filename) " ..
 				string.format( "VALUES (%s)", mapNameCleanup(mapname) )

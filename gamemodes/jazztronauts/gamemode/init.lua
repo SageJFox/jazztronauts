@@ -650,7 +650,6 @@ function GM:GenerateJazzEntities(noshards)
 	if not mapcontrol.IsInHub() then
 		if not noshards then
 			local bcollected, brequired = mapgen.GetTotalCollectedBlackShards(), mapgen.GetTotalRequiredBlackShards()
-			local roadtripAdded = false
 
 			-- Add current map to list of 'started' maps
 			local map = progress.GetMap(game.GetMap())
@@ -728,7 +727,6 @@ function GM:GenerateJazzEntities(noshards)
 
 						if not IsValid(ent) or not IsValid(busmark) then continue end
 
-						roadtripAdded = true
 						progress.RoadtripSetNext(game.GetMap()) --make sure this current map is on the list
 						progress.RoadtripAddAllowedMap(destname)
 
@@ -742,7 +740,6 @@ function GM:GenerateJazzEntities(noshards)
 
 					end
 				end
-				if not roadtripAdded then progress.EndRoadtrip() end
 			end
 			
 		end
