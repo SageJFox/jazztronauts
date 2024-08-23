@@ -384,6 +384,7 @@
 	traveltime(float) : "Exit Time" : "2.5" : "How long the trolley takes to travel to the end of its path."
 	leadup(integer) : "Entrance Distance" : 2000 : "How far the trolley travels after spawning to reach its idle position. Can be negative to go backwards!"
 	traveldist(integer) : "Exit Distance" : 4500 : "How far the trolley travels when exiting the hub. Can be negative to go backwards!"
+	chance(integer) : "Chance Multiplier" : 1 : "How many chances this bus stop has to be picked. Higher values are more likely. Should be left at 1 if you only have one stop in your map."
 
 	spawnflags(flags) =
 	[
