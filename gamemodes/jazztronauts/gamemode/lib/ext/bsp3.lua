@@ -269,7 +269,7 @@ local function angle32()
     return Angle( float32(), float32(), float32() )
 end
 
-local function bool()
+local function bool4()
 	local a = str_sub(m_data, m_ptr, m_ptr + 4)
     m_ptr = m_ptr + 4
     return a
@@ -939,17 +939,26 @@ end
 
 prop_lump_handlers[9] = function()
 	local t = prop_lump_handlers[8]()
-	bool() --DisableX360
+	bool4() --DisableX360
 	return t
 end
 
+-- version 7*
 prop_lump_handlers[10] = function()
 
-    local t = prop_lump_handlers[9]()
+    local t = prop_lump_handlers[8]()
     uint32() --FlagsEx
     return t
 
 end
+--CSGO
+-- prop_lump_handlers[10] = function()
+
+--     local t = prop_lump_handlers[9]()
+--     uint32() --FlagsEx
+--     return t
+
+-- end
 
 prop_lump_handlers[11] = function()
 
