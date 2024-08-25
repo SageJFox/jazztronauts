@@ -235,6 +235,7 @@ local basicPhys = function( tab, default )
 end
 
 local L4DWeapon = function( tab, default )
+	tab.model = default --okay
 	local wep = nil
 	if bit.band(tonumber(tab.spawnflags) or 0, 1) == 1 then --enable physics
 		wep = basicPhys(tab, default)
@@ -522,6 +523,25 @@ replacements = {
 			if tr.Hit then wep:SetPos(tr.HitPos) end
 		end
 		return wep
+	end,
+	["upgrade_ammo_explosive"] = function(tab) return basicMdl(tab, "models/props/terror/exploding_ammo.mdl") end,
+	["upgrade_ammo_incendiary"] = function(tab) return basicMdl(tab, "models/props/terror/incendiary_ammo.mdl") end,
+	["upgrade_laser_sight"] = function(tab) return basicMdl(tab, "models/w_models/weapons/w_laser_sights.mdl") end,
+	["upgrade_spawn"] = function(tab)
+		local whatarewe = {}
+		if tobool(tab.laser_sight) then table.insert(whatarewe, replacements["upgrade_laser_sight"]) end
+		if tobool(tab.upgradepack_incendiary) then table.insert(whatarewe, function(tab) return basicMdl(tab, "models/w_models/weapons/w_eq_incendiary_ammopack.mdl") end) end
+		if tobool(tab.upgradepack_explosive) then table.insert(whatarewe, function(tab) return basicMdl(tab, "models/w_models/weapons/w_eq_explosive_ammopack.mdl") end) end
+
+		local upgrade = table.Random(whatarewe)(tab)
+		if not IsValid(upgrade) then return nil end
+		--drop to world
+		local startpos, endpos = upgrade:GetPos(), upgrade:GetPos()
+		endpos.z = -16384
+		local tr = util.TraceLine({["start"] = startpos, ["endpos"] = endpos})
+		if tr.Hit then upgrade:SetPos(tr.HitPos) end
+
+		return upgrade
 	end,
 	------------------------------------TF2------------------------------------
 	["item_healthkit_full"] = function(tab) return basicMdl(tab, (month == 10 and "models/props_halloween/halloween_" or "models/items/") .. "medkit_large" .. (month == 12 and "_bday.mdl" or ".mdl")) end,
