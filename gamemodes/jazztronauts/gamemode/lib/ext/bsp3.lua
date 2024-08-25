@@ -269,6 +269,12 @@ local function angle32()
     return Angle( float32(), float32(), float32() )
 end
 
+local function bool()
+	local a = str_sub(m_data, m_ptr, m_ptr + 4)
+    m_ptr = m_ptr + 4
+    return a
+end
+
 local function array_of( f, count )
 
     local t = {}
@@ -931,17 +937,25 @@ prop_lump_handlers[8] = function()
 
 end
 
-prop_lump_handlers[9] = prop_lump_handlers[8]
+prop_lump_handlers[9] = function()
+	local t = prop_lump_handlers[8]()
+	bool() --DisableX360
+	return t
+end
+
 prop_lump_handlers[10] = function()
 
-    local t = prop_lump_handlers[4]()
-    t.forcedfadescale = float32()
-    t.mincpulevel = uint8()
-    t.maxcpulevel = uint8()
-    t.mingpulevel = uint8()
-    t.maxgpulevel = uint8()
-    t.color = int32()
-    float32()
+    local t = prop_lump_handlers[9]()
+    uint32() --FlagsEx
+    return t
+
+end
+
+prop_lump_handlers[11] = function()
+
+    local t = prop_lump_handlers[8]()
+    uint32() --FlagsEx
+	float32() --UniformScale
     return t
 
 end
