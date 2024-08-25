@@ -952,13 +952,14 @@ prop_lump_handlers[10] = function()
 
 end
 --CSGO
--- prop_lump_handlers[10] = function()
+local weirdnessCSGO = 102 --10-2 (really TF2's should be different but whatever)
+prop_lump_handlers[weirdnessCSGO] = function()
 
---     local t = prop_lump_handlers[9]()
---     uint32() --FlagsEx
---     return t
+    local t = prop_lump_handlers[9]()
+    uint32() --FlagsEx
+    return t
 
--- end
+end
 
 prop_lump_handlers[11] = function()
 
@@ -969,7 +970,7 @@ prop_lump_handlers[11] = function()
 
 end
 
-lump_handlers[LUMP_GAME_LUMP] = function(lump, params)
+lump_handlers[LUMP_GAME_LUMP] = function(lump, params, versionweirdness)
 
     local FLAG_COMPRESSED = 1
 
@@ -1019,6 +1020,9 @@ lump_handlers[LUMP_GAME_LUMP] = function(lump, params)
     local detail_models = {}
 
     local lmp = lumps["prps"]
+
+	if versionweirdness == weirdnessCSGO and lmp.version == 10 then lmp.version = versionweirdness end
+
     if lmp then
         local structure = prop_lump_handlers[lmp.version]
         if not structure then error("Unable to load static prop lump for version: " .. lmp.version) end
@@ -1270,7 +1274,7 @@ local function loadBSPData( handle, requested, params )
 
     print("BSP Version: " .. header.version)
 
-    local is_l4d2 = false
+    local is_l4d2, is_maybecsgo = false, false
     for i=0, 63 do
         local lump = {
             offset = int32(),
@@ -1295,6 +1299,10 @@ local function loadBSPData( handle, requested, params )
             lump.version, lump.offset, lump.length = lump.offset, lump.length, lump.version
 
         end
+
+	else
+
+		if header.version > 20 then is_maybecsgo = true end --probably need more of a check than this, but, fuck it
 
     end
 
@@ -1354,7 +1362,11 @@ local function loadBSPData( handle, requested, params )
 
         if handler then
             begin_data( lump_data[lump_id] )
-            lump_data[lump_id] = handler(lump, params)
+			if lump_id == LUMP_GAME_LUMP and is_maybecsgo then
+            	lump_data[lump_id] = handler(lump, params, weirdnessCSGO)
+			else
+            	lump_data[lump_id] = handler(lump, params)
+			end
             end_data()
         else
             error("Unsupported lump: " .. lump_names[lump_id + 1])
