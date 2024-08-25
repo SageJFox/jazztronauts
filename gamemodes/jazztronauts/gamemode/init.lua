@@ -191,6 +191,7 @@ local basicMdl = function( tab, default, anim )
 		prop:SetSkin(tonumber(tab.skin) or 0)
 		local col = string.Split(tab.rendercolor or ""," ")
 		if #col == 3 then prop:SetColor(Color( tonumber(col[1]) or 255, tonumber(col[2]) or 255, tonumber(col[3]) or 255, 255 )) end
+		prop:SetCollisionGroup(COLLISION_GROUP_DEBRIS)
 		prop:Spawn()
 		timer.Simple( 0, function() if IsValid(prop) then prop:ResetSequenceInfo() prop:ResetSequence( anim ) end end )
 		return prop
@@ -231,6 +232,20 @@ local basicPhys = function( tab, default )
 		return prop
 	end
 	return nil
+end
+
+local L4DWeapon = function( tab, default )
+	local wep = nil
+	if bit.band(tonumber(tab.spawnflags) or 0, 1) == 1 then --enable physics
+		wep = basicPhys(tab, default)
+		if not IsValid(wep) then return nil end
+		wep:SetCollisionGroup(COLLISION_GROUP_DEBRIS)
+	else
+		wep = basicMdl(tab, default)
+		if not IsValid(wep) then return nil end
+	end
+	if tab.weaponskin then wep:SetSkin(tonumber(tab.weaponskin) or 0) end
+	return wep
 end
 
 --just spawning in another entity for the entity
@@ -299,7 +314,7 @@ replacements = {
 			["frying_pan"] = "models/weapons/melee/w_frying_pan.mdl",
 			["golfclub"] = "models/weapons/melee/w_golfclub.mdl",
 			["katana"] = "models/weapons/melee/w_katana.mdl",
-			["knife"] = "models/weapons/melee/w_knife_t.mdl",
+			["knife"] = "models/w_models/weapons/w_knife_t.mdl",
 			["machete"] = "models/weapons/melee/w_machete.mdl",
 			["pitchfork"] = "models/weapons/melee/w_pitchfork.mdl",
 			["shovel"] = "models/weapons/melee/w_shovel.mdl",
@@ -307,7 +322,7 @@ replacements = {
 		}
 		models.Any = table.Random(models)
 		local wep = table.Random(string.Split(tab.melee_weapon,","))
-		return basicPhys( tab, models[wep] or models.Any )
+		return L4DWeapon( tab, models[wep] or models.Any )
 	end,
 	["prop_door_rotating_checkpoint"] = function(tab)
 		local door = ents.Create("prop_door_rotating")
@@ -353,35 +368,35 @@ replacements = {
 	["prop_minigun"] = function(tab) return basicMdlSolid(tab, "models/w_models/weapons/w_minigun.mdl") end,
 	["prop_minigun_l4d1"] = function(tab) return basicMdlSolid(tab, "models/w_models/weapons/w_minigun.mdl") end,
 	["prop_mounted_machine_gun"] = function(tab) return basicMdlSolid(tab, "models/w_models/weapons/50cal.mdl") end,
-	["weapon_pistol_spawn"] = function(tab) return basicPhys(tab, IsMounted(550) and "models/w_models/weapons/w_pistol_a.mdl" or "models/w_models/weapons/w_pistol_1911.mdl") end,
-	["weapon_pistol_magnum_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_desert_eagle.mdl") end,
-	["weapon_smg_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_smg_uzi.mdl") end,
-	["weapon_smg_silenced_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_smg_a.mdl") end,
-	["weapon_smg_mp5_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_smg_mp5.mdl") end,
-	["weapon_rifle_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_rifle_m16a2.mdl") end,
-	["weapon_rifle_ak47_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_rifle_ak47.mdl") end,
-	["weapon_rifle_desert_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_desert_rifle.mdl") end,
-	["weapon_rifle_m60_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_m60.mdl") end,
-	["weapon_rifle_sg552_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_rifle_sg552.mdl") end,
-	["weapon_hunting_rifle_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_sniper_mini14.mdl") end,
-	["weapon_sniper_military_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_sniper_military.mdl") end,
-	["weapon_sniper_awp_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_sniper_awp.mdl") end,
-	["weapon_sniper_scout_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_sniper_scout.mdl") end,
-	["weapon_pumpshotgun_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_shotgun.mdl") end,
-	["weapon_shotgun_chrome_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_pumpshotgun_a.mdl") end,
-	["weapon_autoshotgun_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_autoshot_m4super.mdl") end,
-	["weapon_shotgun_spas_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_shotgun_spas.mdl") end,
-	["weapon_grenade_launcher_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_grenade_launcher.mdl") end,
-	["weapon_pipe_bomb_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_eq_pipebomb.mdl") end,
-	["weapon_molotov_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_eq_molotov.mdl") end,
-	["weapon_vomitjar_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_eq_bile_flask.mdl") end,
-	["weapon_pain_pills_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_eq_painpills.mdl") end,
-	["weapon_adrenaline_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_eq_adrenaline.mdl") end,
-	["weapon_first_aid_kit_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_eq_medkit.mdl") end,
-	["weapon_defibrillator_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_eq_defibrillator.mdl") end,
-	["weapon_upgradepack_explosive_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_eq_explosive_ammopack.mdl") end,
-	["weapon_upgradepack_incendiary_spawn"] = function(tab) return basicPhys(tab, "models/w_models/weapons/w_eq_incendiary_ammopack.mdl") end,
-	["weapon_gascan_spawn"] = function(tab) return basicPhys(tab, "models/props_junk/gascan001a.mdl") end,
+	["weapon_pistol_spawn"] = function(tab) return L4DWeapon(tab, IsMounted(550) and "models/w_models/weapons/w_pistol_a.mdl" or "models/w_models/weapons/w_pistol_1911.mdl") end,
+	["weapon_pistol_magnum_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_desert_eagle.mdl") end,
+	["weapon_smg_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_smg_uzi.mdl") end,
+	["weapon_smg_silenced_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_smg_a.mdl") end,
+	["weapon_smg_mp5_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_smg_mp5.mdl") end,
+	["weapon_rifle_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_rifle_m16a2.mdl") end,
+	["weapon_rifle_ak47_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_rifle_ak47.mdl") end,
+	["weapon_rifle_desert_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_desert_rifle.mdl") end,
+	["weapon_rifle_m60_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_m60.mdl") end,
+	["weapon_rifle_sg552_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_rifle_sg552.mdl") end,
+	["weapon_hunting_rifle_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_sniper_mini14.mdl") end,
+	["weapon_sniper_military_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_sniper_military.mdl") end,
+	["weapon_sniper_awp_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_sniper_awp.mdl") end,
+	["weapon_sniper_scout_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_sniper_scout.mdl") end,
+	["weapon_pumpshotgun_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_shotgun.mdl") end,
+	["weapon_shotgun_chrome_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_pumpshotgun_a.mdl") end,
+	["weapon_autoshotgun_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_autoshot_m4super.mdl") end,
+	["weapon_shotgun_spas_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_shotgun_spas.mdl") end,
+	["weapon_grenade_launcher_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_grenade_launcher.mdl") end,
+	["weapon_pipe_bomb_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_eq_pipebomb.mdl") end,
+	["weapon_molotov_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_eq_molotov.mdl") end,
+	["weapon_vomitjar_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_eq_bile_flask.mdl") end,
+	["weapon_pain_pills_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_eq_painpills.mdl") end,
+	["weapon_adrenaline_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_eq_adrenaline.mdl") end,
+	["weapon_first_aid_kit_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_eq_medkit.mdl") end,
+	["weapon_defibrillator_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_eq_defibrillator.mdl") end,
+	["weapon_upgradepack_explosive_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_eq_explosive_ammopack.mdl") end,
+	["weapon_upgradepack_incendiary_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_eq_incendiary_ammopack.mdl") end,
+	["weapon_gascan_spawn"] = function(tab) return L4DWeapon(tab, "models/props_junk/gascan001a.mdl") end,
 	["prop_health_cabinet"] = function(tab)
 		local cabinet = basicMdlSolid(tab, "models/props_interiors/medicalcabinet02.mdl","open") --start it open (don't wanna bother setting up the ability for it to be opened)
 		if IsValid(cabinet) then
@@ -400,6 +415,113 @@ replacements = {
 			return cabinet
 		end
 		return nil
+	end,
+	["prop_fuel_barrel"] = function(tab) return basicMdlSolid(tab, "models/props_industrial/barrel_fuel.mdl") end,
+	["func_orator"] = function(tab)
+		if not tab.model then return nil end
+		if bit.band(tonumber(tab.spawnflags) or 0, 1) == 1 then --non-solid
+			return basicMdl(tab, "")
+		else
+			return basicMdlSolid(tab, "")
+		end
+	end,
+	["weapon_item_spawn"] = function(tab)
+		--note: not bothering with director stuff. If you're crazy enough to try to implement something like it, check for spawnflag #2 [Spawned Item Must Exist]
+		local whatarewe = {}
+		if tobool(tab.item1) then table.insert(whatarewe, replacements["weapon_ammo_spawn"]) end
+		if tobool(tab.item2) then table.insert(whatarewe, replacements["weapon_first_aid_kit_spawn"]) end
+		if tobool(tab.item3) then table.insert(whatarewe, replacements["weapon_molotov_spawn"]) end
+		if tobool(tab.item4) then table.insert(whatarewe, replacements["weapon_pain_pills_spawn"]) end
+		if tobool(tab.item5) then table.insert(whatarewe, replacements["weapon_pipe_bomb_spawn"]) end
+		if tobool(tab.item6) then table.insert(whatarewe, function(tab) return L4DWeapon(tab, "models/props_equipment/oxygentank01.mdl") end) end
+		if tobool(tab.item7) then table.insert(whatarewe, function(tab) return L4DWeapon(tab, "models/props_junk/propanecanister001a.mdl") end) end
+		if tobool(tab.item8) then table.insert(whatarewe, function(tab) return L4DWeapon(tab, "models/props_junk/gascan001a.mdl") end) end
+		if tobool(tab.item11) then table.insert(whatarewe, replacements["weapon_adrenaline_spawn"]) end
+		if tobool(tab.item12) then table.insert(whatarewe, replacements["weapon_defibrillator_spawn"]) end
+		if tobool(tab.item13) then table.insert(whatarewe, replacements["weapon_vomitjar_spawn"]) end
+		if tobool(tab.item16) then table.insert(whatarewe, function(tab) return L4DWeapon(tab, "models/weapons/melee/w_chainsaw.mdl") end) end
+		if tobool(tab.item17) then table.insert(whatarewe, function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_grenade_launcher.mdl") end) end
+		if tobool(tab.item18) then table.insert(whatarewe, replacements["weapon_rifle_m60_spawn"]) end
+		if tab.melee_weapon and tab.melee_weapon ~= "" then table.insert(whatarewe, replacements["weapon_melee_spawn"]) end
+		local choice = table.Random(whatarewe)(tab)
+		-- print(tostring(tab.item1 or 0) .. tostring(tab.item2 or 0) .. tostring(tab.item3 or 0) .. tostring(tab.item4 or 0) .. tostring(tab.item5 or 0) ..
+		-- tostring(tab.item6 or 0) .. tostring(tab.item7 or 0) .. tostring(tab.item8 or 0) .. tostring(tab.item11 or 0) .. tostring(tab.item12 or 0) .. 
+		-- tostring(tab.item13 or 0) .. tostring(tab.item16 or 0) .. tostring(tab.item17 or 0) .. tostring(tab.item18 or 0), tab.spawnflags)
+		if IsValid(choice) then
+			local startpos, endpos = choice:GetPos(), choice:GetPos()
+			endpos.z = -16384
+			if choice:GetModel() == "models/props/terror/ammo_stack.mdl" then --ammo collides weird with being so wide, just do line check for it
+				local tr = util.TraceLine({["start"] = startpos, ["endpos"] = endpos})
+				if tr.Hit then choice:SetPos(tr.HitPos) end
+			else
+				local tr = util.TraceEntity({["start"] = startpos, ["endpos"] = endpos}, choice)
+				if tr.Hit then choice:SetPos(tr.HitPos) end
+			end
+		end
+		return choice
+	end,
+	["weapon_spawn"] = function(tab)
+		--oh god here we go
+		local pistols = {
+			["weapon_pistol"] = replacements["weapon_pistol_spawn"],
+			["weapon_pistol_magnum"] = replacements["weapon_pistol_magnum_spawn"],
+		}
+		local smgs = {
+			["weapon_smg"] = replacements["weapon_smg_spawn"],
+			["weapon_smg_silenced"] = replacements["weapon_smg_silenced_spawn"],
+			["weapon_smg_mp5"] = replacements["weapon_smg_mp5_spawn"],
+		}
+		local rifles = {
+			["weapon_rifle"] = replacements["weapon_rifle_spawn"],
+			["weapon_rifle_desert"] = replacements["weapon_rifle_desert_spawn"],
+			["weapon_rifle_ak47"] = replacements["weapon_rifle_ak47_spawn"],
+			["weapon_rifle_sg552"] = replacements["weapon_rifle_sg552_spawn"],
+		}
+		local sniperrifles = {
+			["weapon_hunting_rifle"] = replacements["weapon_hunting_rifle_spawn"],
+			["weapon_sniper_military"] = replacements["weapon_sniper_military_spawn"],
+			["weapon_sniper_awp"] = replacements["weapon_sniper_awp_spawn"],
+			["weapon_sniper_scout"] = replacements["weapon_sniper_scout_spawn"],
+		}
+		local shotst1 = {
+			["weapon_pumpshotgun"] = replacements["weapon_pumpshotgun_spawn"],
+			["weapon_shotgun_chrome"] = replacements["weapon_shotgun_chrome_spawn"],
+		}
+		local shotst2 = {
+			["weapon_autoshotgun"] = replacements["weapon_autoshotgun_spawn"],
+			["weapon_shotgun_spas"] = replacements["weapon_shotgun_spas_spawn"],
+		}
+		local weps = {
+			["any_pistol"] = table.Random(pistols),
+			["any_smg"] = table.Random(smgs),
+			["any_rifle"] = table.Random(rifles),
+			["any_sniper_rifle"] = table.Random(sniperrifles),
+			["tier1_shotgun"] = table.Random(shotst1),
+			["tier2_shotgun"] = table.Random(shotst2),
+		}
+		table.Merge(weps,pistols)
+		weps.any_shotgun = math.random(2) == 1 and weps.tier1_shotgun or weps.tier2_shotgun
+		local wepst1 = {}
+		table.Merge(wepst1,smgs)
+		table.Merge(wepst1,shotst1)
+		local wepst2 = {}
+		table.Merge(wepst2,rifles)
+		table.Merge(wepst2,sniperrifles)
+		table.Merge(wepst2,shotst2)
+		weps.tier1_any = table.Random(wepst1)
+		weps.tier2_any = table.Random(wepst2)
+		table.Merge(weps,wepst1)
+		table.Merge(weps,wepst2)
+		weps.any_primary = math.random(2) == 1 and weps.tier1_any or weps.tier2_any --technically biases towards T1 stuff but *who cares*
+		weps.any = table.Random(weps)
+		local wep = weps[tab.weapon_selection] and weps[tab.weapon_selection](tab) or weps.any(tab)
+		if bit.band(tonumber(tab.spawnflags) or 0, 16) == 0 then --Constrain to spawn position (don't drop to the ground) -except we're checking for not
+			local startpos, endpos = wep:GetPos(), wep:GetPos()
+			endpos.z = -16384
+			local tr = util.TraceEntity({["start"] = startpos, ["endpos"] = endpos}, wep)
+			if tr.Hit then wep:SetPos(tr.HitPos) end
+		end
+		return wep
 	end,
 	------------------------------------TF2------------------------------------
 	["item_healthkit_full"] = function(tab) return basicMdl(tab, (month == 10 and "models/props_halloween/halloween_" or "models/items/") .. "medkit_large" .. (month == 12 and "_bday.mdl" or ".mdl")) end,
@@ -459,7 +581,7 @@ replacements = {
 				if tobool(manager.drop_to_ground) then
 					local startpos, endpos = prop:GetPos(), prop:GetPos()
 					endpos.z = -16384
-					local tr = util.TraceLine({["start"] = startpos, ["endpos"] = endpos})
+					local tr = util.TraceEntity({["start"] = startpos, ["endpos"] = endpos}, prop)
 					if tr.Hit then prop:SetPos(tr.HitPos) end
 				end
 				return prop
