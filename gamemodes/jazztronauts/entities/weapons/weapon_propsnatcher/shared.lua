@@ -667,10 +667,11 @@ function SWEP:DrawHUD()
 	surface.SetMaterial(self.ReticleCircleMaterial)
 	surface.DrawTexturedRect(ScrW() / 2 - size/2, ScrH() / 2 - size/2, size, size)
 
-	if self.CanMultitask then
+	--if self.CanMultitask then
 		local totalSize = aimradius * 2.55
+		surface.SetDrawColor(color.r, color.g, color.b, 20)
 		surface.DrawTexturedRect(ScrW() / 2 - totalSize/2, ScrH() / 2 - totalSize/2, totalSize, totalSize)
-	end
+	--end
 
 	-- Draw player count if we're grabbing a brush
 	if IsValid(curMarker) and curMarker.GetNumPlayers and curMarker:GetNumPlayers() > 1 then
