@@ -170,7 +170,8 @@ function ENT:GetNearbyBrushes()
 	print("Found ", #self.NearbyWorld .. " nearby brushes/displacements")
 end
 
-function ENT:DestroyNearbyBrushesAndSelf(maxdist)
+function ENT:DestroyNearbyBrushesAndSelf(maxdist, ply)
+	local map = bsp2.GetCurrent()
 	print("Begin destruction, ", maxdist)
 	if not self.NearbyWorld then
 		self:GetNearbyBrushes()
@@ -195,9 +196,11 @@ function ENT:DestroyNearbyBrushesAndSelf(maxdist)
 			local yoink = snatch.New()
 			yoink:SetMode(self.SnatchMode)
 			if v.type == "displacement" then
-				yoink:StartDisplacement( pos, self, v.id )
+				yoink:StartDisplacement( pos, ply, v.id )
+				hook.Run("CollectDisplacement", map.displacements[v.id], {ply})
 			else
-				yoink:StartWorld( pos, self, v.id )
+				yoink:StartWorld( pos, ply, v.id )
+				hook.Run("CollectBrush", map.brushes[v.id], {ply})
 			end
 		end )
 
@@ -234,7 +237,7 @@ function ENT:Touch(ply)
 		local numleft, total = mapgen.GetShardCount()
 		local maxdist = Lerp(numleft * 1.0 / total, self.BrushMaxDestroyRadius, self.BrushMinDestroyRadius)
 
-		self:DestroyNearbyBrushesAndSelf(maxdist)
+		self:DestroyNearbyBrushesAndSelf(maxdist, ply)
 	end
 
 	//self:Remove()
