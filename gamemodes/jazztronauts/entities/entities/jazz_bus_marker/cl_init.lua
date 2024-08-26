@@ -41,9 +41,9 @@ function ENT:AddJazzRenderBeam(ply)
 end
 
 function ENT:Draw()
-	jazzvoid.SetupVoidLighting(self,0.5)
+	--jazzvoid.SetupVoidLighting(self,0.5)
 	self:DrawModel()
-	render.SuppressEngineLighting(false)
+	--render.SuppressEngineLighting(false)
 end
 
 local function drawSemiCircle(cx, cy, w, h, perc)
@@ -197,3 +197,8 @@ hook.Add( "PostDrawHUD", "JazzDrawBusMarker", function()
 
 	LocalPlayer().ActiveBusMarkers = {}
 end )
+
+hook.Add("PreDrawHalos", "JazzDrawBusMarkerHalos", function()
+	local wobbly = math.sin(CurTime())
+	halo.Add(ents.FindByClass("jazz_bus_marker"), Color(240 - wobbly * 15, 90 - wobbly * 40, 222 + wobbly * 30), 15 + wobbly * 5, 7 - wobbly * 3)
+end)

@@ -1,0 +1,7 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/props_bar/jazz_streetsign"
+	$selfillum	1
+	$selfillummask	"dev/reflectivity_10b"
+	$selfillumtint	"[1 1 1]" //"[1 0.27 0.71]"
+}
