@@ -1160,7 +1160,7 @@ function GM:PlayerShouldTakeDamage(ply, attacker)
 	return true
 end
 
--- no fall damange with Run
+-- no fall damage with Run
 function GM:GetFallDamage(ply, speed)
 	local wep = ply:GetActiveWeapon()
 	if IsValid(wep) and wep:GetClass() == "weapon_run" then
@@ -1171,17 +1171,35 @@ function GM:GetFallDamage(ply, speed)
 end
 
 function GM:EntityTakeDamage( target, dmginfo )
-	if  target:IsPlayer() and bit.band(dmginfo:GetDamageType(),bit.bor(DMG_CLUB,DMG_SLASH,DMG_CRUSH)) > 0 and not dmginfo:GetAttacker():IsNPC() then
+	local attacker = dmginfo:GetAttacker()
+	if IsValid(target) and target:IsPlayer() and IsValid(attacker) then
 		local wep = target:GetActiveWeapon()
 		if IsValid(wep) and wep:GetClass() == "weapon_run" then
-			local scale = wep:PhysDmgScale() or 1
-			local olddmg = dmginfo:GetDamage()
-			dmginfo:ScaleDamage( scale )
-			if scale < 1 then
-				if dmginfo:GetDamage() <= (wep:PhysDmgLevel() or 0) then dmginfo:SetDamage(0) end --completely block damage if it's less than [level]
-				local volumeadjust = math.max(15,math.min(100,olddmg - dmginfo:GetDamage())) / 100 --get a number between 0.15 and 1 depending on our damage blocked
-				target:EmitSound("weapons/physcannon/energy_bounce1.wav",100,125 - scale * 100 + math.Rand(-10,10),volumeadjust)
-				--print("Bdoosh",volumeadjust)
+			--physics shield
+			if bit.band(dmginfo:GetDamageType(),bit.bor(DMG_CLUB,DMG_SLASH,DMG_CRUSH)) > 0 and not attacker:IsNPC() then
+				local scale = wep:PhysDmgScale() or 1
+				local olddmg = dmginfo:GetDamage()
+				dmginfo:ScaleDamage( scale )
+				if scale < 1 then
+					if dmginfo:GetDamage() <= (wep:PhysDmgLevel() or 0) then dmginfo:SetDamage(0) end --completely block damage if it's less than [level]
+					local volumeadjust = math.max(15,math.min(100,olddmg - dmginfo:GetDamage())) / 100 --get a number between 0.15 and 1 depending on our damage blocked
+					target:EmitSound("weapons/physcannon/energy_bounce1.wav",100,125 - scale * 100 + math.Rand(-10,10),volumeadjust)
+					--print("Bdoosh",volumeadjust)
+				end
+			--radsuit
+			else
+				local ogdamage = dmginfo:GetDamage()
+				--the idea with the math here is to greatly mitigate incidential damage, while still letting stuff that's meant to instantly kill *probably* do so.
+				if ogdamage > 0 and (attacker:GetClass() == "trigger_hurt" or attacker:GetClass() == "trigger_waterydeath") then
+					local maxdamage = 10 - (wep:TriggerHurtLevel() or 0)
+					--take our chance to completely block the damage
+					if math.random() > (wep:TriggerHurtScale() or 0) + math.max(0, ogdamage/1000 * (maxdamage / 10)) then
+						dmginfo:SetDamage(0)
+					--damage got through, but, let's try to limit it
+					elseif ogdamage <= math.pow(2,11 - maxdamage) and ogdamage > maxdamage and tobool(wep:TriggerHurtLevel()) then
+						dmginfo:SetDamage(maxdamage)
+					end
+				end
 			end
 		end
 	end

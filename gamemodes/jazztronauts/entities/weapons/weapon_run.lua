@@ -40,7 +40,7 @@ SWEP.JumpMultiplier			= 1
 SWEP.CrouchTime				= -1
 SWEP.JumpChargeSound		= Sound( "sierra/run/jump_chargeup.wav" )
 
-local walkspeedinvert = CreateClientConVar("jazz_run_invert_walk_toggle",0,true,true,"By default, sprinting will disable Run's speed boost.\n\tSet this to 1 to cause speed boost to ONLY be provided when sprinting. Changes take effect on respawn.",0,1)
+local walkspeedinvert = CreateClientConVar("jazz_run_invert_walk_toggle",0,true,true,"By default, sprinting will disable Run's speed boost.\n\tSet this to 1 to cause speed boost to ONLY be provided when sprinting. Set to -1 to remove sprint disabling run speed entirely.",-1,1)
 
 cvars.AddChangeCallback("jazz_run_invert_walk_toggle", function(name, old, new)
 	for _, self in ipairs( ents.FindByClass("weapon_run") ) do
@@ -48,7 +48,8 @@ cvars.AddChangeCallback("jazz_run_invert_walk_toggle", function(name, old, new)
 			if not IsValid(self) then return end
 			local owner = self:GetOwner()
 			if IsValid(owner) then
-				self:SetWalkingToggle( tobool( owner:GetInfoNum("jazz_run_invert_walk_toggle", 0) ) )
+				self:SetWalkingToggle(tobool( owner:GetInfoNum("jazz_run_invert_walk_toggle", 0) ))
+				self:SetWalkingToggleDisable(owner:GetInfoNum("jazz_run_invert_walk_toggle", 0) < 0)
 			end
 		end)
 	end
@@ -81,6 +82,15 @@ local run_propbump = jstore.RegisterSeries("run_propbump", 15000, 6, {
 	type = "upgrade",
 	requires = storeRun,
 	priceMultiplier = 1.1,
+})
+
+-- Block trigger_hurt damage
+local run_radsuit = jstore.RegisterSeries("run_radsuit", 1000, 8, {
+	name = jazzloc.Localize("jazz.weapon.run.upgrade.radsuit"),
+	desc = function(num) local num = num or 0 return jazzloc.Localize("jazz.weapon.run.upgrade.radsuit.desc", math.Round((1 - (1 / math.pow(2,num))) * 100, 1), 10 - num) end,
+	type = "upgrade",
+	requires = storeRun,
+	priceMultiplier = 2,
 })
 
 --haha just kidding what if these chargesound functions don't work on the client on the first life
@@ -120,7 +130,8 @@ function SWEP:Initialize()
 		timer.Simple(0,function() --no owner on first frame of server life
 			local owner = self:GetOwner()
 			if IsValid(owner) then
-				self:SetWalkingToggle( tobool( owner:GetInfoNum("jazz_run_invert_walk_toggle", 0) ) )
+				self:SetWalkingToggle(tobool( owner:GetInfoNum("jazz_run_invert_walk_toggle", 0) ))
+				self:SetWalkingToggleDisable(owner:GetInfoNum("jazz_run_invert_walk_toggle", 0) < 0)
 			end
 		end)
 	end
@@ -151,11 +162,19 @@ function SWEP:PhysDmgLevel()
 	return jstore.GetSeries(self:GetOwner(), run_propbump) or 0
 end
 
+function SWEP:TriggerHurtScale()
+	return 1 / math.pow(2,jstore.GetSeries(self:GetOwner(), run_radsuit))
+end
+function SWEP:TriggerHurtLevel()
+	return jstore.GetSeries(self:GetOwner(), run_radsuit) or 0
+end
+
 function SWEP:SetupDataTables()
-	self:NetworkVar("Bool",0,"WalkingToggle") --if we have our sprint-to-walk toggle enabled
-	self:NetworkVar("Float",0,"OldRunSpeed")
-	self:NetworkVar("Float",1,"OldWalkSpeed")
-	self:NetworkVar("Float",2,"OldJumpPower")
+	self:NetworkVar("Bool", "WalkingToggle") --if we have our sprint-to-walk toggle enabled
+	self:NetworkVar("Bool", "WalkingToggleDisable") --if we have our sprint-to-walk toggle enabled
+	self:NetworkVar("Float", "OldRunSpeed")
+	self:NetworkVar("Float", "OldWalkSpeed")
+	self:NetworkVar("Float", "OldJumpPower")
 	self.BaseClass.SetupDataTables( self )
 end
 
@@ -284,8 +303,8 @@ function SWEP:PreDrawViewModel(viewmodel, weapon, ply)
         self.CurPoseY = math.Approach(self.CurPoseY, movey, FrameTime() * APPROACH_SPEED)
 		self.CurPlayback = math.Approach(self.CurPlayback, playback, FrameTime() * APPROACH_SPEED)
 
-		local walkmultiplier = (self:GetWalkingToggle() ~= ply:KeyDown(IN_SPEED)) and .8 or 1
-		local playmultiplier = (self:GetWalkingToggle() ~= ply:KeyDown(IN_SPEED)) and .5 or 1
+		local walkmultiplier = (not self:GetWalkingToggleDisable() and self:GetWalkingToggle() ~= ply:KeyDown(IN_SPEED)) and .8 or 1
+		local playmultiplier = (not self:GetWalkingToggleDisable() and self:GetWalkingToggle() ~= ply:KeyDown(IN_SPEED)) and .5 or 1
         viewmodel:SetPoseParameter("move_x", math.Remap( self.CurPoseX, 0, 1, -1, 1) * walkmultiplier)
         viewmodel:SetPoseParameter("move_y", math.Remap( self.CurPoseY, 0, 1, -1, 1) * walkmultiplier)
 		viewmodel:SetPlaybackRate(self.CurPlayback * playmultiplier)
@@ -354,7 +373,7 @@ function SWEP:Think()
 				self.ChargeSound:Stop()
 			end
 		end
-		local runspeed = (self:GetWalkingToggle() ~= owner:KeyDown(IN_SPEED)) and self:GetOldWalkSpeed() or 800 --let player hold sprint to go at regular speed
+		local runspeed = (not self:GetWalkingToggleDisable() and self:GetWalkingToggle() ~= owner:KeyDown(IN_SPEED)) and self:GetOldWalkSpeed() or 800 --let player hold sprint to go at regular speed
 		owner:SetWalkSpeed( runspeed * (owner.JazzSizeMultiplier or 1) )
 		owner:SetRunSpeed( runspeed * (owner.JazzSizeMultiplier or 1) )
 		--print(self.CrouchTime, self.JumpMultiplier)
