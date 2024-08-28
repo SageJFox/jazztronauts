@@ -40,6 +40,8 @@ SWEP.JumpMultiplier			= 1
 SWEP.CrouchTime				= -1
 SWEP.JumpChargeSound		= Sound( "sierra/run/jump_chargeup.wav" )
 
+SWEP.Falling				= false
+
 local walkspeedinvert = CreateClientConVar("jazz_run_invert_walk_toggle",0,true,true,"By default, sprinting will disable Run's speed boost.\n\tSet this to 1 to cause speed boost to ONLY be provided when sprinting. Set to -1 to remove sprint disabling run speed entirely.",-1,1)
 
 cvars.AddChangeCallback("jazz_run_invert_walk_toggle", function(name, old, new)
@@ -292,7 +294,7 @@ function SWEP:PreDrawViewModel(viewmodel, weapon, ply)
         local movex = ply:GetPoseParameter("move_x") or 0.5
         local movey = ply:GetPoseParameter("move_y") or 0.5
 		local playback = 0.5 + ply:GetVelocity():Length2DSqr() / 1280000 --(800 * 800 * 2)
-
+		
         self.CurPoseX = self.CurPoseX or 0.5
         self.CurPoseY = self.CurPoseY or 0.5
 		self.CurPlayback = self.CurPlayback or 0.5
@@ -333,6 +335,13 @@ function SWEP:Think()
 	local owner = self:GetOwner()
 
 	if IsValid(owner) then
+		--view model animations
+		local oldfall = self.Falling
+		
+		self.Falling = owner:OnGround() == false and owner:GetVelocity().z < -100
+		if oldfall ~= self.Falling then self:SendWeaponAnim(self.Falling and ACT_VM_HAULBACK or ACT_VM_IDLE) end
+		
+		--high jump charging
 		if self.HighJump then
 			if owner:Crouching() then
 				if self.CrouchTime < 0 then
