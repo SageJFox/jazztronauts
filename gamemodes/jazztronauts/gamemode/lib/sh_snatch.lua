@@ -921,6 +921,7 @@ elseif CLIENT then
 		cl:SetPos( ent:GetPos() )
 		cl:SetAngles( ent:GetAngles() )
 		cl:SetSkin( ent:GetSkin() )
+		for _, v in ipairs(ent:GetBodyGroups()) do cl:SetBodygroup( v.id, ent:GetBodygroup(v.id) ) end
 		cl:CreateShadow()
 
 		if not data then
