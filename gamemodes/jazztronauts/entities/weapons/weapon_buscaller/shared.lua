@@ -35,17 +35,39 @@ SWEP.RequestInfo			= {}
 
 SWEP.BeamMat				= Material("cable/physbeam")
 
+SWEP.Upgrade				= nil --I feel like there has to be a better way than this mess, but I could not find it.
+
+if SERVER then
+	util.AddNetworkString("JazzBusSummonerKeyChain")
+end
+
 function SWEP:Initialize()
 	self.BaseClass.Initialize( self )
 	self:SetWeaponHoldType( self.HoldType )
 	self.AttachIdx = self:LookupAttachment("muzzle")
+	timer.Simple(0,function()
+		if not IsValid(self) then return end
+		self:SetBodygroup(1,self.Upgrade and 1 or 0)
+	end)
+end
+
+function SWEP:Equip(ply)
+	timer.Simple(0, function()
+	if not IsValid(self) or not IsValid(ply) or not ply:IsPlayer() then return end
+		self.Upgrade = missions.PlayerCompletedAll(ply)
+		self:SetBodygroup(1,self.Upgrade and 1 or 0)
+		net.Start("JazzBusSummonerKeyChain")
+			net.WriteEntity(self)
+			net.WriteBool(self.Upgrade)
+		net.Send(player.GetHumans())
+	end)
 end
 
 function SWEP:SetupDataTables()
 	self.BaseClass.SetupDataTables( self )
 
-	self:NetworkVar("Entity", 0, "BusMarker")
-	self:NetworkVar("Entity", 1, "BusStop")
+	self:NetworkVar("Entity", "BusMarker")
+	self:NetworkVar("Entity", "BusStop")
 end
 
 function SWEP:Deploy()
@@ -374,6 +396,20 @@ if CLIENT then
 			v:renderPlayerBeam()
 		end
 	end )
+
+	net.Receive("JazzBusSummonerKeyChain", function()
+		local self = net.ReadEntity()
+		if IsValid(self) then
+			self.Upgrade = net.ReadBool()
+			self:SetBodygroup(1, self.Upgrade and 1 or 0)
+		end
+	end)
+
+	function SWEP:PreDrawViewModel(vm, ply, wep)
+		if self.Upgrade == nil then self.Upgrade = missions.PlayerCompletedAll(ply) end --catches issues in very first spawn as server host
+		vm:SetBodygroup(1,self.Upgrade and 1 or 0)
+	end
+
 end
 
 
