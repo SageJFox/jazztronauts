@@ -20,6 +20,16 @@ function ENT:SetID( id )
 	self.id = id
 end
 
+if SERVER then
+
+	function ENT:KeyValue( k, v )
+		if k == "OnSnatched" then
+			self:StoreOutput( k, v )
+		end
+	end
+
+end
+
 if SERVER then return end
 
 local refractParams = {

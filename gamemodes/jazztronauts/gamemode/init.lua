@@ -854,6 +854,22 @@ function GM:GenerateJazzEntities(noshards)
 						end
 					end
 
+					if v.classname == "move_rope" or v.classname == "keyframe_rope" then
+						local ropemarker = ents.Create("jazz_static_proxy")
+						if IsValid(ropemarker) then
+							for key, value in pairs(v) do
+								if not isstring(value) or key == "classname" or key == "targetname" then continue end
+								ropemarker:SetKeyValue(key,value)
+							end
+							ropemarker:SetModel("models/editor/axis_helper_thick.mdl")
+							ropemarker:SetPos(Vector(v.origin or "0 0 0"))
+							ropemarker:SetAngles(Angle(v.angles or "0 0 0"))
+							ropemarker:Spawn()
+							ropemarker:Fire("AddOutput","OnSnatched ".. v.targetname .. ":Break::0:1",0,ropemarker,ropemarker)
+							ropemarker.IsProxy = false
+						end
+					end
+
 					--spawn markers for Roadtrips
 					if string.find(v.classname,"_changelevel") then
 						
@@ -964,6 +980,10 @@ end
 function GM:CollectProp(prop, ply)
 	print("COLLECTED: " .. tostring(prop and prop:GetModel() or "<entity>"))
 	local worth = mapgen.CollectProp(ply, prop)
+
+	if prop.TriggerOutput then
+		prop:TriggerOutput("OnSnatched", ply)
+	end
 
 	-- Collect the prop to the poop chute
 	if worth and worth > 0 then --TODO: Check if worth > 1 not 0
