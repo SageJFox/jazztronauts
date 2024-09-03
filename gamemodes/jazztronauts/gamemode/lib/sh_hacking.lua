@@ -1007,11 +1007,11 @@ hook.Add( "HUDPaint", "hacker_vision", function()
 					if line == tracedLine then
 						draw.SimpleText(v.name .. " -> " .. out[1] .. " -> " .. out[3] .. " -> " .. out[2], "DermaLarge", 100, y, Color(255,255,255))
 						y = y + 30
-						draw.SimpleText("param: " .. tostring(out[4]), "DermaDefault", 100, y, Color(255,255,255))
+						draw.SimpleText(jazzloc.Localize("jazz.hacker.parameter", tostring(out[4])), "DermaDefault", 100, y, Color(255,255,255))
 						y = y + 15
-						draw.SimpleText("delay: " .. tostring(out[5]), "DermaDefault", 100, y, Color(255,255,255))
+						draw.SimpleText(jazzloc.Localize("jazz.hacker.delay", tostring(out[5])), "DermaDefault", 100, y, Color(255,255,255))
 						y = y + 15
-						draw.SimpleText("refire: " .. tostring(out[6]), "DermaDefault", 100, y, Color(255,255,255))
+						draw.SimpleText(jazzloc.Localize("jazz.hacker.refire", tostring(out[6])), "DermaDefault", 100, y, Color(255,255,255))
 						y = y + 15
 					end
 				end
@@ -1023,9 +1023,9 @@ hook.Add( "HUDPaint", "hacker_vision", function()
 
 	cam.End2D()
 
-	draw.SimpleText("Lines drawn: " .. dc_lines,nil,10,10,Color(255,100,100))
-	draw.SimpleText("Models drawn: " .. dc_models,nil,10,20,Color(255,100,100))
-	draw.SimpleText("Blips drawn: " .. dc_blips,nil,10,30,Color(255,100,100))
+	draw.SimpleText(jazzloc.Localize("jazz.hacker.lines", tostring(dc_lines)),nil,10,10,Color(255,100,100))
+	draw.SimpleText(jazzloc.Localize("jazz.hacker.models", tostring(dc_models)),nil,10,20,Color(255,100,100))
+	draw.SimpleText(jazzloc.Localize("jazz.hacker.blips", tostring(dc_blips)),nil,10,30,Color(255,100,100))
 
 	surface.SetDrawColor(0,255,0,255)
 	surface.DrawRect( ScrW()/2 - 5, ScrH()/2 - 1, 10,2 )
