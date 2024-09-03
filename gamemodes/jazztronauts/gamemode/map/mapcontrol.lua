@@ -103,8 +103,8 @@ end
 
 function GetEndMaps()
 	local outro, outro2 = outromap:GetString(), outro2map:GetString()
-	if outro == nil or outro == "" then return "jazz_outro" end
-	if outro2 == nil or outro2 == "" then return "jazz_outro2" end
+	if outro == nil or outro == "" then outro = "jazz_outro" end
+	if outro2 == nil or outro2 == "" then outro2 = "jazz_outro2" end
 	return { outro, outro2 }
 end
 
