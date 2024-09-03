@@ -854,7 +854,7 @@ function GM:GenerateJazzEntities(noshards)
 						end
 					end
 
-					if v.classname == "move_rope" or v.classname == "keyframe_rope" then
+					if (v.classname == "move_rope" or v.classname == "keyframe_rope") and v.targetname then
 						local ropemarker = ents.Create("jazz_static_proxy")
 						if IsValid(ropemarker) then
 							for key, value in pairs(v) do
