@@ -41,6 +41,11 @@ function PLAYER:GetJazzSizeMultiplier()
 	return self.Player.JazzSizeMultiplier
 end
 
+function PLAYER:ShouldDrawLocal()
+	
+	if not (istable(self.Player.JazzDialogProxy) and IsValid(self.Player.JazzDialogProxy.Instance)) then return BaseClass.ShouldDrawLocal(self) end
+
+end
 
 --
 -- Called on spawn to give the player their default loadout
@@ -59,12 +64,6 @@ end
 
 function meta:GetNotes()
 	return jazzmoney.GetNotes(self)
-end
-
-function PLAYER:SetModel() -- whywhywhywhywhywhy (don't delete this or we lose playermodel skin/bodygroup setting)
-
-	BaseClass.SetModel( self )
-
 end
 
 if CLIENT then
@@ -209,4 +208,4 @@ if SERVER then
 	end)
 end
 
-player_manager.RegisterClass( "player_hub", PLAYER, "player_default" )
+player_manager.RegisterClass( "player_hub", PLAYER, "player_sandbox" )

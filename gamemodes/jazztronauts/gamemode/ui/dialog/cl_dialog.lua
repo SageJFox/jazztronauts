@@ -480,6 +480,8 @@ function InformScriptFinished(entrypoint, seen)
 	local scriptid = ScriptIDFromName(entrypoint)
 	if not scriptid then return false end
 
+	hook.Call("JazzDialogFinished", GAMEMODE, LocalPlayer(), scriptid, seen)
+
 	net.Start( "dialog_dispatch" )
 	net.WriteUInt( scriptid, 16 )
 	net.WriteBit(seen)

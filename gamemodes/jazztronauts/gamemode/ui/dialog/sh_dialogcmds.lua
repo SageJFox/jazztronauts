@@ -180,6 +180,16 @@ end
 
 if not CLIENT then return end
 
+hook.Add("JazzDialogFinished", "JazzCleanupScenes", function(ply, script, mark)
+	--delay by a bit so we can transition out
+	timer.Simple(2, function()
+		if IsValid(ply) and istable(ply.JazzDialogProxy) then
+			if IsValid(ply.JazzDialogProxy.Instance) then ply.JazzDialogProxy.Instance:Remove() end
+			ply.JazzDialogProxy = nil
+		end
+	end)
+end)
+
 -- Fires an output on a named entity on the server
 -- Try to avoid using this unless specifically needed for something
 dialog.RegisterFunc("fire", function(d, entityName, inputName, delay, fireParams)
