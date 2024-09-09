@@ -25,7 +25,9 @@ if SERVER then
 
 		local id = math.random(1, 1000)
 		if self.FactName and self.FactName ~= "" then
-			id = factgen.GetFactIDByName(self.FactName .. (self.FactName == "comment" and tostring(self:EntIndex() % 10) or ""), true)
+			local facts = string.Explode( ",%s*", self.FactName, true )
+			local fact = facts[math.random(#facts)]
+			id = factgen.GetFactIDByName(fact .. (fact == "comment" and tostring(self:EntIndex() % 10) or ""), true)
 		else
 			id = self:EntIndex()
 		end
