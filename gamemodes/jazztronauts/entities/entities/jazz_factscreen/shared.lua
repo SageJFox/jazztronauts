@@ -25,7 +25,43 @@ if SERVER then
 
 		local id = math.random(1, 1000)
 		if self.FactName and self.FactName ~= "" then
-			local facts = string.Explode( ",%s*", self.FactName, true )
+			--check for list
+			local facts = string.Explode( "%s*,%s*", self.FactName, true )
+			local removefacts = {}
+			for k, fact in ipairs(facts) do
+				--we wanna remove the fact instead of add
+				if string.sub( fact, 1, 1 ) == "-" then
+					--if we're removing some, we need the full set in our list
+					if #removefacts == 0 then
+						table.Add( facts, {
+							"ws_owner",
+							"ws_views",
+							"ws_filesize",
+							"ws_favorites",
+							"ws_subscriptions",
+							"ws_upload_date",
+							"ws_update_date",
+							"ws_screenshots",
+							"ws_tags",
+							"comment",
+							"map_size",
+							"skybox",
+							"map_comment",
+							"brush_count",
+							"static_props",
+							"entity_count",
+							"map_name"
+						} )
+					end
+					table.insert( removefacts, string.sub( fact, 2 ) )
+					table.remove(facts, k)
+				end
+			end
+			--actually removing the blacklisted facts
+			for _, v in ipairs(removefacts) do
+				table.RemoveByValue( facts, v )
+			end
+			--pick one
 			local fact = facts[math.random(#facts)]
 			id = factgen.GetFactIDByName(fact .. (fact == "comment" and tostring(self:EntIndex() % 10) or ""), true)
 		else

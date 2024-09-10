@@ -279,7 +279,7 @@
 		"comment7" : "Comment [Slot 8]"
 		"comment8" : "Comment [Slot 9]"
 		"comment9" : "Comment [Slot 10]"
-		//"ws_owner,ws_views,ws_filesize,ws_favorites,ws_subscriptions,ws_upload_date,ws_update_date,ws_screenshots,ws_tags,map_size,skybox,map_comment,brush_count,static_props,entity_count,map_name" : "Random, non-comment" //too hot for Hammer to handle
+		"-comment" : "Random, non-comment"
 		"map_size,skybox,map_comment,brush_count,static_props,entity_count,map_name" : "Random, BSP only"
 		"comment,ws_owner,ws_views,ws_filesize,ws_favorites,ws_subscriptions,ws_upload_date,ws_update_date,ws_screenshots,ws_tags" : "Random, workshop only"
 		"ws_owner,ws_views,ws_filesize,ws_favorites,ws_subscriptions,ws_upload_date,ws_update_date,ws_screenshots,ws_tags" : "Random, workshop only (no comments)"
