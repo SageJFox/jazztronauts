@@ -249,6 +249,10 @@
 @PointClass base(Targetname, Angles) studioprop() = jazz_factscreen : "Jazz Random Fact Screen"
 [
 	model(studio) : "World Model" : "models/sunabouzu/jazz_tv01.mdl"
+	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
+	DefaultAnim(string) : "Idle Animation" : : "Overrides the default idle animation"
+	rtmat(integer) : "RT Material Index" : 1 : "Which material index (starting from 0) will act as the model's RT screen?"
+	modelscale(float) : "Model Scale" : "1.0" : "Scales the model by precentage given. 1 = 100%, 0.5 = 50%, 2 = 200%, etc."
 	factname(choices) : "Fact Name" : "" : "What fact(s) this screen will display. Separate multiple choices with commas." = 
 	[
 		"" : "Random"
@@ -285,6 +289,10 @@
 		"ws_owner,ws_views,ws_filesize,ws_favorites,ws_subscriptions,ws_upload_date,ws_update_date,ws_screenshots,ws_tags" : "Random, workshop only (no comments)"
 	]
 	disableshadows(boolean) : "Disable Shadows" : 0
+
+	input Skin(integer) : "Changes the model skin to the specified number."
+	input SetIdle(string) : "Changes the idle animation to the specified sequence."
+	input SetModelScale(float) : "Changes the model's scale."
 
 	spawnflags(flags) =
 	[
@@ -345,7 +353,7 @@
 @PointClass base(Targetname, Angles) studioprop() = jazz_waterprop : "Detail props that gently bob in the water"
 [
 	model(studio) : "World Model" : "models/sunabouzu/jazzlily01.mdl"
-	bodygroup(string) : "Bodygroup" : "0" : "Sets the model's bodygroups. Uses the GMod method, so each character in the string represents a separate bodygroup. (0 to 9, a to z being 10 to 35)"
+	//bodygroup(string) : "Bodygroup" : "0" : "Sets the model's bodygroups. Uses the GMod method, so each character in the string represents a separate bodygroup. (0 to 9, a to z being 10 to 35)" //not implemented
 	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
 ]
 

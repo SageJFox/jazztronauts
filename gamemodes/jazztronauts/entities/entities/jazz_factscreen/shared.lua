@@ -6,19 +6,27 @@ ENT.Type = "anim"
 ENT.Base = "base_anim"
 ENT.RenderGroup = RENDERGROUP_OPAQUE
 ENT.Model =  "models/sunabouzu/jazz_tv01.mdl"
+ENT.ModelScale =  1
+ENT.IdleAnim = "idle"
 
 local SF_INVISIBLE_WHEN_OFF = 1
 
 function ENT:SetupDataTables()
-	self:NetworkVar("Int", 0, "FactID")
-	self:NetworkVar("Float", 0, "ToggleDelay")
-	self:NetworkVar("Entity", 0, "Selector")
+	self:NetworkVar("Int", "FactID")
+	self:NetworkVar("Float", "ToggleDelay")
+	self:NetworkVar("Entity", "Selector")
+	self:NetworkVar("Int", "RTMat")
+	if SERVER then
+		self:SetRTMat(1)
+	end
 end
 
 if SERVER then
+	
 	function ENT:Initialize()
 
 		self:SetModel(self.Model)
+		self:SetModelScale(self.ModelScale)
 		--self:PhysicsInit(SOLID_VPHYSICS)
 		--self:SetMoveType(MOVETYPE_NONE)
 		self:SetSelector(ents.FindByClass("jazz_hub_selector")[1])
@@ -26,7 +34,7 @@ if SERVER then
 		local id = math.random(1, 1000)
 		if self.FactName and self.FactName ~= "" then
 			--check for list
-			local facts = string.Explode( "%s*,%s*", self.FactName, true )
+			local facts = string.Explode( "%s*,%s*", string.Trim(self.FactName), true )
 			local removefacts = {}
 			for k, fact in ipairs(facts) do
 				--we wanna remove the fact instead of add
@@ -74,12 +82,41 @@ if SERVER then
 	function ENT:KeyValue(key, value)
 		if key == "model" then
 			self.Model = value
+		elseif key == "modelscale" then
+			self.ModelScale = tonumber(value) or 1
+		elseif key == "skin" then
+			self:SetSkin(tonumber(value))
+		elseif key == "DefaultAnim" then
+			self.IdleAnim = value
 		elseif key == "factname" then
 			self.FactName = value
+		elseif key == "rtmat" then
+			self:SetRTMat(tonumber(value) or 1)
 		elseif key == "disableshadows" then
 			self:DrawShadow(not tobool(value))
 		end
 	end
+
+	
+	function ENT:AcceptInput( name, activator, caller, data )
+
+		if name == "Skin" then self:SetSkin(tonumber(data)) return true end
+
+		if name == "SetIdle" then self:SetIdleAnim(tostring(data)) return true end
+
+		if name == "SetModelScale" then self:SetModelScale(tonumber(data) or 1, 0.00001) return true end
+
+		return false
+	end
+
+	function ENT:SetIdleAnim(anim)
+		self.IdleAnim = anim
+	
+		self:ResetSequence(self:LookupSequence(self.IdleAnim))
+	
+		self:SetPlaybackRate(1.0)
+	end
+	
 
 	local function UpdateToggleDelay()
 		local screens = ents.FindByClass("jazz_factscreen")
@@ -99,6 +136,12 @@ if SERVER then
 	UpdateToggleDelay()
 
 	return
+else
+
+	function ENT:Initialize()
+		self.RTMat = self:GetRTMat() --not changing once set so no need to constantly fetch this
+	end
+
 end
 
 local RTWidth = 512
@@ -291,10 +334,6 @@ timer.Simple(0, function()
 	end )
 end)
 
-function ENT:Initialize()
-
-end
-
 function ENT:ShouldShowTestPattern()
 	return (not self.CurrentFactMaterial) and (not self:HasSpawnFlags(SF_INVISIBLE_WHEN_OFF))
 end
@@ -335,8 +374,8 @@ function ENT:Draw()
 		curMat = loadMaterial
 	end
 	if curMat then
-		render.MaterialOverrideByIndex(1, curMat)
+		render.MaterialOverrideByIndex(self.RTMat, curMat)
 		self:DrawModel()
-		render.MaterialOverrideByIndex(1, nil)
+		render.MaterialOverrideByIndex(self.RTMat, nil)
 	end
 end
