@@ -22,6 +22,20 @@ function ENT:SetupDataTables()
 end
 
 if SERVER then
+	util.AddNetworkString("JazzFactScreenUpdate")
+
+	local outputs =
+	{
+		"OnFactDisplayed",
+		"OnFactRemoved"
+	}
+
+	net.Receive("JazzFactScreenUpdate",function()
+		local self = net.ReadEntity()
+		if IsValid(self) then
+			self:TriggerOutput(net.ReadBool() and "OnFactDisplayed" or "OnFactRemoved", self)
+		end
+	end)
 	
 	function ENT:Initialize()
 
@@ -95,6 +109,10 @@ if SERVER then
 		elseif key == "disableshadows" then
 			self:DrawShadow(not tobool(value))
 		end
+		
+		if table.HasValue(outputs, key) then
+			self:StoreOutput(key, value)
+		end
 	end
 
 	
@@ -136,12 +154,6 @@ if SERVER then
 	UpdateToggleDelay()
 
 	return
-else
-
-	function ENT:Initialize()
-		self.RTMat = self:GetRTMat() --not changing once set so no need to constantly fetch this
-	end
-
 end
 
 local RTWidth = 512
@@ -334,6 +346,10 @@ timer.Simple(0, function()
 	end )
 end)
 
+function ENT:Initialize()
+	self.RTMat = self:GetRTMat() --not changing once set so no need to constantly fetch this
+end
+
 function ENT:ShouldShowTestPattern()
 	return (not self.CurrentFactMaterial) and (not self:HasSpawnFlags(SF_INVISIBLE_WHEN_OFF))
 end
@@ -366,6 +382,10 @@ end
 function ENT:UpdateFactMaterial()
 	self.CurrentFactMaterial = isOn and factMaterials[self:GetRealFactID()]
 	self:EmitSound("ui/buttonclick.wav", 75, 200, 1)
+	net.Start("JazzFactScreenUpdate")
+		net.WriteEntity(self)
+		net.WriteBool(isOn)
+	net.SendToServer()
 end
 
 function ENT:Draw()

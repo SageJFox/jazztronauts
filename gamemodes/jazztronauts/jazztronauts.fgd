@@ -294,6 +294,9 @@
 	input SetIdle(string) : "Changes the idle animation to the specified sequence."
 	input SetModelScale(float) : "Changes the model's scale."
 
+	output OnFactDisplayed(void) : "Fires when this monitor displays its fact."
+	output OnFactRemoved(void) : "Fires when this monitor stops displaying its fact."
+
 	spawnflags(flags) =
 	[
 		1 : "Invisible When Off" : 0
