@@ -9,6 +9,7 @@ ENT.DoorClose = Sound("doors/door_wood_close1.wav")
 ENT.DoorLocked = Sound("krio/door_locked1.wav")
 ENT.UseableSizeMin = -1
 ENT.UseableSizeMax = -1
+ENT.ModelScale = 1
 
 
 local outputs =
@@ -20,6 +21,7 @@ local outputs =
 }
 
 function ENT:Initialize()
+	self:SetModelScale(self.ModelScale)
 	self:PhysicsInitStatic(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_NONE)
 	self:SetUseType(SIMPLE_USE)
@@ -207,6 +209,8 @@ function ENT:KeyValue(key, value)
 			self.UseableSizeMin = tonumber(value)
 		elseif key == "useablesizemax" then
 			self.UseableSizeMax = tonumber(value)
+		elseif key == "modelscale" then
+			self.ModelScale = tonumber(value) or 1
 		end
 	end
 end
