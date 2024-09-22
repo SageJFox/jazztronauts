@@ -75,6 +75,81 @@ local function ChopRight(str, findstr)
 	return str:sub(0, pos - 1)
 end
 
+--insert our data from jazz_sceneviewoverride entities
+local function CameraOverride(findStr, soloScriptName)
+	for _, override in ipairs( ents.FindByClass("jazz_sceneviewoverride") ) do
+		if IsValid(override) and not game.SinglePlayer() then
+			-- first, find the script we're working on
+			local scriptname = string.Explode(".txt$",override:GetScript(),true)[1]..".txt" --let the mapper put .txt on if they want, but don't require it
+			if soloScriptName and not string.find(scriptname,soloScriptName) then continue end
+			if not ScriptSources[scriptname] then Msg("No script named "..scriptname.." found.") continue end
+			local script = ScriptSources[scriptname]
+			print("Working on script: ",scriptname)
+
+			-- then find the start of the branch we want
+			local branch = string.Trim(string.PatternSafe(override:GetBranch()))
+			local _,branchstart,_ = string.find(script,string.format(findStr,branch))
+			if not branchstart then Msg("No branch named \""..override:GetBranch().."\" found in "..scriptname.."\n") continue end
+
+			--now find the command we want to change
+			local foundstart, foundend, branchnumber = branchstart, branchstart, override:GetBranchNumber()
+
+			if branchnumber > 0 then
+				local pattern = "[%w]*cam[%w]* [%w%d%-%.%ssetpos]+ [%d%-%.]+ [%d%-%.]+%s*;[setang]*%s*[%d%-%.]+ [%d%-%.]+ [%d%-%.]+" --attempting to find various camera setting commands
+				if override:GetFOV() ~= 0 then pattern = pattern .. "[ ]*[fov%d%-%.]*" end -- add FOV to the mix if we're replacing it
+				local comment, endline, oldcommand = "#.-", ".-\r?\n", ""
+				--tried to do this decently, but whatever. ASSUMING DIRECT CONTROL
+				if findStr == "MACRO" then
+					--strip comments (make sure first instance of our macro is the real definition, not a commented out one)
+					script = string.gsub(script,"#.-\r?\n","\n")
+					--replace the definition
+					local _, _, command = string.find(script,"MACRO%s+" .. branch .. "%s+(.-)\r?\n" )
+					if command then
+						script = string.Replace(script,command,override:GetCommand())
+						print("Replacing [ "..command.." ] with [ "..override:GetCommand().." ]")
+					end
+				else
+					while branchnumber > 0 do
+						local oldfoundend = foundend
+						foundstart,foundend,_ = string.find(script,pattern,foundend)
+						oldcommand = string.sub(script,foundstart,foundend)
+						branchnumber = branchnumber - 1
+						--check if the camera call we just found was actually inside of a comment, and skip it (by just going on our merry way)
+						local oldcommandpatternsafe = string.PatternSafe(oldcommand)
+						if string.find(script,comment..oldcommandpatternsafe..endline,oldfoundend) then
+							branchnumber = branchnumber + 1
+						end
+						--print(foundend,oldcommand)
+					end
+
+					local left, right, command = string.Left(script,foundstart - 1), string.sub(script,foundend + 1),override:GetCommand()
+					print("Replacing [ "..oldcommand.." ] with [ "..command.." ]")
+					--print(string.sub(left,-50),command,string.sub(right,0,50))
+					script = left .. command .. right
+				end
+
+			-- we don't want to find a specific command, we just want this at the end of this branch
+			elseif branchnumber < 0 then
+				foundend,_,_ = string.find(script,"[\t ]*[%w]-:\r?\n",branchstart)
+				script = string.Left(script,foundend - 1).. "*" .. override:GetCommand() .. "*\n" .. string.sub(script,foundend + 1)
+
+			-- we don't want to find a specific command, we just want this at the start of this branch
+			else
+				script = string.Left(script,foundend - 1).. "\n*" .. override:GetCommand() .. "*" .. string.sub(script,foundend + 1)
+			end
+
+			ScriptSources[scriptname] = script
+			-- print("LET ME GET THIS RIGHT:")
+			-- local parse = 0
+			-- while parse < #ScriptSources[scriptname] do
+			-- 	Msg(string.sub(ScriptSources[scriptname],parse,parse+999))
+			-- 	parse = parse + 1000
+			-- end
+			--print(string.sub(script,math.max(0,foundend - 255),math.min(0,foundend - 255) + foundend + 255))
+		end
+	end
+end
+
 local macrolist = macrolist or {}
 
 local function LoadMacros(sources)
@@ -550,9 +625,13 @@ function CompileMacros(sources)
 	MsgC( Color(100,255,100), replace( test_string ))]]
 end
 
-function CompileScripts(sources)
+function CompileScripts()
 	-- 1. Compile macros
-	if game.SinglePlayer() then CompileMacros(sources) end --handled upstream, except in singleplayer
+	CameraOverride("MACRO")
+	local sources = ScriptSources
+	if game.SinglePlayer() then --handled upstream, except in singleplayer
+		CompileMacros(sources)
+	end
 
 	-- 2. Compile scripts
 	local compiled = {}
@@ -610,62 +689,11 @@ function LoadScripts()
 		end
 
 		-- Get camera overrides and apply them here
-		for _, override in ipairs( ents.FindByClass("jazz_sceneviewoverride") ) do
-			if IsValid(override) and not game.SinglePlayer() then
-				-- first, find the script we're working on
-				local scriptname = string.Explode(".txt$",override:GetScript(),true)[1]..".txt" --let the mapper put .txt on if they want, but don't require it
-				if not ScriptSources[scriptname] then Msg("No script named "..scriptname.." found.") continue end
-				local script = ScriptSources[scriptname]
-				print("Working on script: ",scriptname)
-
-				-- then find the start of the branch we want
-				local _,branchstart,_ = string.find(script,string.Trim(string.PatternSafe(override:GetBranch()))..":[\t ]*\r?\n",0)
-				if not branchstart then Msg("No branch named \""..override:GetBranch().."\" found in "..scriptname.."\n") continue end
-
-				--now find the command we want to change
-				local foundstart, foundend, branchnumber = branchstart, branchstart, override:GetBranchNumber()
-
-				if branchnumber > 0 then
-					local pattern = "[%w]*cam[%w]* [%w%d%-%.%ssetpos]+ [%d%-%.]+ [%d%-%.]+%s*;[setang]*%s*[%d%-%.]+ [%d%-%.]+ [%d%-%.]+" --attempting to find various camera setting commands
-					if override:GetFOV() ~= 0 then pattern = pattern .. "[ ]*[fov%d%-%.]*" end -- add FOV to the mix if we're replacing it
-					local comment, endline, oldcommand = "#.-", ".-\r?\n", ""
-					while branchnumber > 0 do
-						local oldfoundend = foundend
-						foundstart,foundend,_ = string.find(script,pattern,foundend)
-						oldcommand = string.sub(script,foundstart,foundend)
-						branchnumber = branchnumber - 1
-						--check if the camera call we just found was actually inside of a comment, and skip it (by just going on our merry way)
-						local oldcommandpatternsafe = string.PatternSafe(oldcommand)
-						if string.find(script,comment..oldcommandpatternsafe..endline,oldfoundend) then
-							branchnumber = branchnumber + 1
-						end
-						--print(foundend,oldcommand)
-					end
-
-					local left, right, command = string.Left(script,foundstart - 1), string.sub(script,foundend + 1),override:GetCommand()
-					print("Replacing [ "..oldcommand.." ] with [ "..command.." ]")
-					--print(string.sub(left,-50),command,string.sub(right,0,50))
-					script = left .. command .. right
-
-				-- we don't want to find a specific command, we just want this at the end of this branch
-				elseif branchnumber < 0 then
-					foundend,_,_ = string.find(script,"[\t ]*[%w]-:\r?\n",branchstart)
-					script = string.Left(script,foundend - 1).. "*" .. override:GetCommand() .. "*\n" .. string.sub(script,foundend + 1)
-
-				-- we don't want to find a specific command, we just want this at the start of this branch
-				else
-					script = string.Left(script,foundend - 1).. "\n*" .. override:GetCommand() .. "*" .. string.sub(script,foundend + 1)
-				end
-
-				ScriptSources[scriptname] = script
-				--print("LET ME GET THIS RIGHT:")
-				--print(string.sub(script,math.max(0,foundend - 255),math.min(0,foundend - 255) + foundend + 255))
-			end
-		end
+		CameraOverride("%s:[\t ]*\r?\n")
 	end
 
 	print("[Jazz Dialog] Compiling scripts...")
-	local compiled = CompileScripts( ScriptSources )
+	local compiled = CompileScripts()
 
 	print("[Jazz Dialog] Linking scripts...")
 	LinkScripts( compiled )
