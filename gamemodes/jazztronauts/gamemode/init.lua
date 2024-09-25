@@ -1228,11 +1228,58 @@ function GM:EntityTakeDamage( target, dmginfo )
 end
 
 
-local acknowledge = "yep, dump it"
+local madlibs = {}
+madlibs[1] = {
+	"Bartender", "Cellist", "Singer", "Pianist", "The Gang", "The Player", "Garry", "A mingebag", "Nobody", "Everybody", "info_player_start", "An average housecat", 
+	"A dev", "Sun", "Foohy", "Kaz", "Matt", "Ptown", "Sierra", "C", "Gordon", "Freeman", "Somebody", "Gabe", "Everyone", "No one", "The World", "A fan",
+	"The Bartender", "The Cellist", "The Singer", "The Pianist", "Rubat", "Rob", "Rungo", "Georff", "Podge", "Your computer", "My computer"
+}
+madlibs[2] = {
+	" loves", " ate", " smoked", " snatched", " saw", " shot", " blew up", " smells", "'s blinded", " cataloged", " stole", " programmed", " drew", " lost", " made",
+	" modeled", " mapped", " found", " chased", " tackled", " crowbarred", " swung at", " lifted", " altered", " remembered", " forgot", " summoned", " won", " posed",
+	" dissolved", " threw", " plundered", " bought", " sold", " believes in", " installed", " needs", " refactored", " shattered", " broke", " gibbed", " dumped",
+	" dance fought", " drove", " crashed", " sunk", " defenestrated", " heard", " equipped", " cursed", " fell on", " fell off", " once told", " foretold", " slayed",
+	" stunned", " shrunk", " left", " is out with", " is out without", "'s gonna roll", " doesn't care for", " accepted", " rejected", " punted", " silenced",
+	" muted", " blocked", " went under", " went over", " went through", " skipped", " shredded", " grabbed", " thanked", " spawned", " opened", " destroyed",
+	" pwned", " froze", " stalled", " played"
+}
+madlibs[3] = {
+	" Jazztronauts", " the Bar", " crack", " you", " a watermelon", " a crate", " God", " Source", " Garry's Mod", " GMod", " me", " my heart", " the players",
+	" a prop snatcher", " Stan", " Hacker Goggles", " some NPCs", " cats", " smooth jazz", " a crowbar", " a gun", " the trolley", " a headcrab", " the mind",
+	" a Vortigaunt", " capitalism", " Counter-Strike: Source", " ur mom lol", " GMan", " somebody", " a car", " a radio", " a cactus", " a creepy doll", " a jeep",
+	" a horse statue", " an antlion", " a thruster", " a hoverball", " the Void", " Void skeletons", " it", " Alyx", " Steam", " Valve", " 9 out of 10 players",
+	" at the top of lung", " all night long", " really badly", " quite well", " too well", " somebody to love", " a ghost", " a possum", " a bee", " a tumblr sexyman",
+	" the Gravity Gun", " the Physgun", " the Tool Gun", " the spawn menu", " the server", " something", " nothing", " aliens", " monsters", " Kleiners",
+	" computers", " Que Chevere", " the piano", " the cello", " the microphone", " the saxophone"
+}
+madlibs[4] = {
+	".", "!", "?", "?!", "!!", "...", "!!!"
+}
+
+local function generatephrase(time)
+	local phrase = ""
+	
+	local seed = bit.tobit(util.SharedRandom("Jazztronauts!!",-2147483648,2147483647,time)) --32 bits
+	for k, v in ipairs(madlibs) do
+		phrase = phrase .. v[bit.rshift(seed,k * 7) % #v + 1] 
+	end
+	return string.Trim(phrase)
+end
+
+concommand.Add("jazz_debug_madlibs", function(ply, cmd, args)
+	local count = tonumber(args[1]) and tonumber(args[1]) or 1
+	for i = 1, count do
+		print(generatephrase(math.Rand(-2147483648,2147483647)))
+	end
+end, nil, "Generate a mad libs pass phrases. Specify a number for multiple.")
+
+local acknowledge = generatephrase(CurTime())
+
 concommand.Add("jazz_reset_progress", function(ply, cmd, args)
 	if IsValid(ply) and not ply:IsSuperAdmin() then return end
 	local phrase = table.concat(args, " ")
-	if phrase != acknowledge then
+	if phrase != acknowledge or phrase == "" then
+		acknowledge = generatephrase(CurTime())
 		local failInfo = "Are you sure you want to reset progress? This command cannot be undone."
 		.. "\nRe-run this command with the argument \"" .. acknowledge .. "\" to acknowledge."
 		if IsValid(ply) then
@@ -1243,6 +1290,7 @@ concommand.Add("jazz_reset_progress", function(ply, cmd, args)
 		return
 	end
 
+	acknowledge = generatephrase(CurTime())
 	jsql.Reset()
 	unlocks.ClearAll()
 	mapcontrol.Launch(mapcontrol.GetIntroMap())
