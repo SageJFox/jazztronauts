@@ -41,8 +41,12 @@ local AimConeDefault		= 3
 SWEP.AutoAimCone			= AimConeDefault
 
 -- Tier 2 settings
-SWEP.MinFireDelay			= 0.1 -- Min delay to fire when at full blast
-SWEP.WarmUpTime				= 1 -- How long it takes to get to full blast
+SWEP.MaxFireDelayAdd		= 1.2 -- Max delay added when snatcher just started
+local t2MaxFireDelayAdd		= 0.5
+SWEP.MinFireDelay			= 0.3 -- Min delay to fire when at full blast
+local t2MinFireDelay		= 0.1
+SWEP.WarmUpTime				= 3 -- How long it takes to get to full blast
+local t2WarmUpTime			= 1
 
 SWEP.Spawnable				= true
 SWEP.RequestInfo			= {}
@@ -152,7 +156,11 @@ function SWEP:SetUpgrades(overpowered)
 	self.CloseRange = ShortRangeDefault + rangeLevel * 25
 
 	-- Tier II - Automatic fire upgrade
-	self.Primary.Automatic = unlocks.IsUnlocked("store", owner, snatch2) or overpowered
+	if unlocks.IsUnlocked("store", owner, snatch2) or overpowered then
+		self.MaxFireDelayAdd = t2MaxFireDelayAdd
+		self.MinFireDelay = t2MinFireDelay
+		self.WarmUpTime = t2WarmUpTime
+	end
 
 	-- Tier III - World stealing
 	self.CanStealWorld = unlocks.IsUnlocked("store", owner, snatch_world) or overpowered
@@ -701,13 +709,13 @@ end
 
 -- When button released, revert primary fire to be sooner (so they can still click faster)
 function SWEP:StopPrimaryAttack()
-	self:SetNextPrimaryFire(self:LastShootTime() + self.MinFireDelay)
+	self:SetNextPrimaryFire(self:LastShootTime() + t2MinFireDelay)
 end
 
 function SWEP:GetPrimaryShootDelay()
 	local p = (CurTime() - self.StartShootTime) / self.WarmUpTime
 
-	return math.max(0, (1 - p) * 0.50) + self.MinFireDelay
+	return math.max(0, (1 - p) * self.MaxFireDelayAdd) + self.MinFireDelay
 end
 
 function SWEP:IsAcceptingProps()
