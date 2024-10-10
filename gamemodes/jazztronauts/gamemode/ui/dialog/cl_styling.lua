@@ -141,27 +141,6 @@ function dialog.GetFocusProxy()
 	return focusProxy
 end
 
-local function drawPlayer(ply)
-	if not pac then
-		ply:DrawModel()
-		return
-	end
-
-	--sort of a bandaid, but prevents error spam from PAC outfits.
-	local play = ply
-	if type(play) == "table" then 
-		play = pac.LocalPlayer
-	end
-
-	pac.ForceRendering(true)
-	pac.ShowEntityParts(ply)
-	--switching these to the localplayer rids us of the error, while still letting dialog selections render when size has been adjusted
-	pac.RenderOverride(play, "opaque")
-	pac.RenderOverride(play, "translucent", true)
-	ply:DrawModel()
-	pac.ForceRendering(false)
-end
-
 local function isPlayer(ply)
 	return ply:IsPlayer() or ply == LocalPlayer().JazzDialogProxy
 end
@@ -199,16 +178,20 @@ local function RenderEntityCutIn(ent, x, y, w, h)
 	local ang = (headpos - pos):Angle()
 
 	renderPlayerCutIn = ent == LocalPlayer()
-	cam.Start3D(pos, ang, 25, x, y, w, h)
-		render.SetColorModulation(1, 1, 1)
-		if isPlayer(ent) then
-			drawPlayer(ent)
-		else
-			ent.NoFollowPlayer = true
-			ent:DrawModel()
-			ent.NoFollowPlayer = false
-		end
-	cam.End3D()
+	if pac and renderPlayerCutIn then
+		pac.DrawEntity2D(ent, x, y, w, h, pos, ang, 25) 
+	else
+		cam.Start3D(pos, ang, 25, x, y, w, h)
+			render.SetColorModulation(1, 1, 1)
+			if isPlayer(ent) then
+				ent:DrawModel()
+			else
+				ent.NoFollowPlayer = true
+				ent:DrawModel()
+				ent.NoFollowPlayer = false
+			end
+		cam.End3D()
+	end
 
 	renderPlayerCutIn = false
 end
