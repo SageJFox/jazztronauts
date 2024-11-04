@@ -357,16 +357,19 @@ if SERVER then
 			end )
 			local addonsStr = task.Await(addonTask)
 
-			if addonsStr then
+			if addonsStr and string.len(string.Trim(addonsStr)) > 0 then
 				-- Save this successful run
 				file.CreateDir(string.GetPathFromFilename(overrideAddonCache))
 				file.Write(overrideAddonCache, addonsStr)
 			else
+				Msg("Failed to fetch latest addons.txt list")
+				if string.len(string.Trim(addonsStr)) == 0 then Msg(", list empty!") end
+				Msg("\n")
 				-- Try loading from their last successful download cache
 				addonsStr = file.Read(overrideAddonCache, "DATA")
 
 				-- Built in cache that comes with the game
-				addonsStr = addonsStr or file.Read(defaultAddonList, "GAME")
+				addonsStr = (addonsStr and string.len(string.Trim(addonsStr)) > 0) and addonsStr or file.Read(defaultAddonList, "GAME")
 			end
 
 			insertAddons(GetExternalMapAddons(addonsStr or ""))
