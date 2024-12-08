@@ -99,7 +99,7 @@ local function isReadyToTurnIn(mdata)
 	local minfo = GetMissionInfo(mdata.missionid)
 
 	-- They must have started the mission and not already completed it
-	if not mdata or mdata.completed then return false end
+	if not mdata or mdata.completed or not minfo then return false end
 
 	-- They gotta collect ALL of the props
 	if mdata.progress < minfo.Count then return false end
@@ -112,7 +112,7 @@ local function filterNPCID(missions, npcid)
 
 	for k, v in pairs(missions) do
 		local minfo = v.NPCId and v or MissionList[v.missionid]
-		if minfo.NPCId != npcid then
+		if not minfo or minfo.NPCId != npcid then
 			missions[k] = nil
 		end
 	end
@@ -221,7 +221,7 @@ if SERVER then
 		local missions = GetActiveMissions(ply)
 		for k, v in pairs(missions) do
 			local minfo = GetMissionInfo(k)
-			if minfo.Filter(mdl) then
+			if minfo and minfo.Filter(mdl) then
 				addedProp = true
 				_addMissionProgress(ply, k)
 			end
