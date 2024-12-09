@@ -89,6 +89,52 @@ local AcceptEntClass = {
 	["env_headcrabcanister"] = true,
 	["prop_thumper"] = true,
 	["env_flare"] = true,
+	--let's live dangerously
+	--a lot of this stuff could be core map structure, if it's at all possible at some point we should make these snatchable but leave them in place
+	--(for the dynamic stuff probably replace their textures with void or something else, static stuff could be normal void shells)
+	--also note that all of this is gonna wind up being brush models, which are... gross to handle right now.
+	["func_button"] = true,
+	["func_button_rot"] = true,
+	["func_door"] = true,
+	["func_door_rotating"] = true,
+	["func_water_analog"] = true,
+	["func_movelinear"] = true,
+	["func_lod"] = true, --todo: if anything should get the staticprop treatment, it'd be this
+	["func_brush"] = true,
+	["func_wall"] = true,
+	["func_wall_toggle"] = true,
+	["func_illusionary"] = true,
+	["func_breakable"] = true,
+	["func_breakable_surf"] = true,
+	["func_physbox"] = true,
+	["func_tank"] = true,
+	["func_tanktrain"] = true,
+	["func_tracktrain"] = true,
+	["func_plat"] = true,
+	["func_platrot"] = true,
+	["func_monitor"] = true,
+	--even scarier
+	["trigger_once"] = true,
+	["trigger_multiple"] = true,
+	["trigger_look"] = true,
+	["trigger_hurt"] = true,
+	["infodecal"] = true,
+	["info_overlay"] = true,
+	["env_sprite"] = true,
+	["env_glow"] = true,
+	--[[ --todo: eventually
+	["env_sun"] = true,
+	["env_fire"] = true,
+	["point_spotlight"] = true,
+	["npc_spotlight"] = true,
+	["env_laser"] = true,
+	["env_spark"] = true,
+	["env_lightglow"] = true,
+	["env_smokestack"] = true,
+	["keyframe_track"] = true,
+	["light"] = true,]]
+	["prop_detail"] = true,
+	["prop_detail_sprite"] = true,
 }
 
 local IgnoreEntClass = {

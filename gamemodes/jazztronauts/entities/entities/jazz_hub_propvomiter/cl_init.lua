@@ -56,8 +56,15 @@ local idx = 0
 local function AddVomitProp(model, pos)
 	idx = idx + 1
 	local shouldRagdoll = util.IsValidRagdoll(model)
+	local sprite = nil
+	if string.find(model,"%*[%d]+") then model = "models/sunabouzu/worldgib01.mdl" end --let's not crash with an Engine error
+	if string.find(model,"sprites%/.-%.vmt") or string.find(model,"sprites%/.-%.spr") then --sprites
+		sprite = string.sub(model,1,-4) .. ".vmt"
+		model = "models/hunter/blocks/cube025x025x025.mdl"
+	end
 	local entObj = ManagedCSEnt(model .. idx .. FrameNumber(), model, shouldRagdoll)
 	local ent = entObj.Instance
+	if not IsValid(ent) then return end
 	if shouldRagdoll then
 
 		for i=0, ent:GetPhysicsObjectCount()-1 do
@@ -79,7 +86,7 @@ local function AddVomitProp(model, pos)
 		if not ent:PhysicsInit(SOLID_VPHYSICS) or tooBig(ent) then
 			resize(ent)
 		end
-
+		if sprite then ent:SetMaterial(sprite) end
 		ent:SetPos(pos)
 	end
 
@@ -91,6 +98,7 @@ local function AddVomitProp(model, pos)
 	ent:GetPhysicsObject():Wake()
 	ent:GetPhysicsObject():SetVelocity(Vector(0, 0, math.Rand(-1000, -100)))
 	ent:GetPhysicsObject():AddAngleVelocity(VectorRand() * 1000)
+
 
 	ent.RemoveAt = UnPredictedCurTime() + Lifetime:GetFloat()
 	table.insert(JazzVomitProps, entObj)

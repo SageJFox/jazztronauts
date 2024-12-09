@@ -976,9 +976,62 @@ function GM:CollectBlackShard(shard, ply)
 	end
 end
 
+--collect brush model (get its size and a texture, call it a brush for the chute)
+local function CollectBModel(bmodel, ply)
+	print("COLLECTED: *" .. bmodel)
+	bmodel = bmodel + 1
+	if table.IsEmpty(JAZZ_LOADED_BSP) then return end
+	local bmdl = JAZZ_LOADED_BSP[bsp3.LUMP_MODELS][bmodel]
+	if not bmdl then print("No bmodel *"..tostring(bmodel - 1).."!") return end
+
+	local size = bmdl.maxs - bmdl.mins
+	local length = size.x + size.y + size.z
+
+	local worth = math.pow(length, 1.1) / 15.0
+
+	local maxmaterial = "tools/toolsnodraw"
+
+	local maxarea = -1
+	for _, v in pairs(bmdl.faces) do
+		if not v.texinfo then continue end
+		local texinfo = v.texinfo
+		local texdata = texinfo.texdata
+		local mat = texdata.material
+
+		local area = string.find(mat, "TOOLS/TOOLSNODRAW") and 0 or v.area
+		if area > maxarea then
+			maxarea = area
+			maxmaterial = mat
+		end
+	end
+
+	if not maxmaterial then
+		print("Collected bmodel with no valid surface materials! (*" .. bmdl.id .. ")")
+		return
+	end
+
+	maxmaterial = string.lower(maxmaterial):gsub("_[+-]?%d+_[+-]?%d+_[+-]?%d+$",""):gsub("^maps/[%w_]+/","")
+
+	-- Collect the prop to the poop chute
+	if worth and worth > 0 then --TODO: Check if worth > 1 not 0
+		worth = worth * newgame.GetMultiplier()
+		if not IsValid(ply) then return end
+
+		local newCount = snatch.AddProp(ply, maxmaterial, worth, "brush")
+		propfeed.notify_brush( maxmaterial, ply, worth )
+		--propfeed.notify( prop, ply, newCount, worth)
+	end
+end
+
 -- Called when prop is snatched from the level
 function GM:CollectProp(prop, ply)
-	print("COLLECTED: " .. tostring(prop and prop:GetModel() or "<entity>"))
+
+	--todo: probably better to eventually move this up to where CollectProp is called. oh well
+	local modelname = tostring(prop and prop:GetModel() or prop:GetClass()) --"<entity>") --easier to see what's breaking
+	local bmodel = string.match( modelname, "^%*(%d+)")
+	if bmodel then CollectBModel(tonumber(bmodel),ply) return end
+
+	print("COLLECTED: " .. modelname)
 	local worth = mapgen.CollectProp(ply, prop)
 
 	if prop.TriggerOutput then

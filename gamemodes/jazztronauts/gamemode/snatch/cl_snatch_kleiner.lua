@@ -81,18 +81,18 @@ local function DoneScene( scene )
 end
 
 local function DrawScene( scene, voidrender )
+	local ent = scene:GetEntity()
 	-- Verify first if it exists.
-	if not scene:GetEntity():IsValid() then return end
+	if not ent:IsValid() then return end
 
 	-- If rendering in void ONLY render the prop
 	-- Also only do this for static props for performance reasons
 	if voidrender and scene.is_proxy then
-		local ent = scene:GetEntity()
 		ent:DrawModel()
 	end
 
 	local dt = ( CurTime() - scene.time )
-	local pos = scene:GetEntity():GetPos()
+	local pos = ent:GetPos()
 
 	local blink = 3.85
 	if dt > blink then
@@ -108,7 +108,7 @@ local function DrawScene( scene, voidrender )
 
 		if not scene.sfx_played then
 			scene.sfx_played = true
-			EmitSound( "jazztronauts/ding.wav", pos, scene:GetEntity():EntIndex(), CHAN_AUTO, 1, 75, 0, 100 )
+			EmitSound( "jazztronauts/ding.wav", pos, ent:EntIndex(), CHAN_AUTO, 1, 75, 0, 100 )
 		end
 
 	end
@@ -147,11 +147,11 @@ local function DrawScene( scene, voidrender )
 		--If we're scaling, start applying transform matrix to prop,
 		--this only works on regular props though
 		if not scene.is_ragdoll then
-			scene:GetEntity():EnableMatrix( "RenderMultiply", mtx )
+			ent:EnableMatrix( "RenderMultiply", mtx )
 		else
 			--Optional stupid looking bone scaling
-			--[[for i=0, scene:GetEntity():GetBoneCount()-1 do
-				scene:GetEntity():ManipulateBoneScale( i, Vector(scale, scale, scale) )
+			--[[for i=0, ent:GetBoneCount()-1 do
+				ent:ManipulateBoneScale( i, Vector(scale, scale, scale) )
 			end]]
 		end
 

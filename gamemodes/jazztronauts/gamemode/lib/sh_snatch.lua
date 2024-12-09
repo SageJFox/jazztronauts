@@ -546,7 +546,7 @@ function meta:RunProp( prop )
 	self.is_prop = true
 
 	--Draw the fake entity
-	if IsValid(self.fake) then
+	if IsValid(self.fake) and not self.fake.sprite then
 		self.fake:SetNoDraw( false )
 	end
 
@@ -758,7 +758,50 @@ if SERVER then
 		ent:StoreOutput(key, value)
 	end)
 
+	--pitfalls to watch for in deleting entities
+	local handleents = {
+		["func_tank"] = function(ent)
+			if IsValid(ent) and ent:GetInternalVariable("m_hController") then
+				ent:Fire("ForceNPCOff")
+				ent:Fire("Deactivate","",0.01)
+				return true
+			end
+		end
+	}
+
+	--make sure we don't gotta clean up children, and children's children, etc.
+	local function checkchildren(child)
+
+		if not IsValid(child) then return false end
+
+		local dangerous = false
+		local children = child:GetChildren()
+
+		--check yo self first (if we're dangerous don't bother checking children)
+		if handleents[child:GetClass()] then
+			dangerous = dangerous or handleents[child:GetClass()]()
+		end
+
+		if children and not dangerous then
+			for k, v in ipairs(children) do
+				if not IsValid(v) then continue end
+
+				dangerous = dangerous or checkchildren(v)
+				
+				if handleents[v:GetClass()] then
+					dangerous = dangerous or handleents[v:GetClass()]()
+					if dangerous then return dangerous end
+					continue
+				end
+			end
+		end
+
+		return dangerous
+	end
+
 	SV_HandleEntityDestruction = function( ent, owner, kill, delay )
+		--we don't like crashing, silly I know
+		if checkchildren(ent) then return end
 
 		timer.Simple(delay or .12, function()
 			if not IsValid(ent) then return end
@@ -910,8 +953,20 @@ elseif CLIENT then
 		--Check if a ragdoll should be made
 		local should_ragdoll = CL_ShouldMakeRagdoll( ent )
 
+		local model, sprite = ent:GetModel(), nil
+
+		if string.find(model,"sprites%/.-%.vmt") or string.find(model,"sprites%/.-%.spr") then --sprites
+			--ensure sprites follow the pattern of materials/sprites/[name].vmt
+			local processmodel = string.match(string.lower(model),"materials%/?%\\?(.+)")
+			model = processmodel and processmodel or model
+			processmodel = string.match(model,"(.-)%....") --format can potentially be .spr
+			model = processmodel and processmodel or model
+			sprite = "materials/".. model .. ".vmt"
+			model = "models/hunter/blocks/cube025x025x025.mdl"
+		end
+
 		--Create clientside entity
-		local cl = ManagedCSEnt( "scene_entity_" .. tostring(nextEntityID), ent:GetModel(), should_ragdoll )
+		local cl = ManagedCSEnt( "scene_entity_" .. tostring(nextEntityID), model, should_ragdoll )
 
 		if not IsValid(cl) then return nil, false end
 
@@ -923,6 +978,13 @@ elseif CLIENT then
 		cl:SetSkin( ent:GetSkin() )
 		for _, v in ipairs(ent:GetBodyGroups()) do cl:SetBodygroup( v.id, ent:GetBodygroup(v.id) ) end
 		cl:CreateShadow()
+		if sprite then
+			cl.sprite = Material(string.sub(sprite,11))
+			cl:SetNoDraw(true)
+		else
+			cl:SetSkin( ent:GetSkin() )
+			cl:CreateShadow()
+		end
 
 		if not data then
 

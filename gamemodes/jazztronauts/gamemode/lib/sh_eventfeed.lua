@@ -238,6 +238,14 @@ function meta:SetIconModel( model, skin, material )
 
 	local camera = Camera( Vector(-200,0,0), Angle(0,0,0), 8 )
 	local scene = Scene( camera )
+
+	local model,material = model,material
+
+	if string.find(model,"sprites%/.-%.vmt") or string.find(model,"sprites%/.-%.spr") then --sprites
+		material = string.sub(model,11)
+		model = "models/hunter/blocks/cube025x025x025.mdl"
+		--ent:AddEffects( EF_NODRAW )
+	end
 	local ent = scene:AddModel( "notify_model_icon" .. nextIconModelID, model)
 
 	ent:SetupBones()

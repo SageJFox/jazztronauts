@@ -94,3 +94,14 @@ FreeCSEntity = function( csent )
 	end
 
 end
+
+hook.Add("PostDrawEffects", "drawCSEntSprites", function()
+	for _,v in ents.Iterator() do
+		if v.sprite then
+			cam.Start3D()
+				render.SetMaterial(v.sprite)
+				render.DrawSprite( v:GetPos(), 16, 16 )
+			cam.End3D()
+		end
+	end
+end)
