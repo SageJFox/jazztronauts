@@ -109,6 +109,7 @@ local function DrawScene( scene, voidrender )
 		if not scene.sfx_played then
 			scene.sfx_played = true
 			EmitSound( "jazztronauts/ding.wav", pos, ent:EntIndex(), CHAN_AUTO, 1, 75, 0, 100 )
+			ent.jazzsfx_played = true
 		end
 
 	end

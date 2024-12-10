@@ -97,7 +97,7 @@ end
 
 hook.Add("PostDrawEffects", "drawCSEntSprites", function()
 	for _,v in ents.Iterator() do
-		if v.sprite then
+		if v.sprite and not v.jazzsfx_played then
 			cam.Start3D()
 				render.SetMaterial(v.sprite)
 				render.DrawSprite( v:GetPos(), 16, 16 )
