@@ -65,6 +65,10 @@ SWEP.MissSounds = {
 	Sound("jazztronauts/snatch/snatch_miss02.wav"),
 }
 
+SWEP.BigSnatchSounds={
+	Sound("jazztronauts/snatch/snatch_big01.wav")
+}
+
 local snatch_cone = jstore.RegisterSeries("snatch_cone", 20000, 10, {
 	name = jazzloc.Localize("jazz.weapon.snatcher.upgrade.cone"),
 	desc = jazzloc.Localize("jazz.weapon.snatcher.upgrade.cone.desc"),
@@ -99,6 +103,17 @@ local snatch_multi = jstore.Register("snatch_multi", 50000, {
 	requires = snatch_world,
 	type = "upgrade"
 })
+
+local snatch_masssnatch = jstore.Register("snatch_masssnatch", 100000, {
+	name = jazzloc.Localize("jazz.weapon.snatcher.upgrade.masssnatch"),
+	cat = jazzloc.Localize("jazz.weapon.snatcher"),
+	desc = jazzloc.Localize("jazz.weapon.snatcher.upgrade.masssnatch.desc"),
+	requires = snatch2,
+	type = "upgrade"
+})
+
+
+
 local snatch_world_speed = jstore.RegisterSeries("snatch_world_speed", 1, 10, {
 	name = jazzloc.Localize("jazz.weapon.snatcher.upgrade.wspeed"),
 	desc = function(num) local num = num or 0 return jazzloc.Localize("jazz.weapon.snatcher.upgrade.wspeed.desc",num*100) end,
@@ -180,6 +195,9 @@ function SWEP:SetUpgrades(overpowered)
 
 	-- Allow multi-tasking?
 	self.CanMultitask = unlocks.IsUnlocked("store", owner, snatch_multi) or overpowered
+
+	-- Allow Multi-Stealing
+	self.CanMassSteal = unlocks.IsUnlocked("store", owner, snatch_masssnatch) or overpowered
 end
 
 function SWEP:MakeOverpowered()
@@ -196,6 +214,7 @@ function SWEP:Deploy()
 	return true
 end
 function SWEP:CanSecondaryAttack() return self.CanStealWorld end
+function SWEP:CanReload() return self.CanMassSteal and self:IsAcceptingProps() end
 
 function SWEP:DrawWorldModel()
 	local owner = self:GetOwner()
@@ -479,7 +498,8 @@ function SWEP:TraceToRemove(stealWorld)
 			net.WriteEntity( self.ConeEnt )
 			net.SendToServer()
 
-			self:EmitSound( self.SnatchSounds[math.random(1,#self.SnatchSounds)], 50, math.random( 100, 100 ), 1, CHAN_AUTO )
+			self:EmitSound( self.SnatchSounds[math.random(1,#self.SnatchSounds)], 50, math.random( 95, 105 ), 1, CHAN_AUTO )
+			
 
 			-- Add some nice feedback
 			self.ShootFade = 1
@@ -864,6 +884,36 @@ end
 
 function SWEP:SecondaryAttack()
 	self.BaseClass.SecondaryAttack( self )
+
+	self:ShootEffects()
+end
+
+local ReloadTime=0
+
+function SWEP:Reload()
+	-- sorry if the code is bad
+	if CurTime()-ReloadTime<=2 or !self:CanReload() then return end
+	self.BaseClass.Reload( self )
+
+
+	local Accepting=self.ConeAccept
+	if Accepting==nil or #Accepting==0 then 
+		self:EmitSound( self.MissSounds[math.random(1,#self.MissSounds)], 50, math.random( 50, 50 ), 1, CHAN_AUTO )
+		self.BadShootFade=1.0
+	else
+	for _,v in pairs(Accepting) do
+		if self:AcceptEntity(v) then
+			net.Start( "remove_client_send_trace" )
+			net.WriteBit(1)
+			net.WriteEntity( self )
+			net.WriteEntity( v )
+			net.SendToServer()
+		end
+	end
+	self:EmitSound( self.BigSnatchSounds[math.random(1,#self.BigSnatchSounds)], 50, math.random( 100, 100 ), 1, CHAN_AUTO )
+end
+
+	ReloadTime=CurTime()
 
 	self:ShootEffects()
 end
