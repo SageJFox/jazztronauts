@@ -911,11 +911,13 @@ local RechargeDivider=0
 function SWEP:Reload()
 	-- sorry if the code is bad
 	if CurTime()-ReloadTime<=RechargeDivider or !self:CanReload() then return end --todo: cooldown indicator maybe?
+	print("A")
 	self.BaseClass.Reload( self )
 	RechargeDivider=0
 
 	local Accepting=self.ConeAccept
 	if Accepting==nil or #Accepting==0 then 
+		RechargeDivider=2.5
 		self:EmitSound( self.MissSounds[math.random(1,#self.MissSounds)], 50, math.random( 50, 50 ), 1, CHAN_AUTO )
 		self.BadShootFade=1.0
 	else
@@ -925,6 +927,7 @@ function SWEP:Reload()
 		
 		if self:AcceptEntity(v) then
 			RechargeDivider=RechargeDivider+1-(.1*self.RechargeDivider)
+			
 
 			net.Start( "remove_client_send_trace" )
 			net.WriteBit(1)
@@ -933,12 +936,13 @@ function SWEP:Reload()
 			net.SendToServer()
 		end
 	end
+	print(RechargeDivider)
 	self:EmitSound( self.BigSnatchSounds[math.random(1,#self.BigSnatchSounds)], 50, math.random( 100, 100 ), 1, CHAN_AUTO )
 end
 
 	ReloadTime=CurTime()
 
-	--self:ShootEffects()
+	self:ShootEffects()
 end
 
 function SWEP:Holster(wep) return true end
