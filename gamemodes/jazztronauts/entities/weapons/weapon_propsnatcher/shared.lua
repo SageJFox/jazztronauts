@@ -506,7 +506,7 @@ function SWEP:TraceToRemove(stealWorld)
 			net.WriteEntity( self.ConeEnt )
 			net.SendToServer()
 
-			self:EmitSound( self.SnatchSounds[math.random(1,#self.SnatchSounds)], 50, math.random( 95, 105 ), 1, CHAN_AUTO )
+			self:EmitSound( self.SnatchSounds[math.random(1,#self.SnatchSounds)], 50, math.random( 100, 100 ), 1, CHAN_AUTO )
 			
 
 			-- Add some nice feedback
