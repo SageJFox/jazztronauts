@@ -900,7 +900,7 @@ local ReloadTime=0
 
 function SWEP:Reload()
 	-- sorry if the code is bad
-	if CurTime()-ReloadTime<=6 or !self:CanReload() then return end --todo: cooldown indicator maybe?
+	if CurTime()-ReloadTime<=10 or !self:CanReload() then return end --todo: cooldown indicator maybe?
 	self.BaseClass.Reload( self )
 
 
