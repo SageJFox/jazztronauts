@@ -909,9 +909,9 @@ function SWEP:Reload()
 		self:EmitSound( self.MissSounds[math.random(1,#self.MissSounds)], 50, math.random( 50, 50 ), 1, CHAN_AUTO )
 		self.BadShootFade=1.0
 	else
-	for i=1,self.MassStealCap do
+	for i=0,self.MassStealCap-1 do
 		if i>#Accepting then break end
-		local v=Accepting[i]
+		local v=Accepting[#Accepting-i]
 		
 		if self:AcceptEntity(v) then
 			net.Start( "remove_client_send_trace" )
