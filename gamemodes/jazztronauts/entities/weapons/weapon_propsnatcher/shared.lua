@@ -108,10 +108,17 @@ local snatch_masssnatch = jstore.Register("snatch_masssnatch", 100000, {
 	name = jazzloc.Localize("jazz.weapon.snatcher.upgrade.masssnatch"),
 	cat = jazzloc.Localize("jazz.weapon.snatcher"),
 	desc = jazzloc.Localize("jazz.weapon.snatcher.upgrade.masssnatch.desc"),
-	requires = snatch2,
 	type = "upgrade"
 })
 
+local snatch_masscap = jstore.RegisterSeries("snatch_masscap", 15000, 4, {
+	name = jazzloc.Localize("jazz.weapon.snatcher.upgrade.masscap"),
+	desc = function(num) local num = num or 0 return jazzloc.Localize("jazz.weapon.snatcher.upgrade.masscap.desc",num*10) end,
+	requires = snatch_masssnatch,
+	type = "upgrade",
+	cat = jazzloc.Localize("jazz.weapon.snatcher"),
+	priceMultiplier = 2,
+})
 
 
 local snatch_world_speed = jstore.RegisterSeries("snatch_world_speed", 1, 10, {
@@ -198,6 +205,7 @@ function SWEP:SetUpgrades(overpowered)
 
 	-- Allow Multi-Stealing
 	self.CanMassSteal = unlocks.IsUnlocked("store", owner, snatch_masssnatch) or overpowered
+	self.MassStealCap= overpowered and 50 or (jstore.GetSeries(owner, snatch_masscap)*10+10)
 end
 
 function SWEP:MakeOverpowered()
@@ -892,7 +900,7 @@ local ReloadTime=0
 
 function SWEP:Reload()
 	-- sorry if the code is bad
-	if CurTime()-ReloadTime<=2 or !self:CanReload() then return end
+	if CurTime()-ReloadTime<=6 or !self:CanReload() then return end --todo: cooldown indicator maybe?
 	self.BaseClass.Reload( self )
 
 
@@ -901,7 +909,10 @@ function SWEP:Reload()
 		self:EmitSound( self.MissSounds[math.random(1,#self.MissSounds)], 50, math.random( 50, 50 ), 1, CHAN_AUTO )
 		self.BadShootFade=1.0
 	else
-	for _,v in pairs(Accepting) do
+	for i=1,self.MassStealCap do
+		if i>#Accepting then break end
+		local v=Accepting[i]
+		
 		if self:AcceptEntity(v) then
 			net.Start( "remove_client_send_trace" )
 			net.WriteBit(1)
