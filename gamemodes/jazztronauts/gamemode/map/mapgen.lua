@@ -391,7 +391,7 @@ if SERVER then
 		local level = level or 1
 		local defaultName = defaultName or ""
 		local stanmark = ents.Create("jazz_stanteleportmarker")
-		if not IsValid(ent) then return end
+		if not (IsValid(ent) and IsValid(stanmark)) then return end
 		stanmark:SetPos(ent:GetPos())
 		stanmark:Spawn()
 		stanmark:SetDestination(ent)
@@ -598,12 +598,14 @@ if SERVER then
 		if transform == nil then return nil end
 
 		local shard = ents.Create( "jazz_shard" )
-		shard:SetPos(transform.pos)
-		shard:SetAngles(transform.ang)
+		if IsValid(shard) then
+			shard:SetPos(transform.pos)
+			shard:SetAngles(transform.ang)
 
-		shard.ShardID = id
-		shard:Spawn()
-		shard:Activate()
+			shard.ShardID = id
+			shard:Spawn()
+			shard:Activate()
+		end
 
 		return shard
 	end

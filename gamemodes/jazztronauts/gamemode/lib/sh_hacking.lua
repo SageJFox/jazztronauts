@@ -53,9 +53,11 @@ if SERVER then
 		local io_proxy = ents.FindByClass("jazz_io_proxy")[1]
 		if not IsValid( io_proxy ) then
 			io_proxy = ents.Create("jazz_io_proxy")
-			io_proxy:SetPos( Vector(0,0,0) )
-			io_proxy:SetName(proxy_name)
-			io_proxy:Spawn()
+			if IsValid(io_proxy) then
+				io_proxy:SetPos( Vector(0,0,0) )
+				io_proxy:SetName(proxy_name)
+				io_proxy:Spawn()
+			end
 		end
 
 		-- Go through every entity, and for each output we create an additional output to fire that event
