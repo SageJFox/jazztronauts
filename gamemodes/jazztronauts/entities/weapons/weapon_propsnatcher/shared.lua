@@ -104,7 +104,7 @@ local snatch_multi = jstore.Register("snatch_multi", 50000, {
 	type = "upgrade"
 })
 
-local snatch_masssnatch = jstore.Register("snatch_masssnatch", 100000, {
+local snatch_masssnatch = jstore.Register("snatch_masssnatch", 50000, {
 	name = jazzloc.Localize("jazz.weapon.snatcher.upgrade.masssnatch"),
 	cat = jazzloc.Localize("jazz.weapon.snatcher"),
 	desc = jazzloc.Localize("jazz.weapon.snatcher.upgrade.masssnatch.desc"),
@@ -113,16 +113,16 @@ local snatch_masssnatch = jstore.Register("snatch_masssnatch", 100000, {
 
 local snatch_masscap = jstore.RegisterSeries("snatch_masscap", 15000, 4, {
 	name = jazzloc.Localize("jazz.weapon.snatcher.upgrade.masscap"),
-	desc = function(num) local num = num or 0 return jazzloc.Localize("jazz.weapon.snatcher.upgrade.masscap.desc",num*10) end,
+	desc = function(num) local num = num or 0 return jazzloc.Localize("jazz.weapon.snatcher.upgrade.masscap.desc",(num+1)*10) end,
 	requires = snatch_masssnatch,
 	type = "upgrade",
 	cat = jazzloc.Localize("jazz.weapon.snatcher"),
 	priceMultiplier = 2,
 })
 
-local snatch_rechargetime = jstore.RegisterSeries("snatch_rechargetime", 10000, 5, {
-	name = jazzloc.Localize("jazz.weapon.snatcher.upgrade.rechargetime"),
-	desc = function(num) local num = num or 0 return jazzloc.Localize("jazz.weapon.snatcher.upgrade.rechargetime.desc",num*10) end,
+local snatch_massrechargetime = jstore.RegisterSeries("snatch_massrechargetime", 10000, 5, {
+	name = jazzloc.Localize("jazz.weapon.snatcher.upgrade.massrechargetime"),
+	desc = function(num) local num = num or 0 return jazzloc.Localize("jazz.weapon.snatcher.upgrade.massrechargetime.desc",num*10) end,
 	requires = snatch_masssnatch,
 	type = "upgrade",
 	cat = jazzloc.Localize("jazz.weapon.snatcher"),
@@ -214,7 +214,7 @@ function SWEP:SetUpgrades(overpowered)
 	-- Allow Multi-Stealing
 	self.CanMassSteal = unlocks.IsUnlocked("store", owner, snatch_masssnatch) or overpowered
 	self.MassStealCap= overpowered and 50 or (jstore.GetSeries(owner, snatch_masscap)*10+10)
-	self.RechargeDivider= overpowered and 5 or (jstore.GetSeries(owner, snatch_masscap))
+	self.MassRecharge= overpowered and 5 or (jstore.GetSeries(owner, snatch_massrechargetime))
 end
 
 function SWEP:MakeOverpowered()
@@ -911,7 +911,6 @@ local RechargeDivider=0
 function SWEP:Reload()
 	-- sorry if the code is bad
 	if CurTime()-ReloadTime<=RechargeDivider or !self:CanReload() then return end --todo: cooldown indicator maybe?
-	print("A")
 	self.BaseClass.Reload( self )
 	RechargeDivider=0
 
@@ -926,7 +925,7 @@ function SWEP:Reload()
 		local v=Accepting[#Accepting-i]
 		
 		if self:AcceptEntity(v) then
-			RechargeDivider=RechargeDivider+1-(.1*self.RechargeDivider)
+			RechargeDivider=RechargeDivider+1-(.1*self.MassRecharge)
 			
 
 			net.Start( "remove_client_send_trace" )
@@ -936,7 +935,6 @@ function SWEP:Reload()
 			net.SendToServer()
 		end
 	end
-	print(RechargeDivider)
 	self:EmitSound( self.BigSnatchSounds[math.random(1,#self.BigSnatchSounds)], 50, math.random( 100, 100 ), 1, CHAN_AUTO )
 end
 
