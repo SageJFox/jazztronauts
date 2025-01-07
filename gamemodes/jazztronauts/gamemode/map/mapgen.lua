@@ -107,6 +107,7 @@ local AcceptEntClass = {
 	["func_breakable"] = true,
 	["func_breakable_surf"] = true,
 	["func_physbox"] = true,
+	["func_physbox_multiplayer"] = true,
 	["func_tank"] = true,
 	["func_tanktrain"] = true,
 	["func_tracktrain"] = true,

@@ -65,6 +65,10 @@ SWEP.MissSounds = {
 	Sound("jazztronauts/snatch/snatch_miss02.wav"),
 }
 
+SWEP.BigSnatchSounds={
+	Sound("jazztronauts/snatch/snatch_big01.wav")
+}
+
 local snatch_cone = jstore.RegisterSeries("snatch_cone", 20000, 10, {
 	name = jazzloc.Localize("jazz.weapon.snatcher.upgrade.cone"),
 	desc = jazzloc.Localize("jazz.weapon.snatcher.upgrade.cone.desc"),
@@ -99,6 +103,32 @@ local snatch_multi = jstore.Register("snatch_multi", 50000, {
 	requires = snatch_world,
 	type = "upgrade"
 })
+
+local snatch_masssnatch = jstore.Register("snatch_masssnatch", 100000, {
+	name = jazzloc.Localize("jazz.weapon.snatcher.upgrade.masssnatch"),
+	cat = jazzloc.Localize("jazz.weapon.snatcher"),
+	desc = jazzloc.Localize("jazz.weapon.snatcher.upgrade.masssnatch.desc"),
+	type = "upgrade"
+})
+
+local snatch_masscap = jstore.RegisterSeries("snatch_masscap", 15000, 4, {
+	name = jazzloc.Localize("jazz.weapon.snatcher.upgrade.masscap"),
+	desc = function(num) local num = num or 0 return jazzloc.Localize("jazz.weapon.snatcher.upgrade.masscap.desc",num*10) end,
+	requires = snatch_masssnatch,
+	type = "upgrade",
+	cat = jazzloc.Localize("jazz.weapon.snatcher"),
+	priceMultiplier = 2,
+})
+
+local snatch_rechargetime = jstore.RegisterSeries("snatch_rechargetime", 10000, 5, {
+	name = jazzloc.Localize("jazz.weapon.snatcher.upgrade.rechargetime"),
+	desc = function(num) local num = num or 0 return jazzloc.Localize("jazz.weapon.snatcher.upgrade.rechargetime.desc",num*10) end,
+	requires = snatch_masssnatch,
+	type = "upgrade",
+	cat = jazzloc.Localize("jazz.weapon.snatcher"),
+	priceMultiplier = 2,
+})
+
 local snatch_world_speed = jstore.RegisterSeries("snatch_world_speed", 1, 10, {
 	name = jazzloc.Localize("jazz.weapon.snatcher.upgrade.wspeed"),
 	desc = function(num) local num = num or 0 return jazzloc.Localize("jazz.weapon.snatcher.upgrade.wspeed.desc",num*100) end,
@@ -180,6 +210,11 @@ function SWEP:SetUpgrades(overpowered)
 
 	-- Allow multi-tasking?
 	self.CanMultitask = unlocks.IsUnlocked("store", owner, snatch_multi) or overpowered
+
+	-- Allow Multi-Stealing
+	self.CanMassSteal = unlocks.IsUnlocked("store", owner, snatch_masssnatch) or overpowered
+	self.MassStealCap= overpowered and 50 or (jstore.GetSeries(owner, snatch_masscap)*10+10)
+	self.RechargeDivider= overpowered and 5 or (jstore.GetSeries(owner, snatch_masscap))
 end
 
 function SWEP:MakeOverpowered()
@@ -196,6 +231,7 @@ function SWEP:Deploy()
 	return true
 end
 function SWEP:CanSecondaryAttack() return self.CanStealWorld end
+function SWEP:CanReload() return self.CanMassSteal and self:IsAcceptingProps() end
 
 function SWEP:DrawWorldModel()
 	local owner = self:GetOwner()
@@ -480,6 +516,7 @@ function SWEP:TraceToRemove(stealWorld)
 			net.SendToServer()
 
 			self:EmitSound( self.SnatchSounds[math.random(1,#self.SnatchSounds)], 50, math.random( 100, 100 ), 1, CHAN_AUTO )
+			
 
 			-- Add some nice feedback
 			self.ShootFade = 1
@@ -864,6 +901,46 @@ end
 
 function SWEP:SecondaryAttack()
 	self.BaseClass.SecondaryAttack( self )
+
+	self:ShootEffects()
+end
+
+local ReloadTime=0
+local RechargeDivider=0
+
+function SWEP:Reload()
+	-- sorry if the code is bad
+	if CurTime()-ReloadTime<=RechargeDivider or !self:CanReload() then return end --todo: cooldown indicator maybe?
+	print("A")
+	self.BaseClass.Reload( self )
+	RechargeDivider=0
+
+	local Accepting=self.ConeAccept
+	if Accepting==nil or #Accepting==0 then 
+		RechargeDivider=2.5
+		self:EmitSound( self.MissSounds[math.random(1,#self.MissSounds)], 50, math.random( 50, 50 ), 1, CHAN_AUTO )
+		self.BadShootFade=1.0
+	else
+	for i=0,self.MassStealCap-1 do
+		if i>#Accepting then break end
+		local v=Accepting[#Accepting-i]
+		
+		if self:AcceptEntity(v) then
+			RechargeDivider=RechargeDivider+1-(.1*self.RechargeDivider)
+			
+
+			net.Start( "remove_client_send_trace" )
+			net.WriteBit(1)
+			net.WriteEntity( self )
+			net.WriteEntity( v )
+			net.SendToServer()
+		end
+	end
+	print(RechargeDivider)
+	self:EmitSound( self.BigSnatchSounds[math.random(1,#self.BigSnatchSounds)], 50, math.random( 100, 100 ), 1, CHAN_AUTO )
+end
+
+	ReloadTime=CurTime()
 
 	self:ShootEffects()
 end
