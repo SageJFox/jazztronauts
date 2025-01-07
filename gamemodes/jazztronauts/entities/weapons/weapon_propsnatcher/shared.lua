@@ -224,7 +224,7 @@ end
 
 function SWEP:SetupDataTables()
 	self.BaseClass.SetupDataTables( self )
-	self:NetworkVar("Entity", 0, "CurSnatchMarker")
+	self:NetworkVar("Entity", "CurSnatchMarker")
 end
 
 function SWEP:Deploy()
@@ -908,37 +908,50 @@ end
 local ReloadTime=0
 local RechargeDivider=0
 
+if SERVER then
+	util.AddNetworkString("buckrechargetime")
+	net.Receive("buckrechargetime",function()
+		RechargeDivider = net.ReadFloat()
+		print(RechargeDivider)
+	end)
+end
+
 function SWEP:Reload()
-	-- sorry if the code is bad
-	if CurTime()-ReloadTime<=RechargeDivider or !self:CanReload() then return end --todo: cooldown indicator maybe?
+
+	if not (self:CanReload() and CurTime()-ReloadTime-0.001 > RechargeDivider) then return end --todo: cooldown indicator maybe?
 	self.BaseClass.Reload( self )
-	RechargeDivider=0
+	ReloadTime=CurTime()
+
+	if SERVER then return end
+
+	RechargeDivider = 0
 
 	local Accepting=self.ConeAccept
 	if Accepting==nil or #Accepting==0 then 
-		RechargeDivider=2.5
+		RechargeDivider = 3-self.MassRecharge/2
 		self:EmitSound( self.MissSounds[math.random(1,#self.MissSounds)], 50, math.random( 50, 50 ), 1, CHAN_AUTO )
 		self.BadShootFade=1.0
 	else
-	for i=0,self.MassStealCap-1 do
-		if i>#Accepting then break end
-		local v=Accepting[#Accepting-i]
-		
-		if self:AcceptEntity(v) then
-			RechargeDivider=RechargeDivider+1-(.1*self.MassRecharge)
+		for i=0,self.MassStealCap-1 do
+			if i>#Accepting then break end
+			local v=Accepting[#Accepting-i]
 			
+			if IsValid(v) and self:AcceptEntity(v) then
+				RechargeDivider = RechargeDivider+(10-self.MassRecharge)/self.MassStealCap
 
-			net.Start( "remove_client_send_trace" )
-			net.WriteBit(1)
-			net.WriteEntity( self )
-			net.WriteEntity( v )
-			net.SendToServer()
+				net.Start( "remove_client_send_trace" )
+				net.WriteBit(1)
+				net.WriteEntity( self )
+				net.WriteEntity( v )
+				net.SendToServer()
+			end
 		end
+		self:EmitSound( self.BigSnatchSounds[math.random(1,#self.BigSnatchSounds)], 50, math.random( 100, 100 ), 1, CHAN_AUTO )
 	end
-	self:EmitSound( self.BigSnatchSounds[math.random(1,#self.BigSnatchSounds)], 50, math.random( 100, 100 ), 1, CHAN_AUTO )
-end
-
-	ReloadTime=CurTime()
+	net.Start("buckrechargetime")
+		net.WriteFloat(RechargeDivider)
+	net.SendToServer()
+	print(RechargeDivider)
 
 	self:ShootEffects()
 end
