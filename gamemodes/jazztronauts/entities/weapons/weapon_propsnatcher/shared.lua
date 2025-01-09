@@ -911,8 +911,7 @@ local RechargeDivider=0
 if SERVER then
 	util.AddNetworkString("buckrechargetime")
 	net.Receive("buckrechargetime",function()
-		RechargeDivider = net.ReadFloat()
-		print(RechargeDivider)
+		RechargeDivider = math.Round(net.ReadFloat(),1)
 	end)
 end
 
@@ -951,7 +950,6 @@ function SWEP:Reload()
 	net.Start("buckrechargetime")
 		net.WriteFloat(RechargeDivider)
 	net.SendToServer()
-	print(RechargeDivider)
 
 	self:ShootEffects()
 end
