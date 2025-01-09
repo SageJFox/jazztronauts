@@ -123,13 +123,14 @@ local AcceptEntClass = {
 	["info_overlay"] = true,
 	["env_sprite"] = true,
 	["env_glow"] = true,
-	--[[ --todo: eventually
 	["env_sun"] = true,
 	["env_fire"] = true,
 	["point_spotlight"] = true,
-	["npc_spotlight"] = true,
+	--["npc_spotlight"] = true, --might not exist?
+	["env_beam"] = true,
 	["env_laser"] = true,
 	["env_spark"] = true,
+	--[[ --todo: eventually
 	["env_lightglow"] = true,
 	["env_smokestack"] = true,
 	["keyframe_track"] = true,

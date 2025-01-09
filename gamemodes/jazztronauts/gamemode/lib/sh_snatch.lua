@@ -731,6 +731,7 @@ if SERVER then
 		["prop_combine_ball"] = true,
 		["crossbow_bolt"] = true,
 		["npc_rollermine"] = true,
+		["env_fire"] = true,
 	}
 
 	local function tryPickUp(ply, ent)

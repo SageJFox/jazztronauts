@@ -1023,13 +1023,56 @@ local function CollectBModel(bmodel, ply)
 	end
 end
 
+local function matstripstr(str)
+	if not str or str == "" then return "models/weapons/w_smg1/smg_crosshair" end
+	local tab = string.Explode("/",string.StripExtension(str))
+	table.RemoveByValue(tab,"materials")
+	return table.concat(tab,"/")
+end
+
+--convert entities into sprites
+local conversions = {
+	["env_sun"] = "sprites/light_glow02_add_noz",
+	["env_fire"] = "sprites/fire1",
+	["env_sprite"] = function(ent) return matstripstr(ent:GetModel()) end,
+	["point_spotlight"] = "sprites/glow_test02",
+	["env_beam"] = function(ent)
+		local kvs = ent:GetKeyValues()
+		local mat = kvs and kvs["material"] or nil
+		return matstripstr(mat)
+	end,
+	["env_spark"] = "editor/env_spark",
+}
+conversions["env_laser"] = conversions["env_beam"]
+
+local function CollectEntity(ent, ply)
+
+	if not IsValid(ent) then return end
+
+	local material = isfunction(conversions[ent:GetClass()]) and conversions[ent:GetClass()](ent) or conversions[ent:GetClass()]
+	--todotodo: worth and such!
+	local worth = 10
+	-- Collect the prop to the poop chute
+	if worth and worth > 0 then --TODO: Check if worth > 1 not 0
+		worth = worth * newgame.GetMultiplier()
+		propfeed.notify_entity( material, ply, worth )
+
+		-- Also maybe collect the prop for player missions
+		--for _, v in pairs(player.GetAll()) do
+		--	missions.AddMissionProp(v, material)
+		--end
+	end
+end
+
 -- Called when prop is snatched from the level
 function GM:CollectProp(prop, ply)
 
 	--todo: probably better to eventually move this up to where CollectProp is called. oh well
-	local modelname = tostring(prop and prop:GetModel() or prop:GetClass()) --"<entity>") --easier to see what's breaking
+	local modelname = tostring( prop and prop:GetModel() or prop:GetClass()) --"<entity>") --easier to see what's breaking
 	local bmodel = string.match( modelname, "^%*(%d+)")
-	if bmodel then CollectBModel(tonumber(bmodel),ply) return end
+	if bmodel then CollectBModel( tonumber(bmodel), ply) return end
+	
+	if conversions[prop:GetClass()] then CollectEntity( prop, ply) return end
 
 	print("COLLECTED: " .. modelname)
 	local worth = mapgen.CollectProp(ply, prop)

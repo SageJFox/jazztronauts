@@ -24,6 +24,7 @@ end
 
 local prop_streaks = {}
 local brush_streaks = {}
+local ent_streaks = {}
 
 
 net.Receive("brushcollect", function()
@@ -114,6 +115,52 @@ net.Receive("propcollect", function()
 	end
 
 end)
+
+
+net.Receive("entitycollect", function()
+
+	local material = net.ReadString()
+	local worth = net.ReadUInt( 32 )
+	local ply = net.ReadEntity()
+	local streak = ent_streaks[ply:EntIndex()]
+	local prop_streak = prop_streaks[ply:EntIndex()]
+
+	local model = Model("models/sunabouzu/worldgib02.mdl")
+	local mat = brush.GetBrushMaterial( material )
+
+	if streak == nil or streak:Done() then
+
+		ply.estreakcount = 1
+		ply.estreaktotal = worth
+
+		ent_streaks[ply:EntIndex()] = eventfeed.Create()
+			:Title(jazzloc.Localize("jazz.message.stole","%name","%count","%ent"), 
+				{
+					name = function() return IsValid(ply) and ply:Nick() or "<player>" end, 
+					count = function() return IsValid(ply) and ply.estreakcount or 0 end,
+					ent = function() return ( IsValid(ply) and ply.estreakcount > 1 ) and jazzloc.Localize("jazz.message.ents") or jazzloc.Localize("jazz.message.ent") end,
+				}
+			)
+			:Body("%total", 
+				{
+					total = function() return jazzloc.Localize("jazz.hud.money",jazzloc.AddSeperators( IsValid(ply) and ply.estreaktotal or 0)) end
+				}
+			)
+			:SetHighlighted( ply == LocalPlayer() )
+			:SetIconModel( model, nil, mat )
+			:Dispatch( StayDuration:GetFloat(), (prop_streak and not prop_streak:Done() and prop_streak) or "bottom" ) --todo: probably all three need this added too?
+
+	elseif streak ~= nil then
+
+		ply.estreakcount = (ply.estreakcount or 0) + 1
+		ply.estreaktotal = (ply.estreaktotal or 0) + worth
+
+		streak:Ping( StayDuration:GetFloat() )
+		streak:SetIconModel( model, nil, mat )
+
+	end
+
+end )
 
 function Paint()
 
