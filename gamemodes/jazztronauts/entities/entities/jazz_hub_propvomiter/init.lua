@@ -285,15 +285,86 @@ function ENT:SpawnRandomGibs(pos, ang)
 	e2:Remove()
 end
 
+local down = Angle(Vector(0,0,-1)) --sue me --todo maybe: make prop vomiter able to be angled other ways?
+local comballsize = GetConVar("sk_weapon_ar2_alt_fire_radius")
+local maxnpcs = CreateConVar("jazz_propvomiter_npcs", 5, FCVAR_NONE, "Max number of NPCs the vomiter could make")
+local chancenpcs = CreateConVar("jazz_propvomiter_npcchance", 0.1, FCVAR_NONE, "Chance for the 'real' thing to spawn when vomited.", 0, 1)
+local totalnpcs = 0
+local spacenpcs = 0 --give a little breathing room for stuff being spawned to help it not all get caught inside eachother
+
+local function simplemake(name, pos)
+	local ent = ents.Create(name)
+	if IsValid(ent) then
+		ent:SetPos(pos)
+		ent:Spawn()
+		ent:Activate()
+		totalnpcs = totalnpcs + 1
+	end
+	return ent
+end
+
+local alternatespawns = {
+	["models/manhack.mdl"] = function(pos) return simplemake("npc_manhack", pos) end,
+	["models/combine_scanner.mdl"] = function(pos) return simplemake("npc_cscanner", pos) end,
+	["models/shield_scanner.mdl"] = function(pos) return simplemake("npc_clawscanner", pos) end,
+	["models/effects/combineball.mdl"] = function(pos)
+		local spawner = ents.Create("point_combine_ball_launcher")
+		if IsValid(spawner) then
+			spawner:SetPos(pos)
+			spawner:SetAngles(down)
+			spawner:SetKeyValue("launchconenoise", 1)
+			spawner:SetKeyValue("ballradius", comballsize:GetFloat())
+			spawner:SetKeyValue("ballcount", 0)
+			spawner:SetKeyValue("maxballbounces", 7)
+			spawner:SetKeyValue("minspeed", 1000)
+			spawner:SetKeyValue("maxspeed", 1000)
+			spawner:SetSpawnFlags(2) --Ball/player collide
+			spawner:Spawn()
+			spawner:Fire("launchball")
+			timer.Simple( 0, function()
+				if IsValid(spawner) then spawner:Fire("kill") end
+			end)
+		end
+	end,
+	["models/combine_turrets/floor_turret.mdl"] = function(pos) return simplemake("npc_turret_floor", pos) end,
+	["models/roller.mdl"] = function(pos) return simplemake("npc_rollermine", pos) end,
+	["models/props_combine/combine_mine01.mdl"] = function(pos) return simplemake("combine_mine", pos) end,
+	["models/headcrabclassic.mdl"] = function(pos) return simplemake("npc_headcrab", pos) end,
+	["models/headcrab.mdl"] = function(pos) return simplemake("npc_headcrab_fast", pos) end,
+	["models/headcrabblack.mdl"] = function(pos) return simplemake("npc_headcrab_black", pos) end,
+	["models/weapons/w_grenade.mdl"] = function(pos)
+		local ent = ents.Create("npc_grenade_frag")
+		if IsValid(ent) then
+			ent:SetPos(pos)
+			ent:Spawn()
+			ent:Activate()
+			timer.Simple(0, function()
+				if IsValid(ent) then ent:Fire("settimer", 3) end
+			end)
+		end
+	end,
+}
+alternatespawns["models/roller_spikes.mdl"] = alternatespawns["models/roller.mdl"]
+alternatespawns["models/roller_vehicledriver.mdl"] = alternatespawns["models/roller.mdl"]
+alternatespawns["models/weapons/w_npcnade.mdl"] = alternatespawns["models/weapons/w_grenade.mdl"]
+alternatespawns["models/nova/w_headcrab.mdl"] = alternatespawns["models/headcrab.mdl"]
+alternatespawns["models/lamarr.mdl"] = alternatespawns["models/headcrab.mdl"]
+
 function ENT:SpawnPropEffect(propinfo, pos)
 	local filter = RecipientFilter()
 	filter:AddPVS(self:GetPos())
 
-	net.Start("jazz_propvom_effect")
-		net.WriteVector(pos)
-		net.WriteString(propinfo.propname)
-		net.WriteString(propinfo.type) -- #TODO: int types?
-	net.Send(filter)
+	if math.random() <= chancenpcs:GetFloat() and spacenpcs < 1 and totalnpcs < maxnpcs:GetFloat() and alternatespawns[propinfo.propname] then
+		alternatespawns[propinfo.propname](pos)
+		spacenpcs = self.VomitSpeed * 3
+	else
+		net.Start("jazz_propvom_effect")
+			net.WriteVector(pos)
+			net.WriteString(propinfo.propname)
+			net.WriteString(propinfo.type) -- #TODO: int types?
+		net.Send(filter)
+		spacenpcs = spacenpcs - 1
+	end
 end
 
 function ENT:ShouldToy(ent)
