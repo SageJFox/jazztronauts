@@ -343,6 +343,9 @@ local alternatespawns = {
 			end)
 		end
 	end,
+	["models/crow.mdl"]=function(pos) return simplemake("npc_crow",pos) end,
+	["models/pigeon.mdl"]=function(pos) return simplemake("npc_pigeon",pos) end,
+	["models/seagull.mdl"]=function(pos) return simplemake("npc_seagull",pos) end,
 	["models/props/turret_01.mdl"]=function(pos) return simplemake("npc_portal_turret_floor",pos) end,
 }
 alternatespawns["models/roller_spikes.mdl"] = alternatespawns["models/roller.mdl"]
