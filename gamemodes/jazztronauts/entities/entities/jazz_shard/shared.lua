@@ -1,4 +1,4 @@
--- A shard that can be collected.
+-- A shard that can be collected by the player.
 AddCSLuaFile()
 
 ENT.JazzWorth = 1000
