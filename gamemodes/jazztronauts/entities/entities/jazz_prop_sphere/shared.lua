@@ -1,4 +1,4 @@
--- Toy-Capsule that the Prop Vomiter stuffs (or should stuff) props into if it's too big.
+-- Toy-Capsule that the Prop Vomiter stuffs (or used to stuff) props into if it's too big.
 AddCSLuaFile()
 
 ENT.Type = "anim"
