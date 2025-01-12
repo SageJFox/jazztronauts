@@ -1,4 +1,4 @@
--- Board that displays currently selected maps
+-- A shard that can be collected.
 AddCSLuaFile()
 
 ENT.JazzWorth = 1000
