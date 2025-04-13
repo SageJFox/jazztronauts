@@ -54,96 +54,98 @@ function GetShards()
 end
 
 local AcceptEntClass = {
-	["npc_antlion_grub"] = true,
-	["npc_grenade_frag"] = true,
-	["prop_combine_ball"] = true,
-	["jazz_static_proxy"] = true,
-	["physics_cannister"] = true,
-	["hunter_flechette"] = true,
-	["prop_physics"] = true,
-	["prop_physics_multiplayer"] = true,
-	["prop_physics_respawnable"] = true,
-	["prop_dynamic"] = true,
-	["prop_dynamic_override"] = true,
-	["prop_ragdoll"] = true,
-	["prop_door_rotating"] = true,
+	["maxLevel"] = 3,
+	["npc_antlion_grub"] = 1,
+	["npc_grenade_frag"] = 1,
+	["prop_combine_ball"] = 1,
+	["jazz_static_proxy"] = 1,
+	["physics_cannister"] = 1,
+	["hunter_flechette"] = 1,
+	["prop_physics"] = 1,
+	["prop_physics_multiplayer"] = 1,
+	["prop_physics_respawnable"] = 1,
+	["prop_dynamic"] = 1,
+	["prop_dynamic_override"] = 1,
+	["prop_ragdoll"] = 1,
+	["prop_door_rotating"] = 1,
 	--let's get esoteric wee
-	["gmod_tool"] = true,
-	["gmod_camera"] = true,
-	["simple_physics_prop"] = true, --created by phys_convert
-	["raggib"] = true, --?
-	["helicopter_chunk"] = true,
-	["grenade_helicopter"] = true,
-	["gib"] = true,
-	["rpg_missile"] = true,
-	["apc_missile"] = true,
-	["npc_grenade_bugbait"] = true,
-	["phys_magnet"] = true,
-	["prop_ragdoll_attached"] = true,
-	["gmod_wire_hoverdrivecontroler"] = true,
-	["weapon_striderbuster"] = true,
-	["npc_satchel"] = true, --SLAM
-	["npc_tripmine"] = true, --SLAM
-	["grenade_ar2"] = true,
-	["combine_mine"] = true,
-	["env_headcrabcanister"] = true,
-	["prop_thumper"] = true,
-	["env_flare"] = true,
+	["gmod_tool"] = 1,
+	["gmod_camera"] = 1,
+	["simple_physics_prop"] = 1, --created by phys_convert
+	["raggib"] = 1, --?
+	["helicopter_chunk"] = 1,
+	["grenade_helicopter"] = 1,
+	["gib"] = 1,
+	["rpg_missile"] = 1,
+	["apc_missile"] = 1,
+	["npc_grenade_bugbait"] = 1,
+	["phys_magnet"] = 1,
+	["prop_ragdoll_attached"] = 1,
+	["gmod_wire_hoverdrivecontroler"] = 1,
+	["weapon_striderbuster"] = 1,
+	["npc_satchel"] = 1, --SLAM
+	["npc_tripmine"] = 1, --SLAM
+	["grenade_ar2"] = 1,
+	["combine_mine"] = 1,
+	["env_headcrabcanister"] = 1,
+	["prop_thumper"] = 1,
+	["env_flare"] = 1,
 	--let's live dangerously
 	--a lot of this stuff could be core map structure, if it's at all possible at some point we should make these snatchable but leave them in place
 	--(for the dynamic stuff probably replace their textures with void or something else, static stuff could be normal void shells)
 	--also note that all of this is gonna wind up being brush models, which are... gross to handle right now.
-	["func_button"] = true,
-	["func_button_rot"] = true,
-	["func_door"] = true,
-	["func_door_rotating"] = true,
-	["func_water_analog"] = true,
-	["func_movelinear"] = true,
-	["func_lod"] = true, --todo: if anything should get the staticprop treatment, it'd be this
-	["func_brush"] = true,
-	["func_wall"] = true,
-	["func_wall_toggle"] = true,
-	["func_illusionary"] = true,
-	["func_breakable"] = true,
-	["func_breakable_surf"] = true,
-	["func_physbox"] = true,
-	["func_physbox_multiplayer"] = true,
-	["func_tank"] = true,
-	["func_tanktrain"] = true,
-	["func_tracktrain"] = true,
-	["func_plat"] = true,
-	["func_platrot"] = true,
-	["func_monitor"] = true,
+	["func_button"] = 2,
+	["func_button_rot"] = 2,
+	["func_door"] = 2,
+	["func_door_rotating"] = 2,
+	["func_water_analog"] = 2,
+	["func_movelinear"] = 2,
+	["func_lod"] = 2, --todo: if anything should get the staticprop treatment, it'd be this
+	["func_brush"] = 2,
+	["func_wall"] = 2,
+	["func_wall_toggle"] = 2,
+	["func_illusionary"] = 2,
+	["func_breakable"] = 2,
+	["func_breakable_surf"] = 2,
+	["func_physbox"] = 2,
+	["func_physbox_multiplayer"] = 2,
+	["func_tank"] = 2,
+	["func_tanktrain"] = 2,
+	["func_tracktrain"] = 2,
+	["func_plat"] = 2,
+	["func_platrot"] = 2,
+	["func_monitor"] = 2,
 	--even scarier
-	["trigger_once"] = true,
-	["trigger_multiple"] = true,
-	["trigger_look"] = true,
-	["trigger_hurt"] = true,
-	["infodecal"] = true,
-	["info_overlay"] = true,
-	["env_sprite"] = true,
-	["env_glow"] = true,
-	["env_sun"] = true,
-	["env_fire"] = true,
-	["point_spotlight"] = true,
+	["trigger_once"] = 3,
+	["trigger_multiple"] = 3,
+	["trigger_look"] = 3,
+	["trigger_hurt"] = 3,
+	["infodecal"] = 3,
+	["info_overlay"] = 3,
+	["env_sprite"] = 2,
+	["env_glow"] = 3,
+	["env_sun"] = 3,
+	["env_fire"] = 2,
+	["point_spotlight"] = 2,
 	--["npc_spotlight"] = true, --might not exist?
-	["env_beam"] = true,
-	["env_laser"] = true,
-	["env_spark"] = true,
+	["env_beam"] = 2,
+	["env_laser"] = 2,
+	["env_spark"] = 2,
 	--[[ --todo: eventually
-	["env_lightglow"] = true,
-	["env_smokestack"] = true,
-	["keyframe_track"] = true,
-	["light"] = true,]]
-	["prop_detail"] = true,
-	["prop_detail_sprite"] = true,
+	["env_lightglow"] = 2,
+	["env_smokestack"] = 2,
+	["keyframe_track"] = 2,
+	["light"] = 3,]]
+	["prop_detail"] = 2,
+	["prop_detail_sprite"] = 2,
 }
 
 local IgnoreEntClass = {
 	["weapon_propsnatcher"] = true
 }
 
-function CanSnatch(ent)
+function CanSnatch(ent, level)
+	local level = level or 1
 
 	--Accept only this kinda stuff
 	if not IsValid(ent) or not ent:IsValid() then return false end
@@ -184,7 +186,7 @@ function CanSnatch(ent)
 	-- if string.find(ent_class, "jazz_bus_") ~= nil then return true end
 	-- if ent:IsPlayer() and ent:Alive() then return true end -- you lost your privileges
 
-	return AcceptEntClass[ent_class]
+	return AcceptEntClass[ent_class] and AcceptEntClass[ent_class] <= level
 
 end
 
@@ -217,7 +219,7 @@ if SERVER then
 	end
 
 	function CollectProp(ply, ent)
-		if !CanSnatch(ent) then return nil end
+		if !CanSnatch(ent, AcceptEntClass.maxLevel) then return nil end
 
 		local worth = ent.JazzWorth or 1
 		return worth
@@ -636,7 +638,7 @@ if SERVER then
 		local function getKey(ent) return ent:GetClass() .. "_" .. (ent:GetModel() or "") end
 
 		for _, v in pairs(props) do
-			if not CanSnatch(v) then continue end
+			if not CanSnatch(v, AcceptEntClass.maxLevel) then continue end
 
 			local k = getKey(v)
 			counts[k] = counts[k] or 0

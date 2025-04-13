@@ -138,6 +138,14 @@ local snatch_world_speed = jstore.RegisterSeries("snatch_world_speed", 1, 10, {
 	priceMultiplier = 10,
 })
 
+local snatch_level = jstore.RegisterSeries("snatch_level", 100000, 2, {
+	name = jazzloc.Localize("jazz.weapon.snatcher.upgrade.level"),
+	desc = function(num) local num = num or 0 return jazzloc.Localize("jazz.weapon.snatcher.upgrade.wspeed.desc",num*100) end,
+	requires = snatch_world,
+	type = "upgrade",
+	cat = jazzloc.Localize("jazz.weapon.snatcher"),
+	priceMultiplier = 10,
+})
 
 
 CreateConVar("jazz_debug_snatch_allups", "0", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_CHEAT }, jazzloc.Localize("Temporarily enable all upgrades for snatcher"))
@@ -256,7 +264,11 @@ function SWEP:Think() end
 function SWEP:OnRemove() end
 
 function SWEP:AcceptEntity( ent ) --TODO: network so we can use snatchable on client
-	return mapgen.CanSnatch(ent) and (not ent.JazzSnatchWait or CurTime() > ent.JazzSnatchWait)
+	local level = 0
+	local owner = self:GetOwner()
+	if IsValid(owner) then level = jstore.GetSeries(owner, snatch_level) end
+	
+	return mapgen.CanSnatch(ent, level + 1) and (not ent.JazzSnatchWait or CurTime() > ent.JazzSnatchWait)
 end
 
 function SWEP:GetEntitySize(ent)
