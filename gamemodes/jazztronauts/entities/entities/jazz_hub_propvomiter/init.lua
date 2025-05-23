@@ -52,7 +52,8 @@ local outputs =
 	"OnVomitEnd",
 	"OnVomitEndEmpty",
 	"OnVomitStart",
-	"OnVomitStartEmpty"
+	"OnVomitStartEmpty",
+	"OnVomitNPC"
 }
 
 
@@ -292,7 +293,9 @@ local chancenpcs = CreateConVar("jazz_propvomiter_npcchance", 0.1, FCVAR_NONE, "
 local totalnpcs = 0
 local spacenpcs = 0 --give a little breathing room for stuff being spawned to help it not all get caught inside eachother
 
-local function simplemake(name, pos)
+local function simplemake(self, name, pos)
+	if not IsValid(self) then return nil end
+	self:TriggerOutput("OnVomitNPC", self.CurrentUser)
 	local ent = ents.Create(name)
 	if IsValid(ent) then
 		ent:SetPos(pos)
@@ -304,10 +307,11 @@ local function simplemake(name, pos)
 end
 
 local alternatespawns = {
-	["models/manhack.mdl"] = function(pos) return simplemake("npc_manhack", pos) end,
-	["models/combine_scanner.mdl"] = function(pos) return simplemake("npc_cscanner", pos) end,
-	["models/shield_scanner.mdl"] = function(pos) return simplemake("npc_clawscanner", pos) end,
-	["models/effects/combineball.mdl"] = function(pos)
+	["models/manhack.mdl"] = function(self, pos) return simplemake(self, "npc_manhack", pos) end,
+	["models/combine_scanner.mdl"] = function(self, pos) return simplemake(self, "npc_cscanner", pos) end,
+	["models/shield_scanner.mdl"] = function(self, pos) return simplemake(self, "npc_clawscanner", pos) end,
+	["models/effects/combineball.mdl"] = function(self, pos)
+		--will eventually remove itself, so, no need for adding to total
 		local spawner = ents.Create("point_combine_ball_launcher")
 		if IsValid(spawner) then
 			spawner:SetPos(pos)
@@ -326,14 +330,20 @@ local alternatespawns = {
 			end)
 		end
 	end,
-	["models/combine_turrets/floor_turret.mdl"] = function(pos) return simplemake("npc_turret_floor", pos) end,
-	["models/roller.mdl"] = function(pos) return simplemake("npc_rollermine", pos) end,
-	["models/props_combine/combine_mine01.mdl"] = function(pos) return simplemake("combine_mine", pos) end,
-	["models/headcrabclassic.mdl"] = function(pos) return simplemake("npc_headcrab", pos) end,
-	["models/headcrab.mdl"] = function(pos) return simplemake("npc_headcrab_fast", pos) end,
-	["models/headcrabblack.mdl"] = function(pos) return simplemake("npc_headcrab_black", pos) end,
+	["models/combine_turrets/floor_turret.mdl"] = function(self, pos) return simplemake(self, "npc_turret_floor", pos) end,
+	["models/roller.mdl"] = function(self, pos) return simplemake(self, "npc_rollermine", pos) end,
+	["models/props_combine/combine_mine01.mdl"] = function(self, pos) return simplemake(self, "combine_mine", pos) end,
+	["models/headcrabclassic.mdl"] = function(self, pos) return simplemake(self, "npc_headcrab", pos) end,
+	["models/headcrab.mdl"] = function(self, pos) return simplemake(self, "npc_headcrab_fast", pos) end,
+	["models/headcrabblack.mdl"] = function(self, pos) return simplemake(self, "npc_headcrab_black", pos) end,
+	["models/combine_helicopter/helicopter_bomb01.mdl"] = function(self, pos)
+		local bomb = simplemake("grenade_helicopter", pos)
+		if bomb then totalnpcs = totalnpcs - 1 end --eh, just cancel it out
+		return bomb
+	end,
 	["models/weapons/w_grenade.mdl"] = function(pos)
 		local ent = ents.Create("npc_grenade_frag")
+		--will eventually remove itself, so, no need for adding to total
 		if IsValid(ent) then
 			ent:SetPos(pos)
 			ent:Spawn()
@@ -355,7 +365,7 @@ function ENT:SpawnPropEffect(propinfo, pos)
 	filter:AddPVS(self:GetPos())
 
 	if math.random() <= chancenpcs:GetFloat() and spacenpcs < 1 and totalnpcs < maxnpcs:GetFloat() and alternatespawns[propinfo.propname] then
-		alternatespawns[propinfo.propname](pos)
+		alternatespawns[propinfo.propname](self, pos)
 		spacenpcs = self.VomitSpeed * 3
 	else
 		net.Start("jazz_propvom_effect")
