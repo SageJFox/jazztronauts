@@ -1,4 +1,4 @@
--- Board that displays currently selected maps
+-- The leaderboards for most stolen props.
 AddCSLuaFile()
 
 include("jazzboards.lua")
