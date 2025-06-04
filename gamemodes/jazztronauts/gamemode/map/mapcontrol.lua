@@ -353,7 +353,9 @@ if SERVER then
 		end
 		if includeExternal:GetBool() and not fallbackLocalOnly then
 			local addonTask = task.NewCallback(function(done)
-				http.Fetch(includeExternalHost:GetString(), done, function(err) ErrorNoHalt("Failed to get latest addons.txt list!\n" .. err .. "\n") done() end)
+				local host = includeExternalHost:GetString()
+				if not string.find(host,"^https?://") then host = "https://" .. host end
+				http.Fetch(host, done, function(err) ErrorNoHalt("Failed to get latest addons.txt list!\n" .. err .. "\n") done() end)
 			end )
 			local addonsStr = task.Await(addonTask)
 
