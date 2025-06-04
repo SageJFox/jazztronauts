@@ -146,6 +146,7 @@ local IgnoreEntClass = {
 
 function CanSnatch(ent, level)
 	local level = level or 1
+	if level == true then level = AcceptEntClass["maxLevel"] end
 
 	--Accept only this kinda stuff
 	if not IsValid(ent) or not ent:IsValid() then return false end
