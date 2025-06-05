@@ -185,7 +185,7 @@ begin18:
 		*setcam setpos -4920.419922 -261.465637 1606.207642;setang -0.662756 -29.560171 0.000000*
 		*BAR_NEUTRAL*
 	*BLOCKEND*
-	> The cats all point a palm at the wall.%.%.%% *clear**emitsound beamstart7.wav 0.25 1.0*
+	> The cats all point a paw at the wall.%.%.%% *clear**emitsound beamstart7.wav 0.25 1.0*
 	A few seconds later they disappear!
 	&begin19
 
