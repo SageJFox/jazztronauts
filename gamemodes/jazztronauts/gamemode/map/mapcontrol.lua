@@ -306,6 +306,17 @@ if SERVER then
 			table.insert(addons, num)
 		end
 
+		-- Built in cache that comes with the game
+		if #addons == 0 then
+			ErrorNoHalt("Bad addon list, using backup!") --in case Foohy's server eats the list we still want people able to tell us
+
+			for line in string.gmatch(file.Read(defaultAddonList, "GAME"), "[^\r\n]+") do
+				local num = tonumber(line)
+				if not num then continue end
+				table.insert(addons, num)
+			end
+		end
+
 		return addons
 	end
 
@@ -360,18 +371,15 @@ if SERVER then
 			local addonsStr = task.Await(addonTask)
 
 			if addonsStr and string.len(string.Trim(addonsStr)) > 0 then
+				--todo: should do something to help prevent this from saving garbage from a bad host
 				-- Save this successful run
 				file.CreateDir(string.GetPathFromFilename(overrideAddonCache))
 				file.Write(overrideAddonCache, addonsStr)
 			else
-				Msg("Failed to fetch latest addons.txt list")
-				if string.len(string.Trim(addonsStr)) == 0 then Msg(", list empty!") end
-				Msg("\n")
+				if addonsStr and string.len(string.Trim(addonsStr)) == 0 then ErrorNoHalt("Failed to fetch latest addons.txt list, list empty!")
+				else ErrorNoHalt("Failed to fetch latest addons.txt list") end
 				-- Try loading from their last successful download cache
 				addonsStr = file.Read(overrideAddonCache, "DATA")
-
-				-- Built in cache that comes with the game
-				addonsStr = (addonsStr and string.len(string.Trim(addonsStr)) > 0) and addonsStr or file.Read(defaultAddonList, "GAME")
 			end
 
 			insertAddons(GetExternalMapAddons(addonsStr or ""))
