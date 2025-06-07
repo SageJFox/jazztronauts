@@ -341,7 +341,7 @@ local alternatespawns = {
 		if bomb then totalnpcs = totalnpcs - 1 end --eh, just cancel it out
 		return bomb
 	end,
-	["models/weapons/w_grenade.mdl"] = function(pos)
+	["models/weapons/w_grenade.mdl"] = function(self, pos)
 		local ent = ents.Create("npc_grenade_frag")
 		--will eventually remove itself, so, no need for adding to total
 		if IsValid(ent) then
