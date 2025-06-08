@@ -1,4 +1,4 @@
--- Board that displays currently selected maps
+-- Supposedly what's in place of static props in jazztronauts.
 AddCSLuaFile()
 
 ENT.Type = "anim"

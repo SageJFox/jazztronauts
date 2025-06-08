@@ -1,4 +1,4 @@
--- Board that displays currently selected maps
+-- Toy-Capsule that the Prop Vomiter stuffs (or used to stuff) props into if it's too big.
 AddCSLuaFile()
 
 ENT.Type = "anim"

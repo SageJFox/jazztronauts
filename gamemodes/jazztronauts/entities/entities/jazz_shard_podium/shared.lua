@@ -1,4 +1,4 @@
--- Board that displays currently selected maps
+-- A voting podium, usually spawned by jazz_vote_podiums.
 AddCSLuaFile()
 
 ENT.Type = "anim"

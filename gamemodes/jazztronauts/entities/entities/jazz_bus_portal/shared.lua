@@ -1,4 +1,4 @@
--- Board that displays currently selected maps
+-- The Hole the bus makes when it blows through the wall.
 AddCSLuaFile()
 AddCSLuaFile("cl_voidrender.lua")
 if CLIENT then include("cl_voidrender.lua") end
