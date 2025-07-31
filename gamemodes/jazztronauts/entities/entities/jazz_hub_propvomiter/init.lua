@@ -288,8 +288,8 @@ end
 
 local down = Angle(Vector(0,0,-1)) --sue me --todo maybe: make prop vomiter able to be angled other ways?
 local comballsize = GetConVar("sk_weapon_ar2_alt_fire_radius")
-local maxnpcs = CreateConVar("jazz_propvomiter_npcs", 5, FCVAR_NONE, "Max number of NPCs the vomiter could make")
-local chancenpcs = CreateConVar("jazz_propvomiter_npcchance", 0.1, FCVAR_NONE, "Chance for the 'real' thing to spawn when vomited.", 0, 1)
+local maxnpcs = CreateConVar("jazz_propvomiter_npcs", 5, FCVAR_ARCHIVE, "Max number of NPCs the vomiter could make")
+local chancenpcs = CreateConVar("jazz_propvomiter_npcchance", 0.1, FCVAR_ARCHIVE, "Chance for the 'real' thing to spawn when vomited.", 0, 1)
 local totalnpcs = 0
 local spacenpcs = 0 --give a little breathing room for stuff being spawned to help it not all get caught inside eachother
 
