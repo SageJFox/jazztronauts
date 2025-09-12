@@ -525,29 +525,31 @@ end
 
 --Reach out and touch something
 function SWEP:TraceToRemove(stealWorld)
-	local owner = self:GetOwner()
-	local pos = owner:GetShootPos()
-	local dir = owner:GetAimVector()
+
+	-- Tell the server we'd like to steal the world right here
+	if stealWorld then
+		local owner = self:GetOwner()
+		local pos = owner:GetShootPos()
+		local dir = owner:GetAimVector()
 
 	local tr = util.TraceLine( {
 		start = pos,
 		endpos = pos + dir * self.MaxRange,
-		filter = owner,
-	} )
+			filter = owner,
+		} )
 
-	-- Tell the server we'd like to steal the world right here
-	if stealWorld and tr.HitWorld then
-
-		net.Start( "remove_client_send_trace" )
-		net.WriteBit(0)
-		net.WriteEntity( self )
+		if tr.HitWorld then
+			net.Start( "remove_client_send_trace" )
+				net.WriteBit(0)
+				net.WriteEntity( self )
 		net.WriteVector( tr.HitPos )
-		net.SendToServer()
+			net.SendToServer()
 
-		self.WorldShootFade = 1
-
-	elseif not stealWorld then
-
+			self.WorldShootFade = 1
+		else
+			self.BadShootFade = 1.0
+		end
+	else
 		-- Tell the server which entity we'd like to pick
 		if self:AcceptEntity( self.ConeEnt ) then
 			self.ConeEnt.JazzSnatchWait = CurTime() + 2.0
@@ -570,8 +572,6 @@ function SWEP:TraceToRemove(stealWorld)
 
 			self.BadShootFade = 1.0
 		end
-	else
-		self.BadShootFade = 1.0
 	end
 end
 

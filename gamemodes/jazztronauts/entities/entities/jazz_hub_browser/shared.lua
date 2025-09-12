@@ -21,12 +21,16 @@ local outputs =
 }
 
 if SERVER then
-	
+	local browse_instructions = "Debug command, forces level browser to the provided workshop ID/map name"
 	concommand.Add("jazz_debug_browse", function(ply, cmd, args)
+		if not args[1] then
+			print(browse_instructions)
+			return
+		end
 		for _, v in pairs(ents.FindByClass("jazz_hub_browser")) do
 			v:BrowseToDestination(args[1])
 		end
-	end, nil, nil, { FCVAR_CHEAT }  )
+	end, nil, browse_instructions, { FCVAR_CHEAT }  )
 
 end
 

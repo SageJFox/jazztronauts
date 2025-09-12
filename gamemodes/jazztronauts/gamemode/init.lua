@@ -924,7 +924,7 @@ function GM:ShutDown()
 
 	--revert crazyphysics settings
 	local crazyfix = GetConVar("crazyfix")
-	if crazyfix:GetBool() == true then
+	if crazyfix:GetBool() then
 		if crazywarn then RunConsoleCommand("sv_crazyphysics_warning",crazywarn) end
 		if crazydefuse then RunConsoleCommand("sv_crazyphysics_defuse",crazydefuse) end
 		if crazyremove then RunConsoleCommand("sv_crazyphysics_remove",crazyremove) end
