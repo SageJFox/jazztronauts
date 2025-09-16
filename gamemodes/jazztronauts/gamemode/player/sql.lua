@@ -48,7 +48,7 @@ function money.ChangeNotes(ply64, delta, onlyearn)
 
 	local update = "UPDATE jazz_player_money "
 		.. string.format("SET %s = %s %s ", column, column, deltaStr)
-		.. string.format(" WHERE steamid='%s'", ply64)
+		.. string.format(" WHERE steamid = '%s'", ply64)
 
 	local insert = "INSERT OR IGNORE INTO jazz_player_money(steamid) "
 		.. string.format("VALUES ('%s')", ply64)
@@ -95,7 +95,7 @@ function money.GetNotes(ply)
 	end
 
 	local sel = "SELECT * FROM jazz_player_money "
-		.. string.format("WHERE steamid='%s'", ply)
+		.. string.format("WHERE steamid = '%s'", ply)
 
 	local res = jsql.Query(sel)
 	if type(res) == "table" then
@@ -109,7 +109,7 @@ end
 -- Money is reset every time the map resets
 function money.GetTotalPlayers()
 	local sel = "SELECT COUNT(*) as count FROM jazz_player_money "
-		.. "WHERE id!=" .. SERVER_ID
+		.. "WHERE steamid != " .. SERVER_ID
 	local res = jsql.Query(sel)
 	if type(res) == "table" then
 		return tonumber(res[1].count) or 0
