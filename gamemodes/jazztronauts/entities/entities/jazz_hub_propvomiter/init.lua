@@ -3,13 +3,14 @@ AddCSLuaFile("cl_init.lua")
 util.AddNetworkString("jazz_propvom_effect")
 util.AddNetworkString("jazz_propvom_propsavailable")
 
+ENT.Type = "point"
+ENT.Base = "base_entity"
 ENT.VomitVelocity = Vector(0, 0, -200)
 ENT.MaxPipeSize = 50
 ENT.ConstipateOdds = 50 -- The odds to do the constipated thing (0 is always, 50 is 1/50)
 ENT.ConstipateCount = 100 -- How many props to spawn at once
 ENT.ConstipateMinProps = 20 -- Minimum number of props required to roll the dice for constipation
 
-ENT.Type = "point"
 ENT.DisableDuplicator = true
 ENT.VomitMusicFile = Sound("jazztronauts/music/trash_chute_music_loop.wav")
 ENT.VomitFinishFile = Sound("jazztronauts/music/trash_chute_music_stop.wav")

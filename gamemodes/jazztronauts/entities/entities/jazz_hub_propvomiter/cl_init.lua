@@ -1,3 +1,6 @@
+ENT.Type = "point"
+ENT.Base = "base_entity"
+
 JazzVomitProps = JazzVomitProps or {}
 
 local Lifetime = CreateClientConVar("jazz_propvomiter_proplifetime","5",true,false,"How long vomited props live, in seconds.",2,10)

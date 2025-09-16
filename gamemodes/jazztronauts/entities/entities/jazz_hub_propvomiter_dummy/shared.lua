@@ -1,5 +1,5 @@
-ENT.Type = "anim"
-ENT.Base = "base_anim"
+ENT.Type = "point"
+ENT.Base = "base_entity"
 ENT.RenderGroup = RENDERGROUP_OTHER
 
 function ENT:SetupDataTables()
