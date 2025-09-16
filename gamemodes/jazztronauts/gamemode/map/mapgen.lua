@@ -96,7 +96,6 @@ local AcceptEntClass = {
 	--a lot of this stuff could be core map structure, if it's at all possible at some point we should make these snatchable but leave them in place
 	--(for the dynamic stuff probably replace their textures with void or something else, static stuff could be normal void shells)
 	--also note that all of this is gonna wind up being brush models, which are... gross to handle right now.
-	/*
 	["func_button"] = 2,
 	["func_button_rot"] = 2,
 	["func_door"] = 2,
@@ -123,7 +122,6 @@ local AcceptEntClass = {
 	["trigger_multiple"] = 3,
 	["trigger_look"] = 3,
 	["trigger_hurt"] = 3,
-	*/
 	["infodecal"] = 3,
 	["info_overlay"] = 3,
 	["env_sprite"] = 2,
