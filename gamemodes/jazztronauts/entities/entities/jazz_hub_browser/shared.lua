@@ -61,9 +61,13 @@ function ENT:Initialize()
 				local wsid = workshop.FindOwningAddon(m.filename)
 				if wsid and tonumber(wsid) and tonumber(wsid) > 0 then
 					self:BrowseToDestination(wsid)
-				else
+				elseif m.filename and m.filename ~= "nil" then
 					self:BrowseToDestination(m.filename)
+				else
+					self:RollWorkshop()
 				end
+			else
+				self:RollWorkshop()
 			end
 		end )
 	else
