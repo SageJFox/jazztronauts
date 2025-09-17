@@ -738,6 +738,7 @@ if SERVER then
 		if not IsValid(ply) or not IsValid(ent) then return end
 		local class = ent:GetClass()
 		if ignorePickupClasses[class] then return end
+		if ent:IsVehicle() then return end
 		ent:SetPos(ply:GetPos())
 	end
 
@@ -857,7 +858,9 @@ if SERVER then
 
 			ent:Fire("Unlock", nil, 0, owner, owner)
 			ent:Fire("Open", nil, 0, owner, owner)
-			ent:Fire("Use", nil, 0, owner, owner)
+			if not ent:IsVehicle() then
+				ent:Fire("Use", nil, 0, owner, owner)
+			end
 
 		end
 
