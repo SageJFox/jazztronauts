@@ -107,6 +107,9 @@ function IsUnlocked( list_name, ply, key )
 	else
 
 		if not unlock_lists[list_name] then return false end
+
+		if not ply then return false end
+
 		local steam_id = ply:SteamID64()
 		local result = sql.Query( ("SELECT * FROM %s WHERE steamid = '%s' AND strkey = '%s'"):format(
 			unlock_lists[list_name],
@@ -171,7 +174,7 @@ function Lock( list_name, ply, key )
 	if key == nil then key = ply ply = nil end
 
 	if not unlock_lists[list_name] then return false end
-	if not IsUnlocked( list_name, ply, key ) then return false end
+	if ply and not IsUnlocked( list_name, ply, key ) then return false end
 
 	if CLIENT then
 
