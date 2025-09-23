@@ -293,7 +293,9 @@ if SERVER then
 			print("Downloading Via UGC!")
 			steamworks.DownloadUGC(wsid, function(filepath, file)
 				print("UGC Download Success!")
-				PostDownload(filepath, "Failed to download addon: UGC download failed.")
+				-- Some filesystems return the full path on DownloadUGC. We don't want that
+				local _, _, stripped = string.find(filepath, "(content[/\\]4000[/\\]%d+[/\\].+%.gma)$")
+				PostDownload(stripped or filepath, "Failed to download addon: UGC download failed.")
 			end, decompFunc)
 		end
 	end
