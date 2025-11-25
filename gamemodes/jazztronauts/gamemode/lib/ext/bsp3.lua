@@ -947,7 +947,8 @@ end
 prop_lump_handlers[10] = function()
 
     local t = prop_lump_handlers[8]()
-    uint32() --FlagsEx
+    uint16() --LightmapResolutionX
+    uint16() --LightmapResolutionY
     return t
 
 end
@@ -956,16 +957,16 @@ local weirdnessCSGO = 102 --10-2 (really TF2's should be different but whatever)
 prop_lump_handlers[weirdnessCSGO] = function()
 
     local t = prop_lump_handlers[9]()
-    uint32() --FlagsEx
+	float32() --UniformScale
     return t
 
 end
 
 prop_lump_handlers[11] = function()
 
-    local t = prop_lump_handlers[8]()
-    uint32() --FlagsEx
-	float32() --UniformScale
+    local t = prop_lump_handlers[10]()
+	uint32() --DiffuseModulation
+	uint32() --FlagsEx
     return t
 
 end
