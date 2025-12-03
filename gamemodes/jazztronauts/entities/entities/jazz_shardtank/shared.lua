@@ -5,11 +5,115 @@ ENT.Base = "base_anim"
 ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 ENT.Model = "models/sunabouzu/shard_tank.mdl"
 
-ENT.ActivateRadius = 300
 ENT.AnimationActivated = false
+ENT.PodiumRadius = 100
+ENT.PodiumArc = 130
+ENT.PodiumRotation = 0
+ENT.UseApproach = false
+
+-- Default model's expected RT material index (can change on model edits!)
+local rtmatdefault = 3
+
+util.PrecacheModel("models/sunabouzu/jazzshard.mdl")
 
 function ENT:SetupDataTables()
-	self:NetworkVar("Int", 0, "CollectedShards")
+	self:NetworkVar("Int", "CollectedShards")
+	self:NetworkVar("Int", "RTMat")
+	self:NetworkVar("Int", "ApproachRadius")
+	self:NetworkVar("Int", "FillSeq")
+	self:NetworkVar("Int", "AnimShardRate")
+	self:NetworkVar("Bool", "DisableDrop")
+	self:NetworkVar("Int", "DropHeight")
+	self:NetworkVar("Int", "LiquidBottom")
+	self:NetworkVar("Int", "LiquidHeight")
+	-- I really hate doing this but I can't find another way that consistently works
+	self:NetworkVar("String", "TankIncreaseSound")
+	self:NetworkVar("String", "TankAmbientSound")
+	self:NetworkVar("Float", "TankIncreaseSoundVolume")
+	self:NetworkVar("Int", "TankIncreaseSoundLow")
+	self:NetworkVar("Int", "TankIncreaseSoundHigh")
+	if SERVER then
+		self:SetRTMat(rtmatdefault)
+		self:SetApproachRadius(300)
+		self:SetFillSeq(1) --self:LookupSequence("Fill_Tank")) --doesn't wanna load properly from this
+		self:SetAnimShardRate(8)
+		self:SetDisableDrop(false)
+		self:SetDropHeight(400)
+		self:SetLiquidBottom(10)
+		self:SetLiquidHeight(110)
+		self:SetTankIncreaseSound("jazztronauts/jazz_tank_choir.wav")
+		self:SetTankIncreaseSoundVolume(1)
+		self:SetTankIncreaseSoundLow(50)
+		self:SetTankIncreaseSoundHigh(75)
+		self:SetTankAmbientSound("ambient/water/water_in_boat1.wav")
+	end
+end
+
+local outputs =
+{
+	"OnOccupied",
+	"OnUnoccupied"
+}
+
+function ENT:KeyValue(key, value)
+
+	if key == "model" then
+		self.Model = value
+	elseif key == "skin" then
+		local val = tonumber(value)
+		if not val then return end
+		self:SetSkin(val)
+	elseif key == "rtmat" then
+		self:SetRTMat(tonumber(value) or rtmatdefault)
+	elseif key == "ApproachRadius" then
+		self:SetApproachRadius(tonumber(value) or 300)
+	elseif key == "PodiumRadius" then
+		self.PodiumRadius = tonumber(value) or 100
+	elseif key == "PodiumArc" then
+		self.PodiumArc = tonumber(value) or self.PodiumArc
+	elseif key == "PodiumRotation" then
+		self.PodiumRotation = tonumber(value) or 0
+	elseif key == "UseApproach" then
+		self.UseApproach = tobool(value)
+	elseif key == "DefaultAnim" then
+		if value == "" then value = "Fill_Tank" end
+		--Delay so model can get set properly
+		timer.Simple(0, function()
+			if not IsValid(self) then return end
+			self:SetFillSeq(self:LookupSequence(value))
+		end)
+	elseif key == "DisableDrop" then
+		self:SetDisableDrop(tobool(value))
+	elseif key == "DropHeight" then
+		self:SetDropHeight(tonumber(value) or 400)
+	elseif key == "AnimShardRate" then
+		self:SetAnimShardRate(tonumber(value) or 8)
+	elseif key == "LiquidBottom" then
+		self:SetLiquidBottom(tonumber(value) or 10)
+	elseif key == "LiquidHeight" then
+		self:SetLiquidHeight(tonumber(value) or 110)
+	elseif key == "TankIncreaseSound" then
+		self:SetTankIncreaseSound(value)
+	elseif key == "TankIncreaseSoundVolume" then
+		local val = tonumber(value)
+		if not val then return end
+		self:SetTankIncreaseSoundVolume(val)
+	elseif key == "TankIncreaseSoundLow" then
+		local val = tonumber(value)
+		if not val then return end
+		self:SetTankIncreaseSoundLow(val)
+	elseif key == "TankIncreaseSoundHigh" then
+		local val = tonumber(value)
+		if not val then return end
+		self:SetTankIncreaseSoundHigh(val)
+	elseif key == "TankAmbientSound" then
+		self:SetTankAmbientSound(value)
+	end
+
+	if table.HasValue(outputs, key) then
+		self:StoreOutput(key, value)
+	end
+
 end
 
 if SERVER then
@@ -22,8 +126,7 @@ if SERVER then
 			phys:EnableMotion(false)
 		end
 		self:PhysicsInitShadow(false,false)
-
-		self:SetSequence(self:LookupSequence("Fill_Tank"))
+		self:SetSequence(self:GetFillSeq())
 
 		self:SetCollectedShards(progress.GetMapShardCount())
 
@@ -32,12 +135,14 @@ if SERVER then
 		-- If above shard threshold, spawn the group vote to start endgame
 		if progress.GetMapShardCount() >= mapgen.GetTotalRequiredShards() or ended then
 			local voter = ents.Create("jazz_vote_podiums")
-			voter:SetKeyValue("PodiumRadius", 100)
-			voter:SetKeyValue("ApproachRadius", self.ActivateRadius)
+			voter:SetKeyValue("PodiumRadius", self.PodiumRadius)
+			voter:SetKeyValue("ApproachRadius", self:GetApproachRadius())
 			voter:SetKeyValue("Friendly", "1")
 			voter:SetPos(self:GetPos())
-			voter.PodiumSemiAngle = math.rad(self:GetAngles().y)
-			voter.PodiumSemiCircle = math.rad(130)
+			if not self.UseApproach then
+				voter.PodiumSemiAngle = math.rad(self:GetAngles().y + self.PodiumRotation)
+			end
+			voter.PodiumSemiCircle = math.rad(self.PodiumArc)
 			voter.RequiresPercentage = true
 			voter:Spawn()
 			voter:Activate()
@@ -73,18 +178,22 @@ if SERVER then
 	end
 
 else
-	ENT.TankAmbientSound = "ambient/water/water_in_boat1.wav"
 	ENT.TankSplashSounds = {
 		"ambient/water/water_splash1.wav",
 		"ambient/water/water_splash2.wav",
 		"ambient/water/water_splash3.wav"
 	}
-	ENT.TankIncreaseSound = "jazztronauts/jazz_tank_choir.wav"
 
 	ENT.FinishedAnimation = false
+	ENT.DisableDrop = false
 	ENT.AnimationStartShards = 0
 	ENT.AnimShardCount = 0
 	ENT.AnimShardRate = 8 --shards per second to drop into shard soup
+	ENT.LiquidBottom = 10
+	ENT.LiquidHeight = 110
+	ENT.TankIncreaseSoundVolume = 1
+	ENT.TankIncreaseSoundLow = 50
+	ENT.TankIncreaseSoundHigh = 75
 
 	ENT.GoalCompletePercent = 0
 
@@ -109,13 +218,27 @@ else
 	} )
 
 	function ENT:Initialize()
-		self:SetSequence(self:LookupSequence("Fill_Tank"))
+		--Delay so model can get set properly
+		timer.Simple(0, function()
+			self:SetSequence(self:GetFillSeq())
+		end)
+		--not changing once set so no need to constantly fetch these
+		self.RTMat = self:GetRTMat()
+		self.ApproachRadius = self:GetApproachRadius()
+		self.DisableDrop = self:GetDisableDrop()
+		self.DropHeight = self:GetDropHeight()
+		self.AnimShardRate = math.max(1, self:GetAnimShardRate())
+		self.LiquidBottom = self:GetLiquidBottom()
+		self.LiquidHeight = self:GetLiquidHeight()
+		self.TankIncreaseSoundVolume = self:GetTankIncreaseSoundVolume()
+		self.TankIncreaseSoundLow = self:GetTankIncreaseSoundLow()
+		self.TankIncreaseSoundHigh = self:GetTankIncreaseSoundHigh() - self.TankIncreaseSoundLow
 	end
 
 	function ENT:CheckSound()
 
 		if not self.TankAmbient then
-			self.TankAmbient = CreateSound(self, self.TankAmbientSound)
+			self.TankAmbient = CreateSound(self, self:GetTankAmbientSound())
 			self.TankAmbient:SetSoundLevel(50)
 			self.TankAmbient:Play()
 			self.TankAmbient:ChangePitch(45)
@@ -123,7 +246,7 @@ else
 		end
 
 		if not self.TankFill then
-			self.TankFill = CreateSound(self, self.TankIncreaseSound)
+			self.TankFill = CreateSound(self, self:GetTankIncreaseSound())
 			self.TankFill:SetSoundLevel(60)
 			self.TankFill:Play()
 			//self.TankFill:ChangePitch(45)
@@ -148,7 +271,7 @@ else
 	end
 
 	function ENT:GetLiquidLevel()
-		return self:GetPos() + Vector(0, 0, 1) * self:GetCompletePercent() * 110 + Vector(0, 0, 10)
+		return self:GetPos() + Vector(0, 0, self.LiquidBottom + self:GetCompletePercent() * self.LiquidHeight)
 	end
 
 	function ENT:GetCompletePercent()
@@ -160,23 +283,24 @@ else
 
 	function ENT:DoShardAnimation(delay, last)
 		coroutine.wait(delay)
+		if not self.DisableDrop then
+			local shard = ManagedCSEnt("jazz_shardtank_" .. delay, "models/sunabouzu/jazzshard.mdl")
+			shard:SetNoDraw(false)
+			shard:SetPos(self:GetPos() + Vector(0, 0, self.DropHeight))
+			shard:SetAngles(AngleRand())
+			local t = 0
+			local endt = 1.0
+			while t < endt do
+				t = t + FrameTime()
+				local p = t / endt
+				local pos = self.DropHeight * (1 - math.pow(p, 2))
 
-		local shard = ManagedCSEnt("jazz_shardtank_" .. delay, "models/sunabouzu/jazzshard.mdl")
-		shard:SetNoDraw(false)
-		shard:SetPos(self:GetPos() + Vector(0, 0, 400))
-		shard:SetAngles(AngleRand())
-		local t = 0
-		local endt = 1.0
-		while t < endt do
-			t = t + FrameTime()
-			local p = t / endt
-			local pos = 400 * (1 - math.pow(p, 2))
+				shard:SetPos(self:GetPos() + Vector(0, 0, pos))
+				coroutine.yield()
+			end
 
-			shard:SetPos(self:GetPos() + Vector(0, 0, pos))
-			coroutine.yield()
+			shard:SetNoDraw(true)
 		end
-
-		shard:SetNoDraw(true)
 
 		self.AnimShardCount = math.Approach(self.AnimShardCount, self:GetCollectedShards(), 1)
 
@@ -188,14 +312,15 @@ else
 		end
 
 		if self.TankFill then
-			self.TankFill:ChangeVolume(1.0)
-			self.TankFill:ChangePitch(50 + completePerc * 75)
+			self.TankFill:ChangeVolume(self.TankIncreaseSoundVolume)
+			self.TankFill:ChangePitch(self.TankIncreaseSoundLow + completePerc * self.TankIncreaseSoundHigh)
 
 			if last then
 				self.TankFill:ChangeVolume(0.0, 4)
 			end
 		end
 
+		if self.DisableDrop then return end
 		-- Sound effects
 		self:EmitSound(table.Random(self.TankSplashSounds), 75, 100, 0.3)
 
@@ -247,7 +372,7 @@ else
 	function ENT:ShouldActivate()
 		local dist2 = (LocalPlayer():EyePos() - self:GetPos()):LengthSqr()
 
-		return dist2 < math.pow(self.ActivateRadius, 2)
+		return dist2 < math.pow(self.ApproachRadius, 2)
 	end
 
 	function ENT:Think()
@@ -299,9 +424,13 @@ else
 	end
 
 	function ENT:Draw()
+		if self.RTMat < 0 then
+			self:DrawModel()
+			return
+		end
 		self:DrawRTScreen()
-		render.MaterialOverrideByIndex(3, screen_rt:GetUnlitMaterial())
+		render.MaterialOverrideByIndex(self.RTMat, screen_rt:GetUnlitMaterial())
 		self:DrawModel()
-		render.MaterialOverrideByIndex(3, nil)
+		render.MaterialOverrideByIndex(self.RTMat, nil)
 	end
 end

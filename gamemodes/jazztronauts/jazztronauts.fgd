@@ -235,9 +235,31 @@
     ]
 ]
 
-@PointClass base(Targetname, Angles) studioprop("models/sunabouzu/shard_tank.mdl") = jazz_shardtank : "Jazz Shard Tank"
+@PointClass base(Targetname, Angles) studioprop() = jazz_shardtank : "Jazz Shard Tank"
 [
-
+	model(studio) : "World Model" : "models/sunabouzu/shard_tank.mdl"
+	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
+	SetBodyGroup(integer) : "Body Group" : 0 : "Sets body groups on the model, if it has any."
+	rtmat(integer) : "RT Material Index" : 3 : "Which material index (starting from 0) will act as the model's RT screen? Set to a negative to disable screen rendering."
+	ApproachRadius(integer) : "Trigger Radius" : 300 : "Distance at which an approaching player will trigger the initial fill animation, and spawning their endgame vote podium."
+	PodiumRadius(integer): "Podium Radius" : 100 : "Distance from the Shard Tank in which endgame vote podiums will spawn."
+	PodiumArc(integer): "Podium Arc" : 130 : "Endgame vote podiums will spawn in a semi-circle (centered on the front of the shard tank) that is this big, in degrees."
+	PodiumRotation(integer): "Podium Rotation Offset" : 0 : "Offset of vote podium spawns from front of the shard tank, in degrees."
+	UseApproach(boolean): "Use Approach Angle?" : 0 : "Use the angle of the first player to approach as podium spawn center, rather than the front of the shard tank."
+	DefaultAnim(string) : "Fill Sequence" : "Fill_Tank" : "The sequence (or activity name) to play when we begin filling the tank. Note that this sequence only animates while the tank is filling!"
+	//Shard drop effects
+	DisableDrop(boolean): "Disable Shard Drop?" : 0 : "Disable shard dropping effect when player initially approaches."
+	DropHeight(integer) : "Drop Height" : 400 : "Height (above the origin) from which shards should drop."
+	AnimShardRate(integer): "Shard Rate" : 8 : "Number of shards to drop per second."
+	LiquidBottom(integer): "Liquid Bottom" : 10 : "Height (above the origin) where the tank's water level starts."
+	LiquidHeight(integer): "Liquid Height" : 110 : "Total height from the bottom to the top of the tank's liquid (when 100% full)."
+	TankIncreaseSound(sound): "Tank Increase Sound" : "jazztronauts/jazz_tank_choir.wav" : "Sound that pitches up as shard tank fills."
+	TankIncreaseSoundVolume(float): "Tank Increase Sound Volume": "1.0" : "Volume when playing Tank Increase Sound"
+	TankIncreaseSoundLow(integer): "Starting Pitch": 50 : "Starting pitch of tank increase sound"
+	TankIncreaseSoundHigh(integer): "Ending Pitch": 125 : "Maximum pitch of tank increase sound (>=100% full)" //note: currently starting pitch + percentage * 75, don't fuck it up!
+	//Other sound
+	TankAmbientSound(sound): "Tank Ambience Loop" : "ambient/water/water_in_boat1.wav" : "Looping ambient tank sound, grows louder the fuller the tank is."
+	//TankAmbientSoundVolume(float): "Tank Ambience Volume" : "0.8" : ""
 ]
 
 @PointClass base(Targetname, Angles) studioprop("models/sunabouzu/jazzblackshard.mdl") = jazz_shard_black : "Black Shard" []
