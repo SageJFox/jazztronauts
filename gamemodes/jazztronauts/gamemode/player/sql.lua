@@ -102,7 +102,11 @@ function money.GetNotes(ply)
 		return ConvertTypes(res[1])
 	end
 
-	return nil
+	return {
+		["earned"] = 0,
+		["spent"] = 0,
+		["steamid"] = ply
+	}
 end
 
 -- Get the total number of players that have played in this session
