@@ -729,9 +729,11 @@ if SERVER then
 		["grenade_ar2"] = true, --will immediately explode regardless, but this at least gives us some breathing room
 		["grenade_mp5"] = true,
 		["prop_combine_ball"] = true,
+		["prop_energy_ball"] = true,
 		["crossbow_bolt"] = true,
 		["npc_rollermine"] = true,
 		["env_fire"] = true,
+		["func_door"] = true,
 	}
 
 	local function tryPickUp(ply, ent)

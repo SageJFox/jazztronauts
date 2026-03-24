@@ -92,6 +92,31 @@ local AcceptEntClass = {
 	["env_headcrabcanister"] = 1,
 	["prop_thumper"] = 1,
 	["env_flare"] = 1,
+	--Portal/2
+	["prop_energy_ball"] = 1,
+	["prop_glados_core"] = 1,
+	["prop_personality_sphere"] = 1,
+	["npc_personality_core"] = 1,
+	["npc_wheatley_boss"] = 1,
+	["prop_weighted_cube"] = 1,
+	["prop_physics_paintable"] = 1,
+	["prop_monster_box"] = 1,
+	["prop_button"] = 1,
+	["prop_floor_button"] = 1,
+	["prop_floor_ball_button"] = 1,
+	["prop_floor_cube_button"] = 1,
+	["prop_under_floor_button"] = 1,
+	["prop_under_button"] = 1,
+	["prop_laser_catcher"] = 1,
+	["prop_laser_relay"] = 1,
+	["prop_rocket_tripwire"] = 1,
+	["prop_testchamber_door"] = 1,
+	["prop_linked_portal_door"] = 1,
+	["linked_portal_door"] = 1,
+	["prop_exploding_futbol"] = 1,
+	["prop_tractor_beam"] = 1,
+	["prop_wall_projector"] = 1,
+	["portal_race_checkpoint"] = 1,
 	--let's live dangerously
 	--a lot of this stuff could be core map structure, if it's at all possible at some point we should make these snatchable but leave them in place
 	--(for the dynamic stuff probably replace their textures with void or something else, static stuff could be normal void shells)
@@ -633,7 +658,7 @@ if SERVER then
 
 		-- Calculate only length across the area, ignoring Z because people make bigass fucking skyboxes
 		local length = math.sqrt(math.pow(maxs.x - mins.x,2) + math.pow(maxs.y - mins.y,2))
-		print(length)
+
 		-- Shard count dependent on map size
 		local shardcount = math.Remap(length, 8000, 100000, 4, 24)
 		return math.ceil(shardcount)

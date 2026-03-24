@@ -730,6 +730,8 @@ replacements = {
 		end
 		return nil
 	end,
+	---------------------------------Portal/2----------------------------------
+	["weapon_portalgun"] = function(tab) return basicPhys(tab, "models/weapons/w_portalgun.mdl") end,
 	-----------------------------------DoD:S-----------------------------------
 	["dod_bomb_target"] = function(tab) return basicMdl(tab, "models/weapons/w_tnt_red.mdl") end,
 	["dod_control_point"] = function(tab)
