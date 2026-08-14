@@ -498,6 +498,30 @@
 	input AttemptPurchase(void) : "Attempt to make a purchase for the activating player."
 ]
 
+
+@PointClass base(Targetname, Parentname) iconsprite("editor/jazz_worldmarker.vmt") sphere(radius) = jazz_worldmarker : "World Marker"
+[
+	icon(choices) : "Icon texture" : "yes" : "Icon filename to display for this world marker, relative to materials/ui/jazztronauts. Custom entries supported (must be png)" =
+    [
+        "yes" : "Purple Exclamation Point (!)" 
+        "question" : "Purple Question Mark (?)" 
+        "wtf" : "Red Interrobang (!?)" 
+		"catchat" : "Cat Chat Bubble"
+    ]
+	radius(integer) : "Visibility Radius" : 150 : "Icon visibility radius. Larger values produce more gradual fades when the icon is partially obstructed. Ignored if Always Visible flag is set. (max 511)"
+
+	input Toggle(void) : "Toggle marker visibility"
+	input Enable(void) : "Show marker"
+	input Disable(void) : "Hide marker"
+
+	spawnflags(flags) =
+	[
+		1 : "Start Enabled" : 0
+		2 : "Always Visible" : 0
+		4 : "Smooth Texture Filtering" : 1
+	]
+]
+
 @PointClass base(Weapon) studioprop("models/weapons/w_stunbaton.mdl") = weapon_propsnatcher : "Prop Snatcher" []
 @PointClass base(Weapon) studioprop("models/weapons/w_bus_summoner.mdl") = weapon_buscaller : "Portable Bus Stop" []
 @PointClass base(Weapon) studioprop("models/weapons/w_run.mdl") = weapon_run : "Run" []
