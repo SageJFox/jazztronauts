@@ -528,4 +528,4 @@
 @PointClass base(Weapon) studioprop("models/Gibs/HGIBS.mdl") = weapon_stan : "Stan" []
 @PointClass base(Weapon) studioprop("models/weapons/w_hackergoggles.mdl") = weapon_hacker : "Hacker Goggles" []
 @PointClass base(Weapon) studioprop("models/weapons/w_pistol.mdl") = weapon_rats : "Personal Shrink Ray" []
-@PointClass base(Weapon) studioprop("models/weapons/w_shotgun.mdl") = weapon_netgun : "Capsule Capture Gun" []
+@PointClass base(Weapon) studioprop("models/weapons/w_netgun.mdl") = weapon_netgun : "Capsule Capture Gun" []

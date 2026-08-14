@@ -11,7 +11,7 @@ SWEP.WepSelectIcon			= Material( "entities/weapon_netgun.png" )
 SWEP.AutoSwitchFrom			= false
 
 SWEP.ViewModel				= "models/weapons/c_shotgun.mdl"
-SWEP.WorldModel				= "models/weapons/w_shotgun.mdl"
+SWEP.WorldModel				= "models/weapons/w_netgun.mdl"
 
 SWEP.UseHands				= true
 
