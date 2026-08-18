@@ -1,4 +1,4 @@
--- Board that displays currently selected maps
+-- The Bus Stop that configures some of the bus events I think.
 AddCSLuaFile()
 AddCSLuaFile("sh_honk.lua")
 include("sh_honk.lua")
