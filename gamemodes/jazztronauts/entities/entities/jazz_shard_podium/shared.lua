@@ -5,6 +5,9 @@ ENT.Type = "anim"
 ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 ENT.AutomaticFrameAdvance = true
 
+util.PrecacheModel("models/sunabouzu/jazzshard.mdl")
+util.PrecacheModel("models/jazztronauts/zak/podium.mdl")
+
 function ENT:SetupDataTables()
 
 	self:NetworkVar( "Entity", 0, "Prop" )

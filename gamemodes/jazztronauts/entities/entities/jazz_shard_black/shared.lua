@@ -113,7 +113,9 @@ function ENT:GetNearbyBrushes()
 		task.New(StealQuick, 1)
 		self:SetStartSuckTime(CurTime())
 		self:SetIsFinished(true)
-		self.VotePodium:Remove()
+		if IsValid(self.VotePodium) then
+			self.VotePodium:Remove()
+		end
 	else
 		self.BaseClass.GetNearbyBrushes(self)
 	end
