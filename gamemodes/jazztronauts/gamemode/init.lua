@@ -277,7 +277,7 @@ elseif string.find(game.GetMap(), "_event") or string.find(game.GetMap(), "^zi_"
 
 replacements = {
 	-----------------------------------L4D/2-----------------------------------
-	["func_simpleladder"] = function(tab,entnum)
+	--[[["func_simpleladder"] = function(tab,entnum)
 		local ladder = ents.Create("func_wall")
 		if IsValid(ladder) then
 			local origin = Vector(tab.origin or "0 0 0")
@@ -305,7 +305,7 @@ replacements = {
 			end
 			return ladder
 		end
-	end,
+	end,]]
 	["weapon_melee_spawn"] = function(tab)
 		local models = {
 			["baseball_bat"] = "models/weapons/melee/w_bat.mdl",
@@ -326,7 +326,7 @@ replacements = {
 		local wep = table.Random(string.Split(tab.melee_weapon,","))
 		return L4DWeapon( tab, models[wep] or models.Any )
 	end,
-	["prop_door_rotating_checkpoint"] = function(tab)
+	--[[["prop_door_rotating_checkpoint"] = function(tab)
 		local door = ents.Create("prop_door_rotating")
 		if IsValid(door) then
 			for k, v in pairs(tab) do
@@ -362,7 +362,7 @@ replacements = {
 				if IsValid(car) then glass:SetParent(car) end
 			end
 		end)
-	end,
+	end,]]
 	["weapon_ammo_spawn"] = function(tab) return basicMdl(tab, "models/props/terror/ammo_stack.mdl") end,
 	["upgrade_laser_sight"] = function(tab) return basicMdl(tab, "models/w_models/weapons/w_laser_sights.mdl") end,
 	["upgrade_ammo_explosive"] = function(tab) return basicMdl(tab, "models/props/terror/exploding_ammo.mdl") end,
@@ -399,7 +399,7 @@ replacements = {
 	["weapon_upgradepack_explosive_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_eq_explosive_ammopack.mdl") end,
 	["weapon_upgradepack_incendiary_spawn"] = function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_eq_incendiary_ammopack.mdl") end,
 	["weapon_gascan_spawn"] = function(tab) return L4DWeapon(tab, "models/props_junk/gascan001a.mdl") end,
-	["prop_health_cabinet"] = function(tab)
+	--[[["prop_health_cabinet"] = function(tab)
 		local cabinet = basicMdlSolid(tab, "models/props_interiors/medicalcabinet02.mdl","open") --start it open (don't wanna bother setting up the ability for it to be opened)
 		if IsValid(cabinet) then
 			for i = 1, (tonumber(tab.HealthCount) or 2) do
@@ -417,7 +417,7 @@ replacements = {
 			return cabinet
 		end
 		return nil
-	end,
+	end,]]
 	["prop_fuel_barrel"] = function(tab) return basicMdlSolid(tab, "models/props_industrial/barrel_fuel.mdl") end,
 	["func_orator"] = function(tab)
 		if not tab.model then return nil end
@@ -445,10 +445,11 @@ replacements = {
 		if tobool(tab.item17) then table.insert(whatarewe, function(tab) return L4DWeapon(tab, "models/w_models/weapons/w_grenade_launcher.mdl") end) end
 		if tobool(tab.item18) then table.insert(whatarewe, replacements["weapon_rifle_m60_spawn"]) end
 		if tab.melee_weapon and tab.melee_weapon ~= "" then table.insert(whatarewe, replacements["weapon_melee_spawn"]) end
-		local choice = table.Random(whatarewe)(tab)
 		-- print(tostring(tab.item1 or 0) .. tostring(tab.item2 or 0) .. tostring(tab.item3 or 0) .. tostring(tab.item4 or 0) .. tostring(tab.item5 or 0) ..
 		-- tostring(tab.item6 or 0) .. tostring(tab.item7 or 0) .. tostring(tab.item8 or 0) .. tostring(tab.item11 or 0) .. tostring(tab.item12 or 0) .. 
 		-- tostring(tab.item13 or 0) .. tostring(tab.item16 or 0) .. tostring(tab.item17 or 0) .. tostring(tab.item18 or 0), tab.spawnflags)
+		local choice = table.Random(whatarewe)
+		if choice ~= nil then choice = choice(tab) end
 		if IsValid(choice) then
 			local startpos, endpos = choice:GetPos(), choice:GetPos()
 			endpos.z = -16384
@@ -788,6 +789,8 @@ replacements = {
 	["weapon_remington_army"] = function(tab) return basicPhys(tab, "models/weapons/w_remington_army.mdl") end,
 	["weapon_spencer"] = function(tab) return basicPhys(tab, "models/weapons/w_spencer.mdl") end,
 	["trigger_hurt_fof"] = function(tab) return basicEnt(tab, "trigger_hurt") end,
+	--------------------------------Black Mesa---------------------------------
+	["npc_zombie_scientist"] = function(tab) return basicEnt(tab, "npc_zombie") end,
 }
 
 function GM:GenerateJazzEntities(noshards)
@@ -1047,6 +1050,8 @@ local conversions = {
 	["env_spark"] = "editor/env_spark",
 }
 conversions["env_laser"] = conversions["env_beam"]
+conversions["_firesmoke"] = conversions["env_fire"]
+conversions["env_firesource"] = conversions["env_fire"]
 
 local function CollectEntity(ent, ply)
 

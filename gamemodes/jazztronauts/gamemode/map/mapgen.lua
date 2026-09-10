@@ -70,6 +70,11 @@ local AcceptEntClass = {
 	["prop_door_rotating"] = 1,
 	["jazz_prop_sphere"] = 1,
 	["jazz_factscreen"] = 1,
+	--let's get left 4 dead
+	["prop_health_cabinet"] = 1,
+	["prop_door_rotating_checkpoint"] = 1,
+	["prop_car_alarm"] = 1,
+	["prop_car_glass"] = 1,
 	--let's get esoteric wee
 	["gmod_tool"] = 1,
 	["gmod_camera"] = 1,
@@ -153,6 +158,8 @@ local AcceptEntClass = {
 	["env_glow"] = 3,
 	["env_sun"] = 3,
 	["env_fire"] = 2,
+	["_firesmoke"] = 2,
+	["env_firesource"] = 2,
 	["point_spotlight"] = 2,
 	--["npc_spotlight"] = true, --might not exist?
 	["env_beam"] = 2,
@@ -398,8 +405,8 @@ if SERVER then
 		"info_survivor_position",
 		"info_survivor_rescue",
 		--Black Mesa
-		--"info_player_scientist",
-		--"info_player_marine",
+		"info_player_scientist",
+		"info_player_marine",
 	}
 
 	-- Entities that facilitate transporting players
