@@ -567,6 +567,7 @@ local function makeMaterial( texture )
 	return mat
 
 end
+local default_mesh_material = Material( "editor/wireframe" )
 
 function meta:EmitMesh(texmatrix, lmmatrix, width, height, offset, meshVerts )
 	width = width or 1
@@ -614,13 +615,15 @@ function meta:EmitMesh(texmatrix, lmmatrix, width, height, offset, meshVerts )
 
 end
 
-local default_mesh_material = Material( "editor/wireframe" )
 function meta:CreateMesh(material, texmatrix, lmmatrix, width, height, offset )
 	self.mesh = ManagedMesh(material )
-
-	mesh.Begin( self.mesh:Get(), MATERIAL_TRIANGLES, #self.points - 2 )
-		self:EmitMesh( texmatrix, lmmatrix, width, height, offset)
-	mesh.End()
+	if #self.points <= 2 then
+		print("BAD PRIMITIVE COUNT ON MESH: ", #self.points)
+	else
+		mesh.Begin( self.mesh:Get(), MATERIAL_TRIANGLES, #self.points - 2 )
+			self:EmitMesh( texmatrix, lmmatrix, width, height, offset)
+		mesh.End()
+	end
 
 	self.material = material
 	self.cache_center = self:Center()
