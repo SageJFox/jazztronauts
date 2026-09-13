@@ -535,7 +535,8 @@ replacements = {
 		if tobool(tab.upgradepack_incendiary) then table.insert(whatarewe, function(tab) return basicMdl(tab, "models/w_models/weapons/w_eq_incendiary_ammopack.mdl") end) end
 		if tobool(tab.upgradepack_explosive) then table.insert(whatarewe, function(tab) return basicMdl(tab, "models/w_models/weapons/w_eq_explosive_ammopack.mdl") end) end
 
-		local upgrade = table.Random(whatarewe)(tab)
+		local upgrade = table.Random(whatarewe)
+		if upgrade ~= nil then upgrade = table.Random(whatarewe)(tab) end
 		if not IsValid(upgrade) then return nil end
 		--drop to world
 		local startpos, endpos = upgrade:GetPos(), upgrade:GetPos()
