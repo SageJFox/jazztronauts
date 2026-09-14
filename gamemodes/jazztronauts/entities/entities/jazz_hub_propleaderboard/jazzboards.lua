@@ -36,11 +36,10 @@ if SERVER then
 
 	SessionProps = SessionProps or {}
 
-	function UpdateLeaderboard(id, ply, offset)
+	function UpdateLeaderboard(id, pid, offset)
 
 		if not Boards[id] then return false end
-		local pid = IsValid(ply) and ply:SteamID64() or nil
-
+		
 		local counts = snatch.GetPropCounts()
 		local tallied = Boards[id].valuefunc(counts)
 
@@ -66,9 +65,9 @@ if SERVER then
 		net.Broadcast()
 	end
 
-	function UpdateLeaderboards(ply, offset)
+	function UpdateLeaderboards(pid, offset)
 		for k, v in pairs(Boards) do
-			UpdateLeaderboard(k, ply, offset)
+			UpdateLeaderboard(k, pid, offset)
 		end
 	end
 

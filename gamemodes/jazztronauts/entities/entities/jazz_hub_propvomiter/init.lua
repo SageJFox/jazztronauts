@@ -169,7 +169,7 @@ function ENT:VomitNewProps(ply)
 	end
 
 
-	self.CurrentUser = ply -- TODO: Store steamid, not player reference
+	self.CurrentUser = ply:SteamID64()
 
 	local counts = snatch.GetPlayerPropCounts(ply, true)
 	snatch.ClearPlayerRecentProps(ply)
@@ -185,11 +185,9 @@ function ENT:VomitNewProps(ply)
 	end
 
 	-- Add this as a 'session' prop for leaderboards
-	if IsValid(self.CurrentUser) then
-		jazzboards.AddSessionProps(self.CurrentUser:SteamID64(), self.TotalCount)
-	end
+	jazzboards.AddSessionProps(self.CurrentUser, self.TotalCount)
 
-	UpdatePlayerPropMarker(self.CurrentUser, false, self:GetMarker())
+	UpdatePlayerPropMarker(ply, false, self:GetMarker())
 
 	-- Precache all the props first, then start the show
 	self.StartAt = math.huge
@@ -296,7 +294,8 @@ local spacenpcs = 0 --give a little breathing room for stuff being spawned to he
 
 local function simplemake(self, name, pos)
 	if not IsValid(self) then return nil end
-	self:TriggerOutput("OnVomitNPC", self.CurrentUser)
+	
+	self:TriggerOutput("OnVomitNPC", player.GetBySteamID64(self.CurrentUser) or nil)
 	local ent = ents.Create(name)
 	if IsValid(ent) then
 		ent:SetPos(pos)
@@ -389,15 +388,17 @@ function ENT:VomitProp()
 	local prop = table.Random(self.SpawnQueue)
 	if not prop then return false end
 
-	if not IsValid(self.CurrentUser) then return false end
+	local ply = player.GetBySteamID64(self.CurrentUser)
+
+	if not IsValid(ply) then return false end
 
 	local worth = prop.worth
 	local pos, ang = self:GetPos() + self:GetAngles():Up() * 100, self:GetAngles()
 
-	unlocks.Unlock( propr_unlock_list, self.CurrentUser, prop.propname )
+	unlocks.Unlock( propr_unlock_list, ply, prop.propname )
 
 	-- Spawn some placeholder gibs, this prop doesnt normally break
-	self.CurrentUser:ChangeNotes(worth)
+	ply:ChangeNotes(worth)
 	self:SpawnPropEffect(prop, pos)
 
 	-- Don't do it _every_ time, but adjustable odds
