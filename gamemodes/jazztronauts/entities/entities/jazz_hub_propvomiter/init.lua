@@ -353,6 +353,10 @@ local alternatespawns = {
 			end)
 		end
 	end,
+	["models/crow.mdl"]=function(pos) return simplemake("npc_crow",pos) end,
+	["models/pigeon.mdl"]=function(pos) return simplemake("npc_pigeon",pos) end,
+	["models/seagull.mdl"]=function(pos) return simplemake("npc_seagull",pos) end,
+	["models/props/turret_01.mdl"]=function(pos) return simplemake("npc_portal_turret_floor",pos) end,
 }
 alternatespawns["models/roller_spikes.mdl"] = alternatespawns["models/roller.mdl"]
 alternatespawns["models/roller_vehicledriver.mdl"] = alternatespawns["models/roller.mdl"]
@@ -367,6 +371,7 @@ function ENT:SpawnPropEffect(propinfo, pos)
 	if math.random() <= chancenpcs:GetFloat() and spacenpcs < 1 and totalnpcs < maxnpcs:GetFloat() and alternatespawns[propinfo.propname] then
 		alternatespawns[propinfo.propname](self, pos)
 		spacenpcs = self.VomitSpeed * 3
+		-- do we remove these after a certain time or do we keep them?
 	else
 		net.Start("jazz_propvom_effect")
 			net.WriteVector(pos)
