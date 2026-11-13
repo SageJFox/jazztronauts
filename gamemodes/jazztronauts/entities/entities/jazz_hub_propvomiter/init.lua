@@ -20,6 +20,8 @@ ENT.StartDelay = 0 -- Delay before anything at all happens
 ENT.MusicDelay = 3.5 -- Delay to let the music play before props begin to fall
 ENT.ConstipateDelay = 10.5 -- Delay when the tube is constipated
 ENT.FinishDelay = 2.0 -- How long to wait before closing the blinds
+ENT.BoardUpdateDelay = 0.4 -- How often the leaderboards refresh while vomiting
+ENT.PayDelay = 0.5 -- How often the earned money is paid out while vomiting
 
 local propr_unlock_list = "props"
 unlocks.Register(propr_unlock_list)
@@ -109,10 +111,25 @@ function ENT:KeyValue( key, value )
 	end
 end
 
+-- Pay out everything earned since the last payment in one go
+function ENT:PayPendingNotes()
+	local amt = self.PendingNotes or 0
+	self.PendingNotes = 0
+	self.NextPay = CurTime() + self.PayDelay
+
+	-- By SteamID, so it still lands if the player just left
+	if amt > 0 and self.CurrentUser then
+		jazzmoney.ChangeNotes(self.CurrentUser, amt)
+	end
+end
+
 function ENT:StopVomit()
 	self:StartMusic(self.VomitFinishFile)
 	self.SpawnQueue = nil
 	self.IsStopping = true
+
+	self:PayPendingNotes()
+	self.NextBoardUpdate = 0 -- Make sure the final count gets sent
 
 	timer.Simple(self.FinishDelay, function()
 		self:TriggerOutput(self.WasEmpty and "OnVomitEndEmpty" or "OnVomitEnd", self)
@@ -139,7 +156,15 @@ function ENT:Think()
 		self:VomitMultiple(self.VomitSpeed)
 	end
 
-	jazzboards.UpdateLeaderboards(self.CurrentUser, -self.TotalCount)
+	if CurTime() >= (self.NextPay or 0) then
+		self:PayPendingNotes()
+	end
+
+	-- Every board reads the whole prop table, so don't do it every think
+	if CurTime() >= (self.NextBoardUpdate or 0) then
+		self.NextBoardUpdate = CurTime() + self.BoardUpdateDelay
+		jazzboards.UpdateLeaderboards(self.CurrentUser, -self.TotalCount)
+	end
 end
 
 function ENT:StopMusic(fadeTime)
@@ -397,8 +422,10 @@ function ENT:VomitProp()
 
 	unlocks.Unlock( propr_unlock_list, ply, prop.propname )
 
+	-- Collect the money, it gets paid out every PayDelay seconds
+	self.PendingNotes = (self.PendingNotes or 0) + worth
+
 	-- Spawn some placeholder gibs, this prop doesnt normally break
-	ply:ChangeNotes(worth)
 	self:SpawnPropEffect(prop, pos)
 
 	-- Don't do it _every_ time, but adjustable odds
