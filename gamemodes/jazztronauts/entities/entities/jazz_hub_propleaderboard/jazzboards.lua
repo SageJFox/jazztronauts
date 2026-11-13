@@ -36,11 +36,11 @@ if SERVER then
 
 	SessionProps = SessionProps or {}
 
-	function UpdateLeaderboard(id, pid, offset)
+	function UpdateLeaderboard(id, pid, offset, counts)
 
 		if not Boards[id] then return false end
-		
-		local counts = snatch.GetPropCounts()
+
+		counts = counts or snatch.GetPropCounts()
 		local tallied = Boards[id].valuefunc(counts)
 
 		-- If the leaderboard supports a temporary offset, apply it here
@@ -66,8 +66,10 @@ if SERVER then
 	end
 
 	function UpdateLeaderboards(pid, offset)
+		-- Read the prop table once and share it between all the boards
+		local counts = snatch.GetPropCounts()
 		for k, v in pairs(Boards) do
-			UpdateLeaderboard(k, pid, offset)
+			UpdateLeaderboard(k, pid, offset, counts)
 		end
 	end
 
